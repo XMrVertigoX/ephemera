@@ -1,4 +1,4 @@
-package ephemera.lib;
+package ephemera.test;
 
 import com.jme.app.SimpleGame;
 import com.jme.bounding.BoundingBox;
