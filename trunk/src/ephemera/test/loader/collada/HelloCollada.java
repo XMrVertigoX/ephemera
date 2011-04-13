@@ -39,7 +39,7 @@ public class HelloCollada extends SimpleGame{
 		
 		try 
     	{
-	    	File fileToLoad = new File("/Users/semjonmooraj/Documents/workspace/Jme/bin/jmetest/data/model/collada/fly3.dae");
+	    	File fileToLoad = new File("fly3.dae");
 	    	URI uri = fileToLoad.toURI();
 	    	URL modelURL = uri.toURL();
 	 

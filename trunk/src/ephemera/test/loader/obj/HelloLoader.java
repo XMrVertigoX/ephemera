@@ -25,7 +25,7 @@ public class HelloLoader extends SimpleGame {
 	
 	@Override
 	protected void simpleInitGame() {
-		Node n = LoadJmeFile("Fliege","jmetest/data/model/thefly2.jme");
+		Node n = LoadJmeFile("Fliege","thefly2.jme");
 		rootNode.attachChild(n);
 		
 	}
