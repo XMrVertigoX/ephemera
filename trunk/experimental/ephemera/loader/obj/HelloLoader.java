@@ -1,4 +1,4 @@
-package ephemera.test.loader.obj;
+package ephemera.loader.obj;
 
 import java.io.File;
 import java.io.FileInputStream;
