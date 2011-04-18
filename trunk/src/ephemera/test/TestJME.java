@@ -1,5 +1,5 @@
 package ephemera.test;
-
+// Testkommentar von Stefan
 import com.jme.app.SimpleGame;
 import com.jme.bounding.BoundingBox;
 import com.jme.math.Vector3f;
