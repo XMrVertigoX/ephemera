@@ -11,10 +11,6 @@ import com.jme.scene.state.TextureState;
 import com.jme.system.DisplaySystem;
 import com.jme.util.TextureManager;
 
-import ephemera.model.maya.MaMaterial;
-import ephemera.model.maya.MaMesh;
-import ephemera.model.maya.MaNode;
-
 public class MaMaterial extends MaNode {
     private static Hashtable<String, MaMaterial> materials = new Hashtable<String, MaMaterial>();
     private static Hashtable<String, Texture> textures = new Hashtable<String, Texture>();

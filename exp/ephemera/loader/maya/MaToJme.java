@@ -5,13 +5,6 @@ import java.io.IOException;
 
 import com.jme.scene.Node;
 
-import ephemera.model.maya.MaMaterial;
-import ephemera.model.maya.MaMesh;
-import ephemera.model.maya.MaNode;
-import ephemera.model.maya.MaReader;
-import ephemera.model.maya.MaToJme;
-import ephemera.model.maya.MaTransform;
-
 /**
  * 
  * @author -LANmower-

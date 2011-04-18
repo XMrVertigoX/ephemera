@@ -2,8 +2,6 @@ package ephemera.loader.maya;
 
 import java.io.IOException;
 
-import ephemera.model.maya.MaNode;
-
 public abstract class MaNode {
     public static void connectAttribute(final String[] line) throws IOException {
     }
