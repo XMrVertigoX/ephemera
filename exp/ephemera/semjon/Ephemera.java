@@ -29,7 +29,7 @@ public class Ephemera {
 		acc = new Vector3f(0,0,0);
 		vel = new Vector3f(0,0,0);
 		age = System.currentTimeMillis();
-		maxspeed = 1;
+		maxspeed = 10;
 		maxforce = 1;
 		
 		node= new Node("Fliege_"+count);
