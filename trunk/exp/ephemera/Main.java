@@ -1,4 +1,4 @@
-package ephemera.swarm;
+package ephemera;
 
 import com.jme.app.SimpleGame;
 import com.jme.math.Vector3f;
