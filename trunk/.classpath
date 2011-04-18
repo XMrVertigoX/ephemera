@@ -4,6 +4,5 @@
 	<classpathentry kind="src" path="exp"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/jME 2.1"/>
-	<classpathentry kind="lib" path="/Users/casparfriedrich/Desktop/CA_Schwarm_Test/nifty-1.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
