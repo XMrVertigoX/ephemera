@@ -1,4 +1,4 @@
-package ephemera.model.maya;
+package ephemera.loader.maya;
 
 import java.io.BufferedReader;
 import java.io.IOException;
