@@ -1,4 +1,4 @@
-package ephemera.model.maya;
+package ephemera.loader.maya;
 
 import java.io.IOException;
 import java.nio.FloatBuffer;
@@ -15,6 +15,10 @@ import com.jme.scene.TexCoords;
 import com.jme.scene.TriMesh;
 import com.jme.util.geom.BufferUtils;
 import com.jme.util.geom.NormalGenerator;
+
+import ephemera.model.maya.MaMesh;
+import ephemera.model.maya.MaNode;
+import ephemera.model.maya.MaTransform;
 
 /**
  * 

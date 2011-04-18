@@ -1,4 +1,4 @@
-package ephemera.model.maya;
+package ephemera.loader.maya;
 
 import java.io.IOException;
 import java.util.Hashtable;
@@ -6,6 +6,10 @@ import java.util.Map;
 
 import com.jme.math.Vector3f;
 import com.jme.scene.Node;
+
+import ephemera.model.maya.MaNode;
+import ephemera.model.maya.MaToJme;
+import ephemera.model.maya.MaTransform;
 
 public class MaTransform extends MaNode {
     public static Map<String, MaTransform> nodes = new Hashtable<String, MaTransform>();
