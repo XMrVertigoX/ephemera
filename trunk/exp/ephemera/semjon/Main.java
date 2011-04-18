@@ -1,8 +1,10 @@
-package ephemera;
+package ephemera.semjon;
 
 import com.jme.app.SimpleGame;
 import com.jme.math.Vector3f;
 import com.jme.scene.Node;
+
+import ephemera.Main;
 
 
 public class Main extends SimpleGame {
