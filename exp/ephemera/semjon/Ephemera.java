@@ -1,4 +1,4 @@
-package ephemera;
+package ephemera.semjon;
 
 import java.util.ArrayList;
 
