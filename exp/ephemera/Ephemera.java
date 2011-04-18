@@ -1,4 +1,4 @@
-package ephemera.swarm;
+package ephemera;
 
 import java.util.ArrayList;
 

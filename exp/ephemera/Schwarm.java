@@ -1,4 +1,4 @@
-package ephemera.swarm;
+package ephemera;
 
 import java.util.ArrayList;
 import com.jme.bounding.BoundingSphere;
