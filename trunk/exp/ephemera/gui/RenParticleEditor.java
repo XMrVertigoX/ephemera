@@ -64,9 +64,11 @@ import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
+import javax.swing.JSlider;
 import javax.swing.JSplitPane;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
@@ -127,9 +129,9 @@ public class RenParticleEditor extends JFrame {
     // edit panels
 
     // layer panel components
-    private JButton deleteLayerButton;
-    private JButton TestButton;
-
+   /* private JButton hunterButton;
+    private JButton shitButton;
+*/
 
     // examples panel components
 
@@ -275,7 +277,7 @@ public class RenParticleEditor extends JFrame {
     }
 
     private void updateTitle() {
-        setTitle("Particle System Editor"
+        setTitle("ephemera"
                 + (openFile == null ? "" : (" - " + openFile)));
     }
 
@@ -365,57 +367,88 @@ public class RenParticleEditor extends JFrame {
     
     // JPanel, hier werden Buttons etc hinzugefügt allerdings in das "obere" menue (eben: delete & new button)
     private JPanel createLayerPanel() {
+        // Slider ----------------------------------------------------------------
+        JSlider numberSlider = new JSlider (){
+
+        
+            private static final long serialVersionUID = 1L;
+        	public void actionPerformed(ActionEvent e) {
+                //  Änderung der Fliegenanzahl
+              }
+        
+        };
+        numberSlider.setMinimum(0);		// Minmalwert
+        numberSlider.setMaximum(500);	// Maximalwert
+        numberSlider.setValue(50);		// Beim Start eingestellter Wert
+        numberSlider.setSnapToTicks(true);	// Automatisches Versetzen deaktiviert
+        numberSlider.setExtent(10);		// Zeiger verspringt 10 Einheiten
+        numberSlider.setOrientation(JSlider.HORIZONTAL);	// horizontale Ausrichtung
+        numberSlider.setPaintTicks(true);	//Striche werden nicht angezeigt
+        numberSlider.setPaintLabels(true);	//Zahlen werden nicht angezeigt
+        numberSlider.setPaintTrack(true);	//Balken wird angezeigt
+        numberSlider.setEnabled(true);
+        
+    	
+        
+        JLabel numberLabel = new JLabel("Number: "+numberSlider.getValue());
 
     	
     	// Button NEW ------------------------------------------------------
-        JButton newLayerButton = new JButton(new AbstractAction("New") {
+        JButton flyButton = new JButton(new AbstractAction("Fly") {
             private static final long serialVersionUID = 1L;
 
             public void actionPerformed(ActionEvent e) {
-                
+                // Fliege hinzufügen
             }
         });
-        newLayerButton.setMargin(new Insets(2, 14, 2, 14));
-
+        flyButton.setMargin(new Insets(1, 1, 1, 1));
+        flyButton.setEnabled(true);
         
     	// Button DELETE ------------------------------------------------------
-        deleteLayerButton = new JButton(new AbstractAction("Delete") {
+        JButton hunterButton = new JButton(new AbstractAction("Hunter") {
             private static final long serialVersionUID = 1L;
 
             public void actionPerformed(ActionEvent e) {
-              //  deleteLayer();
+              //  Jäger hinzufügen
             }
         });
-        deleteLayerButton.setMargin(new Insets(2, 14, 2, 14));
-        deleteLayerButton.setEnabled(false);
+        hunterButton.setMargin(new Insets(1, 1, 1, 1));
+        hunterButton.setEnabled(true);
 
         
         //Test button ---------------------------------------------------------
-        TestButton = new JButton(new AbstractAction("put some shit") {
+        JButton shitButton = new JButton(new AbstractAction("Shit") {
             private static final long serialVersionUID = 1L;
 
             public void actionPerformed(ActionEvent e) {
-              //  deleteLayer();
+              //  
             }
         });
-        TestButton.setMargin(new Insets(2, 14, 2, 14));
-        TestButton.setEnabled(true);
+        shitButton.setMargin(new Insets(1, 1, 1, 1));
+        shitButton.setEnabled(true);
         
+
         
         //Grid ----------------------------------------------------------------
         JPanel layerPanel = new JPanel(new GridBagLayout());
-
+        layerPanel.add(numberLabel, new GridBagConstraints(0, 0, 1, 1,
+                0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE,
+                new Insets(5, 10, 10, 10), 0, 0));
         
-        // Buttons zum layerPanel Hinzufügen ----------------------------------
-        layerPanel.add(newLayerButton, new GridBagConstraints(0, 2, 1, 1, 0.5,
-                0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE,
+        // Buttons, Slider zum layerPanel hinzufügen ----------------------------------
+        layerPanel.add(numberSlider, new GridBagConstraints(0, 1, 5, 1,
+                0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
                 new Insets(5, 10, 10, 10), 0, 0));
-        layerPanel.add(deleteLayerButton, new GridBagConstraints(1, 2, 1, 1,
-                0.5, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE,
+        layerPanel.add(flyButton, new GridBagConstraints(0, 2, 1, 1,
+        		0.0,0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE,
                 new Insets(5, 10, 10, 10), 0, 0));
-        layerPanel.add(TestButton, new GridBagConstraints(0, 3, 1, 2,
-                0.5, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE,
+        layerPanel.add(hunterButton, new GridBagConstraints(1, 2, 1, 1,
+                0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE,
                 new Insets(5, 10, 10, 10), 0, 0));
+        layerPanel.add(shitButton, new GridBagConstraints(2, 2, 1, 1,
+                0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE,
+                new Insets(5, 10, 10, 10), 0, 0));
+        
         return layerPanel;
     }
 
@@ -425,7 +458,6 @@ public class RenParticleEditor extends JFrame {
 
     private void createNewSystem() {
         particleNode.detachAllChildren();
-        deleteLayerButton.setEnabled(false);
         openFile = null;
         updateTitle();
     }
