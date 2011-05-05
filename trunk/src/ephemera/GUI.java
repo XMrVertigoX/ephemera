@@ -159,7 +159,7 @@ public class GUI extends JFrame{
         mainSplit.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
         mainSplit.setLeftComponent(interfacePanel);
         mainSplit.setRightComponent(canvasPanel);
-        mainSplit.setDividerLocation(300);
+        mainSplit.setDividerLocation(310);
         getContentPane().add(mainSplit, BorderLayout.CENTER);
 
         grid = createGrid();
@@ -296,6 +296,53 @@ public class GUI extends JFrame{
         numberSlider.setPaintLabels(true);	//Zahlen werden nicht angezeigt
         numberSlider.setPaintTrack(true);	//Balken wird angezeigt
         numberSlider.setEnabled(true);
+        /*
+        final JSlider leitSlider = new JSlider();
+        	leitSlider.addChangeListener(new ChangeListener(){
+        		public void stateChanged(ChangeEvent ce) {
+	    		
+	    		float value = leitSlider.getValue()/100f;
+	   
+	    		schwarm.getRegeln().setLeittierSpeed(value);
+
+	    	
+	    		
+	    		System.out.println(value);
+	    	}
+	    });
+            
+            leitSlider.setMinimum(0);		// Minmalwert
+            leitSlider.setMaximum(100);	// Maximalwert
+            leitSlider.setSnapToTicks(true);	// Automatisches Versetzen deaktiviert
+            leitSlider.setOrientation(JSlider.HORIZONTAL);	// horizontale Ausrichtung
+            leitSlider.setPaintTicks(true);	//Striche werden nicht angezeigt
+            leitSlider.setPaintLabels(true);	//Zahlen werden nicht angezeigt
+            leitSlider.setPaintTrack(true);	//Balken wird angezeigt
+            leitSlider.setEnabled(true);
+            */
+        /*    
+            final JSlider maxSpeedSlider = new JSlider();
+        	maxSpeedSlider.addChangeListener(new ChangeListener(){
+        		public void stateChanged(ChangeEvent ce) {
+	    		
+	    		float value = maxSpeedSlider.getValue()/100f;
+	   
+	    		schwarm.getRegeln().setMaxspeed(value);
+
+	    		System.out.println(value);
+	    	}
+	    });
+            
+            maxSpeedSlider.setMinimum(0);		// Minmalwert
+            maxSpeedSlider.setMaximum(100);	// Maximalwert
+            maxSpeedSlider.setSnapToTicks(true);	// Automatisches Versetzen deaktiviert
+            maxSpeedSlider.setOrientation(JSlider.HORIZONTAL);	// horizontale Ausrichtung
+            maxSpeedSlider.setPaintTicks(true);	//Striche werden nicht angezeigt
+            maxSpeedSlider.setPaintLabels(true);	//Zahlen werden nicht angezeigt
+            maxSpeedSlider.setPaintTrack(true);	//Balken wird angezeigt
+            maxSpeedSlider.setEnabled(true);     
+        	
+        */
         
     	final JSlider cohSlider = new JSlider();
     		
@@ -304,39 +351,42 @@ public class GUI extends JFrame{
     	    		
     	    		float value = cohSlider.getValue()/100f;
     	   
-    	    		schwarm.getRegeln().setFollow_weight(value);
+    	    		schwarm.getRegeln().setCoh_weight(value);
 
     	    	
     	    		
-    	    		System.out.println(value);
+    	    		System.out.println("Cohesion Value:"+value);
     	    	}
     	    });
          
          
          cohSlider.setMinimum(0);		// Minmalwert
          cohSlider.setMaximum(100);	// Maximalwert
-        // cohSlider.setValue(5);		// Beim Start eingestellter Wert
          cohSlider.setSnapToTicks(true);	// Automatisches Versetzen deaktiviert
-         //cohSlider.setExtent(10);		// Zeiger verspringt 10 Einheiten
          cohSlider.setOrientation(JSlider.HORIZONTAL);	// horizontale Ausrichtung
          cohSlider.setPaintTicks(true);	//Striche werden nicht angezeigt
          cohSlider.setPaintLabels(true);	//Zahlen werden nicht angezeigt
          cohSlider.setPaintTrack(true);	//Balken wird angezeigt
          cohSlider.setEnabled(true);
         
-     	JSlider aliSlider = new JSlider(){
+         final	JSlider aliSlider = new JSlider();
     		
-   	     private static final long serialVersionUID = 1L;
-        	public void actionPerformed(ActionEvent e) {
-                //  Änderung der Fliegenanzahl
-              }
-        
-        };
+    	    aliSlider.addChangeListener(new ChangeListener(){
+    	    	public void stateChanged(ChangeEvent ce) {
+    	    		
+    	    		float value = aliSlider.getValue()/100f;
+    	   
+    	    		schwarm.getRegeln().setAli_weight(value);
+
+    	    	
+    	    		
+    	    		System.out.println("Alignment Value"+value);
+    	    	}
+    	    });
+    	    
         aliSlider.setMinimum(0);		// Minmalwert
-        aliSlider.setMaximum(10);	// Maximalwert
-        aliSlider.setValue(5);		// Beim Start eingestellter Wert
+        aliSlider.setMaximum(100);	// Maximalwert
         aliSlider.setSnapToTicks(true);	// Automatisches Versetzen deaktiviert
-        aliSlider.setExtent(10);		// Zeiger verspringt 10 Einheiten
         aliSlider.setOrientation(JSlider.HORIZONTAL);	// horizontale Ausrichtung
         aliSlider.setPaintTicks(true);	//Striche werden nicht angezeigt
         aliSlider.setPaintLabels(true);	//Zahlen werden nicht angezeigt
@@ -344,31 +394,102 @@ public class GUI extends JFrame{
         aliSlider.setEnabled(true);
         
         
-     	JSlider sepSlider = new JSlider(){
+     	final JSlider sepSlider = new JSlider();
     		
-      	     private static final long serialVersionUID = 1L;
-           	public void actionPerformed(ActionEvent e) {
-                   //  Änderung der Fliegenanzahl
-                 }
-           
-           };
+    	   sepSlider.addChangeListener(new ChangeListener(){
+    	    	public void stateChanged(ChangeEvent ce) {
+    	    		
+    	    		float value = sepSlider.getValue()/100f;
+    	   
+    	    		schwarm.getRegeln().setSep_weight(value);
+
+    	    		System.out.println("Separation Value:"+value);
+    	    	}
+    	    });
            sepSlider.setMinimum(0);		// Minmalwert
-           sepSlider.setMaximum(10);	// Maximalwert
-        //   sepSlider.setValue(5);		// Beim Start eingestellter Wert
+           sepSlider.setMaximum(100);	// Maximalwert
            sepSlider.setSnapToTicks(true);	// Automatisches Versetzen deaktiviert
-       //    sepSlider.setExtent(10);		// Zeiger verspringt 10 Einheiten
            sepSlider.setOrientation(JSlider.HORIZONTAL);	// horizontale Ausrichtung
            sepSlider.setPaintTicks(true);	//Striche werden nicht angezeigt
            sepSlider.setPaintLabels(true);	//Zahlen werden nicht angezeigt
            sepSlider.setPaintTrack(true);	//Balken wird angezeigt
            sepSlider.setEnabled(true);   		
-    		
     	
-        
+        final JSlider followSlider = new JSlider();
+        	followSlider.addChangeListener(new ChangeListener(){
+        		public void stateChanged(ChangeEvent ce) {
+	    		
+        			float value = followSlider.getValue()/100f;
+	   
+        			schwarm.getRegeln().setFollow_weight(value);
+
+        			System.out.println("Follow Weight:"+value);
+	    	}
+	    });
+           
+           followSlider.setMinimum(0);		// Minmalwert
+           followSlider.setMaximum(100);	// Maximalwert
+           followSlider.setSnapToTicks(true);	// Automatisches Versetzen deaktiviert
+           followSlider.setOrientation(JSlider.HORIZONTAL);	// horizontale Ausrichtung
+           followSlider.setPaintTicks(true);	//Striche werden nicht angezeigt
+           followSlider.setPaintLabels(true);	//Zahlen werden nicht angezeigt
+           followSlider.setPaintTrack(true);	//Balken wird angezeigt
+           followSlider.setEnabled(true);        
+    	
+ 
+        final JSlider desiredSlider = new JSlider();
+        	desiredSlider.addChangeListener(new ChangeListener(){
+        		public void stateChanged(ChangeEvent ce) {
+	    		
+        			float value = desiredSlider.getValue();
+	   
+        			schwarm.getRegeln().setDesiredSeparation(value);
+
+        			System.out.println("Desire Separation: "+value);
+	    	}
+	    });
+           
+           desiredSlider.setMinimum(0);		// Minmalwert
+           desiredSlider.setMaximum(100);	// Maximalwert
+           desiredSlider.setSnapToTicks(true);	// Automatisches Versetzen deaktiviert
+           desiredSlider.setOrientation(JSlider.HORIZONTAL);	// horizontale Ausrichtung
+           desiredSlider.setPaintTicks(true);	//Striche werden nicht angezeigt
+           desiredSlider.setPaintLabels(true);	//Zahlen werden nicht angezeigt
+           desiredSlider.setPaintTrack(true);	//Balken wird angezeigt
+           desiredSlider.setEnabled(true);             
+ 
+           final JSlider neighborSlider = new JSlider();
+
+           neighborSlider.addChangeListener(new ChangeListener(){
+       		public void stateChanged(ChangeEvent ce) {
+	    		
+       			float value = neighborSlider.getValue();
+	   
+       			schwarm.getRegeln().setNeighborDistance(value);
+
+       			System.out.println("Neighbor Distance: "+value);
+	    	}
+	    });
+          
+          neighborSlider.setMinimum(0);		// Minmalwert
+          neighborSlider.setMaximum(100);	// Maximalwert
+          neighborSlider.setSnapToTicks(true);	// Automatisches Versetzen deaktiviert
+          neighborSlider.setOrientation(JSlider.HORIZONTAL);	// horizontale Ausrichtung
+          neighborSlider.setPaintTicks(true);	//Striche werden nicht angezeigt
+          neighborSlider.setPaintLabels(true);	//Zahlen werden nicht angezeigt
+          neighborSlider.setPaintTrack(true);	//Balken wird angezeigt
+          neighborSlider.setEnabled(true);   
+          
+        // Alle Labels
         JLabel numberLabel = new JLabel("Number: "+numberSlider.getValue());
+        JLabel leittierLabel = new JLabel ("Leittier speed");
+        JLabel maxSpeedLabel = new JLabel("Max Speed");
         JLabel cohLabel = new JLabel("Cohesion");
         JLabel aliLabel = new JLabel("Alignment");
         JLabel sepLabel = new JLabel("Seperation");
+        JLabel followLabel = new JLabel("Follow Weight");
+        JLabel desiredLabel = new JLabel("Desired Separation");
+        JLabel neighborLabel = new JLabel ("Neighbor Distance");
     	
     	// New Fly Button ------------------------------------------------------
         JButton flyButton = new JButton(new AbstractAction("Fly") {
@@ -410,37 +531,70 @@ public class GUI extends JFrame{
         layerPanel.add(numberLabel, new GridBagConstraints(0, 0, 1, 1,
                 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE,
                 new Insets(5, 10, 10, 10), 0, 0));
-        layerPanel.add(cohLabel, new GridBagConstraints(0, 2, 1, 1,
+    /*    layerPanel.add(leittierLabel, new GridBagConstraints(0, 2, 1, 1,
                 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE,
                 new Insets(5, 10, 10, 10), 0, 0));
-        layerPanel.add(aliLabel, new GridBagConstraints(0, 4, 1, 1,
+     */
+    /*    layerPanel.add(maxSpeedLabel, new GridBagConstraints(0, 4, 1, 1,
                 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE,
                 new Insets(5, 10, 10, 10), 0, 0));
-        layerPanel.add(sepLabel, new GridBagConstraints(0, 6, 1, 1,
+    */
+        layerPanel.add(cohLabel, new GridBagConstraints(0, 6, 1, 1,
                 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE,
-                new Insets(5, 10, 10, 10), 0, 0));        
-        
+                new Insets(5, 10, 10, 10), 0, 0));
+        layerPanel.add(aliLabel, new GridBagConstraints(0, 8, 1, 1,
+                0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE,
+                new Insets(5, 10, 10, 10), 0, 0));
+        layerPanel.add(sepLabel, new GridBagConstraints(0, 10, 1, 1,
+                0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE,
+                new Insets(5, 10, 10, 10), 0, 0)); 
+        layerPanel.add(followLabel, new GridBagConstraints(0, 13, 1, 1,
+                0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE,
+                new Insets(5, 10, 10, 10), 0, 0));       
+        layerPanel.add(desiredLabel, new GridBagConstraints(0, 15, 1, 1,
+                0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE,
+                new Insets(5, 10, 10, 10), 0, 0)); 
+        layerPanel.add(neighborLabel, new GridBagConstraints(0, 17, 1, 1,
+                0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE,
+                new Insets(5, 10, 10, 10), 0, 0)); 
         // Buttons, Slider zum layerPanel hinzufügen ----------------------------------
         layerPanel.add(numberSlider, new GridBagConstraints(0, 1, 5, 1,
                 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
                 new Insets(5, 10, 10, 10), 0, 0));
-        layerPanel.add(cohSlider, new GridBagConstraints(0, 3, 5, 1,
+    /*    layerPanel.add(leitSlider, new GridBagConstraints(0, 3, 5, 1,
                 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
                 new Insets(5, 10, 10, 10), 0, 0));
-        layerPanel.add(aliSlider, new GridBagConstraints(0, 5, 5, 1,
+    */
+    /*    layerPanel.add(maxSpeedSlider, new GridBagConstraints(0, 5, 5, 1,
                 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
                 new Insets(5, 10, 10, 10), 0, 0));
-        layerPanel.add(sepSlider, new GridBagConstraints(0, 7, 5, 1,
+    */
+        layerPanel.add(cohSlider, new GridBagConstraints(0, 7, 5, 1,
                 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
                 new Insets(5, 10, 10, 10), 0, 0));
-        layerPanel.add(flyButton, new GridBagConstraints(0, 8, 1, 1,
+        layerPanel.add(aliSlider, new GridBagConstraints(0, 9, 5, 1,
+                0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
+                new Insets(5, 10, 10, 10), 0, 0));
+        layerPanel.add(sepSlider, new GridBagConstraints(0, 11, 5, 1,
+                0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
+                new Insets(5, 10, 10, 10), 0, 0));
+        layerPanel.add(flyButton, new GridBagConstraints(0, 12, 1, 1,
         		0.0,0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE,
                 new Insets(5, 10, 10, 10), 0, 0));
-        layerPanel.add(hunterButton, new GridBagConstraints(1, 8, 1, 1,
+        layerPanel.add(hunterButton, new GridBagConstraints(1, 12, 1, 1,
                 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE,
                 new Insets(5, 10, 10, 10), 0, 0));
-        layerPanel.add(shitButton, new GridBagConstraints(2, 8, 1, 1,
+        layerPanel.add(shitButton, new GridBagConstraints(2, 12, 1, 1,
                 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE,
+                new Insets(5, 10, 10, 10), 0, 0));
+        layerPanel.add(followSlider, new GridBagConstraints(0, 14, 5, 1,
+                0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
+                new Insets(5, 10, 10, 10), 0, 0));
+        layerPanel.add(desiredSlider, new GridBagConstraints(0, 16, 5, 1,
+                0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
+                new Insets(5, 10, 10, 10), 0, 0));
+        layerPanel.add(neighborSlider, new GridBagConstraints(0, 18, 5, 1,
+                0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
                 new Insets(5, 10, 10, 10), 0, 0));
         
         return layerPanel;
