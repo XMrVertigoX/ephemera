@@ -30,6 +30,7 @@ public class Main extends SimpleGame {
 		Node n = schwarm.getSwarmNode();
 		rootNode.attachChild(n);	
 	
+		schwarm.getRegeln().setAli_weight(10);
 		PointLight pl = new PointLight();
 		pl.setEnabled(true);
 		pl.setDiffuse(ColorRGBA.red);
