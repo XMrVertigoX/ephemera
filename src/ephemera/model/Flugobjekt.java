@@ -25,7 +25,7 @@ public abstract class Flugobjekt extends Node{
 	private static final long 	serialVersionUID = 1L;
 	public static int 			count;	// Fliegennummer
 	private long				age;	// Alter
-	private static RegelnFliege regeln; // Verhaltensparameter
+	private static Regeln 		regeln; // Verhaltensparameter
 	private Vector3f 			acc;	// Beschleunigungsvektor
 	private Vector3f			vel;	// Geschwindigkeitsvektor
 	private SpatialTransformer 	st; // Animation
@@ -40,22 +40,31 @@ public abstract class Flugobjekt extends Node{
 		acc = new Vector3f(0,0,0);	// Mit 0 initialisieren
 		vel = new Vector3f(0,0,0);
 		age = System.currentTimeMillis();
-		regeln = new RegelnFliege();
+		regeln = new Regeln();
 		
-		// Form der Fliege
+		// Fliege initialisieren
+		initDefaultFly();
+		// Node auf pos bewegen
+		setLocalTranslation(pos);
+		// Counter HochzŠhlen
+		count++;
+	}
+	/**
+	 * Erstelle ein animiertes Default Fliegen Model
+	 */
+	public void initDefaultFly(){
+		// Kšrper
 		Cylinder fly = new Cylinder("Cone",3,3,1f,3f);
 		fly.setRadius1(.1f);
+		// FlŸgel
 		TriMesh fluegelr = getFluegelR();
 		TriMesh fluegell = getFluegelL();		
+		attachChild(fly);
+		setModelBound(new BoundingSphere());
 		
 		attachChild(fluegelr);
 		attachChild(fluegell);
-		attachChild(fly);
-		setModelBound(new BoundingSphere());
-		// Node auf pos bewegen
-		setLocalTranslation(pos);
 		
-		// Animation wird Ÿber SpatioalController gesteuert
 		st=new SpatialTransformer(2);
         // Melde Objekte an 
 		st.setObject(fluegelr,0,-1);
@@ -80,9 +89,6 @@ public abstract class Flugobjekt extends Node{
         // Node element ist host
         this.addController(st);
         
-		
-		// Counter HochzŠhlen
-		count++;
 	}
 	/**
 	 * Erstelle Linken und Rechten FlŸgel der Fliege (default Model)
@@ -243,15 +249,13 @@ public abstract class Flugobjekt extends Node{
 	 */
 	void update() {
 	    vel.addLocal(acc);
-	    // Passe vektor an regeln an
+	    // Passe Vektor an
 	    if (vel.length()>regeln.getMaxforce()){
 			  vel = vel.normalize();
 			  vel.mult(regeln.getMaxforce());
 		}
 	    // "Gucke in Flugrichtung
 	    this.lookAt(getLocalTranslation().subtract(vel.mult(-1)),acc.subtract(Vector3f.UNIT_Y));
-	    //this.lookAt(vel.cross(Vector3f.UNIT_Y).cross(vel), vel);
-	    // Setze geschiwindigkeit der FlŸgel annhand 
 	    // Bewegung
 	    getLocalTranslation().addLocal(vel);
 	    
@@ -275,8 +279,8 @@ public abstract class Flugobjekt extends Node{
 		    // Berechne Vektor der von anderer Fliege wegzeigt 
 			Vector3f diff = getPos().subtract(other.getPos());
 			diff = diff.normalize();
-			diff.mult(1f/d,diff);        // Gewichte anhand der distanz
-			steer.add(diff,steer);
+			diff.multLocal(1f/d);        // Gewichte anhand der distanz
+			steer.addLocal(diff);
 			count++;            // Merker wie viele Fliegen einfluss nehmen
 			
 		  }
@@ -284,18 +288,18 @@ public abstract class Flugobjekt extends Node{
 		}
 		// Teile den Vektor durch anzahl der beeinflussenden Fliegen  
 		if (count > 0) {
-		  steer.mult(1f/(float)count,steer);
+		  steer.multLocal(1f/(float)count);
 		}
 		
 		// solange der Vektor grš§er ist als 0 
 		if (steer.length() > 0) {
 		  // Implement Reynolds: Steering = Desired - Velocity
 		  steer = steer.normalize();
-		  steer.mult(regeln.getMaxspeed(),steer);
-		  steer.subtract(vel,steer);
+		  steer.multLocal(regeln.getMaxspeed());
+		  steer.subtractLocal(vel);
 		  if (steer.length()>regeln.getMaxforce()){
 			  steer = steer.normalize();
-			  steer.mult(regeln.getMaxforce());
+			  steer.multLocal(regeln.getMaxforce());
 		  }
 		}
 		return steer;
@@ -311,22 +315,22 @@ public abstract class Flugobjekt extends Node{
 	    for (Ephemera other:flies) {
 	      float d = getPos().distance(other.getPos());
 	      if ((d > 0) && (d < regeln.getNeighborDistance())) {
-	        steer.add(other.getVel(),steer);
+	        steer.addLocal(other.getVel());
 	        count++;
 	      }
 	    }
 	    if (count > 0) {
-	      steer.mult(1f/(float)count,steer);
+	      steer.multLocal(1f/(float)count);
 	    }
 	    //solange grš§er als 0
 	    if (steer.length() > 0) {
 	      // Implement Reynolds: Steering = Desired - Velocity
 	      steer = steer.normalize();
-	      steer.mult(regeln.getMaxspeed(),steer);
-	      steer.subtract(vel,steer);
+	      steer.multLocal(regeln.getMaxspeed());
+	      steer.subtractLocal(vel);
 	      if (steer.length()>regeln.getMaxforce()){
 			  steer = steer.normalize();
-			  steer.mult(regeln.getMaxforce());
+			  steer.multLocal(regeln.getMaxforce());
 		  }	
 	    }
     return steer;
@@ -377,9 +381,6 @@ public abstract class Flugobjekt extends Node{
 	    }
 	    return steer;
 	  }
-	
-	
-	
 	/**
 	 * RandomWalk
 	 * Berrechne einen Vektor der innerhalb eines in den Regeln festgelegten radius liegt
@@ -397,10 +398,10 @@ public abstract class Flugobjekt extends Node{
 	/**
 	 * Getter und Setter
 	 */
-	public RegelnFliege getRegeln(){ 
+	public Regeln getRegeln(){ 
 		return regeln;
 	}
-	public void setRegeln(RegelnFliege regel){
+	public void setRegeln(Regeln regel){
 		regeln = regel;
 	}
 	public Vector3f getPos(){

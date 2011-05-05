@@ -7,7 +7,7 @@ package ephemera.controller;
 import java.util.ArrayList;
 
 import ephemera.model.Ephemera;
-import ephemera.model.RegelnFliege;
+import ephemera.model.Regeln;
 
 
 import com.jme.bounding.BoundingSphere;
@@ -24,14 +24,14 @@ public class SchwarmController {
 	 */
 	public SchwarmController(){
 		flies = new ArrayList<Ephemera>();
-		pathController = new PathController(new RegelnFliege());
+		pathController = new PathController(new Regeln());
 	}
 	
 	
 	/**
 	 * gibt Regeln der Fliege zurueck
 	 */
-	public RegelnFliege getRegeln(){
+	public Regeln getRegeln(){
 		return flies.get(0).getRegeln();
 	}
 	
