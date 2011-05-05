@@ -2,7 +2,8 @@
  * Klasse Ephemera 2011 by Semjon Mooraj
  * Diese Klasse repräsentiert eine Fliege des Systems
  */
-package model;
+
+package ephemera.model;
 
 import java.util.ArrayList;
 

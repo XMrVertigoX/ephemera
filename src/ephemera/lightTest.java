@@ -1,3 +1,5 @@
+package ephemera;
+
 import com.jme.app.SimpleGame;
 import com.jme.light.DirectionalLight;
 import com.jme.math.Vector3f;

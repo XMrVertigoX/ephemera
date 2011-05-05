@@ -1,4 +1,4 @@
-package model;
+package ephemera.model;
 
 import com.jme.curve.Curve;
 import com.jme.intersection.CollisionResults;

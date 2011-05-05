@@ -2,7 +2,8 @@
  * Klasse Regeln 
  * Diese Klasse enthält die Parameter nach denen sich Fliegen und Jäger innerhalb der Welt bewegen sollen 
  */
-package model;
+
+package ephemera.model;
 
 public class RegelnFliege{
 

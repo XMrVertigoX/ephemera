@@ -1,4 +1,4 @@
-
+package ephemera;
 
 import com.jme.app.SimpleGame;
 import com.jme.light.PointLight;
@@ -6,8 +6,8 @@ import com.jme.math.Vector3f;
 import com.jme.renderer.ColorRGBA;
 import com.jme.scene.Node;
 
-import Controller.SchwarmController;
-import Controller.WorldController;
+import ephemera.controller.SchwarmController;
+import ephemera.controller.WorldController;
 
 
 

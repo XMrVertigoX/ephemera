@@ -3,7 +3,8 @@
  * diese Klasse stellt die Welt dar in der sich die Fliegen bewegen.
  * Die Welt ist standartmäig ein Quadratischer Würfel der Kantenlänge 2000 
  */
-package Controller;
+
+package ephemera.controller;
 
 import com.jme.image.Texture;
 import com.jme.scene.Node;

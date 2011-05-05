@@ -1,4 +1,4 @@
-package model;
+package ephemera.model;
 
 import java.util.ArrayList;
 

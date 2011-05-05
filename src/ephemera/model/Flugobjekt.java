@@ -2,7 +2,8 @@
  * Klasse Flugobjekt in 2011 by Semjon Mooraj
  * Die Klasse stellt ein Flugobjekt im System dar. JŠger und Fliege werden abgeleitet
  **/
-package model;
+
+package ephemera.model;
 
 import java.util.ArrayList;
 
