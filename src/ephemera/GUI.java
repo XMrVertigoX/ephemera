@@ -304,7 +304,7 @@ public class GUI extends JFrame{
     	    		
     	    		float value = cohSlider.getValue()/100f;
     	   
-    	    		schwarm.getRegeln().setCoh_weight(value);
+    	    		schwarm.getRegeln().setFollow_weight(value);
 
     	    	
     	    		
@@ -354,9 +354,9 @@ public class GUI extends JFrame{
            };
            sepSlider.setMinimum(0);		// Minmalwert
            sepSlider.setMaximum(10);	// Maximalwert
-           sepSlider.setValue(5);		// Beim Start eingestellter Wert
+        //   sepSlider.setValue(5);		// Beim Start eingestellter Wert
            sepSlider.setSnapToTicks(true);	// Automatisches Versetzen deaktiviert
-           sepSlider.setExtent(10);		// Zeiger verspringt 10 Einheiten
+       //    sepSlider.setExtent(10);		// Zeiger verspringt 10 Einheiten
            sepSlider.setOrientation(JSlider.HORIZONTAL);	// horizontale Ausrichtung
            sepSlider.setPaintTicks(true);	//Striche werden nicht angezeigt
            sepSlider.setPaintLabels(true);	//Zahlen werden nicht angezeigt
@@ -656,7 +656,7 @@ public class GUI extends JFrame{
         public void simpleSetup() {
         	wc = new WorldController();
     		wc.initSky();
-    		wc.attatchTo(rootNode);
+    		rootNode.attachChild(wc.getCubeNode());
     		// Schwarm initialisieren
     		schwarm = new SchwarmController();
     		schwarm.addFlies(200);
