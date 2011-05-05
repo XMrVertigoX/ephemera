@@ -40,10 +40,9 @@ import javax.swing.UIManager;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import model.Regeln;
-
-import Controller.SchwarmController;
-import Controller.WorldController;
+import ephemera.controller.SchwarmController;
+import ephemera.controller.WorldController;
+import ephemera.model.RegelnFliege;
 
 import com.jme.math.FastMath;
 import com.jme.math.Quaternion;
@@ -73,8 +72,7 @@ public class GUI extends JFrame{
 
 	WorldController 		wc;
 	SchwarmController 		schwarm;
-	Regeln regeln = new Regeln();
-	
+
     public static Node GUINode;
 
 
@@ -306,7 +304,8 @@ public class GUI extends JFrame{
     	    		
     	    		float value = cohSlider.getValue()/100f;
     	   
-    	    		regeln.setCoh_weight(value);
+    	    		schwarm.getRegeln().setCoh_weight(value);
+
     	    	
     	    		
     	    		System.out.println(value);
