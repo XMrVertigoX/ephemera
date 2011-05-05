@@ -2,13 +2,15 @@
  * Klasse Flugobjekt in 2011 by Semjon Mooraj
  * Die Klasse stellt ein Flugobjekt im System dar. Jäger und Fliege werden abgeleitet
  **/
-
 package ephemera.model;
 
 import java.util.ArrayList;
 
+import com.jme.animation.SpatialTransformer;
 import com.jme.bounding.BoundingBox;
 import com.jme.bounding.BoundingSphere;
+import com.jme.math.FastMath;
+import com.jme.math.Quaternion;
 import com.jme.math.Vector2f;
 import com.jme.math.Vector3f;
 import com.jme.renderer.ColorRGBA;
@@ -20,12 +22,13 @@ import com.jme.util.geom.BufferUtils;
 
 public abstract class Flugobjekt extends Node{
 
-	private static final long 		serialVersionUID = 1L;
-	public static int 				count;	// Fliegennummer
-	private long					age;	// Alter
-	private static RegelnFliege 	regeln; // Verhaltensparameter
-	private Vector3f 				acc;	// Beschleunigungsvektor
-	private Vector3f				vel;	// Geschwindigkeitsvektor
+	private static final long 	serialVersionUID = 1L;
+	public static int 			count;	// Fliegennummer
+	private long				age;	// Alter
+	private static RegelnFliege 		regeln; // Verhaltensparameter
+	private Vector3f 			acc;	// Beschleunigungsvektor
+	private Vector3f			vel;	// Geschwindigkeitsvektor
+	private SpatialTransformer 	st; // Animation
 	//public static ModelController loader=new ModelController();
 	
 	/**
@@ -33,41 +36,57 @@ public abstract class Flugobjekt extends Node{
 	 * @param pos Position der Fliege 
 	 */
 	public Flugobjekt(Vector3f pos){
-		super("Fliege_"+count);		// Instanziiere Node der das Flugpbjekt repraesentiert
+		super("Fliege_"+count);		// Instanziiere Node der das Flugpbjekt repräsentiert
 		acc = new Vector3f(0,0,0);	// Mit 0 initialisieren
 		vel = new Vector3f(0,0,0);
 		age = System.currentTimeMillis();
 		regeln = new RegelnFliege();
 		
 		// Form der Fliege
-		Cylinder fly = new Cylinder("Cone",3,3,2f,5f);
+		Cylinder fly = new Cylinder("Cone",3,3,1f,3f);
 		fly.setRadius1(.1f);
 		TriMesh fluegelr = getFluegelR();
 		TriMesh fluegell = getFluegelL();		
 		
-		
-		
-		// Modelloader ????
-		/*
-		Node n = loader.getNode();
-		n.setLocalScale(.1f);
-		*/
-		//
 		attachChild(fluegelr);
 		attachChild(fluegell);
 		attachChild(fly);
 		setModelBound(new BoundingSphere());
-		
 		// Node auf pos bewegen
 		setLocalTranslation(pos);
 		
-		// Counter hochzaehlen
+		// Animation wird über SpatioalController gesteuert
+		st=new SpatialTransformer(2);
+        // Melde Objekte an 
+		st.setObject(fluegelr,0,-1);
+        st.setObject(fluegell, 1, -1);
+        
+        // Berrechne Quaternion für Rotation
+        Quaternion x45=new Quaternion();
+        x45.fromAngleAxis(FastMath.DEG_TO_RAD*45,new Vector3f(0,0,1));
+        Quaternion xm45=new Quaternion();
+        xm45.fromAngleAxis(-FastMath.DEG_TO_RAD*45,new Vector3f(0,0,1));
+        // Verknüpfe im Controller Zeitpunkte mit Quaternionen 
+        st.setRotation(1, 2, xm45);
+        st.setRotation(0,2,x45);
+        st.setRotation(1, 4, x45);
+        st.setRotation(0,4,xm45);
+
+        // Controller vorrberreiten 
+        st.interpolateMissing();
+        st.setRepeatType(st.RT_CYCLE);
+        st.setActive(true);
+        st.setSpeed(10f);
+        // Node element ist host
+        this.addController(st);
+        
+		
+		// Counter Hochzählen
 		count++;
 	}
-	
 	/**
-	 * Methode, welche die den rechten Fluegel einer Fliege initialisiert 
-	 * @return m TriMesh
+	 * Erstelle Linken und Rechten Flügel der Fliege (default Model)
+	 * @return
 	 */
 	public TriMesh getFluegelR(){
 		TriMesh m=new TriMesh("Fluegel");
@@ -76,19 +95,19 @@ public abstract class Flugobjekt extends Node{
         Vector3f[] vertexes={
             new Vector3f(0,0,0),
             new Vector3f(0,0,1),
-            new Vector3f(0,-5,0),
-            new Vector3f(0,-5,1)
+            new Vector3f(-5,0,0),
+            new Vector3f(-5,0,1)
         };
 
-        // normale Richtung für jeden Eckpunkt
+        // Normal directions for each vertex position
         Vector3f[] normals={
-            new Vector3f(0,0,1),
-            new Vector3f(0,0,1),
-            new Vector3f(0,0,1),
-            new Vector3f(0,0,1)
+            new Vector3f(0,1,0),
+            new Vector3f(0,1,0),
+            new Vector3f(0,1,0),
+            new Vector3f(0,1,0)
         };
 
-        // Farbe für jeden Eckpunkt
+        // Color for each vertex position
         ColorRGBA[] colors={
             new ColorRGBA(1,0,0,1),
             new ColorRGBA(1,0,0,1),
@@ -96,7 +115,7 @@ public abstract class Flugobjekt extends Node{
             new ColorRGBA(0,1,0,1)
         };
 
-        // Texturkoordinaten für jede Position
+        // Texture Coordinates for each position
         Vector2f[] texCoords={
             new Vector2f(0,0),
             new Vector2f(1,0),
@@ -104,26 +123,20 @@ public abstract class Flugobjekt extends Node{
             new Vector2f(1,1)
         };
 
-        // Index fuer Vertex/Normal/Color/TexCoord wird gesetzt, 3 ergeben ein Dreieck
+        // The indexes of Vertex/Normal/Color/TexCoord sets.  Every 3 makes a triangle.
         int[] indexes={
             0,1,2,1,2,3
         };
 
-        // uebergibt Information an die TreMesh
+        // Feed the information to the TriMesh
         m.reconstruct(BufferUtils.createFloatBuffer(vertexes), BufferUtils.createFloatBuffer(normals),
                 null, null, BufferUtils.createIntBuffer(indexes));
 
-        // setzen der Grenzen
+        // Create a bounds
         m.setModelBound(new BoundingBox());
         m.updateModelBound();
         return m;
 	}
-	
-	
-	/**
-	 * Methode, welche die den linken Fluegel einer Fliege initialisiert 
-	 * @return m TriMesh
-	 */
 	public TriMesh getFluegelL(){
 		TriMesh m=new TriMesh("Fluegel");
 
@@ -131,19 +144,19 @@ public abstract class Flugobjekt extends Node{
         Vector3f[] vertexes={
             new Vector3f(0,0,0),
             new Vector3f(0,0,1),
-            new Vector3f(0,5,0),
-            new Vector3f(0,5,1)
+            new Vector3f(5,0,0),
+            new Vector3f(5,0,1)
         };
 
-        // normale Richtung für jeden Eckpunkt
+        // Normal directions for each vertex position
         Vector3f[] normals={
-            new Vector3f(0,0,1),
-            new Vector3f(0,0,1),
-            new Vector3f(0,0,1),
-            new Vector3f(0,0,1)
+            new Vector3f(0,1,0),
+            new Vector3f(0,1,0),
+            new Vector3f(0,1,0),
+            new Vector3f(0,1,0)
         };
 
-        // Farbe für jeden Eckpunkt
+        // Color for each vertex position
         ColorRGBA[] colors={
             new ColorRGBA(1,0,0,1),
             new ColorRGBA(1,0,0,1),
@@ -151,7 +164,7 @@ public abstract class Flugobjekt extends Node{
             new ColorRGBA(0,1,0,1)
         };
 
-        // Texturkoordinaten für jede Position
+        // Texture Coordinates for each position
         Vector2f[] texCoords={
             new Vector2f(0,0),
             new Vector2f(1,0),
@@ -159,60 +172,61 @@ public abstract class Flugobjekt extends Node{
             new Vector2f(1,1)
         };
 
-        // Index fuer Vertex/Normal/Color/TexCoord wird gesetzt, 3 ergeben ein Dreieck
+        // The indexes of Vertex/Normal/Color/TexCoord sets.  Every 3 makes a triangle.
         int[] indexes={
             0,1,2,1,2,3
         };
 
-        // uebergibt Information an die TreMesh
+        // Feed the information to the TriMesh
         m.reconstruct(BufferUtils.createFloatBuffer(vertexes), BufferUtils.createFloatBuffer(normals),
                 null, null, BufferUtils.createIntBuffer(indexes));
 
-        // setzen der Grenzen
+        // Create a bounds
         m.setModelBound(new BoundingBox());
         m.updateModelBound();
         return m;
 	}
 	
-	
+	public Node getNode(){	
+		return this;
+	}
 	/**
-	 * Abstrakte Methode, die von jeweiligem Flugtier implemetiert wird, um Flugbahn zu berrechen
+	 * Abstrakte Methode die von jeweiligem Flugtier implemetiert wird um Flugbahn zu berrechen
 	 * @param boids
 	 * @param leittier
 	 */
 	public abstract void run(ArrayList<Ephemera> boids,Vector3f leittier); 
 	
-	
 	/**
-	 * Berechne die Bewegung einer Fliege aufgrund aller Regeln
+	 * Navigationsmodul
+	 * Berechne das Verhalten einer Fliege aufgrund aller Regeln
 	 * und Objekte in der Welt
 	 * @param flies
 	 * @param leittier
 	 */
-	void berechneAktuelleVektoren(ArrayList<Ephemera> flies,Vector3f leittier){
+	void berechneAktuelleVektoren(ArrayList<Ephemera> flies,Vector3f leittier) {
 	    // Berechne die Vektoren 
 		Vector3f target = getLeittierZielVector(leittier);
 		Vector3f sep  = separate(flies); 
 	    Vector3f ali = align(flies);
 	    Vector3f coh = cohesion(flies);
-	     
+	    
 	    // Gewichte mit eingestellten Parametern (siehe Regeln)
-	    sep.mult(regeln.getSep_weight(), sep);
-	    ali.mult(regeln.getAli_weight(), ali);
-	    coh.mult(regeln.getCoh_weight(), coh);
-	    target.mult(regeln.getFollow_weight(), target);
+	    sep.multLocal(regeln.getSep_weight());
+	    ali.multLocal(regeln.getAli_weight());
+	    coh.multLocal(regeln.getCoh_weight());
+	    target.multLocal(regeln.getFollow_weight());
+	    // Diese Vektoren auf Beschl. aufaddieren
+	    acc=new Vector3f(0,0,0);
+	    //acc.addLocal(randomWalk());
+	    acc.addLocal(target);
+	    acc.addLocal(sep);
+	    acc.addLocal(ali);
+	    acc.addLocal(coh);
+	    // Abschließende gewichtung der Geschwindigkeit
+	    //acc = acc.mult(regeln.getMaxspeed());
 	    
-	    // Diese Vektoren auf Beschleunigung aufaddieren
-	    acc.add(target,acc);
-	    acc.add(sep,acc);
-	    acc.add(ali,acc);
-	    acc.add(coh,acc);
-	    
-	    // Abschließende Gewichtung der Geschwindigkeit
-	    acc = acc.mult(regeln.getMaxspeed());
 	}
-	
-	
 	/**
 	 * Berechnet Vektor der zum Zentrum des Leittiers zeigt
 	 * @param leittier
@@ -223,27 +237,26 @@ public abstract class Flugobjekt extends Node{
 		Vector3f res = leittier.subtract(pos).normalizeLocal();
 		return res;
 	}
-	
-	
 	/**
-	 *  Berrechne neue Position, verschiebe und rotiere die Fliege
+	 * 	Flugmodul
+	 *  Berrechne neue Position  verschiebe und rotiere die Fliege
 	 */
 	void update() {
-	    vel.add(acc,vel);
-	    // Passe Vektor an Regeln an
+	    vel.addLocal(acc);
+	    // Passe vektor an regeln an
 	    if (vel.length()>regeln.getMaxforce()){
 			  vel = vel.normalize();
 			  vel.mult(regeln.getMaxforce());
 		}
-	    
 	    // "Gucke in Flugrichtung
-	    this.lookAt(getLocalTranslation().subtract(vel.mult(-1)),acc);
-	    
+	    this.lookAt(getLocalTranslation().subtract(vel.mult(-1)),acc.subtract(Vector3f.UNIT_Y));
+	    //this.lookAt(vel.cross(Vector3f.UNIT_Y).cross(vel), vel);
+	    // Setze geschiwindigkeit der Flügel annhand 
 	    // Bewegung
 	    getLocalTranslation().addLocal(vel);
-	    acc.mult(0);
+	    
+	    //acc.mult(0);
 	  }
-	
 	
 	/**
 	 * Separation aus: Flocking by Daniel Shiffman. 
@@ -251,7 +264,7 @@ public abstract class Flugobjekt extends Node{
 	 * @param flies im System angemeldete Fliegen 
 	 * @return bewegungsVektor
 	 */
-	Vector3f separate (ArrayList<Ephemera> flies){
+	Vector3f separate (ArrayList<Ephemera> flies) {
 	    Vector3f steer = new Vector3f(0,0,0);
 	    int count = 0;
 	    // Für alle Fliegen im System
@@ -269,8 +282,7 @@ public abstract class Flugobjekt extends Node{
 		  }
 		  
 		}
-		
-		// Teile den Vektor durch Anzahl der beeinflussenden Fliegen  
+		// Teile den Vektor durch anzahl der beeinflussenden Fliegen  
 		if (count > 0) {
 		  steer.mult(1f/(float)count,steer);
 		}
@@ -287,31 +299,27 @@ public abstract class Flugobjekt extends Node{
 		  }
 		}
 		return steer;
-	}
-	
-	
+  }
 	/**
 	 * Alignment aus: Flocking by Daniel Shiffman. 
 	 * "Bewege dich in die gleiche Richtung wie die anderen Fliegen"
 	 * @returns bewegungsvektor
 	 */
-	Vector3f align (ArrayList<Ephemera> flies){
+	Vector3f align (ArrayList<Ephemera> flies) {
 		Vector3f steer = new Vector3f(0,0,0);
 	    int count = 0;
-	    for (Ephemera other:flies){
+	    for (Ephemera other:flies) {
 	      float d = getPos().distance(other.getPos());
 	      if ((d > 0) && (d < regeln.getNeighborDistance())) {
 	        steer.add(other.getVel(),steer);
 	        count++;
 	      }
 	    }
-	    
-	    if (count > 0){
+	    if (count > 0) {
 	      steer.mult(1f/(float)count,steer);
 	    }
-	    
 	    //solange größer als 0
-	    if (steer.length() > 0){
+	    if (steer.length() > 0) {
 	      // Implement Reynolds: Steering = Desired - Velocity
 	      steer = steer.normalize();
 	      steer.mult(regeln.getMaxspeed(),steer);
@@ -321,59 +329,89 @@ public abstract class Flugobjekt extends Node{
 			  steer.mult(regeln.getMaxforce());
 		  }	
 	    }
-	    return steer;
+    return steer;
 	}
-		
-	
 	/**
 	 * Cohesion aus: Flocking by Daniel Shiffman. 
 	 * Folge den Schwarmmitgliedern in einem def radius 
 	 */
-	Vector3f cohesion (ArrayList<Ephemera> flies){
+	Vector3f cohesion (ArrayList<Ephemera> flies) {
 		Vector3f sum = new Vector3f(0,0,0);
 	  	int count = 0;
 		for (Ephemera other:flies) {
 			float d = getPos().distance(other.getPos());
 		    if ((d > 0) && (d < regeln.getNeighborDistance())) {
-		    	sum.add(other.getPos(),sum); // Mittelwert über Fliegen innerhalb des Radiuses berechnen
+		    	sum.addLocal(other.getLocalTranslation()); // Mittelwert über Fliegen innerhalb des Radiuses berechnen
 		        count++;
 		    }
 		 }
-		
 		 if (count > 0) {
-			 sum.mult(1f/(float)count,sum);
-		     return sum;
+			 sum.multLocal(1f/(float)count);
+		     return steer(sum,true);
 		 }	 
 		 return sum;
-	}	
+	}
+	/**
+	 * steer aus: Flocking by Daniel Shiffman. 
+	 * @param target
+	 * @param slowdown
+	 * @return
+	 */
+	Vector3f steer(Vector3f target, boolean slowdown) {
+	    Vector3f steer;  // The steering vector
+	    Vector3f desired = target.subtract(getLocalTranslation());  // A vector pointing from the location to the target
+	    float d = desired.length(); // Distance from the target is the magnitude of the vector
+	    // If the distance is greater than 0, calc steering (otherwise return zero vector)
+	    if (d > 0) {
+	      // Normalize desired
+	      desired.normalize();
+	      // Two options for desired vector magnitude (1 -- based on distance, 2 -- maxspeed)
+	      if ((slowdown) && (d < 100.0)) desired.multLocal(regeln.getMaxspeed()*(d/100.0f)); // This damping is somewhat arbitrary
+	      else desired.multLocal(regeln.getMaxspeed());
+	      // Steering = Desired minus Velocity
+	      steer = desired.subtractLocal(vel);
+	      //steer.mult(maxforce);  // Limit to maximum steering force
+	    } 
+	    else {
+	      steer = new Vector3f(0,0,0);
+	    }
+	    return steer;
+	  }
 	
+	
+	
+	/**
+	 * RandomWalk
+	 * Berrechne einen Vektor der innerhalb eines in den Regeln festgelegten radius liegt
+	 */
+	public Vector3f randomWalk(){
+		float x=FastMath.rand.nextFloat();
+		float y=FastMath.rand.nextFloat();
+		float z=FastMath.rand.nextFloat();
+		Vector3f random = new Vector3f(x,y,z);
+		getLocalTranslation().subtract(random);
+		random.multLocal(.2f);
+		return random; 	
+	}
 
 	/**
 	 * Getter und Setter
 	 */
-	public Node getNode(){	
-		return this;
-	}
-	
 	public RegelnFliege getRegeln(){ 
 		return regeln;
 	}
-	
 	public void setRegeln(RegelnFliege regel){
 		regeln = regel;
 	}
 	public Vector3f getPos(){
 		return getLocalTranslation();
 	}
-	
 	public Vector3f getVel(){
 		return vel;
 	}
-	
 	public Vector3f getAcc(){
 		return acc;
 	}
-	
 	float getAge(){ 
 		return (System.currentTimeMillis()-age)/1000.0f;
 	}	
