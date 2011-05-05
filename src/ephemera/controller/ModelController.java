@@ -8,11 +8,11 @@ import ephemera.model.Ephemera;
 import com.jme.scene.Controller;
 import com.jme.scene.Node;
 import com.jme.util.CloneImportExport;
-import com.model.md5.importer.MD5Importer;
 
 
 public class ModelController {
-
+	
+	/*
 	private CloneImportExport clone = new CloneImportExport();
 	private MD5Importer importer;
 	private Node n;
@@ -39,4 +39,5 @@ public class ModelController {
 		MD5Node body = (MD5Node) this.importer.getMD5Node();
 		return body;
 	}
+	*/
 }

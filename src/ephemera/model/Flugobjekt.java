@@ -25,7 +25,7 @@ public abstract class Flugobjekt extends Node{
 	private static final long 	serialVersionUID = 1L;
 	public static int 			count;	// Fliegennummer
 	private long				age;	// Alter
-	private static RegelnFliege 		regeln; // Verhaltensparameter
+	private static RegelnFliege regeln; // Verhaltensparameter
 	private Vector3f 			acc;	// Beschleunigungsvektor
 	private Vector3f			vel;	// Geschwindigkeitsvektor
 	private SpatialTransformer 	st; // Animation
