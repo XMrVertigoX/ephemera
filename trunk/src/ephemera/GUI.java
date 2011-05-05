@@ -42,8 +42,10 @@ import javax.swing.event.ChangeListener;
 
 import ephemera.controller.SchwarmController;
 import ephemera.controller.WorldController;
-import ephemera.model.RegelnFliege;
+import ephemera.model.Regeln;
 
+import com.jme.light.DirectionalLight;
+import com.jme.light.PointLight;
 import com.jme.math.FastMath;
 import com.jme.math.Quaternion;
 import com.jme.math.Vector3f;
@@ -54,6 +56,7 @@ import com.jme.scene.Geometry;
 import com.jme.scene.Node;
 import com.jme.scene.Spatial;
 import com.jme.scene.shape.Quad;
+import com.jme.scene.state.LightState;
 import com.jme.scene.state.ZBufferState;
 import com.jme.system.DisplaySystem;
 import com.jme.system.canvas.JMECanvas;
@@ -813,8 +816,8 @@ public class GUI extends JFrame{
     		rootNode.attachChild(wc.getCubeNode());
     		// Schwarm initialisieren
     		schwarm = new SchwarmController();
-    		schwarm.addFlies(200);
-    		Node n = schwarm.getSwarmNode();
+    		schwarm.addFlies(600);
+    		Node schwarmNode = schwarm.getSwarmNode();
     		
         	Color bg = new Color(prefs.getInt("bg_color", 0));
             renderer.setBackgroundColor(makeColorRGBA(bg));
@@ -822,6 +825,23 @@ public class GUI extends JFrame{
 
             root = rootNode;
 
+            
+            // Licht und Schatten
+            LightState lightState = renderer.createLightState();
+            
+            /*
+        	PointLight pl = new PointLight();
+    		pl.setDiffuse(ColorRGBA.yellow);
+    		pl.setLinear(1f);
+    		pl.setEnabled(true);
+    		pl.setLocation(schwarm.getLeittierNode().getLocalTranslation());
+    		*/
+            //lightState.attach(pl);
+            DirectionalLight dl = new DirectionalLight();
+        	dl.setEnabled(true);
+        	dl.setDirection(new Vector3f(1,0,0));
+        	lightState.attach(dl);
+        	schwarmNode.setRenderState(lightState);
             // Finally, a stand alone node (not attached to root on purpose)
             statNode = new Node("stat node");
             statNode.setCullHint(Spatial.CullHint.Never);
@@ -831,7 +851,7 @@ public class GUI extends JFrame{
 
            
             //GUINode = new Node("GUI");
-            root.attachChild(n);
+            root.attachChild(schwarmNode);
 
             ZBufferState zbuf = renderer.createZBufferState();
             zbuf.setWritable(false);

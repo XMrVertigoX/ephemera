@@ -5,7 +5,7 @@
 package ephemera.controller;
 
 import ephemera.model.BSpline;
-import ephemera.model.RegelnFliege;
+import ephemera.model.Regeln;
 
 import com.jme.curve.CurveController;
 import com.jme.light.PointLight;
@@ -21,9 +21,9 @@ public class PathController{
 	private CurveController curveControllerc;
 	private Sphere Leittier;
 	private Node pfad;
-	private RegelnFliege regeln;
+	private Regeln regeln;
 	
-	public PathController(RegelnFliege regeln){	
+	public PathController(Regeln regeln){	
 		// erstelle Pfad
 		this.regeln=regeln;
 		pfad = new Node("Pfad");

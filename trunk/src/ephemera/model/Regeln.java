@@ -5,7 +5,7 @@
 
 package ephemera.model;
 
-public class RegelnFliege{
+public class Regeln{
 
 	private float		leittierSpeed;
 	private float 		maxspeed;
@@ -21,7 +21,7 @@ public class RegelnFliege{
 	 * Konstruktor
 	 * Erstelle ein "Standard" Model der Fliege mit Default-Einstellungen
 	 */
-	public RegelnFliege(){
+	public Regeln(){
 		leittierSpeed=.01f;
 		maxspeed=1f;
 		maxforce=1f;
@@ -43,7 +43,7 @@ public class RegelnFliege{
 	 * @param desiredSeparation
 	 * @param neighborDistance
 	 */
-	public RegelnFliege(float maxspeed, float maxforce, float coh_weight, float ali_weight, float sep_weight, float desiredSeparation, float neighborDistance){
+	public Regeln(float maxspeed, float maxforce, float coh_weight, float ali_weight, float sep_weight, float desiredSeparation, float neighborDistance){
 		this.maxspeed = maxspeed;
 		this.maxforce = maxforce;
 		this.coh_weight = coh_weight;
