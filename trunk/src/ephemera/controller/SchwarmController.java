@@ -1,12 +1,13 @@
 /**
  * SchwarmController in 2011 by Semjon Mooraj
  */
-package Controller;
+
+package ephemera.controller;
 
 import java.util.ArrayList;
 
-import model.Ephemera;
-import model.RegelnFliege;
+import ephemera.model.Ephemera;
+import ephemera.model.RegelnFliege;
 
 
 import com.jme.bounding.BoundingSphere;

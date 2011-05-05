@@ -1,4 +1,5 @@
-package tester;
+package ephemera.tester;
+
 import com.jme.app.SimpleGame;
 import com.jme.curve.BezierCurve;
 import com.jme.curve.CurveController;

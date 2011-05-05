@@ -1,13 +1,13 @@
-package Controller;
+package ephemera.controller;
+
 import java.io.IOException;
 import java.net.URL;
 
-import model.Ephemera;
+import ephemera.model.Ephemera;
 
 import com.jme.scene.Controller;
 import com.jme.scene.Node;
 import com.jme.util.CloneImportExport;
-import com.model.md5.MD5Node;
 import com.model.md5.importer.MD5Importer;
 
 

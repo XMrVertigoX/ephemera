@@ -1,9 +1,11 @@
 /**
  * PathController 2011 by ...
  */
-package Controller;
-import model.BSpline;
-import model.RegelnFliege;
+
+package ephemera.controller;
+
+import ephemera.model.BSpline;
+import ephemera.model.RegelnFliege;
 
 import com.jme.curve.CurveController;
 import com.jme.light.PointLight;

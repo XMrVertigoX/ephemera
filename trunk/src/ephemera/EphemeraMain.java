@@ -1,4 +1,4 @@
-
+package ephemera;
 
 /*
  * Copyright (c) 2003-2009 jMonkeyEngine
@@ -77,8 +77,8 @@ import javax.swing.event.ChangeListener;
 
 
 
-import Controller.SchwarmController;
-import Controller.WorldController;
+import ephemera.controller.SchwarmController;
+import ephemera.controller.WorldController;
 
 import com.jme.light.DirectionalLight;
 import com.jme.light.LightNode;
