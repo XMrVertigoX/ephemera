@@ -1,4 +1,4 @@
-package ephemera;
+package ephemera.tester;
 
 import com.jme.app.SimpleGame;
 import com.jme.light.DirectionalLight;

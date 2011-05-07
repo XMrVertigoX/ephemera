@@ -6,7 +6,10 @@
 package ephemera.model;
 
 public class Regeln{
-
+	private float		fluggeschwindigkeit;
+	private float		randomWalk_weight;
+	private float 		lifeTime;
+	private float 		randomWalk;
 	private float		leittierSpeed;
 	private float 		maxspeed;
 	private float		maxforce;
@@ -22,15 +25,18 @@ public class Regeln{
 	 * Erstelle ein "Standard" Model der Fliege mit Default-Einstellungen
 	 */
 	public Regeln(){
-		leittierSpeed=.01f;
-		maxspeed=1f;
-		maxforce=1f;
-		coh_weight=0.01f;
-		ali_weight=0.5f;
-		sep_weight=0.4f;
-		follow_weight=0.096f;
-		desiredSeparation=20.0f;
-		neighborDistance=10.0f;			
+		randomWalk_weight	=	.0f;
+		lifeTime			=	30;
+		fluggeschwindigkeit	=	1f;
+		leittierSpeed		=	.01f;
+		maxspeed			=	1f;
+		maxforce			=	1f;
+		coh_weight			=	0.01f;
+		ali_weight			=	0.5f;
+		sep_weight			=	0.4f;
+		follow_weight		=	0.096f;
+		desiredSeparation	=	20.0f;
+		neighborDistance	=	10.0f;			
 	}
 
 	/**
@@ -44,6 +50,7 @@ public class Regeln{
 	 * @param neighborDistance
 	 */
 	public Regeln(float maxspeed, float maxforce, float coh_weight, float ali_weight, float sep_weight, float desiredSeparation, float neighborDistance){
+		
 		this.maxspeed = maxspeed;
 		this.maxforce = maxforce;
 		this.coh_weight = coh_weight;
@@ -58,6 +65,8 @@ public class Regeln{
 	 * Getter und Setter
 	 * @return
 	 */
+
+
 	public float getMaxspeed() {
 		return maxspeed;
 	}
@@ -128,4 +137,25 @@ public class Regeln{
 	public void setLeittierSpeed(float leittierSpeed) {
 		this.leittierSpeed = leittierSpeed;
 	}
+	public float getFluggeschwindigkeit() {
+		return fluggeschwindigkeit;
+	}
+
+	public void setFluggeschwindigkeit(float fluggeschwindigkeit) {
+		this.fluggeschwindigkeit = fluggeschwindigkeit;
+	}
+	public float getLifeTime() {
+		return lifeTime;
+	}
+	public void setLifeTime(float lifeTime) {
+		this.lifeTime = lifeTime;
+	}
+	public float getRandomWalk_weight() {
+		return randomWalk_weight;
+	}
+
+	public void setRandomWalk_weight(float randomWalk_weight) {
+		this.randomWalk_weight = randomWalk_weight;
+	}
+
 }

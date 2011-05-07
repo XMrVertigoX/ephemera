@@ -1,6 +1,8 @@
 package ephemera;
 
 import com.jme.app.SimpleGame;
+import com.jme.bounding.CollisionTree;
+import com.jme.bounding.CollisionTreeManager;
 import com.jme.light.PointLight;
 import com.jme.math.Vector3f;
 import com.jme.renderer.ColorRGBA;
@@ -16,8 +18,8 @@ public class Main extends SimpleGame {
 	
 	WorldController wc;
 	SchwarmController 		schwarm;
+	CollisionTreeManager ctm = CollisionTreeManager.getInstance();
 	
-	@Override
 	protected void simpleInitGame() {
 		// Kamera Position
 		cam.setLocation(new Vector3f(50,50,150));
@@ -28,9 +30,10 @@ public class Main extends SimpleGame {
 		schwarm = new SchwarmController();
 		schwarm.addFlies(500);
 		Node n = schwarm.getSwarmNode();
-		rootNode.attachChild(n);	
-	
-		schwarm.getRegeln().setAli_weight(10);
+		rootNode.attachChild(n);
+		rootNode.attachChild(wc.generateRandomObjects(100));
+		ctm.generateCollisionTree(CollisionTree.Type.Sphere, n, true);
+		
 		PointLight pl = new PointLight();
 		pl.setEnabled(true);
 		pl.setDiffuse(ColorRGBA.red);
@@ -42,7 +45,8 @@ public class Main extends SimpleGame {
 	protected void simpleUpdate(){
 		//schwarm.setLeittier(pc.getPosition());
 		schwarm.updateAll();
-	
+		
+
 	}
 	
 }

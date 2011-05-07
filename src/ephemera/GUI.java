@@ -43,7 +43,10 @@ import javax.swing.event.ChangeListener;
 import ephemera.controller.SchwarmController;
 import ephemera.controller.WorldController;
 import ephemera.model.Regeln;
+import ephemera.tester.HelloTexture;
 
+import com.jme.bounding.CollisionTreeManager;
+import com.jme.image.Texture;
 import com.jme.light.DirectionalLight;
 import com.jme.light.PointLight;
 import com.jme.math.FastMath;
@@ -55,8 +58,12 @@ import com.jme.renderer.Renderer;
 import com.jme.scene.Geometry;
 import com.jme.scene.Node;
 import com.jme.scene.Spatial;
+import com.jme.scene.TriMesh;
 import com.jme.scene.shape.Quad;
+import com.jme.scene.state.BlendState;
 import com.jme.scene.state.LightState;
+import com.jme.scene.state.MaterialState;
+import com.jme.scene.state.TextureState;
 import com.jme.scene.state.ZBufferState;
 import com.jme.system.DisplaySystem;
 import com.jme.system.canvas.JMECanvas;
@@ -65,6 +72,7 @@ import com.jme.system.lwjgl.LWJGLSystemProvider;
 import com.jme.util.Debug;
 import com.jme.util.GameTaskQueue;
 import com.jme.util.GameTaskQueueManager;
+import com.jme.util.TextureManager;
 
 import com.jme.util.stat.StatCollector;
 
@@ -75,7 +83,7 @@ public class GUI extends JFrame{
 
 	WorldController 		wc;
 	SchwarmController 		schwarm;
-
+	TextureState textureState;
     public static Node GUINode;
 
 
@@ -280,20 +288,35 @@ public class GUI extends JFrame{
     // JPanel, hier werden Buttons etc hinzugefügt allerdings in das "obere" menue (eben: delete & new button)
     private JPanel createLayerPanel() {
         // Slider ----------------------------------------------------------------
-        JSlider numberSlider = new JSlider (){
+        final JSlider numberSlider = new JSlider (){
 
         
             private static final long serialVersionUID = 1L;
         	public void actionPerformed(ActionEvent e) {
                 //  Änderung der Fliegenanzahl
+        		
+        		
               }
         
         };
+        
+        numberSlider.addChangeListener(new ChangeListener() {
+			
+			@Override
+			public void stateChanged(ChangeEvent ce) {
+				// TODO Auto-generated method stub
+				float value = numberSlider.getValue()/100f;
+				System.out.println("Geschwindigkeit: "+value);
+				if (schwarm!=null){
+					schwarm.getRegeln().setFluggeschwindigkeit(value);
+				}
+			}
+		});
         numberSlider.setMinimum(0);		// Minmalwert
-        numberSlider.setMaximum(500);	// Maximalwert
-        numberSlider.setValue(50);		// Beim Start eingestellter Wert
+        numberSlider.setMaximum(100);	// Maximalwert
+        numberSlider.setValue(100);		// Beim Start eingestellter Wert
         numberSlider.setSnapToTicks(true);	// Automatisches Versetzen deaktiviert
-        numberSlider.setExtent(10);		// Zeiger verspringt 10 Einheiten
+        numberSlider.setExtent(5);		// Zeiger verspringt 10 Einheiten
         numberSlider.setOrientation(JSlider.HORIZONTAL);	// horizontale Ausrichtung
         numberSlider.setPaintTicks(true);	//Striche werden nicht angezeigt
         numberSlider.setPaintLabels(true);	//Zahlen werden nicht angezeigt
@@ -484,7 +507,7 @@ public class GUI extends JFrame{
           neighborSlider.setEnabled(true);   
           
         // Alle Labels
-        JLabel numberLabel = new JLabel("Number: "+numberSlider.getValue());
+        JLabel numberLabel = new JLabel("Geschwindigkeit: "+numberSlider.getValue());
         JLabel leittierLabel = new JLabel ("Leittier speed");
         JLabel maxSpeedLabel = new JLabel("Max Speed");
         JLabel cohLabel = new JLabel("Cohesion");
@@ -813,10 +836,13 @@ public class GUI extends JFrame{
         public void simpleSetup() {
         	wc = new WorldController();
     		wc.initSky();
+    		Node obj = wc.generateRandomObjects(100);
     		rootNode.attachChild(wc.getCubeNode());
+    		rootNode.attachChild(obj);
+    		
     		// Schwarm initialisieren
     		schwarm = new SchwarmController();
-    		schwarm.addFlies(600);
+    		schwarm.addFlies(900);
     		Node schwarmNode = schwarm.getSwarmNode();
     		
         	Color bg = new Color(prefs.getInt("bg_color", 0));
@@ -825,10 +851,10 @@ public class GUI extends JFrame{
 
             root = rootNode;
 
-            
             // Licht und Schatten
             LightState lightState = renderer.createLightState();
-            
+
+            obj.setRenderState(lightState);            
             /*
         	PointLight pl = new PointLight();
     		pl.setDiffuse(ColorRGBA.yellow);
@@ -939,4 +965,12 @@ public class GUI extends JFrame{
                 : Spatial.CullHint.Always);
         return grid;
     }
+    //
+    //
+    ////////////////////////////////////////////////////////////////////////////////////
+    //
+    // 									 Texturen 
+    //
+    ////////////////////////////////////////////////////////////////////////////////////
+    
 }

@@ -81,8 +81,6 @@ public class GUI extends SimpleGame{
    
 
    public static void main(String[] args) throws Exception {
-       
-   
    }
 
 

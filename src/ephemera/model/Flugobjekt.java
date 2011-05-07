@@ -29,8 +29,16 @@ public abstract class Flugobjekt extends Node{
 	private Vector3f 			acc;	// Beschleunigungsvektor
 	private Vector3f			vel;	// Geschwindigkeitsvektor
 	private SpatialTransformer 	st; // Animation
+	private float 				masse;
 	//public static ModelController loader=new ModelController();
-	
+	private Vector3f[] basis = {		// Richtungsvektoren fŸr RandomWalk 
+			new Vector3f(1,0,0),
+			new Vector3f(-1,0,0),
+			new Vector3f(0,1,0),
+			new Vector3f(0,-1,0),
+			new Vector3f(0,0,1),
+			new Vector3f(0,0,-1)
+	};
 	/**
 	 * Konstruktor
 	 * @param pos Position der Fliege 
@@ -42,29 +50,27 @@ public abstract class Flugobjekt extends Node{
 		age = System.currentTimeMillis();
 		regeln = new Regeln();
 		
-		// Fliege initialisieren
 		initDefaultFly();
-		// Node auf pos bewegen
 		setLocalTranslation(pos);
+		
+		
+		
 		// Counter HochzŠhlen
 		count++;
 	}
-	/**
-	 * Erstelle ein animiertes Default Fliegen Model
-	 */
 	public void initDefaultFly(){
-		// Kšrper
+		// Form der Fliege
 		Cylinder fly = new Cylinder("Cone",3,3,1f,3f);
 		fly.setRadius1(.1f);
-		// FlŸgel
-		TriMesh fluegelr = getFluegelR();
-		TriMesh fluegell = getFluegelL();		
-		attachChild(fly);
-		setModelBound(new BoundingSphere());
+		TriMesh fluegelr = getFluegel(-5,0,0,-5,0,1);
+		TriMesh fluegell = getFluegel(5,0,0,5,0,1);		
 		
 		attachChild(fluegelr);
 		attachChild(fluegell);
-		
+		attachChild(fly);
+		setModelBound(new BoundingSphere());
+		// Node auf pos bewegen
+		// Animation wird Ÿber SpatioalController gesteuert
 		st=new SpatialTransformer(2);
         // Melde Objekte an 
 		st.setObject(fluegelr,0,-1);
@@ -85,7 +91,7 @@ public abstract class Flugobjekt extends Node{
         st.interpolateMissing();
         st.setRepeatType(st.RT_CYCLE);
         st.setActive(true);
-        st.setSpeed(10f);
+        st.setSpeed(10+FastMath.nextRandomFloat()*10);
         // Node element ist host
         this.addController(st);
         
@@ -94,64 +100,15 @@ public abstract class Flugobjekt extends Node{
 	 * Erstelle Linken und Rechten FlŸgel der Fliege (default Model)
 	 * @return
 	 */
-	public TriMesh getFluegelR(){
+	public TriMesh getFluegel(float x,float y,float z,float x1,float y1,float z1){
 		TriMesh m=new TriMesh("Fluegel");
 
         // Eckpunkte des Fluegels
         Vector3f[] vertexes={
             new Vector3f(0,0,0),
             new Vector3f(0,0,1),
-            new Vector3f(-5,0,0),
-            new Vector3f(-5,0,1)
-        };
-
-        // Normal directions for each vertex position
-        Vector3f[] normals={
-            new Vector3f(0,1,0),
-            new Vector3f(0,1,0),
-            new Vector3f(0,1,0),
-            new Vector3f(0,1,0)
-        };
-
-        // Color for each vertex position
-        ColorRGBA[] colors={
-            new ColorRGBA(1,0,0,1),
-            new ColorRGBA(1,0,0,1),
-            new ColorRGBA(0,1,0,1),
-            new ColorRGBA(0,1,0,1)
-        };
-
-        // Texture Coordinates for each position
-        Vector2f[] texCoords={
-            new Vector2f(0,0),
-            new Vector2f(1,0),
-            new Vector2f(0,1),
-            new Vector2f(1,1)
-        };
-
-        // The indexes of Vertex/Normal/Color/TexCoord sets.  Every 3 makes a triangle.
-        int[] indexes={
-            0,1,2,1,2,3
-        };
-
-        // Feed the information to the TriMesh
-        m.reconstruct(BufferUtils.createFloatBuffer(vertexes), BufferUtils.createFloatBuffer(normals),
-                null, null, BufferUtils.createIntBuffer(indexes));
-
-        // Create a bounds
-        m.setModelBound(new BoundingBox());
-        m.updateModelBound();
-        return m;
-	}
-	public TriMesh getFluegelL(){
-		TriMesh m=new TriMesh("Fluegel");
-
-        // Eckpunkte des Fluegels
-        Vector3f[] vertexes={
-            new Vector3f(0,0,0),
-            new Vector3f(0,0,1),
-            new Vector3f(5,0,0),
-            new Vector3f(5,0,1)
+            new Vector3f(x,y,z),
+            new Vector3f(x1,y1,z1)
         };
 
         // Normal directions for each vertex position
@@ -216,22 +173,20 @@ public abstract class Flugobjekt extends Node{
 		Vector3f sep  = separate(flies); 
 	    Vector3f ali = align(flies);
 	    Vector3f coh = cohesion(flies);
-	    
+	    Vector3f randomWalk = randomWalk();
 	    // Gewichte mit eingestellten Parametern (siehe Regeln)
 	    sep.multLocal(regeln.getSep_weight());
 	    ali.multLocal(regeln.getAli_weight());
 	    coh.multLocal(regeln.getCoh_weight());
 	    target.multLocal(regeln.getFollow_weight());
+	    randomWalk.multLocal(regeln.getRandomWalk_weight());
 	    // Diese Vektoren auf Beschl. aufaddieren
 	    acc=new Vector3f(0,0,0);
-	    //acc.addLocal(randomWalk());
+	    //acc.addLocal(randomWalk);
 	    acc.addLocal(target);
 	    acc.addLocal(sep);
 	    acc.addLocal(ali);
 	    acc.addLocal(coh);
-	    // Abschlie§ende gewichtung der Geschwindigkeit
-	    //acc = acc.mult(regeln.getMaxspeed());
-	    
 	}
 	/**
 	 * Berechnet Vektor der zum Zentrum des Leittiers zeigt
@@ -247,15 +202,19 @@ public abstract class Flugobjekt extends Node{
 	 * 	Flugmodul
 	 *  Berrechne neue Position  verschiebe und rotiere die Fliege
 	 */
-	void update() {
+	void updateMember() {
 	    vel.addLocal(acc);
-	    // Passe Vektor an
+	    // Passe vektor an regeln an
 	    if (vel.length()>regeln.getMaxforce()){
 			  vel = vel.normalize();
 			  vel.mult(regeln.getMaxforce());
 		}
+	    // Passe geschwindigeit an
+	    vel.multLocal(regeln.getFluggeschwindigkeit());
 	    // "Gucke in Flugrichtung
-	    this.lookAt(getLocalTranslation().subtract(vel.mult(-1)),acc.subtract(Vector3f.UNIT_Y));
+	    this.lookAt(getLocalTranslation().subtract(vel.mult(-1)),new Vector3f(0,1,0));
+	    //this.lookAt(vel.cross(Vector3f.UNIT_Y).cross(vel), vel);
+	    // Setze geschiwindigkeit der FlŸgel annhand 
 	    // Bewegung
 	    getLocalTranslation().addLocal(vel);
 	    
@@ -273,14 +232,14 @@ public abstract class Flugobjekt extends Node{
 	    int count = 0;
 	    // FŸr alle Fliegen im System
 		for (Ephemera other:flies) {
-		  float d = getPos().distance(other.getPos());
+		  float d = getPos().distance(other.getLocalTranslation());
 		  // Ist der Abstabd der >0 also es handelt sich nicht
 		  if ((d > 0) && (d < regeln.getDesiredSeparation())) {
 		    // Berechne Vektor der von anderer Fliege wegzeigt 
-			Vector3f diff = getPos().subtract(other.getPos());
+			Vector3f diff = getLocalTranslation().subtract(other.getLocalTranslation());
 			diff = diff.normalize();
-			diff.multLocal(1f/d);        // Gewichte anhand der distanz
-			steer.addLocal(diff);
+			diff.mult(1f/d,diff);        // Gewichte anhand der distanz
+			steer.add(diff,steer);
 			count++;            // Merker wie viele Fliegen einfluss nehmen
 			
 		  }
@@ -288,18 +247,18 @@ public abstract class Flugobjekt extends Node{
 		}
 		// Teile den Vektor durch anzahl der beeinflussenden Fliegen  
 		if (count > 0) {
-		  steer.multLocal(1f/(float)count);
+		  steer.mult(1f/(float)count,steer);
 		}
 		
 		// solange der Vektor grš§er ist als 0 
 		if (steer.length() > 0) {
 		  // Implement Reynolds: Steering = Desired - Velocity
 		  steer = steer.normalize();
-		  steer.multLocal(regeln.getMaxspeed());
-		  steer.subtractLocal(vel);
+		  steer.mult(regeln.getMaxspeed(),steer);
+		  steer.subtract(vel,steer);
 		  if (steer.length()>regeln.getMaxforce()){
 			  steer = steer.normalize();
-			  steer.multLocal(regeln.getMaxforce());
+			  steer.mult(regeln.getMaxforce());
 		  }
 		}
 		return steer;
@@ -315,22 +274,22 @@ public abstract class Flugobjekt extends Node{
 	    for (Ephemera other:flies) {
 	      float d = getPos().distance(other.getPos());
 	      if ((d > 0) && (d < regeln.getNeighborDistance())) {
-	        steer.addLocal(other.getVel());
+	        steer.add(other.getVel(),steer);
 	        count++;
 	      }
 	    }
 	    if (count > 0) {
-	      steer.multLocal(1f/(float)count);
+	      steer.mult(1f/(float)count,steer);
 	    }
 	    //solange grš§er als 0
 	    if (steer.length() > 0) {
 	      // Implement Reynolds: Steering = Desired - Velocity
 	      steer = steer.normalize();
-	      steer.multLocal(regeln.getMaxspeed());
-	      steer.subtractLocal(vel);
+	      steer.mult(regeln.getMaxspeed(),steer);
+	      steer.subtract(vel,steer);
 	      if (steer.length()>regeln.getMaxforce()){
 			  steer = steer.normalize();
-			  steer.multLocal(regeln.getMaxforce());
+			  steer.mult(regeln.getMaxforce());
 		  }	
 	    }
     return steer;
@@ -381,18 +340,20 @@ public abstract class Flugobjekt extends Node{
 	    }
 	    return steer;
 	  }
+	
+	
+	
 	/**
 	 * RandomWalk
 	 * Berrechne einen Vektor der innerhalb eines in den Regeln festgelegten radius liegt
-	 */
+	 */	
 	public Vector3f randomWalk(){
-		float x=FastMath.rand.nextFloat();
-		float y=FastMath.rand.nextFloat();
-		float z=FastMath.rand.nextFloat();
-		Vector3f random = new Vector3f(x,y,z);
-		getLocalTranslation().subtract(random);
-		random.multLocal(.2f);
-		return random; 	
+		int x = FastMath.nextRandomInt(0, 1);
+		int y = FastMath.nextRandomInt(2, 3);
+		int z = FastMath.nextRandomInt(4, 5);
+		Vector3f res = basis[x].add(basis[y]).add(basis[z]); 
+		// Kamera Rotiert -> ausgleich indem man vektor abbildet auf kreuzprodukt von ....
+		return res;	
 	}
 
 	/**
