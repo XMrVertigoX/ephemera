@@ -6,9 +6,13 @@
 
 package ephemera.controller;
 
+import com.jme.bounding.BoundingBox;
 import com.jme.image.Texture;
+import com.jme.math.FastMath;
+import com.jme.math.Vector3f;
 import com.jme.scene.Node;
 import com.jme.scene.Skybox;
+import com.jme.scene.shape.Box;
 import com.jme.util.TextureManager;
 
 public class WorldController {
@@ -18,6 +22,7 @@ public class WorldController {
 	public WorldController(){
 		sky = new Skybox("Skybox",2000,2000,2000);
 		initSky();
+		
 	}
 	
 	public WorldController(int xSize,int ySize,int zSize){
@@ -68,5 +73,21 @@ public class WorldController {
 		
 		return objects;
 	}
-	
+	public Node generateRandomObjects(int N){
+		Node obj = new Node("Objekte");
+		for (int i=0;i<N;i++){
+			float x = FastMath.nextRandomInt(1, 100);
+			float y = FastMath.nextRandomInt(1, 100);
+			float z = FastMath.nextRandomInt(1, 100);
+			
+			Box box = new Box("Box_"+i,new Vector3f(0,0,0),new Vector3f(x,y,z));
+			box.setModelBound(new BoundingBox());
+			x = FastMath.nextRandomInt(-1000, 1000);
+			y = FastMath.nextRandomInt(-1000, 1000);
+			z = FastMath.nextRandomInt(-1000, 1000);
+			box.setLocalTranslation(new Vector3f(x,y,z));
+			obj.attachChild(box);
+		}
+		return obj;
+	}	
 }

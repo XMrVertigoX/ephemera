@@ -1,4 +1,4 @@
-package ephemera;
+package ephemera.tester;
 
 /*
  * Copyright (c) 2003-2009 jMonkeyEngine

@@ -34,8 +34,6 @@ public class SchwarmController {
 	public Regeln getRegeln(){
 		return flies.get(0).getRegeln();
 	}
-	
-	
 	/**
 	 * Update der Position aller Fliegen aufgrund der Position des Leittieres
 	 */

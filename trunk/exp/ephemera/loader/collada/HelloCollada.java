@@ -66,7 +66,7 @@ public class HelloCollada extends SimpleGame{
 		Node n = new Node("Node");
 		
 		try {
-			input = new FileInputStream(file);
+			input = new FileInputStream("");
 			ColladaImporter.load(input, "fliege");
 			
 			}
@@ -76,7 +76,7 @@ public class HelloCollada extends SimpleGame{
 			e.printStackTrace();
 		}
 	
-	logger.log(Level.WARNING, ""+file.canRead());
+	logger.log(Level.WARNING, "");
 	
 	}
 

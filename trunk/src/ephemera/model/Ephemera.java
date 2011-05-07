@@ -24,7 +24,7 @@ public class Ephemera extends Flugobjekt{
 	@Override
 	public void run(ArrayList<Ephemera> boids, Vector3f leittier) {
 		    berechneAktuelleVektoren(boids,leittier);
-		    update(); 	
+		    updateMember(); 	
 	}
 	
 }
