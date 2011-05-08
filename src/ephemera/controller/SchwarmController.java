@@ -4,7 +4,9 @@
 
 package ephemera.controller;
 
+
 import java.util.ArrayList;
+import java.util.List;
 
 import ephemera.model.Ephemera;
 import ephemera.model.Regeln;
@@ -13,9 +15,11 @@ import ephemera.model.Regeln;
 import com.jme.bounding.BoundingSphere;
 import com.jme.math.Vector3f;
 import com.jme.scene.Node;
+import com.jme.scene.Spatial;
 
 public class SchwarmController {
 	
+	private Node schwarm;
 	private ArrayList<Ephemera> flies;
 	private PathController pathController;
 	
@@ -42,6 +46,7 @@ public class SchwarmController {
 		for (Ephemera e:flies){
 			e.run(flies,temp);
 		}
+		
 	}
 	
 	
@@ -73,30 +78,31 @@ public class SchwarmController {
 													(float)(Math.random()*100),
 													(float)(Math.random()*100)));
 			flies.add(fly);
-		}		
+		}
+		initSwarmNode();
+		
 	}
 	
 	
 	/**
 	 * Getter
 	 */
-	public Node getSwarmNode(){
+	public void initSwarmNode(){
 		// SzeneKnoten für den Schwarm
-		Node swarm = new Node("theSwarm");
+		schwarm = new Node("theSwarm");
 		
-		// Leittier anmelden 
-		swarm.attachChild(pathController.getLeittier());
 		
 		// Fliegen anmelden 
 		for (Ephemera e:flies){
-			swarm.attachChild(e.getNode());
+			schwarm.attachChild(e.getNode());
 		}
+		// Leittier anmelden 
+		schwarm.attachChild(pathController.getLeittier());
 		
-		swarm.setModelBound(new BoundingSphere());
-		return swarm;
+		schwarm.setModelBound(new BoundingSphere());
 	}
 	
-	
+	public Node getSwarmNode(){ return schwarm;}
 	public Node getLeittierNode(){
 		return pathController.getLeittier();
 	}

@@ -785,7 +785,7 @@ public class EphemeraMain extends JFrame {
         //3D gedšns
         public void simpleSetup() {
         	worldController = new WorldController();
-    		rootNode.attachChild(worldController.getCubeNode());
+    		rootNode.attachChild(worldController.getWorldRootNode());
     		// Schwarm initialisieren
     		schwarm = new SchwarmController();
     		schwarm.addFlies(400);

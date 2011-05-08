@@ -25,28 +25,32 @@ public class Main extends SimpleGame {
 		cam.setLocation(new Vector3f(50,50,150));
 		// Skybox erstellen
 		wc = new WorldController();
-		rootNode.attachChild(wc.getCubeNode());
+		
 		// Schwarm initialisieren
 		schwarm = new SchwarmController();
 		schwarm.addFlies(500);
 		Node n = schwarm.getSwarmNode();
 		rootNode.attachChild(n);
-		rootNode.attachChild(wc.generateRandomObjects(100));
-		ctm.generateCollisionTree(CollisionTree.Type.Sphere, n, true);
+		wc.generateRandomObjects(100);
+		rootNode.attachChild(wc.getWorldRootNode());
+		//ctm.generateCollisionTree(CollisionTree.Type.Sphere, n, true);
 		
+		/*
 		PointLight pl = new PointLight();
+		pl.setLocation(schwarm.getLeittierNode().getLocalTranslation());
 		pl.setEnabled(true);
 		pl.setDiffuse(ColorRGBA.red);
 		lightState.attach(pl);
+		*/
 	}
 	public static void main(String[] args) {
 		new Main().start();
 	}
+	
 	protected void simpleUpdate(){
 		//schwarm.setLeittier(pc.getPosition());
 		schwarm.updateAll();
 		
-
 	}
 	
 }
