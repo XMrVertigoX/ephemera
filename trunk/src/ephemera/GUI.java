@@ -835,11 +835,9 @@ public class GUI extends JFrame{
         //3D gedšns
         public void simpleSetup() {
         	wc = new WorldController();
-    		wc.initSky();
-    		Node obj = wc.generateRandomObjects(100);
-    		rootNode.attachChild(wc.getCubeNode());
-    		rootNode.attachChild(obj);
-    		
+    		wc.generateRandomObjects(100);
+    		Node worldNode = wc.getWorldRootNode();
+    		rootNode.attachChild(worldNode);
     		// Schwarm initialisieren
     		schwarm = new SchwarmController();
     		schwarm.addFlies(900);
@@ -854,7 +852,7 @@ public class GUI extends JFrame{
             // Licht und Schatten
             LightState lightState = renderer.createLightState();
 
-            obj.setRenderState(lightState);            
+            worldNode.setRenderState(lightState);            
             /*
         	PointLight pl = new PointLight();
     		pl.setDiffuse(ColorRGBA.yellow);
@@ -889,7 +887,7 @@ public class GUI extends JFrame{
 
             statNode.updateGeometricState(0, true);
             statNode.updateRenderState();
-
+            
       
           
 
@@ -912,6 +910,7 @@ public class GUI extends JFrame{
         @Override
         public void simpleRender() {
             statNode.draw(renderer);
+            
         }
 
         

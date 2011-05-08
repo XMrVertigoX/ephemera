@@ -25,7 +25,7 @@ public class Regeln{
 	 * Erstelle ein "Standard" Model der Fliege mit Default-Einstellungen
 	 */
 	public Regeln(){
-		randomWalk_weight	=	.0f;
+		randomWalk_weight	=	.50f;
 		lifeTime			=	30;
 		fluggeschwindigkeit	=	1f;
 		leittierSpeed		=	.01f;

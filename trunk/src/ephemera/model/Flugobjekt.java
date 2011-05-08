@@ -58,6 +58,9 @@ public abstract class Flugobjekt extends Node{
 		// Counter Hochzählen
 		count++;
 	}
+	/**
+	 * Erstelle Körper und Flügel der Fliege / Initialisiere Animationscontroller mit zwei KeyFrames
+	 */
 	public void initDefaultFly(){
 		// Form der Fliege
 		Cylinder fly = new Cylinder("Cone",3,3,1f,3f);
@@ -210,12 +213,13 @@ public abstract class Flugobjekt extends Node{
 			  vel.mult(regeln.getMaxforce());
 		}
 	    // Passe geschwindigeit an
-	    vel.multLocal(regeln.getFluggeschwindigkeit());
 	    // "Gucke in Flugrichtung
 	    this.lookAt(getLocalTranslation().subtract(vel.mult(-1)),new Vector3f(0,1,0));
 	    //this.lookAt(vel.cross(Vector3f.UNIT_Y).cross(vel), vel);
 	    // Setze geschiwindigkeit der Flügel annhand 
 	    // Bewegung
+	    vel.multLocal(regeln.getFluggeschwindigkeit());
+	    
 	    getLocalTranslation().addLocal(vel);
 	    
 	    //acc.mult(0);
