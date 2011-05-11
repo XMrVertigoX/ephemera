@@ -18,7 +18,7 @@ public class Main extends SimpleGame {
 	
 	WorldController wc;
 	SchwarmController 		schwarm;
-	CollisionTreeManager ctm = CollisionTreeManager.getInstance();
+	//CollisionTreeManager ctm = CollisionTreeManager.getInstance();
 	
 	protected void simpleInitGame() {
 		// Kamera Position
