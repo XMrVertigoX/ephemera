@@ -39,11 +39,11 @@ public class Jaeger extends Node{
 		
 		for (Ephemera other:flies) {
 			
-			average = average.add(other.getPos());
+			average.addLocal(other.getPos());
 			count++;
 		}
 		
-		average = average.divide(count);
+		average.divideLocal(count);
 		
 		return average;
 		
@@ -52,9 +52,9 @@ public class Jaeger extends Node{
 	public void updateHunter(){
 		
 		pos = getAverageSwarmPos();
-		System.out.println("pos1 "+pos);
+		//System.out.println("pos1 "+pos);
 		//pos = pos.normalize();
-		System.out.println("posNorm "+pos);
+		//System.out.println("posNorm "+pos);
 		s.setLocalTranslation(pos);
 		
 		
