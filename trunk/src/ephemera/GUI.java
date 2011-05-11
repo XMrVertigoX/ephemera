@@ -42,6 +42,7 @@ import javax.swing.event.ChangeListener;
 
 import ephemera.controller.SchwarmController;
 import ephemera.controller.WorldController;
+import ephemera.model.Jaeger;
 import ephemera.model.Regeln;
 import ephemera.tester.HelloTexture;
 
@@ -84,6 +85,7 @@ public class GUI extends JFrame{
 	private WorldController 		worldController;
 	private SchwarmController 		schwarm;
 	private TextureState 			textureState;
+	private Jaeger j;
     
 	public static Node GUINode;
 
@@ -842,8 +844,13 @@ public class GUI extends JFrame{
     		rootNode.attachChild(worldNode);
     		// Schwarm initialisieren
     		schwarm = new SchwarmController();
-    		schwarm.addFlies(900);
+    		schwarm.addFlies(50);
     		Node schwarmNode = schwarm.getSwarmNode();
+    		
+    		
+    		 j = new Jaeger(new Vector3f(0,0,0),schwarm.getSchwarm());
+    	
+    		rootNode.attachChild(j.s);
     		
         	Color bg = new Color(prefs.getInt("bg_color", 0));
             renderer.setBackgroundColor(makeColorRGBA(bg));
@@ -914,6 +921,9 @@ public class GUI extends JFrame{
                 StatCollector.update();
                 labGraph.setLocalTranslation((renderer.getWidth()-.5f*labGraph.getWidth()), (renderer.getHeight()-.5f*labGraph.getHeight()), 0);
             }
+        	
+        	j.updateHunter();
+        	
         }
 
         
