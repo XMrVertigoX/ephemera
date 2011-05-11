@@ -106,5 +106,8 @@ public class SchwarmController {
 	public Node getLeittierNode(){
 		return pathController.getLeittier();
 	}
+	public ArrayList<Ephemera> getSchwarm(){
+		return flies;
+	}
 	
 }
