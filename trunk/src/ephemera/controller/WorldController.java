@@ -43,8 +43,15 @@ public class WorldController {
 		initSky(sky);
 		worldRootNode.attachChild(sky);
 	}
-	
-	
+	/**
+	 * 
+	 */
+	public Vector3f calcPosition(Vector3f pos){
+		// TO DO
+		// ..
+		// .
+		return new Vector3f(0,0,0);
+	}
 	/**
 	 * Lade die Texturen und verknuepfe diese mit Skybox
 	 */
@@ -78,28 +85,31 @@ public class WorldController {
 	}
 	/**
 	 * Erstelle Zufallig N Objekte der zufälligen Ausdehnung von 100 RE
-	 * @param N
-	 * @return
+	 * @param N anzahl Objekte die erstellt werden sollen
+	 * @return ObjectNode
 	 */
 	public void generateRandomObjects(int N){
 		Node obj = new Node("Objekte");
+		// DisplaySystem berreit stellen 
 		DisplaySystem display = DisplaySystem.getDisplaySystem(LWJGLSystemProvider.LWJGL_SYSTEM_IDENTIFIER);
+		// TextureState erstellen 
 		TextureState ts = createTextureState(display);
 		for (int i=0;i<N;i++){
+			// Größe
 			float x = FastMath.nextRandomInt(1, 100);
 			float y = FastMath.nextRandomInt(1, 100);
 			float z = FastMath.nextRandomInt(1, 100);
-			
+			// Erstelle Objekt
 			TriMesh box = new Box("Box_"+i,new Vector3f(0,0,0),new Vector3f(x,y,z));
 			box.setModelBound(new BoundingBox());
+			// Zufällige Position
 			x = FastMath.nextRandomInt(-1000, 1000);
 			y = 0;//FastMath.nextRandomInt(-1000, 1000);
 			z = FastMath.nextRandomInt(-1000, 1000);
+			// Verschiebe Objekt
 			box.setLocalTranslation(new Vector3f(x,y,z));
-			
-			// Hier sollten die Texturen angemeldet werden
+			// Hier werden die Texturen angemeldet
 			init(box,display,ts,obj);
-			//obj.attachChild(box);
 		}
 		worldRootNode.attachChild(obj);
 	}
@@ -117,7 +127,14 @@ public class WorldController {
         textureState.setTexture(t1);
         return textureState;
 	}
-	 private void init( TriMesh spatial, DisplaySystem display, TextureState textureState, Node ObjectNode ) {
+	/**
+	 * Stelle Textur und Material für ein Objekt in der Welt berreit und verknüpfe alles miteinander  
+	 * @param spatial das Objekt
+	 * @param display DispaySystem
+	 * @param textureState TexturState
+	 * @param ObjectNode rootNode
+	 */
+	private void init( TriMesh spatial, DisplaySystem display, TextureState textureState, Node ObjectNode ) {
 	        BlendState alphaState = display.getRenderer().createBlendState();
 	        alphaState.setEnabled( true );
 	        alphaState.setBlendEnabled( true );

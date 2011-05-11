@@ -81,22 +81,24 @@ import com.jmex.awt.lwjgl.LWJGLAWTCanvasConstructor;
 
 public class GUI extends JFrame{
 
-	WorldController 		wc;
-	SchwarmController 		schwarm;
-	TextureState textureState;
-    public static Node GUINode;
+	private WorldController 		worldController;
+	private SchwarmController 		schwarm;
+	private TextureState 			textureState;
+    
+	public static Node GUINode;
 
 
     private static final long serialVersionUID = 1L;
 
     int width = 640, height = 480;
 
-    MyImplementor impl;
+    MyJmeView impl;
+    
     private CameraHandler camhand;
     private Canvas glCanvas;
     private Node root;
     private Geometry grid;
-
+    private boolean flycam=false;
 
     private Preferences prefs = Preferences
             .userNodeForPackage(GUI.class);
@@ -518,11 +520,13 @@ public class GUI extends JFrame{
         JLabel neighborLabel = new JLabel ("Neighbor Distance");
     	
     	// New Fly Button ------------------------------------------------------
-        JButton flyButton = new JButton(new AbstractAction("Fly") {
+        JButton flyButton = new JButton(new AbstractAction("Fly Cam") {
             private static final long serialVersionUID = 1L;
 
             public void actionPerformed(ActionEvent e) {
                 // Fliege hinzufügen
+            	flycam=!flycam;
+            	System.out.println(flycam);
             }
         });
         flyButton.setMargin(new Insets(1, 1, 1, 1));
@@ -661,7 +665,7 @@ public class GUI extends JFrame{
             glCanvas.addMouseMotionListener(camhand);
 
             // Important! Here is where we add the guts to the canvas:
-            impl = new MyImplementor(width, height);
+            impl = new MyJmeView(width, height);
 
             ((JMECanvas) glCanvas).setImplementor(impl);
 
@@ -686,13 +690,12 @@ public class GUI extends JFrame{
     }
 
     class CameraHandler extends MouseAdapter implements MouseMotionListener,
-            MouseWheelListener {
+        MouseWheelListener {
         Point last = new Point(0, 0);
         Vector3f focus = new Vector3f();
         private Vector3f vector = new Vector3f();
         private Quaternion rot = new Quaternion();
         public Vector3f worldUpVector = Vector3f.UNIT_Y.clone();
-
         public void mouseDragged(final MouseEvent arg0) {
             Callable<Void> exe = new Callable<Void>() {
                 public Void call() {
@@ -817,8 +820,7 @@ public class GUI extends JFrame{
 
     // IMPLEMENTING THE SCENE: --------------------------------------------------------------------
 
-    class MyImplementor extends SimpleCanvasImpl {
-
+    class MyJmeView extends SimpleCanvasImpl {
         /**
          * The root node of our stat graphs.
          */
@@ -826,7 +828,7 @@ public class GUI extends JFrame{
 
 
         private Quad labGraph;
-        public MyImplementor(int width, int height) {
+        public MyJmeView(int width, int height) {
             super(width, height);
         }
 
@@ -834,9 +836,9 @@ public class GUI extends JFrame{
     	
         //3D gedöns
         public void simpleSetup() {
-        	wc = new WorldController();
-    		wc.generateRandomObjects(100);
-    		Node worldNode = wc.getWorldRootNode();
+        	worldController = new WorldController();
+    		worldController.generateRandomObjects(100);
+    		Node worldNode = worldController.getWorldRootNode();
     		rootNode.attachChild(worldNode);
     		// Schwarm initialisieren
     		schwarm = new SchwarmController();
@@ -898,6 +900,15 @@ public class GUI extends JFrame{
         
         
         public void simpleUpdate() {
+        	/*
+        	if (flycam){
+        		Vector3f pos = schwarm.getSchwarm().get(0).getLocalTranslation();
+        		Vector3f vel = schwarm.getSchwarm().get(0).getVel();
+        		cam.setLocation(pos);
+        		cam.lookAt(pos.subtract(vel.mult(-1)),new Vector3f(0,1,0));
+        	    
+        	}
+        	*/
         	schwarm.updateAll();
         	if (Debug.stats) {
                 StatCollector.update();
@@ -911,30 +922,8 @@ public class GUI extends JFrame{
         public void simpleRender() {
             statNode.draw(renderer);
             
-        }
-
-        
-        
-        
-        
-        
-        /**
-         * Set up which stats to graph
-         *
-         */
-      
-        
-        
-        
-        /**
-         * Set up the graphers we will use and the quads we'll show the stats on.
-         *
-         */
-        
+        }        
     }
-
-    
-    
     
     private static final int GRID_LINES = 51;
     private static final float GRID_SPACING = 100f;
@@ -964,12 +953,4 @@ public class GUI extends JFrame{
                 : Spatial.CullHint.Always);
         return grid;
     }
-    //
-    //
-    ////////////////////////////////////////////////////////////////////////////////////
-    //
-    // 									 Texturen 
-    //
-    ////////////////////////////////////////////////////////////////////////////////////
-    
 }
