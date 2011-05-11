@@ -226,6 +226,86 @@ public abstract class Flugobjekt extends Node{
 	  }
 	
 	/**
+	 * SepAliCoh
+	 */
+	public Vector3f SepAliCoh(ArrayList<Ephemera> flies){
+		Vector3f sep = new Vector3f(0,0,0);
+		Vector3f ali = new Vector3f(0,0,0);
+		Vector3f coh = new Vector3f(0,0,0);
+		int sepCount = 0;
+		int aliCount = 0;
+		int cohCount = 0;
+		// Iteriere Ÿber alle Fliegen im System
+		for (Ephemera other:flies) {
+			  // Berrechne Abstand zwischen zwei Fliegen
+			  float d = getPos().distance(other.getLocalTranslation());
+			  // Separation
+			  if ((d > 0) && (d < regeln.getDesiredSeparation())) {
+			    // Berechne Vektor der von anderer Fliege wegzeigt 
+				Vector3f diff = getLocalTranslation().subtract(other.getLocalTranslation());
+				diff.normalizeLocal();
+				diff.multLocal(1f/d);        // Gewichte anhand der distanz
+				sep.addLocal(diff);
+				sepCount++;            // Merker wie viele Fliegen einfluss nehmen	
+			  }
+			  // Alignment
+			  if ((d > 0) && (d < regeln.getNeighborDistance())) {
+			        ali.addLocal(other.getVel());
+			        aliCount++;
+			  }
+			  // Cohesion
+			  if ((d > 0) && (d < regeln.getNeighborDistance())) {
+			    	coh.addLocal(other.getLocalTranslation()); // Mittelwert Ÿber Fliegen innerhalb des Radiuses berechnen
+			        cohCount++;
+			  }
+			  		  
+		}
+		// Sep
+		if (sepCount > 0) {
+			  sep.multLocal(1f/(float)sepCount);
+		}	
+		// solange der Vektor grš§er ist als 0 
+		if (sep.length() > 0) {
+		  // Implement Reynolds: Steering = Desired - Velocity
+		  sep.normalizeLocal();
+		  sep.multLocal(regeln.getMaxspeed());
+		  sep.subtractLocal(vel);
+		  if (sep.length()>regeln.getMaxforce()){
+			  sep.normalizeLocal();
+			  sep.multLocal(regeln.getMaxforce());
+		  }
+		}
+		// Ali
+		if (aliCount > 0) {
+		      ali.multLocal(1f/(float)aliCount);
+		}
+	    //solange grš§er als 0
+	    if (ali.length() > 0) {
+	      // Implement Reynolds: Steering = Desired - Velocity
+	      ali.normalizeLocal();
+	      ali.multLocal(regeln.getMaxspeed());
+	      ali.subtractLocal(vel);
+	      if (ali.length()>regeln.getMaxforce()){
+			  ali.normalizeLocal();
+			  ali.multLocal(regeln.getMaxforce());
+		  }	
+	    }
+	    // Coh 
+	    if (cohCount > 0) {
+			 coh.multLocal(1f/(float)count);
+		     return steer(coh,true);
+		 }	 
+	    
+	    // Gewichten
+	    sep.multLocal(regeln.getSep_weight());
+	    ali.multLocal(regeln.getAli_weight());
+	    coh.multLocal(regeln.getCoh_weight());
+			  
+			  
+	return sep.addLocal(ali).addLocal(coh);
+	}
+	
+	/**
 	 * Separation aus: Flocking by Daniel Shiffman. 
 	 * Diese Methode berechnet einen Vektor
 	 * @param flies im System angemeldete Fliegen 
