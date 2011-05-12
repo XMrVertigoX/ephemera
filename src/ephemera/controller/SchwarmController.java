@@ -100,6 +100,7 @@ public class SchwarmController {
 		schwarm.attachChild(pathController.getLeittier());
 		
 		schwarm.setModelBound(new BoundingSphere());
+		schwarm.setCullHint(Spatial.CullHint.Never);
 	}
 	
 	public Node getSwarmNode(){ return schwarm;}

@@ -16,6 +16,7 @@ import com.jme.scene.Node;
 import com.jme.scene.Skybox;
 import com.jme.scene.TriMesh;
 import com.jme.scene.shape.Box;
+import com.jme.scene.shape.Sphere;
 import com.jme.scene.state.BlendState;
 import com.jme.scene.state.MaterialState;
 import com.jme.scene.state.TextureState;
@@ -93,18 +94,18 @@ public class WorldController {
 		// DisplaySystem berreit stellen 
 		DisplaySystem display = DisplaySystem.getDisplaySystem(LWJGLSystemProvider.LWJGL_SYSTEM_IDENTIFIER);
 		// TextureState erstellen 
-		TextureState ts = createTextureState(display);
+		TextureState ts = createTextureState(display,"ephemera/ObjTextures/5016.jpg");
 		for (int i=0;i<N;i++){
 			// Grš§e
-			float x = FastMath.nextRandomInt(1, 100);
-			float y = FastMath.nextRandomInt(1, 100);
-			float z = FastMath.nextRandomInt(1, 100);
+			float x = FastMath.nextRandomInt(1, 200);
+			float y = FastMath.nextRandomInt(1, 4000);
+			float z = FastMath.nextRandomInt(1, 300);
 			// Erstelle Objekt
 			TriMesh box = new Box("Box_"+i,new Vector3f(0,0,0),new Vector3f(x,y,z));
 			box.setModelBound(new BoundingBox());
 			// ZufŠllige Position
 			x = FastMath.nextRandomInt(-1000, 1000);
-			y = 0;//FastMath.nextRandomInt(-1000, 1000);
+			y = -2000;//FastMath.nextRandomInt(-1000, 1000);
 			z = FastMath.nextRandomInt(-1000, 1000);
 			// Verschiebe Objekt
 			box.setLocalTranslation(new Vector3f(x,y,z));
@@ -114,15 +115,28 @@ public class WorldController {
 		worldRootNode.attachChild(obj);
 	}
 	/**
+	 * erzeuge einen Fliegenbrutkasten an pos Vector3f mit rate t[s] 
+	 */
+	public Node initNest(SchwarmController sc,Vector3f pos,float t){
+		Node nest = new Node("Nest");
+		//TextureState ts1 = createTextureState(DisplaySystem.getDisplaySystem(LWJGLSystemProvider.LWJGL_SYSTEM_IDENTIFIER),"ephemera/ObjTextures/nest.jpg");
+		TriMesh form = new Sphere("Nest",new Vector3f(0,0,0),20,20,20);
+		form.setLocalTranslation(pos);
+		
+		
+		return nest;
+		
+	}
+	/**
 	 * Initialisiering einer TextureState fŸr Objekte und GegenstŠnde
 	 * @param display wird von der GUI Ÿbergeben 
 	 * @return TextureState an die einzelne Spartiale angemeldet werden
 	 */
-	public TextureState createTextureState(DisplaySystem display) {
+	public TextureState createTextureState(DisplaySystem display,String path) {
         TextureState textureState = display.getRenderer().createTextureState();
         textureState.setEnabled(true);
         Texture t1 = TextureManager.loadTexture(
-                HelloTexture.class.getClassLoader().getResource("ephemera/ObjTextures/5016.jpg"), Texture.MinificationFilter.BilinearNearestMipMap,
+                HelloTexture.class.getClassLoader().getResource(path), Texture.MinificationFilter.BilinearNearestMipMap,
                 Texture.MagnificationFilter.Bilinear);
         textureState.setTexture(t1);
         return textureState;

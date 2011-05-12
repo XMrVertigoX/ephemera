@@ -44,12 +44,12 @@ public class MyJmeView extends SimpleCanvasImpl {
     public void simpleSetup() {
     	
     	worldController = new WorldController();
-		worldController.generateRandomObjects(40);
+		worldController.generateRandomObjects(10);
 		Node worldNode = worldController.getWorldRootNode();
 		rootNode.attachChild(worldNode);
 		// Schwarm initialisieren
 		schwarm = new SchwarmController();
-		schwarm.addFlies(400);
+		schwarm.addFlies(40);
 
 		Node schwarmNode = schwarm.getSwarmNode();
 		
@@ -62,11 +62,11 @@ public class MyJmeView extends SimpleCanvasImpl {
         renderer.setBackgroundColor(ColorRGBA.black);
         cam.setFrustumPerspective(50,50,150, 10000);
 
-        root = rootNode;
+        
 
         // Licht und Schatten
         LightState lightState = renderer.createLightState();
-
+        lightState.detachAll();
         worldNode.setRenderState(lightState);            
         /*
     	PointLight pl = new PointLight();
@@ -80,10 +80,10 @@ public class MyJmeView extends SimpleCanvasImpl {
     	dl.setEnabled(true);
     	dl.setDirection(new Vector3f(1,0,0));
     	lightState.attach(dl);
-    	schwarmNode.setRenderState(lightState);
+    	//schwarmNode.setRenderState(lightState);
         // Finally, a stand alone node (not attached to root on purpose)
         statNode = new Node("stat node");
-        statNode.setCullHint(Spatial.CullHint.Never);
+        rootNode.setCullHint(Spatial.CullHint.Never);
 
         root.attachChild(grid);
         grid.updateRenderState();
