@@ -116,7 +116,7 @@ public class swarmGUI extends JFrame {
     	
     	try {
             init();
-            camhand.setJmeView(impl);
+            //camhand.setJmeView(impl);
             
             // center the frame
             setLocationRelativeTo(null);
