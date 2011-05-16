@@ -6,6 +6,7 @@ package ephemera.model;
 
 import java.util.ArrayList;
 
+
 import com.jme.animation.SpatialTransformer;
 import com.jme.bounding.BoundingBox;
 import com.jme.bounding.BoundingSphere;
@@ -15,9 +16,9 @@ import com.jme.math.Vector2f;
 import com.jme.math.Vector3f;
 import com.jme.renderer.ColorRGBA;
 import com.jme.scene.Node;
-import com.jme.scene.TexCoords;
+import com.jme.scene.Spatial;
 import com.jme.scene.TriMesh;
-import com.jme.scene.shape.Cylinder;
+import com.jme.scene.shape.Sphere;
 import com.jme.util.geom.BufferUtils;
 
 public class Ephemera extends Node{
@@ -61,15 +62,23 @@ public class Ephemera extends Node{
 	 * Erstelle Körper und Flügel der Fliege / Initialisiere Animationscontroller mit zwei KeyFrames
 	 */
 	public void initDefaultFly(){
+		
 		// Form der Fliege
-		Cylinder fly = new Cylinder("Cone",3,3,1f,3f);
-		fly.setRadius1(.1f);
+		Sphere body = new Sphere("Koerper",10,10,2);
+		Sphere head = new Sphere("Kopf",10,10,1);
+		
+		
+		//Kopf verschieben
+		head.setLocalTranslation(1, 2, 2);
+
+		
 		TriMesh fluegelr = getFluegel(-5,0,0,-5,0,1);
 		TriMesh fluegell = getFluegel(5,0,0,5,0,1);		
 		
 		attachChild(fluegelr);
 		attachChild(fluegell);
-		attachChild(fly);
+		attachChild(body);
+		attachChild(head);
 		setModelBound(new BoundingSphere());
 		// Node auf pos bewegen
 		// Animation wird über SpatioalController gesteuert
@@ -77,6 +86,8 @@ public class Ephemera extends Node{
         // Melde Objekte an 
 		st.setObject(fluegelr,0,-1);
         st.setObject(fluegell, 1, -1);
+        
+
         
         // Berrechne Quaternion für Rotation
         Quaternion x45=new Quaternion();
@@ -98,6 +109,11 @@ public class Ephemera extends Node{
         this.addController(st);
         
 	}
+	
+	
+
+	
+	
 	/**
 	 * Erstelle Linken und Rechten Flügel der Fliege (default Model)
 	 * @return
