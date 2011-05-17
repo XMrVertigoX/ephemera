@@ -32,32 +32,33 @@ public class MyJmeView extends SimpleCanvasImpl {
 	private Node root;
     private Geometry grid;
     
-
+    boolean flycam=false;
     private Quad labGraph;
     public MyJmeView(int width, int height) {
         super(width, height);
     }
-
     
-	
+    
+    public SchwarmController getSchwarm(){
+    	return schwarm;
+    }
+	public void setGrid(Geometry grid){
+		this.grid=grid;
+	}
     //3D gedšns
     public void simpleSetup() {
     	
     	worldController = new WorldController();
-		worldController.generateRandomObjects(10);
 		Node worldNode = worldController.getWorldRootNode();
-		rootNode.attachChild(worldNode);
+		//rootNode.attachChild(worldNode);
 		// Schwarm initialisieren
 		schwarm = new SchwarmController();
-		schwarm.addFlies(40);
+		schwarm.addFlies(400);
 
 		Node schwarmNode = schwarm.getSwarmNode();
-		
-		rootNode.attachChild(schwarmNode);
-		 Jaeger j = new Jaeger(new Vector3f(0,0,0));
-	
-		//rootNode.attachChild(j.s);
-		
+		worldNode.attachChild(schwarmNode);
+		rootNode.attachChild(worldNode);
+			
     	//Color bg = new Color(prefs.getInt("bg_color", 0));
         renderer.setBackgroundColor(ColorRGBA.black);
         cam.setFrustumPerspective(50,50,150, 10000);
@@ -67,7 +68,7 @@ public class MyJmeView extends SimpleCanvasImpl {
         // Licht und Schatten
         LightState lightState = renderer.createLightState();
         lightState.detachAll();
-        worldNode.getChild(0).setRenderState(lightState);            
+        rootNode.setRenderState(lightState);
         /*
     	PointLight pl = new PointLight();
 		pl.setDiffuse(ColorRGBA.yellow);
@@ -80,18 +81,17 @@ public class MyJmeView extends SimpleCanvasImpl {
     	dl.setEnabled(true);
     	dl.setDirection(new Vector3f(1,0,0));
     	lightState.attach(dl);
+    	schwarmNode.setRenderState(lightState);            
+        
     	//schwarmNode.setRenderState(lightState);
         // Finally, a stand alone node (not attached to root on purpose)
-        statNode = new Node("stat node");
-        rootNode.setCullHint(Spatial.CullHint.Never);
-
-        root.attachChild(grid);
-        grid.updateRenderState();
-
+    	
+    	grid.updateRenderState();  
+        rootNode.attachChild(grid);
+        
        
         //GUINode = new Node("GUI");
-        root.attachChild(schwarmNode);
-
+        
         ZBufferState zbuf = renderer.createZBufferState();
         zbuf.setWritable(false);
         zbuf.setEnabled(true);
@@ -100,8 +100,8 @@ public class MyJmeView extends SimpleCanvasImpl {
         //GUINode.setRenderState(zbuf);
         //GUINode.updateRenderState();
 
-        statNode.updateGeometricState(0, true);
-        statNode.updateRenderState();
+        rootNode.updateGeometricState(0, true);
+        rootNode.updateRenderState();
         
   
       
@@ -115,27 +115,16 @@ public class MyJmeView extends SimpleCanvasImpl {
     
     
     public void simpleUpdate() {
-    	/*
-    	if (flycam){
-    		Vector3f pos = schwarm.getSchwarm().get(0).getLocalTranslation();
-    		Vector3f vel = schwarm.getSchwarm().get(0).getVel();
-    		cam.setLocation(pos);
-    		cam.lookAt(pos.subtract(vel.mult(-1)),new Vector3f(0,1,0));
-    	    
-    	}
-    	*/
+    	
     	schwarm.updateAll();
-    	if (Debug.stats) {
-            StatCollector.update();
-            labGraph.setLocalTranslation((renderer.getWidth()-.5f*labGraph.getWidth()), (renderer.getHeight()-.5f*labGraph.getHeight()), 0);
-        }
+    	
     }
 
     
     
     @Override
     public void simpleRender() {
-        statNode.draw(renderer);
+        rootNode.draw(renderer);
         
     }        
 }

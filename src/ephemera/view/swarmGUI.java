@@ -74,12 +74,7 @@ public class swarmGUI extends JFrame {
     private static final float GRID_SPACING = 100f;
 
 	private SchwarmController 		schwarm;
-	private TextureState 			textureState;
-	private Jaeger j;
-    
-	public static Node GUINode;
-
-
+	
     private static final long serialVersionUID = 1L;
 
     int width = 640, height = 480;
@@ -154,13 +149,6 @@ public class swarmGUI extends JFrame {
         interfacePanel.setLayout(new BorderLayout());
         interfacePanel.add(createLayerPanel());
         
-
-        //linke seite unterteilen
-       // JSplitPane sideSplit = new JSplitPane();
-       // sideSplit.setOrientation(JSplitPane.VERTICAL_SPLIT);
-       // sideSplit.setTopComponent(createLayerPanel());
-       // sideSplit.setDividerLocation(150);
-
         
         //Bildschirm unterteilen in interface und 3D view
         JSplitPane mainSplit = new JSplitPane();
@@ -171,7 +159,8 @@ public class swarmGUI extends JFrame {
         getContentPane().add(mainSplit, BorderLayout.CENTER);
 
         grid = createGrid();
-        
+        impl.setGrid(grid);
+        //schwarm = impl.getSchwarm();
         yUp.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 Callable<Void> exe = new Callable<Void>() {
@@ -304,8 +293,8 @@ public class swarmGUI extends JFrame {
 				// TODO Auto-generated method stub
 				float value = numberSlider.getValue()/100f;
 				System.out.println("Geschwindigkeit: "+value);
-				if (schwarm!=null){
-					schwarm.getRegeln().setFluggeschwindigkeit(value);
+				if (impl.getSchwarm()!=null){
+					impl.getSchwarm().getRegeln().setFluggeschwindigkeit(value);
 				}
 			}
 		});
@@ -319,53 +308,7 @@ public class swarmGUI extends JFrame {
         numberSlider.setPaintLabels(true);	//Zahlen werden nicht angezeigt
         numberSlider.setPaintTrack(true);	//Balken wird angezeigt
         numberSlider.setEnabled(true);
-        /*
-        final JSlider leitSlider = new JSlider();
-        	leitSlider.addChangeListener(new ChangeListener(){
-        		public void stateChanged(ChangeEvent ce) {
-	    		
-	    		float value = leitSlider.getValue()/100f;
-	   
-	    		schwarm.getRegeln().setLeittierSpeed(value);
-
-	    	
-	    		
-	    		System.out.println(value);
-	    	}
-	    });
-            
-            leitSlider.setMinimum(0);		// Minmalwert
-            leitSlider.setMaximum(100);	// Maximalwert
-            leitSlider.setSnapToTicks(true);	// Automatisches Versetzen deaktiviert
-            leitSlider.setOrientation(JSlider.HORIZONTAL);	// horizontale Ausrichtung
-            leitSlider.setPaintTicks(true);	//Striche werden nicht angezeigt
-            leitSlider.setPaintLabels(true);	//Zahlen werden nicht angezeigt
-            leitSlider.setPaintTrack(true);	//Balken wird angezeigt
-            leitSlider.setEnabled(true);
-            */
-        /*    
-            final JSlider maxSpeedSlider = new JSlider();
-        	maxSpeedSlider.addChangeListener(new ChangeListener(){
-        		public void stateChanged(ChangeEvent ce) {
-	    		
-	    		float value = maxSpeedSlider.getValue()/100f;
-	   
-	    		schwarm.getRegeln().setMaxspeed(value);
-
-	    		System.out.println(value);
-	    	}
-	    });
-            
-            maxSpeedSlider.setMinimum(0);		// Minmalwert
-            maxSpeedSlider.setMaximum(100);	// Maximalwert
-            maxSpeedSlider.setSnapToTicks(true);	// Automatisches Versetzen deaktiviert
-            maxSpeedSlider.setOrientation(JSlider.HORIZONTAL);	// horizontale Ausrichtung
-            maxSpeedSlider.setPaintTicks(true);	//Striche werden nicht angezeigt
-            maxSpeedSlider.setPaintLabels(true);	//Zahlen werden nicht angezeigt
-            maxSpeedSlider.setPaintTrack(true);	//Balken wird angezeigt
-            maxSpeedSlider.setEnabled(true);     
-        	
-        */
+        
         
     	final JSlider cohSlider = new JSlider();
     		
@@ -374,7 +317,7 @@ public class swarmGUI extends JFrame {
     	    		
     	    		float value = cohSlider.getValue()/100f;
     	   
-    	    		schwarm.getRegeln().setCoh_weight(value);
+    	    		impl.getSchwarm().getRegeln().setCoh_weight(value);
 
     	    	
     	    		
@@ -399,7 +342,7 @@ public class swarmGUI extends JFrame {
     	    		
     	    		float value = aliSlider.getValue()/100f;
     	   
-    	    		schwarm.getRegeln().setAli_weight(value);
+    	    		impl.getSchwarm().getRegeln().setAli_weight(value);
 
     	    	
     	    		
@@ -424,7 +367,7 @@ public class swarmGUI extends JFrame {
     	    		
     	    		float value = sepSlider.getValue()/100f;
     	   
-    	    		schwarm.getRegeln().setSep_weight(value);
+    	    		impl.getSchwarm().getRegeln().setSep_weight(value);
 
     	    		System.out.println("Separation Value:"+value);
     	    	}
@@ -444,7 +387,7 @@ public class swarmGUI extends JFrame {
 	    		
         			float value = followSlider.getValue()/100f;
 	   
-        			schwarm.getRegeln().setFollow_weight(value);
+        			impl.getSchwarm().getRegeln().setFollow_weight(value);
 
         			System.out.println("Follow Weight:"+value);
 	    	}
@@ -466,7 +409,7 @@ public class swarmGUI extends JFrame {
 	    		
         			float value = desiredSlider.getValue();
 	   
-        			schwarm.getRegeln().setDesiredSeparation(value);
+        			impl.getSchwarm().getRegeln().setDesiredSeparation(value);
 
         			System.out.println("Desire Separation: "+value);
 	    	}
@@ -488,7 +431,7 @@ public class swarmGUI extends JFrame {
 	    		
        			float value = neighborSlider.getValue();
 	   
-       			schwarm.getRegeln().setNeighborDistance(value);
+       			impl.getSchwarm().getRegeln().setNeighborDistance(value);
 
        			System.out.println("Neighbor Distance: "+value);
 	    	}
