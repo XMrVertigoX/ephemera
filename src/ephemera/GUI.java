@@ -848,7 +848,7 @@ public class GUI extends JFrame{
     		Node schwarmNode = schwarm.getSwarmNode();
     		
     		
-    		 j = new Jaeger(new Vector3f(0,0,0),schwarm.getSchwarm());
+    		 j = new Jaeger(new Vector3f(0,0,0));
     	
     		rootNode.attachChild(j.s);
     		
