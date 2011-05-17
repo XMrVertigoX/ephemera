@@ -79,7 +79,6 @@ public class Ephemera extends Node{
 		attachChild(fluegell);
 		attachChild(body);
 		attachChild(head);
-		setModelBound(new BoundingSphere());
 		// Node auf pos bewegen
 		// Animation wird Ÿber SpatioalController gesteuert
 		spatialTransformer=new SpatialTransformer(2);
@@ -106,8 +105,9 @@ public class Ephemera extends Node{
         spatialTransformer.setActive(true);
         spatialTransformer.setSpeed(1f);//10+FastMath.nextRandomFloat()*10);
         // Node element ist host
-        this.addController(spatialTransformer);
         
+        this.addController(spatialTransformer);
+        this.setCullHint(cullHint.Never);
 	}
 	
 	
@@ -248,7 +248,7 @@ public class Ephemera extends Node{
 	    // Passe geschwindigeit an
 	    vel.multLocal(regeln.getFluggeschwindigkeit());
 	    // Position verschieben
-	    spatialTransformer.setSpeed(vel.length()*1000);
+	    spatialTransformer.setSpeed(vel.length()*100);
 	    getLocalTranslation().addLocal(vel);
 	    
 	    acc.mult(0);

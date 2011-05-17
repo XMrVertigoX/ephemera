@@ -38,8 +38,8 @@ public class WorldController {
 	public WorldController(){
 		worldRootNode = new Node("World Root Node");
 		//worldRootNode.setCullHint(Spatial.CullHint.Never);
-		initSky();
-		generateRandomObjects(5);
+		//initSky();
+		//generateRandomObjects(5);
 		generateTerrain();
 	}
 	/**
@@ -103,7 +103,7 @@ public class WorldController {
         // Give the terrain a bounding box.
         tb.setModelBound(new BoundingBox());
         tb.updateModelBound();
-        tb.setLocalTranslation(new Vector3f(-200,-300,-30));
+        tb.setLocalTranslation(new Vector3f(1000,-300,1000));
         // Attach the terrain TriMesh to rootNode
         worldRootNode.attachChild(tb);
         

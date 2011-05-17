@@ -291,7 +291,7 @@ public class swarmGUI extends JFrame {
 			@Override
 			public void stateChanged(ChangeEvent ce) {
 				// TODO Auto-generated method stub
-				float value = numberSlider.getValue()/100f;
+				float value = numberSlider.getValue();
 				System.out.println("Geschwindigkeit: "+value);
 				if (impl.getSchwarm()!=null){
 					impl.getSchwarm().getRegeln().setFluggeschwindigkeit(value);
@@ -299,10 +299,10 @@ public class swarmGUI extends JFrame {
 			}
 		});
         numberSlider.setMinimum(0);		// Minmalwert
-        numberSlider.setMaximum(100);	// Maximalwert
-        numberSlider.setValue(100);		// Beim Start eingestellter Wert
+        numberSlider.setMaximum(20);	// Maximalwert
+        numberSlider.setValue(1);		// Beim Start eingestellter Wert
         numberSlider.setSnapToTicks(true);	// Automatisches Versetzen deaktiviert
-        numberSlider.setExtent(5);		// Zeiger verspringt 10 Einheiten
+        numberSlider.setExtent(1);		// Zeiger verspringt 10 Einheiten
         numberSlider.setOrientation(JSlider.HORIZONTAL);	// horizontale Ausrichtung
         numberSlider.setPaintTicks(true);	//Striche werden nicht angezeigt
         numberSlider.setPaintLabels(true);	//Zahlen werden nicht angezeigt

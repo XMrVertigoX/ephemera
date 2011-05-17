@@ -31,7 +31,7 @@ public class Main extends SimpleGame {
 		schwarm.addFlies(500);
 		Node n = schwarm.getSwarmNode();
 		rootNode.attachChild(n);
-		wc.generateRandomObjects(100);
+		wc.generateRandomObjects(10);
 		rootNode.attachChild(wc.getWorldRootNode());
 		//ctm.generateCollisionTree(CollisionTree.Type.Sphere, n, true);
 		
