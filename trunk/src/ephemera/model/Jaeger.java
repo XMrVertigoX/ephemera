@@ -1,65 +1,71 @@
+/**
+ * klasse jaeger
+ * diese version ist als bastelversion fuer ben und caro gedacht,
+ * also noch nicht zur weiterverwendung gedacht
+ */
+
 package ephemera.model;
 
 import java.util.ArrayList;
 
+import com.jme.animation.SpatialTransformer;
+import com.jme.bounding.BoundingSphere;
 import com.jme.math.FastMath;
+import com.jme.math.Quaternion;
 import com.jme.math.Vector3f;
+import com.jme.renderer.ColorRGBA;
 import com.jme.scene.Node;
 import com.jme.scene.shape.Sphere;
 
 
 public class Jaeger extends Node{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
-	public Sphere s;
-	private Vector3f pos;
-	private Vector3f average;
-	private ArrayList<Ephemera> flies;
-	
-	public Jaeger(Vector3f pos,ArrayList<Ephemera> flies){
-		
-		this.pos = pos;
-		this.flies = flies;
-		s = new Sphere("jaeger",pos,25,25,5f);
-		average = new Vector3f(0,0,0);
-	//	setLocalTranslation(pos);
-	}
-	
-	public Vector3f getPos(){
-		return pos;
-	}
-	
-	public Vector3f getAverageSwarmPos(){
-		
-		int count= 0;
-		average = new Vector3f(0,0,0);
-		
-		for (Ephemera other:flies) {
-			
-			average.addLocal(other.getPos());
-			count++;
-		}
-		
-		average.divideLocal(count);
-		
-		return average;
-		
-	}
-	
-	public void updateHunter(){
-		
-		pos = getAverageSwarmPos();
-		//System.out.println("pos1 "+pos);
-		//pos = pos.normalize();
-		//System.out.println("posNorm "+pos);
-		s.setLocalTranslation(pos);
-		
-		
-		
-	}
+	public Sphere s; // stellt erst einmal den jaeger dar
+	private long age; // alter des jaegers
+	private Vector3f actualPos;
 	
 
+	/**
+	 * konstruktor
+	 * @param pos
+	 * @param flies
+	 */
+	public Jaeger(Vector3f pos){	
+		
+		super("Hunter");
+		age = System.currentTimeMillis();
+		this.actualPos = pos;
+		initHunter();
+	}
+	
+	/**
+	 * initialisiert das jaegermodel
+	 */
+	public void initHunter(){
+	
+		s = new Sphere("jaeger",25,25,5f);
+		attachChild(s);
+	//	s.setModelBound(new BoundingSphere());
+		s.setLocalTranslation(actualPos);
+	}
+	
+	/**
+	 * gibt aktuelle jaegerposition zurueck
+	 * @return
+	 */
+	public Vector3f getPos(){
+		
+		return actualPos;
+	}
+	
+	public float getAge(){
+		return ((System.currentTimeMillis()-age)/1000f);
+	}
+	
+	public void setPos(Vector3f pos){
+		this.actualPos = pos; 
+	}
+	
+	
 }
