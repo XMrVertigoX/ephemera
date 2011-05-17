@@ -29,7 +29,7 @@ public class Ephemera extends Node{
 	private long				age;	// Alter
 	private Vector3f 			acc;	// Beschleunigungsvektor
 	private Vector3f			vel;	// Geschwindigkeitsvektor
-	private SpatialTransformer 	st; // Animation
+	private SpatialTransformer 	spatialTransformer; // Animation
 	private float 				masse;
 	
 	//public static ModelController loader=new ModelController();
@@ -82,10 +82,10 @@ public class Ephemera extends Node{
 		setModelBound(new BoundingSphere());
 		// Node auf pos bewegen
 		// Animation wird über SpatioalController gesteuert
-		st=new SpatialTransformer(2);
+		spatialTransformer=new SpatialTransformer(2);
         // Melde Objekte an 
-		st.setObject(fluegelr,0,-1);
-        st.setObject(fluegell, 1, -1);
+		spatialTransformer.setObject(fluegelr,0,-1);
+        spatialTransformer.setObject(fluegell, 1, -1);
         
 
         
@@ -95,18 +95,18 @@ public class Ephemera extends Node{
         Quaternion xm45=new Quaternion();
         xm45.fromAngleAxis(-FastMath.DEG_TO_RAD*45,new Vector3f(0,0,1));
         // Verknüpfe im Controller Zeitpunkte mit Quaternionen 
-        st.setRotation(1, 2, xm45);
-        st.setRotation(0,2,x45);
-        st.setRotation(1, 4, x45);
-        st.setRotation(0,4,xm45);
+        spatialTransformer.setRotation(1, 2, xm45);
+        spatialTransformer.setRotation(0,2,x45);
+        spatialTransformer.setRotation(1, 4, x45);
+        spatialTransformer.setRotation(0,4,xm45);
 
         // Controller vorrberreiten 
-        st.interpolateMissing();
-        st.setRepeatType(st.RT_CYCLE);
-        st.setActive(true);
-        st.setSpeed(10+FastMath.nextRandomFloat()*10);
+        spatialTransformer.interpolateMissing();
+        spatialTransformer.setRepeatType(spatialTransformer.RT_CYCLE);
+        spatialTransformer.setActive(true);
+        spatialTransformer.setSpeed(10+FastMath.nextRandomFloat()*10);
         // Node element ist host
-        this.addController(st);
+        this.addController(spatialTransformer);
         
 	}
 	
@@ -216,7 +216,7 @@ public class Ephemera extends Node{
 	    
 	    
 	    
-	    acc.addLocal(SepAliCoh(flies));
+	    //acc.addLocal(SepAliCoh(flies));
 	}
 	/**
 	 * Berechnet Vektor der zum Zentrum des Leittiers zeigt
@@ -248,6 +248,7 @@ public class Ephemera extends Node{
 	    // Passe geschwindigeit an
 	    vel.multLocal(regeln.getFluggeschwindigkeit());
 	    // Position verschieben
+	    spatialTransformer.setSpeed(vel.length()*100);
 	    getLocalTranslation().addLocal(vel);
 	    
 	    acc.mult(0);

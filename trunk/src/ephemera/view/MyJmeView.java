@@ -67,7 +67,7 @@ public class MyJmeView extends SimpleCanvasImpl {
         // Licht und Schatten
         LightState lightState = renderer.createLightState();
         lightState.detachAll();
-        worldNode.setRenderState(lightState);            
+        worldNode.getChild(0).setRenderState(lightState);            
         /*
     	PointLight pl = new PointLight();
 		pl.setDiffuse(ColorRGBA.yellow);
