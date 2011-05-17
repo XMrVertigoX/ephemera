@@ -104,7 +104,7 @@ public class Ephemera extends Node{
         spatialTransformer.interpolateMissing();
         spatialTransformer.setRepeatType(spatialTransformer.RT_CYCLE);
         spatialTransformer.setActive(true);
-        spatialTransformer.setSpeed(10+FastMath.nextRandomFloat()*10);
+        spatialTransformer.setSpeed(1f);//10+FastMath.nextRandomFloat()*10);
         // Node element ist host
         this.addController(spatialTransformer);
         
@@ -240,7 +240,7 @@ public class Ephemera extends Node{
 			  vel.mult(regeln.getMaxforce());
 		}
 	   // "Gucke in Flugrichtung
-	    this.lookAt(getLocalTranslation().subtract(vel.mult(-1)),new Vector3f(0,1,0));
+	    this.lookAt(getLocalTranslation().subtract(vel.mult(-1)),new Vector3f(0,-1,0));
 	    //this.lookAt(vel.cross(Vector3f.UNIT_Y).cross(vel), vel);
 	    // Setze geschiwindigkeit der Flügel annhand 
 	    // Bewegung
@@ -248,7 +248,7 @@ public class Ephemera extends Node{
 	    // Passe geschwindigeit an
 	    vel.multLocal(regeln.getFluggeschwindigkeit());
 	    // Position verschieben
-	    spatialTransformer.setSpeed(vel.length()*100);
+	    spatialTransformer.setSpeed(vel.length()*1000);
 	    getLocalTranslation().addLocal(vel);
 	    
 	    acc.mult(0);

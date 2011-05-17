@@ -16,7 +16,6 @@ import com.jme.renderer.ColorRGBA;
 import com.jme.renderer.Renderer;
 import com.jme.scene.Node;
 import com.jme.scene.Skybox;
-import com.jme.scene.Spatial;
 import com.jme.scene.TriMesh;
 import com.jme.scene.shape.Box;
 import com.jme.scene.shape.Sphere;
@@ -40,14 +39,8 @@ public class WorldController {
 		worldRootNode = new Node("World Root Node");
 		//worldRootNode.setCullHint(Spatial.CullHint.Never);
 		initSky();
-		//generateRandomObjects(5);
+		generateRandomObjects(5);
 		generateTerrain();
-	}
-	
-	public WorldController(int xSize,int ySize,int zSize){
-		worldRootNode = new Node("World Root Node");
-		
-		//worldRootNode.attachChild(generatedHeightMap());
 	}
 	/**
 	 * 
@@ -62,7 +55,6 @@ public class WorldController {
 	 * Lade die Texturen und verknuepfe diese mit Skybox
 	 */
 	public void initSky(){
-		Node s = new Node("Sky");
 		Skybox sky = new Skybox("Skybox",2000,2000,2000);
 		// Lade die Texturen 
 		Texture north = TextureManager.loadTexture(WorldController.class.getClassLoader().getResource("ephemera/SkyboxSkin/cubemap_arch/arch_positive_x.jpg"),Texture.MinificationFilter.BilinearNearestMipMap,Texture.MagnificationFilter.Bilinear); // custom/1.jpg"),Texture.MinificationFilter.BilinearNearestMipMap,Texture.MagnificationFilter.Bilinear);
@@ -80,8 +72,8 @@ public class WorldController {
 		sky.setTexture(Skybox.Face.Down, down);
 		sky.preloadTextures();
 		sky.updateRenderState();
-		s.attachChild(sky);
-		worldRootNode.attachChild(s);
+		
+		worldRootNode.attachChild(sky);
 		
 	}
 	
