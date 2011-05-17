@@ -94,13 +94,13 @@ public class SchwarmController {
 		
 		// Fliegen anmelden 
 		for (Ephemera e:flies){
-			schwarm.attachChild(e.getNode());
+			schwarm.attachChild((Spatial)e.getNode());
 		}
 		// Leittier anmelden 
 		schwarm.attachChild(pathController.getLeittier());
 		
-		schwarm.setModelBound(new BoundingSphere());
-		schwarm.setCullHint(Spatial.CullHint.Never);
+		//schwarm.setModelBound(new BoundingSphere());
+		//schwarm.setCullHint(Spatial.CullHint.Never);
 	}
 	
 	public Node getSwarmNode(){ return schwarm;}

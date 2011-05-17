@@ -50,15 +50,13 @@ public class MyJmeView extends SimpleCanvasImpl {
     	
     	worldController = new WorldController();
 		Node worldNode = worldController.getWorldRootNode();
-		//rootNode.attachChild(worldNode);
 		// Schwarm initialisieren
 		schwarm = new SchwarmController();
 		schwarm.addFlies(400);
 
 		Node schwarmNode = schwarm.getSwarmNode();
-		worldNode.attachChild(schwarmNode);
 		rootNode.attachChild(worldNode);
-			
+		rootNode.attachChild(schwarmNode);	
     	//Color bg = new Color(prefs.getInt("bg_color", 0));
         renderer.setBackgroundColor(ColorRGBA.black);
         cam.setFrustumPerspective(50,50,150, 10000);
