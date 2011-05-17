@@ -54,7 +54,7 @@ public class MyJmeView extends SimpleCanvasImpl {
 		Node schwarmNode = schwarm.getSwarmNode();
 		
 		rootNode.attachChild(schwarmNode);
-		 Jaeger j = new Jaeger(new Vector3f(0,0,0),schwarm.getSchwarm());
+		 Jaeger j = new Jaeger(new Vector3f(0,0,0));
 	
 		//rootNode.attachChild(j.s);
 		
