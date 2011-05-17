@@ -1,10 +1,8 @@
+package ephemera.model;
 /**
- * WorldController 2011 by Semjon Mooraj
- * diese Klasse stellt die Welt dar in der sich die Fliegen bewegen.
- * Die Welt ist standartmäig ein Quadratischer Würfel der Kantenlänge 2000 
+ * World
  */
 
-package ephemera.controller;
 
 import java.net.URL;
 
@@ -28,24 +26,16 @@ import com.jme.util.TextureManager;
 import com.jmex.terrain.TerrainBlock;
 import com.jmex.terrain.util.MidPointHeightMap;
 
+import ephemera.controller.SchwarmController;
 import ephemera.tester.HelloTexture;
 
-public class WorldController {
+public class World {
 
 	private Node worldRootNode;
 	
 	
-	public WorldController(){
+	public World(){
 		worldRootNode = new Node("World Root Node");
-		initSky();
-		//generateRandomObjects(5);
-		generateTerrain();
-	}
-	
-	public WorldController(int xSize,int ySize,int zSize){
-		worldRootNode = new Node("World Root Node");
-		
-		//worldRootNode.attachChild(generatedHeightMap());
 	}
 	/**
 	 * 
@@ -62,12 +52,12 @@ public class WorldController {
 	public void initSky(){
 		Skybox sky = new Skybox("Skybox",2000,2000,2000);
 		// Lade die Texturen 
-		Texture north = TextureManager.loadTexture(WorldController.class.getClassLoader().getResource("ephemera/SkyboxSkin/cubemap_arch/arch_positive_x.jpg"),Texture.MinificationFilter.BilinearNearestMipMap,Texture.MagnificationFilter.Bilinear); // custom/1.jpg"),Texture.MinificationFilter.BilinearNearestMipMap,Texture.MagnificationFilter.Bilinear);
-		Texture east = TextureManager.loadTexture(WorldController.class.getClassLoader().getResource("ephemera/SkyboxSkin/cubemap_arch/arch_negative_z.jpg"),Texture.MinificationFilter.BilinearNearestMipMap,Texture.MagnificationFilter.Bilinear);
-		Texture south = TextureManager.loadTexture(WorldController.class.getClassLoader().getResource("ephemera/SkyboxSkin/cubemap_arch/arch_negative_x.jpg"),Texture.MinificationFilter.BilinearNearestMipMap,Texture.MagnificationFilter.Bilinear);
-		Texture west = TextureManager.loadTexture(WorldController.class.getClassLoader().getResource("ephemera/SkyboxSkin/cubemap_arch/arch_positive_z.jpg"),Texture.MinificationFilter.BilinearNearestMipMap,Texture.MagnificationFilter.Bilinear);
-		Texture up = TextureManager.loadTexture(WorldController.class.getClassLoader().getResource("ephemera/SkyboxSkin/cubemap_arch/arch_positive_y.jpg"),Texture.MinificationFilter.BilinearNearestMipMap,Texture.MagnificationFilter.Bilinear);
-		Texture down = TextureManager.loadTexture(WorldController.class.getClassLoader().getResource("ephemera/SkyboxSkin/cubemap_arch/arch_negative_y.jpg"),Texture.MinificationFilter.BilinearNearestMipMap,Texture.MagnificationFilter.Bilinear);
+		Texture north = TextureManager.loadTexture(World.class.getClassLoader().getResource("ephemera/SkyboxSkin/cubemap_arch/arch_positive_x.jpg"),Texture.MinificationFilter.BilinearNearestMipMap,Texture.MagnificationFilter.Bilinear); // custom/1.jpg"),Texture.MinificationFilter.BilinearNearestMipMap,Texture.MagnificationFilter.Bilinear);
+		Texture east = TextureManager.loadTexture(World.class.getClassLoader().getResource("ephemera/SkyboxSkin/cubemap_arch/arch_negative_z.jpg"),Texture.MinificationFilter.BilinearNearestMipMap,Texture.MagnificationFilter.Bilinear);
+		Texture south = TextureManager.loadTexture(World.class.getClassLoader().getResource("ephemera/SkyboxSkin/cubemap_arch/arch_negative_x.jpg"),Texture.MinificationFilter.BilinearNearestMipMap,Texture.MagnificationFilter.Bilinear);
+		Texture west = TextureManager.loadTexture(World.class.getClassLoader().getResource("ephemera/SkyboxSkin/cubemap_arch/arch_positive_z.jpg"),Texture.MinificationFilter.BilinearNearestMipMap,Texture.MagnificationFilter.Bilinear);
+		Texture up = TextureManager.loadTexture(World.class.getClassLoader().getResource("ephemera/SkyboxSkin/cubemap_arch/arch_positive_y.jpg"),Texture.MinificationFilter.BilinearNearestMipMap,Texture.MagnificationFilter.Bilinear);
+		Texture down = TextureManager.loadTexture(World.class.getClassLoader().getResource("ephemera/SkyboxSkin/cubemap_arch/arch_negative_y.jpg"),Texture.MinificationFilter.BilinearNearestMipMap,Texture.MagnificationFilter.Bilinear);
 		
 		sky.setTexture(Skybox.Face.North, north);
 		sky.setTexture(Skybox.Face.East, east);
@@ -87,7 +77,7 @@ public class WorldController {
 		Node node = new Node("Terrain");
 		DisplaySystem display = DisplaySystem.getDisplaySystem(LWJGLSystemProvider.LWJGL_SYSTEM_IDENTIFIER);
 		// This will be the texture for the terrain.
-        URL grass=HelloTerain.class.getClassLoader().getResource(
+        URL grass=World.class.getClassLoader().getResource(
         		"ephemera/ObjTextures/dirt.jpg");
 
         //  Use the helper class to create a terrain for us.  The terrain will be 64x64

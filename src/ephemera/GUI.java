@@ -839,12 +839,12 @@ public class GUI extends JFrame{
         //3D gedšns
         public void simpleSetup() {
         	worldController = new WorldController();
-    		worldController.generateRandomObjects(100);
+    		//worldController.generateRandomObjects(100);
     		Node worldNode = worldController.getWorldRootNode();
     		rootNode.attachChild(worldNode);
     		// Schwarm initialisieren
     		schwarm = new SchwarmController();
-    		schwarm.addFlies(50);
+    		schwarm.addFlies(100);
     		Node schwarmNode = schwarm.getSwarmNode();
     		
     		
