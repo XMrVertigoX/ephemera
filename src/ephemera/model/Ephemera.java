@@ -5,11 +5,11 @@
 package ephemera.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 import com.jme.animation.SpatialTransformer;
 import com.jme.bounding.BoundingBox;
-import com.jme.bounding.BoundingSphere;
 import com.jme.math.FastMath;
 import com.jme.math.Quaternion;
 import com.jme.math.Vector2f;
@@ -17,6 +17,7 @@ import com.jme.math.Vector3f;
 import com.jme.renderer.ColorRGBA;
 import com.jme.scene.Node;
 import com.jme.scene.Spatial;
+
 import com.jme.scene.TriMesh;
 import com.jme.scene.shape.Sphere;
 import com.jme.util.geom.BufferUtils;
@@ -190,33 +191,24 @@ public class Ephemera extends Node{
 	void berechneAktuelleVektoren(ArrayList<Ephemera> flies,Vector3f leittier) {
 	    // Berechne die Vektoren 
 		Vector3f target = getLeittierZielVector(leittier);
-		
 		Vector3f sep  = separate(flies); 
 	    Vector3f ali = align(flies);
 	    Vector3f coh = cohesion(flies);
+	    //Vector3f randomWalk = randomWalk();
 	    
+	    target.multLocal(regeln.getFollow_weight());
 	    sep.multLocal(regeln.getSep_weight());
 	    ali.multLocal(regeln.getAli_weight());
 	    coh.multLocal(regeln.getCoh_weight());
+	    //randomWalk.multLocal(regeln.getRandomWalk_weight());
+	    
 	    
 	    acc.addLocal(sep);
 	    acc.addLocal(ali);
 	    acc.addLocal(coh);
-	    
-	    //Vector3f randomWalk = randomWalk();
-	    
-	    // Gewichte mit eingestellten Parametern (siehe Regeln)
-	    
-	    // randomWalk.multLocal(regeln.getRandomWalk_weight());
-	    target.multLocal(regeln.getFollow_weight());
-	    // Diese Vektoren auf Beschl. aufaddieren
+	    acc.addLocal(target);
 	    //acc.addLocal(randomWalk);
 	    
-	    acc.addLocal(target);
-	    
-	    
-	    
-	    //acc.addLocal(SepAliCoh(flies));
 	}
 	/**
 	 * Berechnet Vektor der zum Zentrum des Leittiers zeigt
@@ -239,7 +231,8 @@ public class Ephemera extends Node{
 			  vel = vel.normalize();
 			  vel.mult(regeln.getMaxforce());
 		}
-	   // "Gucke in Flugrichtung
+	   
+	    // "Gucke in Flugrichtung
 	    this.lookAt(getLocalTranslation().subtract(vel.mult(-1)),new Vector3f(0,-1,0));
 	    //this.lookAt(vel.cross(Vector3f.UNIT_Y).cross(vel), vel);
 	    // Setze geschiwindigkeit der Flügel annhand 
@@ -254,94 +247,6 @@ public class Ephemera extends Node{
 	    acc.mult(0);
 	  }
 	
-	/**
-	 * SepAliCoh
-	 */
-	public Vector3f SepAliCoh(ArrayList<Ephemera> flies){
-		Vector3f sep = new Vector3f(0,0,0);
-		Vector3f ali = new Vector3f(0,0,0);
-		Vector3f coh = new Vector3f(0,0,0);
-		int sepCount = 0;
-		int aliCount = 0;
-		int cohCount = 0;
-		// Iteriere über alle Fliegen im System
-		for (Ephemera other:flies) {
-			  // Berrechne Abstand zwischen zwei Fliegen
-			  float d = getPos().distance(other.getLocalTranslation());
-			  // Separation
-			  if ((d > 0) && (d < regeln.getDesiredSeparation())) {
-			    // Berechne Vektor der von anderer Fliege wegzeigt 
-				Vector3f diff = getLocalTranslation().subtract(other.getLocalTranslation());
-				diff.normalizeLocal();
-				diff.multLocal(1f/d);        // Gewichte anhand der distanz
-				sep.addLocal(diff);
-				sepCount++;            // Merker wie viele Fliegen einfluss nehmen	
-			  }
-			  // Alignment
-			  if ((d > 0) && (d < regeln.getNeighborDistance())) {
-			        ali.addLocal(other.getVel());
-			        aliCount++;
-			  }
-			  // Cohesion
-			  if ((d > 0) && (d < regeln.getNeighborDistance())) {
-			    	coh.addLocal(other.getLocalTranslation()); // Mittelwert über Fliegen innerhalb des Radiuses berechnen
-			        cohCount++;
-			  }
-			  		  
-		}
-		//System.out.println(sepCount+" "+aliCount+" "+cohCount);
-		// Sep
-		if (sepCount > 0) {
-			  sep.multLocal(1f/(float)sepCount);
-		}	
-		
-		// solange der Vektor größer ist als 0 
-		if (sep.length() > 0) {
-		  // Implement Reynolds: Steering = Desired - Velocity
-		  sep.normalizeLocal();
-		  sep.multLocal(regeln.getMaxspeed());
-		  sep.subtractLocal(vel);
-		  if (sep.length()>regeln.getMaxforce()){
-			  sep.normalizeLocal();
-			  sep.multLocal(regeln.getMaxforce());
-		  }
-		}
-		
-		// Ali
-		if (aliCount > 0) {
-		      ali.multLocal(1f/(float)aliCount);
-		}
-	    
-		//solange größer als 0
-	    if (ali.length() > 0) {
-	      // Implement Reynolds: Steering = Desired - Velocity
-	      ali.normalizeLocal();
-	      ali.multLocal(regeln.getMaxspeed());
-	      ali.subtractLocal(vel);
-	      if (ali.length()>regeln.getMaxforce()){
-			  ali.normalizeLocal();
-			  ali.multLocal(regeln.getMaxforce());
-		  }	
-	    }
-	    
-	    // Coh 
-	    if (cohCount > 0) {
-			 coh.multLocal(1f/(float)count);
-		     return coh;//steer(coh,true);
-		 }	 
-	    //sep.normalizeLocal();
-	    //ali.normalizeLocal();
-	    //coh.normalizeLocal();
-	    // Gewichten
-	    sep.multLocal(regeln.getSep_weight());
-	    ali.multLocal(regeln.getAli_weight());
-	    coh.multLocal(regeln.getCoh_weight());
-	    
-	    sep.addLocal(ali);
-	    sep.addLocal(coh);	  
-			  
-	return sep;
-	}
 	
 	/**
 	 * Separation aus: Flocking by Daniel Shiffman. 

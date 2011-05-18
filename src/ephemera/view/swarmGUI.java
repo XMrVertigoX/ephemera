@@ -65,8 +65,8 @@ import com.jmex.awt.lwjgl.LWJGLAWTCanvasConstructor;
 
 import ephemera.GUI;
 import ephemera.controller.SchwarmController;
-import ephemera.controller.WorldController;
 import ephemera.model.Jaeger;
+import ephemera.model.World;
 
 public class swarmGUI extends JFrame {
 

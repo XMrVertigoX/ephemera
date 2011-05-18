@@ -78,7 +78,7 @@ import javax.swing.event.ChangeListener;
 
 
 import ephemera.controller.SchwarmController;
-import ephemera.controller.WorldController;
+import ephemera.model.World;
 
 import com.jme.light.DirectionalLight;
 import com.jme.light.LightNode;
@@ -124,7 +124,7 @@ public class EphemeraMain extends JFrame {
 	
 
 
-	WorldController 		worldController;
+	World 		worldController;
 	SchwarmController 		schwarm;
 	
 
@@ -784,7 +784,7 @@ public class EphemeraMain extends JFrame {
     	
         //3D gedšns
         public void simpleSetup() {
-        	worldController = new WorldController();
+        	worldController = new World();
     		rootNode.attachChild(worldController.getWorldRootNode());
     		// Schwarm initialisieren
     		schwarm = new SchwarmController();

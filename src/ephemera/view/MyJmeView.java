@@ -18,15 +18,15 @@ import com.jme.util.Debug;
 import com.jme.util.stat.StatCollector;
 
 import ephemera.controller.SchwarmController;
-import ephemera.controller.WorldController;
 import ephemera.model.Jaeger;
+import ephemera.model.World;
 
 public class MyJmeView extends SimpleCanvasImpl {
 	/**
      * The root node of our stat graphs.
      */
 	protected Node statNode;
-	private WorldController 		worldController;
+	private World 		worldController;
 	private SchwarmController 		schwarm;
 	private TextureState 			textureState;
 	private Node root;
@@ -48,11 +48,11 @@ public class MyJmeView extends SimpleCanvasImpl {
     //3D gedšns
     public void simpleSetup() {
     	
-    	worldController = new WorldController();
+    	worldController = new World();
 		Node worldNode = worldController.getWorldRootNode();
 		// Schwarm initialisieren
 		schwarm = new SchwarmController();
-		schwarm.addFlies(400);
+		schwarm.addFlies(300);
 
 		Node schwarmNode = schwarm.getSwarmNode();
 		rootNode.attachChild(worldNode);

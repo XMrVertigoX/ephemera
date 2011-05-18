@@ -42,9 +42,9 @@ import javax.swing.event.ChangeListener;
 
 import ephemera.controller.SchwarmController;
 import ephemera.controller.HunterController;
-import ephemera.controller.WorldController;
 import ephemera.model.Jaeger;
 import ephemera.model.Regeln;
+import ephemera.model.World;
 import ephemera.tester.HelloTexture;
 
 import com.jme.bounding.CollisionTreeManager;
@@ -83,7 +83,7 @@ import com.jmex.awt.lwjgl.LWJGLAWTCanvasConstructor;
 
 public class GUI extends JFrame{
 
-	private WorldController 		worldController;
+	private World 		worldController;
 	private SchwarmController 		schwarm;
 	private HunterController		hunter;
 	private TextureState 			textureState;
@@ -840,7 +840,7 @@ public class GUI extends JFrame{
     	
         //3D gedšns
         public void simpleSetup() {
-        	worldController = new WorldController();
+        	worldController = new World();
 
     	//	worldController.generateRandomObjects(100);
 
