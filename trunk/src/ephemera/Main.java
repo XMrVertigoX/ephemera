@@ -9,14 +9,14 @@ import com.jme.renderer.ColorRGBA;
 import com.jme.scene.Node;
 
 import ephemera.controller.SchwarmController;
-import ephemera.controller.WorldController;
+import ephemera.model.World;
 
 
 
 
 public class Main extends SimpleGame {
 	
-	WorldController wc;
+	World wc;
 	SchwarmController 		schwarm;
 	//CollisionTreeManager ctm = CollisionTreeManager.getInstance();
 	
@@ -24,7 +24,7 @@ public class Main extends SimpleGame {
 		// Kamera Position
 		cam.setLocation(new Vector3f(50,50,150));
 		// Skybox erstellen
-		wc = new WorldController();
+		wc = new World();
 		
 		// Schwarm initialisieren
 		schwarm = new SchwarmController();

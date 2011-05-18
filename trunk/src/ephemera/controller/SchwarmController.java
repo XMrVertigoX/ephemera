@@ -10,6 +10,7 @@ import java.util.List;
 
 import ephemera.model.Ephemera;
 import ephemera.model.Regeln;
+import ephemera.model.World;
 
 
 import com.jme.bounding.BoundingSphere;
@@ -82,6 +83,7 @@ public class SchwarmController {
 		initSwarmNode();
 		
 	}
+	
 	
 	
 	/**
