@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+
+Class-Path: . /jME_2.1/jme-ogrexml.jar /jME_2.1/jme-gamestat
+ es.jar /jME_2.1/jme-effects.jar /jME_2.1/jme-model.jar 
+ /jME_2.1/lwjgl_util.jar /jME_2.1/lwjgl_util_applet.jar 
+ /jME_2.1/jme-swt.jar /jME_2.1/jinput.jar /jME_2.1/jme-collada.
+ jar /jME_2.1/jme-font.jar /jME_2.1/lwjgl.jar /jME_2.1/
+ gluegen-rt.jar /jME_2.1/swt.jar /jME_2.1/jme-scene.jar 
+ /jME_2.1/jme-awt.jar /jME_2.1/jorbis-0.0.17.jar /jME_2.1/j
+ me-editors.jar /jME_2.1/jme-audio.jar /jME_2.1/jogl.jar 
+ /jME_2.1/jme.jar /jME_2.1/jme-terrain.jar
+
+Sealed: true
+
+Main-Class: ephemera.GUI
