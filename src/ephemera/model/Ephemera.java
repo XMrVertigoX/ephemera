@@ -262,7 +262,7 @@ public class Ephemera extends Node{
 		  float d = getPos().distance(other.getLocalTranslation());
 		  // Ist der Abstabd der >0 also es handelt sich nicht
 		  if ((d > 0) && (d < regeln.getDesiredSeparation())) {
-		    // Berechne Vektor der von anderer Fliege wegzeigt 
+			// Berechne Vektor der von anderer Fliege wegzeigt 
 			Vector3f diff = getLocalTranslation().subtract(other.getLocalTranslation());
 			diff = diff.normalize();
 			diff.mult(1f/d,diff);        // Gewichte anhand der distanz

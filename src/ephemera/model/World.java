@@ -15,6 +15,7 @@ import com.jme.renderer.ColorRGBA;
 import com.jme.renderer.Renderer;
 import com.jme.scene.Node;
 import com.jme.scene.Skybox;
+import com.jme.scene.Spatial.NormalsMode;
 import com.jme.scene.TriMesh;
 import com.jme.scene.shape.Box;
 import com.jme.scene.shape.Sphere;
@@ -34,6 +35,7 @@ public class World {
 
 	private Node worldRootNode;
 	private Node objectNode;
+	private Node terrainNode;
 	
 	public World(){
 		worldRootNode = new Node("World Root Node");
@@ -181,7 +183,7 @@ public class World {
 	 * @param textureState TexturState
 	 * @param ObjectNode rootNode
 	 */
-	private void init( TriMesh spatial, DisplaySystem display, TextureState textureState, Node ObjectNode ) {
+	private void init(TriMesh spatial, DisplaySystem display, TextureState textureState, Node ObjectNode ) {
 	        BlendState alphaState = display.getRenderer().createBlendState();
 	        alphaState.setEnabled( true );
 	        alphaState.setBlendEnabled( true );
@@ -198,7 +200,6 @@ public class World {
 	        material.setDiffuse( color );
 	        material.setAmbient( color.mult( new ColorRGBA( 0.1f, 0.1f, 0.1f, 1 ) ) );
 	        spatial.setRenderState( material );
-
 	        spatial.setRenderState( textureState );
 //	        spatial.setRenderState( display.getRenderer().createWireframeState() );
 	    }
