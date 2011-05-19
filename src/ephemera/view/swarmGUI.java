@@ -32,8 +32,10 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSlider;
 import javax.swing.JSplitPane;
+import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.event.ChangeEvent;
@@ -64,7 +66,11 @@ import com.jme.util.stat.StatCollector;
 import com.jmex.awt.lwjgl.LWJGLAWTCanvasConstructor;
 
 import ephemera.GUI;
+//import ephemera.GUI.CameraHandler;
+//import ephemera.GUI.MyJmeView;
+import ephemera.controller.HunterController;
 import ephemera.controller.SchwarmController;
+import ephemera.controller.WorldController;
 import ephemera.model.Jaeger;
 import ephemera.model.World;
 
@@ -94,6 +100,11 @@ public class swarmGUI extends JFrame {
     private JCheckBoxMenuItem zUp;
 
 
+	// Farben festlegen
+	Color font = new Color(21,159,210);
+	Color bg = new Color(68,68,68);
+	
+	
     public static void main(String[] args) {
     	SwingUtilities.invokeLater(new Runnable() {
 
@@ -103,22 +114,19 @@ public class swarmGUI extends JFrame {
     			} catch (Exception e) {
     				//Hier Fehlermeldung bzw logger
     			}
-    			new swarmGUI();
+    			new GUI();
     		}});
     }
 
     public swarmGUI() {
-    	
-    	try {
+        try {
             init();
-            //camhand.setJmeView(impl);
-            
             // center the frame
             setLocationRelativeTo(null);
+
             // show frame
             setVisible(true);
-            
-            
+
             // init some location dependent sub frames
 
             while (glCanvas == null) {
@@ -130,37 +138,54 @@ public class swarmGUI extends JFrame {
     }
 
     private void init() throws Exception {
-   
-    	updateTitle();
+        updateTitle();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setFont(new Font("Arial", 0, 12));
+        setFont(new Font("DIN", 0, 12));
 
         setJMenuBar(createMenuBar());
      
+        
         //3D view ----------------------------------------------
         JPanel canvasPanel = new JPanel();
         canvasPanel.setLayout(new BorderLayout());
         canvasPanel.add(getGlCanvas(), BorderLayout.CENTER);
-        Dimension minimumSize = new Dimension(150, 150);
-        canvasPanel.setMinimumSize(minimumSize);
+
         
+
         //interface ---------------------------------------------
         JPanel interfacePanel = new JPanel();
         interfacePanel.setLayout(new BorderLayout());
-        interfacePanel.add(createLayerPanel());
+        interfacePanel.setBackground(bg);
         
+        //Tabs---------------------
+        JTabbedPane tabbedPane = new JTabbedPane();
+        tabbedPane.add(new JScrollPane(createOptionsPanel(), JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED), "Grundeinstellungen");
+        tabbedPane.add(new JScrollPane(createAdditionalPanel(), JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED), "Weiteres");
+        tabbedPane.setPreferredSize(new Dimension(300,150));
+
+
+        Dimension minimumSize = new Dimension(150, 150);
+        tabbedPane.setMinimumSize(minimumSize);
+        canvasPanel.setMinimumSize(minimumSize);
+        
+        //linke seite unterteilen
+       // JSplitPane sideSplit = new JSplitPane();
+       // sideSplit.setOrientation(JSplitPane.VERTICAL_SPLIT);
+       // sideSplit.setTopComponent(createLayerPanel());
+       // sideSplit.setDividerLocation(150);
+
         
         //Bildschirm unterteilen in interface und 3D view
         JSplitPane mainSplit = new JSplitPane();
         mainSplit.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
-        mainSplit.setLeftComponent(interfacePanel);
-        mainSplit.setRightComponent(canvasPanel);
-        mainSplit.setDividerLocation(310);
+       // mainSplit.setLeftComponent(interfacePanel);
+        mainSplit.setRightComponent(tabbedPane);
+        mainSplit.setLeftComponent(canvasPanel);
+        mainSplit.setDividerLocation(750);
         getContentPane().add(mainSplit, BorderLayout.CENTER);
 
         grid = createGrid();
-        impl.setGrid(grid);
-        //schwarm = impl.getSchwarm();
+        
         yUp.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 Callable<Void> exe = new Callable<Void>() {
@@ -222,7 +247,44 @@ public class swarmGUI extends JFrame {
 
     private JMenuBar createMenuBar() {
 
-        Action showGrid = new AbstractAction("Show Grid") {
+    	//Neustart-Menuepunkt
+        Action newAction = new AbstractAction("Neustart") {
+            private static final long serialVersionUID = 1L;
+
+            public void actionPerformed(ActionEvent e) {
+                //createNewSystem();
+            }
+        };
+        newAction.putValue(Action.MNEMONIC_KEY, KeyEvent.VK_N);
+
+    	//Neustart-Menuepunkt
+        Action defaultValues = new AbstractAction("Standardeinstellungen wiederherstellen") {
+            private static final long serialVersionUID = 1L;
+
+            public void actionPerformed(ActionEvent e) {
+               
+            }
+        };
+        newAction.putValue(Action.MNEMONIC_KEY, KeyEvent.VK_N);        
+        //Beenden-Menuepunkt
+        Action quit = new AbstractAction("Beenden") {
+            private static final long serialVersionUID = 1L;
+
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        };
+        quit.putValue(Action.MNEMONIC_KEY, KeyEvent.VK_Q);
+
+    	//Datei-Menue wird erstellt
+    	JMenu file = new JMenu("Datei");
+        file.setMnemonic(KeyEvent.VK_F);
+        file.add(newAction);
+        file.add(defaultValues);
+        file.addSeparator();
+        file.add(quit);
+    	
+        Action showGrid = new AbstractAction("Zeige Grid") {
             private static final long serialVersionUID = 1L;
 
             public void actionPerformed(ActionEvent e) {
@@ -235,242 +297,167 @@ public class swarmGUI extends JFrame {
         showGrid.putValue(Action.MNEMONIC_KEY, KeyEvent.VK_G);
 
       
-
-        Action recenter = new AbstractAction("Recenter Camera") {
-            private static final long serialVersionUID = 1L;
-
-            public void actionPerformed(ActionEvent e) {
-                camhand.recenterCamera();
-            }
-        };
-        recenter.putValue(Action.MNEMONIC_KEY, KeyEvent.VK_R);
-
-        yUp = new JCheckBoxMenuItem("Y-Up Camera");
+        yUp = new JCheckBoxMenuItem("Y-Up Kamera");
         yUp.setMnemonic(KeyEvent.VK_Y);
-        zUp = new JCheckBoxMenuItem("Z-Up Camera");
+        zUp = new JCheckBoxMenuItem("Z-Up Kamera");
         zUp.setMnemonic(KeyEvent.VK_Y);
         ButtonGroup upGroup = new ButtonGroup();
         upGroup.add(yUp);
         upGroup.add(zUp);
 
-        JMenu view = new JMenu("View");
+        //Ansichtsmenue
+        JMenu view = new JMenu("Ansicht");
         view.setMnemonic(KeyEvent.VK_V);
         JCheckBoxMenuItem sgitem = new JCheckBoxMenuItem(showGrid);
         sgitem.setSelected(prefs.getBoolean("showgrid", true));
         view.add(sgitem);
         view.addSeparator();
-        view.add(recenter);
         view.add(yUp);
         view.add(zUp);
+        
+        
+        //Hilfe-Menuepunkt
+        Action help = new AbstractAction("Hilfe") {
+            private static final long serialVersionUID = 1L;
 
+            public void actionPerformed(ActionEvent e) {
+           
+            }
+        };
+        newAction.putValue(Action.MNEMONIC_KEY, KeyEvent.VK_N);
+        
+      //Neustart-Menuepunkt
+        Action about = new AbstractAction("Über") {
+            private static final long serialVersionUID = 1L;
+
+            public void actionPerformed(ActionEvent e) {
+               
+            }
+        };
+        newAction.putValue(Action.MNEMONIC_KEY, KeyEvent.VK_N);
+
+        
+        //Infomenue
+        JMenu info = new JMenu("Info");
+        info.setMnemonic(KeyEvent.VK_V);
+        info.add(help);
+        info.add(about);
+        //Datei und werden der Menue-Bar hinzugefügt
         JMenuBar mbar = new JMenuBar();
-      
+        mbar.add(file);
         mbar.add(view);
+        mbar.add(info);
+        
         return mbar;
     }
 
     
+   
     
-    // JPanel, hier werden Buttons etc hinzugefügt allerdings in das "obere" menue (eben: delete & new button)
-    private JPanel createLayerPanel() {
-        // Slider ----------------------------------------------------------------
-        final JSlider numberSlider = new JSlider (){
+    
+    
+    // Erstelle Grundeinstellungen
+    
+    private JPanel createOptionsPanel() {
+    	
 
+        final JLabel countLabel = new JLabel("Maximale Fliegenanzahl");
+        countLabel.setForeground(font);
+        JLabel speedLabel = new JLabel("Simulationsgeschwindigkeit");
+        speedLabel.setForeground(font);
+        JLabel cohLabel = new JLabel("Cohesion");
+        cohLabel.setForeground(font);
+        JLabel aliLabel = new JLabel("Alignment");
+        aliLabel.setForeground(font);
+        JLabel sepLabel = new JLabel("Seperation");
+        sepLabel.setForeground(font);
         
+    	final JSlider countSlider = new JSlider (){
+
             private static final long serialVersionUID = 1L;
         	public void actionPerformed(ActionEvent e) {
-                //  Änderung der Fliegenanzahl
-        		
-        		
-              }
+                //  Fliege hinzufügen
+            }
         
         };
         
-        numberSlider.addChangeListener(new ChangeListener() {
+        countSlider.addChangeListener(new ChangeListener() {
 			
-			@Override
+		
 			public void stateChanged(ChangeEvent ce) {
 				// TODO Auto-generated method stub
-				float value = numberSlider.getValue();
-				System.out.println("Geschwindigkeit: "+value);
-				if (impl.getSchwarm()!=null){
-					impl.getSchwarm().getRegeln().setFluggeschwindigkeit(value);
+				float value = countSlider.getValue()/100f;
+				System.out.println("Maximale Fliegenanzahl "+value);
+				if (schwarm!=null){
+					
+					//schwarm.getRegeln().setFluggeschwindigkeit(value);
+					updateCountLabel(countLabel, countSlider);
 				}
 			}
 		});
-        numberSlider.setMinimum(0);		// Minmalwert
-        numberSlider.setMaximum(20);	// Maximalwert
-        numberSlider.setValue(1);		// Beim Start eingestellter Wert
-        numberSlider.setSnapToTicks(true);	// Automatisches Versetzen deaktiviert
-        numberSlider.setExtent(1);		// Zeiger verspringt 10 Einheiten
-        numberSlider.setOrientation(JSlider.HORIZONTAL);	// horizontale Ausrichtung
-        numberSlider.setPaintTicks(true);	//Striche werden nicht angezeigt
-        numberSlider.setPaintLabels(true);	//Zahlen werden nicht angezeigt
-        numberSlider.setPaintTrack(true);	//Balken wird angezeigt
-        numberSlider.setEnabled(true);
         
+   	// 	countSlider.setMinorTickSpacing(250);
+   	 	countSlider.setMajorTickSpacing(1000);
+        countSlider.setMinimum(0);		// Minmalwert
+        countSlider.setMaximum(3000);	// Maximalwert
+        countSlider.setValue(100);		// Beim Start eingestellter Wert
+        //countSlider.setSnapToTicks(true);	// Automatisches Versetzen deaktiviert
+        //countSlider.setExtent(5);		// Zeiger verspringt 10 Einheiten
+        countSlider.setOrientation(JSlider.HORIZONTAL);	// horizontale Ausrichtung
+        countSlider.setPaintTicks(true);	//Striche werden nicht angezeigt
+        countSlider.setPaintLabels(true);	//Zahlen werden nicht angezeigt
+        countSlider.setPaintTrack(true);	//Balken wird angezeigt
+        countSlider.setEnabled(true);
+        countSlider.setForeground(font);
         
-    	final JSlider cohSlider = new JSlider();
-    		
-    	    cohSlider.addChangeListener(new ChangeListener(){
-    	    	public void stateChanged(ChangeEvent ce) {
-    	    		
-    	    		float value = cohSlider.getValue()/100f;
-    	   
-    	    		impl.getSchwarm().getRegeln().setCoh_weight(value);
+    	final JSlider speedSlider = new JSlider (){
 
-    	    	
-    	    		
-    	    		System.out.println("Cohesion Value:"+value);
-    	    	}
-    	    });
-         
-         
-         cohSlider.setMinimum(0);		// Minmalwert
-         cohSlider.setMaximum(100);	// Maximalwert
-         cohSlider.setSnapToTicks(true);	// Automatisches Versetzen deaktiviert
-         cohSlider.setOrientation(JSlider.HORIZONTAL);	// horizontale Ausrichtung
-         cohSlider.setPaintTicks(true);	//Striche werden nicht angezeigt
-         cohSlider.setPaintLabels(true);	//Zahlen werden nicht angezeigt
-         cohSlider.setPaintTrack(true);	//Balken wird angezeigt
-         cohSlider.setEnabled(true);
-        
-         final	JSlider aliSlider = new JSlider();
-    		
-    	    aliSlider.addChangeListener(new ChangeListener(){
-    	    	public void stateChanged(ChangeEvent ce) {
-    	    		
-    	    		float value = aliSlider.getValue()/100f;
-    	   
-    	    		impl.getSchwarm().getRegeln().setAli_weight(value);
-
-    	    	
-    	    		
-    	    		System.out.println("Alignment Value"+value);
-    	    	}
-    	    });
-    	    
-        aliSlider.setMinimum(0);		// Minmalwert
-        aliSlider.setMaximum(100);	// Maximalwert
-        aliSlider.setSnapToTicks(true);	// Automatisches Versetzen deaktiviert
-        aliSlider.setOrientation(JSlider.HORIZONTAL);	// horizontale Ausrichtung
-        aliSlider.setPaintTicks(true);	//Striche werden nicht angezeigt
-        aliSlider.setPaintLabels(true);	//Zahlen werden nicht angezeigt
-        aliSlider.setPaintTrack(true);	//Balken wird angezeigt
-        aliSlider.setEnabled(true);
-        
-        
-     	final JSlider sepSlider = new JSlider();
-    		
-    	   sepSlider.addChangeListener(new ChangeListener(){
-    	    	public void stateChanged(ChangeEvent ce) {
-    	    		
-    	    		float value = sepSlider.getValue()/100f;
-    	   
-    	    		impl.getSchwarm().getRegeln().setSep_weight(value);
-
-    	    		System.out.println("Separation Value:"+value);
-    	    	}
-    	    });
-           sepSlider.setMinimum(0);		// Minmalwert
-           sepSlider.setMaximum(100);	// Maximalwert
-           sepSlider.setSnapToTicks(true);	// Automatisches Versetzen deaktiviert
-           sepSlider.setOrientation(JSlider.HORIZONTAL);	// horizontale Ausrichtung
-           sepSlider.setPaintTicks(true);	//Striche werden nicht angezeigt
-           sepSlider.setPaintLabels(true);	//Zahlen werden nicht angezeigt
-           sepSlider.setPaintTrack(true);	//Balken wird angezeigt
-           sepSlider.setEnabled(true);   		
-    	
-        final JSlider followSlider = new JSlider();
-        	followSlider.addChangeListener(new ChangeListener(){
-        		public void stateChanged(ChangeEvent ce) {
-	    		
-        			float value = followSlider.getValue()/100f;
-	   
-        			impl.getSchwarm().getRegeln().setFollow_weight(value);
-
-        			System.out.println("Follow Weight:"+value);
-	    	}
-	    });
-           
-           followSlider.setMinimum(0);		// Minmalwert
-           followSlider.setMaximum(100);	// Maximalwert
-           followSlider.setSnapToTicks(true);	// Automatisches Versetzen deaktiviert
-           followSlider.setOrientation(JSlider.HORIZONTAL);	// horizontale Ausrichtung
-           followSlider.setPaintTicks(true);	//Striche werden nicht angezeigt
-           followSlider.setPaintLabels(true);	//Zahlen werden nicht angezeigt
-           followSlider.setPaintTrack(true);	//Balken wird angezeigt
-           followSlider.setEnabled(true);        
-    	
- 
-        final JSlider desiredSlider = new JSlider();
-        	desiredSlider.addChangeListener(new ChangeListener(){
-        		public void stateChanged(ChangeEvent ce) {
-	    		
-        			float value = desiredSlider.getValue();
-	   
-        			impl.getSchwarm().getRegeln().setDesiredSeparation(value);
-
-        			System.out.println("Desire Separation: "+value);
-	    	}
-	    });
-           
-           desiredSlider.setMinimum(0);		// Minmalwert
-           desiredSlider.setMaximum(100);	// Maximalwert
-           desiredSlider.setSnapToTicks(true);	// Automatisches Versetzen deaktiviert
-           desiredSlider.setOrientation(JSlider.HORIZONTAL);	// horizontale Ausrichtung
-           desiredSlider.setPaintTicks(true);	//Striche werden nicht angezeigt
-           desiredSlider.setPaintLabels(true);	//Zahlen werden nicht angezeigt
-           desiredSlider.setPaintTrack(true);	//Balken wird angezeigt
-           desiredSlider.setEnabled(true);             
- 
-           final JSlider neighborSlider = new JSlider();
-
-           neighborSlider.addChangeListener(new ChangeListener(){
-       		public void stateChanged(ChangeEvent ce) {
-	    		
-       			float value = neighborSlider.getValue();
-	   
-       			impl.getSchwarm().getRegeln().setNeighborDistance(value);
-
-       			System.out.println("Neighbor Distance: "+value);
-	    	}
-	    });
-          
-          neighborSlider.setMinimum(0);		// Minmalwert
-          neighborSlider.setMaximum(100);	// Maximalwert
-          neighborSlider.setSnapToTicks(true);	// Automatisches Versetzen deaktiviert
-          neighborSlider.setOrientation(JSlider.HORIZONTAL);	// horizontale Ausrichtung
-          neighborSlider.setPaintTicks(true);	//Striche werden nicht angezeigt
-          neighborSlider.setPaintLabels(true);	//Zahlen werden nicht angezeigt
-          neighborSlider.setPaintTrack(true);	//Balken wird angezeigt
-          neighborSlider.setEnabled(true);   
-          
-        // Alle Labels
-        JLabel numberLabel = new JLabel("Geschwindigkeit: "+numberSlider.getValue());
-        JLabel leittierLabel = new JLabel ("Leittier speed");
-        JLabel maxSpeedLabel = new JLabel("Max Speed");
-        JLabel cohLabel = new JLabel("Cohesion");
-        JLabel aliLabel = new JLabel("Alignment");
-        JLabel sepLabel = new JLabel("Seperation");
-        JLabel followLabel = new JLabel("Follow Weight");
-        JLabel desiredLabel = new JLabel("Desired Separation");
-        JLabel neighborLabel = new JLabel ("Neighbor Distance");
-    	
-    	// New Fly Button ------------------------------------------------------
-        JButton flyButton = new JButton(new AbstractAction("Fly Cam") {
             private static final long serialVersionUID = 1L;
-
-            public void actionPerformed(ActionEvent e) {
-                // Fliege hinzufügen
-            	flycam=!flycam;
-            	System.out.println(flycam);
+        	public void actionPerformed(ActionEvent e) {
+                //  Fliege hinzufügen
             }
-        });
-        flyButton.setMargin(new Insets(1, 1, 1, 1));
-        flyButton.setEnabled(true);
         
-    	// Hunter Button ------------------------------------------------------
+        };
+        
+        speedSlider.addChangeListener(new ChangeListener() {
+			
+		
+			public void stateChanged(ChangeEvent ce) {
+				// TODO Auto-generated method stub
+				float value = speedSlider.getValue()/100f;
+				System.out.println("Maximale Fliegenanzahl "+value);
+				if (schwarm!=null){
+					
+					schwarm.getRegeln().setFluggeschwindigkeit(value);
+				
+				}
+			}
+		});
+        
+        speedSlider.setMinimum(0);		// Minmalwert
+        speedSlider.setMaximum(20);	// Maximalwert
+        speedSlider.setValue(1);		// Beim Start eingestellter Wert
+        speedSlider.setSnapToTicks(true);	// Automatisches Versetzen deaktiviert
+        speedSlider.setExtent(1);		// Zeiger verspringt 10 Einheiten
+        speedSlider.setOrientation(JSlider.HORIZONTAL);	// horizontale Ausrichtung
+        speedSlider.setPaintTicks(true);	//Striche werden nicht angezeigt
+        speedSlider.setPaintLabels(true);	//Zahlen werden nicht angezeigt
+        speedSlider.setPaintTrack(true);	//Balken wird angezeigt
+        speedSlider.setEnabled(true);
+
+        // Fliege hinzufuegen-Button
+        JButton addFlyButton = new JButton(new AbstractAction("Eine Fliege hinzufügen"){
+        	private static final long serialVersionUID = 1L;
+
+        	public void actionPerformed(ActionEvent e) {
+          
+        	}
+        });
+        
+        addFlyButton.setFont(new Font("DIN", Font.BOLD, 12));
+        addFlyButton.setMargin(new Insets(2, 2, 2, 2));
+
+    	// Jaeger hinzufügen-Button
         JButton hunterButton = new JButton(new AbstractAction("Hunter") {
             private static final long serialVersionUID = 1L;
 
@@ -480,97 +467,267 @@ public class swarmGUI extends JFrame {
         });
         hunterButton.setMargin(new Insets(1, 1, 1, 1));
         hunterButton.setEnabled(true);
-
         
-        //Shit button ---------------------------------------------------------
-        JButton shitButton = new JButton(new AbstractAction("Shit") {
+        final JSlider cohSlider = new JSlider();
+		
+	    cohSlider.addChangeListener(new ChangeListener(){
+	    	public void stateChanged(ChangeEvent ce) {
+	    		
+	    		float value = cohSlider.getValue()/100f;
+	   
+	    		schwarm.getRegeln().setCoh_weight(value);
+
+	    	
+	    		
+	    		System.out.println("Cohesion Value:"+value);
+	    	}
+	    });
+     
+	 cohSlider.setMinorTickSpacing(5);
+	 cohSlider.setMajorTickSpacing(20);
+     cohSlider.setMinimum(0);		// Minmalwert
+     cohSlider.setMaximum(100);	// Maximalwert
+     cohSlider.setSnapToTicks(true);	// Automatisches Versetzen deaktiviert
+     cohSlider.setOrientation(JSlider.HORIZONTAL);	// horizontale Ausrichtung
+     cohSlider.setPaintTicks(true);	//Striche werden nicht angezeigt
+     cohSlider.setPaintLabels(true);	//Zahlen werden nicht angezeigt
+     cohSlider.setPaintTrack(true);	//Balken wird angezeigt
+     cohSlider.setEnabled(true);
+     cohSlider.setForeground(font);
+    
+     final	JSlider aliSlider = new JSlider();
+		
+	    aliSlider.addChangeListener(new ChangeListener(){
+	    	public void stateChanged(ChangeEvent ce) {
+	    		
+	    		float value = aliSlider.getValue()/100f;
+	   
+	    		schwarm.getRegeln().setAli_weight(value);
+
+	    		System.out.println("Alignment Value"+value);
+	    	}
+	    });
+	   
+	aliSlider.setMinorTickSpacing(5);
+	aliSlider.setMajorTickSpacing(20);    
+    aliSlider.setMinimum(0);		// Minmalwert
+    aliSlider.setMaximum(100);	// Maximalwert
+    aliSlider.setSnapToTicks(true);	// Automatisches Versetzen deaktiviert
+    aliSlider.setOrientation(JSlider.HORIZONTAL);	// horizontale Ausrichtung
+    aliSlider.setPaintTicks(true);	//Striche werden nicht angezeigt
+    aliSlider.setPaintLabels(true);	//Zahlen werden nicht angezeigt
+    aliSlider.setPaintTrack(true);	//Balken wird angezeigt
+    aliSlider.setEnabled(true);
+    aliSlider.setForeground(font);
+    
+    
+ 	final JSlider sepSlider = new JSlider();
+		
+	   sepSlider.addChangeListener(new ChangeListener(){
+	    	public void stateChanged(ChangeEvent ce) {
+	    		
+	    		float value = sepSlider.getValue()/100f;
+	   
+	    		schwarm.getRegeln().setSep_weight(value);
+
+	    		System.out.println("Separation Value:"+value);
+	    	}
+	    });
+	   
+	   sepSlider.setMinorTickSpacing(5);
+	   sepSlider.setMajorTickSpacing(20);
+       sepSlider.setMinimum(0);		// Minmalwert
+       sepSlider.setMaximum(100);	// Maximalwert
+       sepSlider.setSnapToTicks(true);	// Automatisches Versetzen deaktiviert
+       sepSlider.setOrientation(JSlider.HORIZONTAL);	// horizontale Ausrichtung
+       sepSlider.setPaintTicks(true);	//Striche werden nicht angezeigt
+       sepSlider.setPaintLabels(true);	//Zahlen werden nicht angezeigt
+       sepSlider.setPaintTrack(true);	//Balken wird angezeigt
+       sepSlider.setEnabled(true); 
+       sepSlider.setForeground(font);
+       
+
+       	// Erstelle Panel für Grundeinstellungen
+        JPanel optionsPanel = new JPanel(new GridBagLayout());
+        optionsPanel.setBackground(bg);
+        // Füge dem Tab die Labels, Buttons und Slider hinzu 
+        optionsPanel.add(countLabel, new GridBagConstraints(0, 0, 1, 1,
+                0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE,
+                new Insets(5, 10, 10, 10), 0, 0));
+        optionsPanel.add(countSlider, new GridBagConstraints(0, 1, 5, 1,
+                0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
+                new Insets(5, 10, 10, 10), 0, 0));
+        optionsPanel.add(speedLabel, new GridBagConstraints(0, 2, 1, 1,
+                0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE,
+                new Insets(5, 10, 10, 10), 0, 0));
+        optionsPanel.add(speedSlider, new GridBagConstraints(0, 3, 5, 1,
+                0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
+                new Insets(5, 10, 10, 10), 0, 0));        
+        optionsPanel.add(addFlyButton, new GridBagConstraints(0, 4, 5, 1,
+                0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
+                new Insets(5, 10, 10, 10), 0, 0));
+        optionsPanel.add(addFlyButton, new GridBagConstraints(0, 5, 5, 1,
+                0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
+                new Insets(5, 10, 10, 10), 0, 0));
+        optionsPanel.add(cohLabel, new GridBagConstraints(0, 6, 1, 1,
+                0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE,
+                new Insets(5, 10, 10, 10), 0, 0));
+        optionsPanel.add(cohSlider, new GridBagConstraints(0, 7, 5, 1,
+                0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
+                new Insets(5, 10, 10, 10), 0, 0));
+        optionsPanel.add(aliLabel, new GridBagConstraints(0, 8, 1, 1,
+                0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE,
+                new Insets(5, 10, 10, 10), 0, 0));
+        optionsPanel.add(aliSlider, new GridBagConstraints(0, 9, 5, 1,
+                0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
+                new Insets(5, 10, 10, 10), 0, 0));
+        optionsPanel.add(sepLabel, new GridBagConstraints(0, 10, 1, 1,
+                0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE,
+                new Insets(5, 10, 10, 10), 0, 0));
+        optionsPanel.add(sepSlider, new GridBagConstraints(0, 11, 5, 1,
+                0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
+                new Insets(5, 10, 10, 10), 0, 0));
+
+        return optionsPanel;
+    }
+    
+    private JPanel createAdditionalPanel() {
+
+        final JSlider followSlider = new JSlider();
+        	followSlider.addChangeListener(new ChangeListener(){
+        		public void stateChanged(ChangeEvent ce) {
+	    		
+        			float value = followSlider.getValue()/100f;
+	   
+        			schwarm.getRegeln().setFollow_weight(value);
+
+        			System.out.println("Follow Weight:"+value);
+	    	}
+	    });
+           
+       	   followSlider.setMinorTickSpacing(5);
+    	   followSlider.setMajorTickSpacing(20);
+           followSlider.setSnapToTicks(true);	// Automatisches Versetzen deaktiviert
+           followSlider.setOrientation(JSlider.HORIZONTAL);	// horizontale Ausrichtung
+           followSlider.setPaintTicks(true);	//Striche werden nicht angezeigt
+           followSlider.setPaintLabels(true);	//Zahlen werden nicht angezeigt
+           followSlider.setPaintTrack(true);	//Balken wird angezeigt
+           followSlider.setEnabled(true); 
+           followSlider.setForeground(font);
+    	
+ 
+        final JSlider desiredSlider = new JSlider();
+        	desiredSlider.addChangeListener(new ChangeListener(){
+        		public void stateChanged(ChangeEvent ce) {
+	    		
+        			float value = desiredSlider.getValue();
+	   
+        			schwarm.getRegeln().setDesiredSeparation(value);
+
+        			System.out.println("Desire Separation: "+value);
+	    	}
+	    });
+           
+        	desiredSlider.setMinorTickSpacing(5);
+        	desiredSlider.setMajorTickSpacing(20);
+        	desiredSlider.setSnapToTicks(true);	// Automatisches Versetzen deaktiviert
+        	desiredSlider.setOrientation(JSlider.HORIZONTAL);	// horizontale Ausrichtung
+        	desiredSlider.setPaintTicks(true);	//Striche werden nicht angezeigt
+        	desiredSlider.setPaintLabels(true);	//Zahlen werden nicht angezeigt
+        	desiredSlider.setPaintTrack(true);	//Balken wird angezeigt
+        	desiredSlider.setEnabled(true); 
+        	desiredSlider.setForeground(font);          
+ 
+           final JSlider neighborSlider = new JSlider();
+
+           neighborSlider.addChangeListener(new ChangeListener(){
+       		public void stateChanged(ChangeEvent ce) {
+	    		
+       			float value = neighborSlider.getValue();
+	   
+       			schwarm.getRegeln().setNeighborDistance(value);
+
+       			System.out.println("Neighbor Distance: "+value);
+	    	}
+	    });
+           
+       	   neighborSlider.setMinorTickSpacing(5);
+       	   neighborSlider.setMajorTickSpacing(20);
+          neighborSlider.setMinimum(0);		// Minmalwert
+          neighborSlider.setMaximum(100);	// Maximalwert
+          neighborSlider.setSnapToTicks(true);	// Automatisches Versetzen deaktiviert
+          neighborSlider.setOrientation(JSlider.HORIZONTAL);	// horizontale Ausrichtung
+          neighborSlider.setPaintTicks(true);	//Striche werden nicht angezeigt
+          neighborSlider.setPaintLabels(true);	//Zahlen werden nicht angezeigt
+          neighborSlider.setPaintTrack(true);	//Balken wird angezeigt
+          neighborSlider.setEnabled(true);  
+          neighborSlider.setForeground(font);
+         
+    	
+        JLabel followLabel = new JLabel("Follow Weight");
+        followLabel.setForeground(font);
+        JLabel desiredLabel = new JLabel("Desired Separation");
+        desiredLabel.setForeground(font);
+        JLabel neighborLabel = new JLabel ("Neighbor Distance");
+        neighborLabel.setForeground(font);
+        
+        //Kot hinzufügen-Button
+        JButton shitButton = new JButton(new AbstractAction("Kot hinzufügen") {
             private static final long serialVersionUID = 1L;
 
             public void actionPerformed(ActionEvent e) {
               //  
             }
         });
-        shitButton.setMargin(new Insets(1, 1, 1, 1));
+        
+        shitButton.setFont(new Font("DIN", Font.BOLD, 12));
+        shitButton.setMargin(new Insets(2, 2, 2, 2));
         shitButton.setEnabled(true);
         
+        JPanel addPanel = new JPanel(new GridBagLayout());
+        addPanel.setBackground(bg);
+        
 
-        //Grid ----------------------------------------------------------------
-        JPanel layerPanel = new JPanel(new GridBagLayout());
-        layerPanel.add(numberLabel, new GridBagConstraints(0, 0, 1, 1,
-                0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE,
+        addPanel.add(shitButton, new GridBagConstraints(0, 12, 1, 1,
+                0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE,
                 new Insets(5, 10, 10, 10), 0, 0));
-    /*    layerPanel.add(leittierLabel, new GridBagConstraints(0, 2, 1, 1,
-                0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE,
+        addPanel.add(followLabel, new GridBagConstraints(0, 13, 1, 1,
+                0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE,
+                new Insets(5, 10, 10, 10), 0, 0));  
+        addPanel.add(followSlider, new GridBagConstraints(0, 14, 5, 1,
+                0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
                 new Insets(5, 10, 10, 10), 0, 0));
-     */
-    /*    layerPanel.add(maxSpeedLabel, new GridBagConstraints(0, 4, 1, 1,
-                0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE,
-                new Insets(5, 10, 10, 10), 0, 0));
-    */
-        layerPanel.add(cohLabel, new GridBagConstraints(0, 6, 1, 1,
-                0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE,
-                new Insets(5, 10, 10, 10), 0, 0));
-        layerPanel.add(aliLabel, new GridBagConstraints(0, 8, 1, 1,
-                0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE,
-                new Insets(5, 10, 10, 10), 0, 0));
-        layerPanel.add(sepLabel, new GridBagConstraints(0, 10, 1, 1,
-                0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE,
+        addPanel.add(desiredLabel, new GridBagConstraints(0, 15, 1, 1,
+                0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE,
                 new Insets(5, 10, 10, 10), 0, 0)); 
-        layerPanel.add(followLabel, new GridBagConstraints(0, 13, 1, 1,
-                0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE,
-                new Insets(5, 10, 10, 10), 0, 0));       
-        layerPanel.add(desiredLabel, new GridBagConstraints(0, 15, 1, 1,
-                0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE,
+        addPanel.add(desiredSlider, new GridBagConstraints(0, 16, 5, 1,
+                0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
+                new Insets(5, 10, 10, 10), 0, 0));
+        addPanel.add(neighborLabel, new GridBagConstraints(0, 17, 1, 1,
+                0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE,
                 new Insets(5, 10, 10, 10), 0, 0)); 
-        layerPanel.add(neighborLabel, new GridBagConstraints(0, 17, 1, 1,
-                0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE,
-                new Insets(5, 10, 10, 10), 0, 0)); 
-        // Buttons, Slider zum layerPanel hinzufügen ----------------------------------
-        layerPanel.add(numberSlider, new GridBagConstraints(0, 1, 5, 1,
-                0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
-                new Insets(5, 10, 10, 10), 0, 0));
-    /*    layerPanel.add(leitSlider, new GridBagConstraints(0, 3, 5, 1,
-                0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
-                new Insets(5, 10, 10, 10), 0, 0));
-    */
-    /*    layerPanel.add(maxSpeedSlider, new GridBagConstraints(0, 5, 5, 1,
-                0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
-                new Insets(5, 10, 10, 10), 0, 0));
-    */
-        layerPanel.add(cohSlider, new GridBagConstraints(0, 7, 5, 1,
-                0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
-                new Insets(5, 10, 10, 10), 0, 0));
-        layerPanel.add(aliSlider, new GridBagConstraints(0, 9, 5, 1,
-                0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
-                new Insets(5, 10, 10, 10), 0, 0));
-        layerPanel.add(sepSlider, new GridBagConstraints(0, 11, 5, 1,
-                0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
-                new Insets(5, 10, 10, 10), 0, 0));
-        layerPanel.add(flyButton, new GridBagConstraints(0, 12, 1, 1,
-        		0.0,0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE,
-                new Insets(5, 10, 10, 10), 0, 0));
-        layerPanel.add(hunterButton, new GridBagConstraints(1, 12, 1, 1,
-                0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE,
-                new Insets(5, 10, 10, 10), 0, 0));
-        layerPanel.add(shitButton, new GridBagConstraints(2, 12, 1, 1,
-                0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE,
-                new Insets(5, 10, 10, 10), 0, 0));
-        layerPanel.add(followSlider, new GridBagConstraints(0, 14, 5, 1,
-                0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
-                new Insets(5, 10, 10, 10), 0, 0));
-        layerPanel.add(desiredSlider, new GridBagConstraints(0, 16, 5, 1,
-                0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
-                new Insets(5, 10, 10, 10), 0, 0));
-        layerPanel.add(neighborSlider, new GridBagConstraints(0, 18, 5, 1,
-                0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
+        addPanel.add(neighborSlider, new GridBagConstraints(0, 18, 5, 1,
+                0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
                 new Insets(5, 10, 10, 10), 0, 0));
         
-        return layerPanel;
+        
+        return addPanel;
+    }
+    
+    
+    private void updateCountLabel(JLabel cl, JSlider cs) {
+        JLabel countLabel=cl;
+        JSlider countSlider=cs;
+    	int val = countSlider.getValue();
+        countLabel.setText("Maximale Fliegenanzahl: " + val);
     }
 
  
 
-   
+    private ColorRGBA makeColorRGBA(Color color) {
+        return new ColorRGBA(color.getRed() / 255f, color.getGreen() / 255f,
+                color.getBlue() / 255f, color.getAlpha() / 255f);
+    }
 
 
 
@@ -592,14 +749,15 @@ public class swarmGUI extends JFrame {
                     doResize();
                 }
             });
-            impl = new MyJmeView(width, height);
+
             camhand = new CamHandler();
-            camhand.setJmeView(impl);
+
             glCanvas.addMouseWheelListener(camhand);
             glCanvas.addMouseListener(camhand);
             glCanvas.addMouseMotionListener(camhand);
 
             // Important! Here is where we add the guts to the canvas:
+            impl = new MyJmeView(width, height);
 
             ((JMECanvas) glCanvas).setImplementor(impl);
 
@@ -623,6 +781,7 @@ public class swarmGUI extends JFrame {
         glCanvas.setSize(glCanvas.getWidth(), glCanvas.getHeight() - 1);
     }
 
+ 
     protected void doResize() {
         if (impl != null) {
             impl.resizeCanvas(glCanvas.getWidth(), glCanvas.getHeight());
@@ -642,7 +801,8 @@ public class swarmGUI extends JFrame {
             }
         }
     }
-    
+
+
 
     private Geometry createGrid() {
         Vector3f[] vertices = new Vector3f[GRID_LINES * 2 * 2];
