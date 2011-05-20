@@ -52,6 +52,7 @@ public class MyJmeView extends SimpleCanvasImpl {
 		Node worldNode = worldController.getWorldRootNode();
 		// Schwarm initialisieren
 		schwarm = new SchwarmController();
+		schwarm.setWorld(worldController);
 		schwarm.addFlies(300);
 
 		Node schwarmNode = schwarm.getSwarmNode();

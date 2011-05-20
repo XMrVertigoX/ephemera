@@ -145,6 +145,7 @@ public class World {
 			box.setLocalTranslation(new Vector3f(x,y,z));
 			// Hier werden die Texturen angemeldet
 			init(box,display,ts,obj);
+	
 		}
 		worldRootNode.attachChild(obj);
 		objectNode=obj;
@@ -193,7 +194,7 @@ public class World {
 	        ObjectNode.attachChild( spatial );
 	        spatial.setRenderQueueMode( Renderer.QUEUE_TRANSPARENT );
 	        spatial.setRenderState( alphaState );
-
+	        spatial.updateModelBound();
 	        MaterialState material = display.getRenderer().createMaterialState();
 	        material.setShininess( 128 );
 	        ColorRGBA color = new ColorRGBA( 0.7f, 0.7f, 0.7f, 1f );
