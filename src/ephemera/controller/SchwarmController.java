@@ -23,7 +23,7 @@ public class SchwarmController {
 	private Node schwarm;
 	private ArrayList<Ephemera> flies;
 	private PathController pathController;
-	
+	World world;
 	/**
 	 * Konstruktor erstellt ArrayListe, Pathcontroller
 	 */
@@ -31,7 +31,9 @@ public class SchwarmController {
 		flies = new ArrayList<Ephemera>();
 		pathController = new PathController(new Regeln());
 	}
-	
+	public void setWorld(World w){
+		world = w;
+	}
 	
 	/**
 	 * gibt Regeln der Fliege zurueck
@@ -39,13 +41,14 @@ public class SchwarmController {
 	public Regeln getRegeln(){
 		return flies.get(0).getRegeln();
 	}
+	
 	/**
 	 * Update der Position aller Fliegen aufgrund der Position des Leittieres
 	 */
 	public void updateAll(){
 		Vector3f temp = pathController.getPosition();
 		for (Ephemera e:flies){
-			e.run(flies,temp);
+			e.run(flies,temp,world);
 		}
 		
 	}

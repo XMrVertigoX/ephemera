@@ -177,9 +177,14 @@ public class Ephemera extends Node{
 	 * @param boids
 	 * @param leittier
 	 */
-	public void run(ArrayList<Ephemera> boids, Vector3f leittier) {
-	    berechneAktuelleVektoren(boids,leittier);
+	public void run(ArrayList<Ephemera> boids, Vector3f leittier,World world) {
+		berechneAktuelleVektoren(boids,leittier,world);
 	    updateMember(); 	
+	}
+	public boolean kollider(Node world){
+		List<Spatial> obj = world.getChildren();
+		System.out.println(obj.size());
+		return false;
 	}
 	/**
 	 * Navigationsmodul
@@ -188,8 +193,9 @@ public class Ephemera extends Node{
 	 * @param flies
 	 * @param leittier
 	 */
-	void berechneAktuelleVektoren(ArrayList<Ephemera> flies,Vector3f leittier) {
-	    // Berechne die Vektoren 
+	void berechneAktuelleVektoren(ArrayList<Ephemera> flies,Vector3f leittier,World world) {
+	    
+		// Berechne die Vektoren 
 		Vector3f target = getLeittierZielVector(leittier);
 		Vector3f sep  = separate(flies); 
 	    Vector3f ali = align(flies);
