@@ -8,5 +8,5 @@ Class-Path: lib/jme-audio.jar lib/jme-awt.jar lib/jme-collada.jar lib
  lib/lib/lwjgl/jinput.jar lib/lib/lwjgl/lwjgl_util_applet.jar lib/lib
  /lwjgl/lwjgl_util.jar lib/lib/lwjgl/lwjgl.jar lib/jme-swt.jar lib/li
  b/lwjgl/native/macosx
-Main-Class: ephemera.GUI
+Main-Class: ephemera.view.swarmGUI
 
