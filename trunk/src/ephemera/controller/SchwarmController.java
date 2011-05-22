@@ -49,6 +49,7 @@ public class SchwarmController {
 		Vector3f temp = pathController.getPosition();
 		for (Ephemera e:flies){
 			e.run(flies,temp,world);
+			//e.kollider(schwarm);
 		}
 		
 	}
@@ -69,6 +70,7 @@ public class SchwarmController {
 	 */
 	void deleteFly(Ephemera dead){
 		flies.remove(dead);
+		schwarm.detachChildNamed(dead.getName());
 	}
 	
 	
@@ -99,10 +101,10 @@ public class SchwarmController {
 		
 		// Fliegen anmelden 
 		for (Ephemera e:flies){
-			schwarm.attachChild((Spatial)e.getNode());
+			schwarm.attachChild((Spatial)e);
 		}
 		// Leittier anmelden 
-		schwarm.attachChild(pathController.getLeittier());
+		//schwarm.attachChild(pathController.getLeittier());
 		
 		//schwarm.setModelBound(new BoundingSphere());
 		//schwarm.setCullHint(Spatial.CullHint.Never);
@@ -115,5 +117,5 @@ public class SchwarmController {
 	public ArrayList<Ephemera> getSchwarm(){
 		return flies;
 	}
-	
+	public PathController getPathController(){ return pathController;}
 }

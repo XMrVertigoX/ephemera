@@ -31,7 +31,6 @@ public class Ephemera extends Node{
 	private Vector3f 			acc;	// Beschleunigungsvektor
 	private Vector3f			vel;	// Geschwindigkeitsvektor
 	private SpatialTransformer 	spatialTransformer; // Animation
-	private float 				masse;
 	
 	//public static ModelController loader=new ModelController();
 	
@@ -76,10 +75,10 @@ public class Ephemera extends Node{
 		TriMesh fluegelr = getFluegel(-5,0,0,-5,0,1);
 		TriMesh fluegell = getFluegel(5,0,0,5,0,1);		
 		
-		attachChild(fluegelr);
-		attachChild(fluegell);
 		attachChild(body);
 		attachChild(head);
+		attachChild(fluegelr);
+		attachChild(fluegell);
 		// Node auf pos bewegen
 		// Animation wird Ÿber SpatioalController gesteuert
 		spatialTransformer=new SpatialTransformer(2);
@@ -106,9 +105,9 @@ public class Ephemera extends Node{
         spatialTransformer.setActive(true);
         spatialTransformer.setSpeed(1f);//10+FastMath.nextRandomFloat()*10);
         // Node element ist host
-        
         this.addController(spatialTransformer);
-        this.setCullHint(cullHint.Never);
+        setModelBound(new BoundingBox());
+        updateModelBound();
 	}
 	
 	
@@ -162,15 +161,7 @@ public class Ephemera extends Node{
         // Feed the information to the TriMesh
         m.reconstruct(BufferUtils.createFloatBuffer(vertexes), BufferUtils.createFloatBuffer(normals),
                 null, null, BufferUtils.createIntBuffer(indexes));
-
-        // Create a bounds
-        m.setModelBound(new BoundingBox());
-        m.updateModelBound();
         return m;
-	}
-	
-	public Node getNode(){	
-		return this;
 	}
 	/**
 	 * Methode die von jeweiliger Fliege implemetiert wird um Flugbahn zu berrechen und anzuwenden
@@ -181,10 +172,25 @@ public class Ephemera extends Node{
 		berechneAktuelleVektoren(boids,leittier,world);
 	    updateMember(); 	
 	}
-	public boolean kollider(Node world){
-		List<Spatial> obj = world.getChildren();
-		System.out.println(obj.size());
-		return false;
+	public Vector3f kollider(Node schwarmNode){
+		Vector3f steerAway = new Vector3f();
+		List<Spatial> list = schwarmNode.getChildren();
+		for (int i=0;i<list.size();i++){
+			Spatial s = list.get(i);
+			float d = this.getLocalTranslation().distance(s.getLocalTranslation());
+			if (hasCollision(s, false)){
+				System.out.println(s.getName()+" "+this.getName());
+				return steerAway;
+			}
+		}
+		/*
+		for (Spatial s:list){
+			System.out.println(s.getName());
+			float d = this.getLocalTranslation().distance(s.getLocalTranslation());
+			if (d>0 && hasCollision(s.getParent(), false))System.out.println(s.getName());
+			return true;
+		}*/
+		return new Vector3f();
 	}
 	/**
 	 * Navigationsmodul
@@ -195,6 +201,11 @@ public class Ephemera extends Node{
 	 */
 	void berechneAktuelleVektoren(ArrayList<Ephemera> flies,Vector3f leittier,World world) {
 	    
+		
+		Vector3f koll = new Vector3f();
+		if (world!=null){
+			koll = kollider(world.getObjectNode());
+		}
 		// Berechne die Vektoren 
 		Vector3f target = getLeittierZielVector(leittier);
 		Vector3f sep  = separate(flies); 
@@ -208,13 +219,13 @@ public class Ephemera extends Node{
 	    coh.multLocal(regeln.getCoh_weight());
 	    //randomWalk.multLocal(regeln.getRandomWalk_weight());
 	    
-	    
+	    //if (kollider(this.getParent())) sep.multLocal(4f)
 	    acc.addLocal(sep);
 	    acc.addLocal(ali);
 	    acc.addLocal(coh);
 	    acc.addLocal(target);
 	    //acc.addLocal(randomWalk);
-	    
+	   
 	}
 	/**
 	 * Berechnet Vektor der zum Zentrum des Leittiers zeigt
@@ -262,9 +273,8 @@ public class Ephemera extends Node{
 	 */
 	Vector3f separate (ArrayList<Ephemera> flies) {
 	    Vector3f steer = new Vector3f(0,0,0);
-	    int count = 0;
-	    // FŸr alle Fliegen im System
-		for (Ephemera other:flies) {
+	    int count = 0;		
+	    for (Ephemera other:flies) {
 		  float d = getPos().distance(other.getLocalTranslation());
 		  // Ist der Abstabd der >0 also es handelt sich nicht
 		  if ((d > 0) && (d < regeln.getDesiredSeparation())) {
@@ -274,13 +284,13 @@ public class Ephemera extends Node{
 			diff.mult(1f/d,diff);        // Gewichte anhand der distanz
 			steer.add(diff,steer);
 			count++;            // Merker wie viele Fliegen einfluss nehmen
-			
 		  }
 		  
 		}
 		// Teile den Vektor durch anzahl der beeinflussenden Fliegen  
 		if (count > 0) {
-		  steer.mult(1f/(float)count,steer);
+		  steer.multLocal(1f/(float)count);
+		  
 		}
 		
 		// solange der Vektor grš§er ist als 0 

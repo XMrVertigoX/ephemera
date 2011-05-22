@@ -150,7 +150,10 @@ public class HunterController {
 	public boolean eatBoid(Vector3f flyPos, int numberBoid){
 		
 		if(actualPos.distance(flyPos)<1){
-			schwarm.getSchwarm().remove(numberBoid);
+			Ephemera e = schwarm.getSchwarm().get(numberBoid);
+			schwarm.getSchwarm().remove(e);
+			schwarm.getSwarmNode().detachChildNamed(e.getName());
+			
 			return true;
 		}
 		else

@@ -8,6 +8,7 @@ package ephemera.model;
 
 import java.net.URL;
 import com.jme.bounding.BoundingBox;
+import com.jme.bounding.BoundingVolume;
 import com.jme.image.Texture;
 import com.jme.math.FastMath;
 import com.jme.math.Vector3f;
@@ -40,7 +41,7 @@ public class World {
 	public World(){
 		worldRootNode = new Node("World Root Node");
 		//initSky();
-		generateRandomObjects(10);
+		generateRandomObjects(30);
 		generateTerrain();
 	}
 	/**
@@ -80,7 +81,7 @@ public class World {
 	
 	
 	private void generateTerrain() {
-		Node node = new Node("Terrain");
+		terrainNode = new Node("Terrain");
 		DisplaySystem display = DisplaySystem.getDisplaySystem(LWJGLSystemProvider.LWJGL_SYSTEM_IDENTIFIER);
 		// This will be the texture for the terrain.
         URL grass=HelloTerain.class.getClassLoader().getResource(
@@ -106,8 +107,9 @@ public class World {
         tb.updateModelBound();
         tb.setLocalTranslation(new Vector3f(1000,-250,1000));
         // Attach the terrain TriMesh to rootNode
-        worldRootNode.attachChild(tb);
-        
+        terrainNode.attachChild(tb);
+        worldRootNode.attachChild(terrainNode);
+        //objectNode.attachChild(terrainNode);
     }
 	
 	/**
@@ -123,7 +125,7 @@ public class World {
 	 * @return ObjectNode
 	 */
 	public void generateRandomObjects(int N){
-		Node obj = new Node("Objekte");
+	    objectNode = new Node("Objekte");
 		// DisplaySystem berreit stellen 
 		DisplaySystem display = DisplaySystem.getDisplaySystem(LWJGLSystemProvider.LWJGL_SYSTEM_IDENTIFIER);
 		// TextureState erstellen 
@@ -144,11 +146,14 @@ public class World {
 			// Verschiebe Objekt
 			box.setLocalTranslation(new Vector3f(x,y,z));
 			// Hier werden die Texturen angemeldet
-			init(box,display,ts,obj);
+			init(box,display,ts,objectNode);
 	
+			box.updateModelBound();
 		}
-		worldRootNode.attachChild(obj);
-		objectNode=obj;
+		objectNode.updateModelBound();
+		worldRootNode.attachChild(objectNode);
+		
+		
 	}
 	/**
 	 * erzeuge einen Fliegenbrutkasten an pos Vector3f mit rate t[s] 

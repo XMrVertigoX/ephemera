@@ -46,7 +46,7 @@ public class Jaeger extends Node{
 	
 		s = new Sphere("jaeger",25,25,5f);
 		attachChild(s);
-	//	s.setModelBound(new BoundingSphere());
+		s.setModelBound(new BoundingSphere());
 		s.setLocalTranslation(actualPos);
 	}
 	

@@ -40,7 +40,7 @@ public class WorldController {
 		//worldRootNode.setCullHint(Spatial.CullHint.Never);
 		//initSky();
 		//generateRandomObjects(5);
-		generateTerrain();
+		//generateTerrain();
 	}
 	/**
 	 * 

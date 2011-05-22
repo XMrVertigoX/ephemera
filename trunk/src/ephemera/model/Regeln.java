@@ -28,15 +28,15 @@ public class Regeln{
 		randomWalk_weight	=	0f;
 		lifeTime			=	30;
 		fluggeschwindigkeit	=	1f;
-		leittierSpeed		=	.01f;
+		leittierSpeed		=	.001f;
 		maxspeed			=	1f;
 		maxforce			=	1f;
-		coh_weight			=	0.01f;
-		ali_weight			=	0.5f;
+		coh_weight			=	0.3f;
+		ali_weight			=	0.2f;
 		sep_weight			=	0.4f;
-		follow_weight		=	0.096f;
+		follow_weight		=	0.0096f;
 		desiredSeparation	=	20.0f;
-		neighborDistance	=	10.0f;			
+		neighborDistance	=	15.0f;			
 	}
 
 	/**
