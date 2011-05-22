@@ -850,7 +850,7 @@ public class GUI extends JFrame{
     		rootNode.attachChild(worldNode);
     		// Schwarm initialisieren
     		schwarm = new SchwarmController();
-    		schwarm.addFlies(100);
+    		schwarm.addFlies(5);
     		Node schwarmNode = schwarm.getSwarmNode();
     		
     		hunter = new HunterController(schwarm);

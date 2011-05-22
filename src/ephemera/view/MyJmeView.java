@@ -26,7 +26,7 @@ public class MyJmeView extends SimpleCanvasImpl {
      * The root node of our stat graphs.
      */
 	protected Node statNode;
-	private World 		worldController;
+	private World 		world;
 	private SchwarmController 		schwarm;
 	private TextureState 			textureState;
 	private Node root;
@@ -48,18 +48,19 @@ public class MyJmeView extends SimpleCanvasImpl {
     //3D gedšns
     public void simpleSetup() {
     	
-    	worldController = new World();
-		Node worldNode = worldController.getWorldRootNode();
+    	world = new World();
+		Node worldNode = world.getWorldRootNode();
 		// Schwarm initialisieren
 		schwarm = new SchwarmController();
-		schwarm.setWorld(worldController);
-		schwarm.addFlies(300);
+		schwarm.setWorld(world);
+		schwarm.addFlies(20);
 
 		Node schwarmNode = schwarm.getSwarmNode();
 		rootNode.attachChild(worldNode);
 		rootNode.attachChild(schwarmNode);	
+		rootNode.attachChild(schwarm.getLeittierNode());
     	//Color bg = new Color(prefs.getInt("bg_color", 0));
-        renderer.setBackgroundColor(ColorRGBA.black);
+        renderer.setBackgroundColor(ColorRGBA.orange);
         cam.setFrustumPerspective(50,50,150, 10000);
 
         
@@ -67,7 +68,6 @@ public class MyJmeView extends SimpleCanvasImpl {
         // Licht und Schatten
         LightState lightState = renderer.createLightState();
         lightState.detachAll();
-        rootNode.setRenderState(lightState);
         /*
     	PointLight pl = new PointLight();
 		pl.setDiffuse(ColorRGBA.yellow);
@@ -80,8 +80,8 @@ public class MyJmeView extends SimpleCanvasImpl {
     	dl.setEnabled(true);
     	dl.setDirection(new Vector3f(1,0,0));
     	lightState.attach(dl);
-    	schwarmNode.setRenderState(lightState);            
-        
+    	//schwarmNode.setRenderState(lightState);            
+        //rootNode.setRenderState(lightState);
     	//schwarmNode.setRenderState(lightState);
         // Finally, a stand alone node (not attached to root on purpose)
     	
@@ -101,7 +101,7 @@ public class MyJmeView extends SimpleCanvasImpl {
 
         rootNode.updateGeometricState(0, true);
         rootNode.updateRenderState();
-        
+        rootNode.updateRenderState();
   
       
 
@@ -114,7 +114,7 @@ public class MyJmeView extends SimpleCanvasImpl {
     
     
     public void simpleUpdate() {
-    	
+    	//schwarm.setWorld(worldController);
     	schwarm.updateAll();
     	
     }

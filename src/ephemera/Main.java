@@ -28,11 +28,12 @@ public class Main extends SimpleGame {
 		
 		// Schwarm initialisieren
 		schwarm = new SchwarmController();
-		schwarm.addFlies(500);
+		schwarm.addFlies(50);
+		schwarm.setWorld(wc);
 		Node n = schwarm.getSwarmNode();
 		rootNode.attachChild(n);
-		wc.generateRandomObjects(10);
 		rootNode.attachChild(wc.getWorldRootNode());
+		rootNode.attachChild(schwarm.getLeittierNode());
 		//ctm.generateCollisionTree(CollisionTree.Type.Sphere, n, true);
 		
 		/*
