@@ -18,6 +18,7 @@ import com.jme.scene.state.MaterialState;
 import com.jme.system.DisplaySystem;
 import com.jme.system.lwjgl.LWJGLSystemProvider;
 
+import ephemera.model.World;
 import ephemera.view.MyJmeView;
 
 
@@ -25,13 +26,13 @@ import ephemera.view.MyJmeView;
 public class ShitController {
 
 	
-	private WorldController worldController;
+	private World worldController;
 	MaterialState shitMaterial;
 	DisplaySystem display = DisplaySystem.getDisplaySystem(LWJGLSystemProvider.LWJGL_SYSTEM_IDENTIFIER);
 	MyJmeView impl ;
 	
 	
-	public ShitController(WorldController worldController){
+	public ShitController(World worldController){
 		this.worldController = worldController;
 	}
 	

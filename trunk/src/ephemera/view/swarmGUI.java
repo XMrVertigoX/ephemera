@@ -345,7 +345,7 @@ public class swarmGUI extends JFrame {
 		});
         
         speedSlider.setMinimum(0);		// Minmalwert
-        speedSlider.setMaximum(20);	// Maximalwert
+        speedSlider.setMaximum(40);	// Maximalwert
         speedSlider.setValue(1);		// Beim Start eingestellter Wert
         speedSlider.setSnapToTicks(true);	// Automatisches Versetzen deaktiviert
         speedSlider.setExtent(1);		// Zeiger verspringt 10 Einheiten
@@ -361,7 +361,7 @@ public class swarmGUI extends JFrame {
         	private static final long serialVersionUID = 1L;
 
         	public void actionPerformed(ActionEvent e) {
-          
+        		impl.getSchwarm().addFly(new Vector3f());
         	}
         });
         

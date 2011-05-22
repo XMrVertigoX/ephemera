@@ -41,7 +41,7 @@ public class World {
 	public World(){
 		worldRootNode = new Node("World Root Node");
 		//initSky();
-		generateRandomObjects(30);
+		generateRandomObjects(60);
 		generateTerrain();
 	}
 	/**
@@ -105,7 +105,7 @@ public class World {
         // Give the terrain a bounding box.
         tb.setModelBound(new BoundingBox());
         tb.updateModelBound();
-        tb.setLocalTranslation(new Vector3f(1000,-250,1000));
+        tb.setLocalTranslation(new Vector3f(1000,-450,1000));
         // Attach the terrain TriMesh to rootNode
         terrainNode.attachChild(tb);
         worldRootNode.attachChild(terrainNode);

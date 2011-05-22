@@ -17,6 +17,7 @@ import com.jme.bounding.BoundingSphere;
 import com.jme.math.Vector3f;
 import com.jme.scene.Node;
 import com.jme.scene.Spatial;
+import com.jme.scene.Spatial.CullHint;
 
 public class SchwarmController {
 	
@@ -88,7 +89,12 @@ public class SchwarmController {
 		initSwarmNode();
 		
 	}
-	
+	public void addFly(Vector3f pos){
+		Ephemera fly= new Ephemera(pos);
+		flies.add(fly);
+		schwarm.attachChild(fly);
+		
+	}
 	
 	
 	/**
@@ -97,8 +103,6 @@ public class SchwarmController {
 	public void initSwarmNode(){
 		// SzeneKnoten für den Schwarm
 		schwarm = new Node("theSwarm");
-		
-		
 		// Fliegen anmelden 
 		for (Ephemera e:flies){
 			schwarm.attachChild((Spatial)e);

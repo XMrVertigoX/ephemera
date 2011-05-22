@@ -178,18 +178,14 @@ public class Ephemera extends Node{
 		for (int i=0;i<list.size();i++){
 			Spatial s = list.get(i);
 			float d = this.getLocalTranslation().distance(s.getLocalTranslation());
-			if (hasCollision(s, false)){
-				System.out.println(s.getName()+" "+this.getName());
+			if (s.getWorldBound().intersects(this.getWorldBound())){//hasCollision(s, false)){
+				steerAway = getLocalTranslation().subtract(s.getLocalTranslation());
+				//System.out.println(s.getName()+" "+this.getName());
+				steerAway.normalizeLocal();
 				return steerAway;
 			}
 		}
-		/*
-		for (Spatial s:list){
-			System.out.println(s.getName());
-			float d = this.getLocalTranslation().distance(s.getLocalTranslation());
-			if (d>0 && hasCollision(s.getParent(), false))System.out.println(s.getName());
-			return true;
-		}*/
+		
 		return new Vector3f();
 	}
 	/**
@@ -224,8 +220,18 @@ public class Ephemera extends Node{
 	    acc.addLocal(ali);
 	    acc.addLocal(coh);
 	    acc.addLocal(target);
-	    //acc.addLocal(randomWalk);
 	   
+	    
+	 // Implement Reynolds: Steering = Desired - Velocity
+		  acc.normalizeLocal();
+		  acc.multLocal(regeln.getMaxspeed());
+		  acc.subtractLocal(vel);
+		  if (acc.length()>regeln.getMaxforce()){
+			  acc.normalizeLocal();
+			  acc.multLocal(regeln.getMaxforce());
+		  }
+	    //acc.addLocal(randomWalk);
+		if (koll.length()!=0)acc = koll;  
 	}
 	/**
 	 * Berechnet Vektor der zum Zentrum des Leittiers zeigt
@@ -287,12 +293,13 @@ public class Ephemera extends Node{
 		  }
 		  
 		}
+	    
 		// Teile den Vektor durch anzahl der beeinflussenden Fliegen  
 		if (count > 0) {
 		  steer.multLocal(1f/(float)count);
 		  
 		}
-		
+		/*
 		// solange der Vektor grš§er ist als 0 
 		if (steer.length() > 0) {
 		  // Implement Reynolds: Steering = Desired - Velocity
@@ -303,8 +310,8 @@ public class Ephemera extends Node{
 			  steer = steer.normalize();
 			  steer.mult(regeln.getMaxforce());
 		  }
-		}
-		return steer;
+		}*/
+		return steer.normalizeLocal();
   }
 	/**
 	 * Alignment aus: Flocking by Daniel Shiffman. 
@@ -317,13 +324,15 @@ public class Ephemera extends Node{
 	    for (Ephemera other:flies) {
 	      float d = getPos().distance(other.getPos());
 	      if ((d > 0) && (d < regeln.getNeighborDistance())) {
-	        steer.add(other.getVel(),steer);
+	        steer.addLocal(other.getVel());
 	        count++;
 	      }
 	    }
+	    
 	    if (count > 0) {
 	      steer.mult(1f/(float)count,steer);
 	    }
+	    /*
 	    //solange grš§er als 0
 	    if (steer.length() > 0) {
 	      // Implement Reynolds: Steering = Desired - Velocity
@@ -334,8 +343,8 @@ public class Ephemera extends Node{
 			  steer = steer.normalize();
 			  steer.mult(regeln.getMaxforce());
 		  }	
-	    }
-    return steer;
+	    }*/
+    return steer.normalizeLocal();
 	}
 	/**
 	 * Cohesion aus: Flocking by Daniel Shiffman. 
@@ -349,13 +358,14 @@ public class Ephemera extends Node{
 		    if ((d > 0) && (d < regeln.getNeighborDistance())) {
 		    	sum.addLocal(other.getLocalTranslation()); // Mittelwert Ÿber Fliegen innerhalb des Radiuses berechnen
 		        count++;
-		    }
-		 }
+		    } 
+		}
+		
 		 if (count > 0) {
 			 sum.multLocal(1f/(float)count);
-		     return steer(sum,true);
+		     //return steer(sum,true);
 		 }	 
-		 return sum;
+		 return sum.normalizeLocal();
 	}
 	/**
 	 * steer aus: Flocking by Daniel Shiffman. 
@@ -372,7 +382,7 @@ public class Ephemera extends Node{
 	      // Normalize desired
 	      desired.normalize();
 	      // Two options for desired vector magnitude (1 -- based on distance, 2 -- maxspeed)
-	      if ((slowdown) && (d < 10.0)) desired.multLocal(regeln.getMaxspeed()*(d/10.0f)); // This damping is somewhat arbitrary
+	      if ((slowdown) && (d < 100.0)) desired.multLocal(regeln.getMaxspeed()*(d/100.0f)); // This damping is somewhat arbitrary
 	      else desired.multLocal(regeln.getMaxspeed());
 	      // Steering = Desired minus Velocity
 	      steer = desired.subtractLocal(vel);
