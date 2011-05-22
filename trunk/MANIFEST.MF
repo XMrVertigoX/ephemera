@@ -1,15 +1,12 @@
 Manifest-Version: 1.0
-
-Class-Path: . /jME_2.1/jme-ogrexml.jar /jME_2.1/jme-gamestat
- es.jar /jME_2.1/jme-effects.jar /jME_2.1/jme-model.jar 
- /jME_2.1/lwjgl_util.jar /jME_2.1/lwjgl_util_applet.jar 
- /jME_2.1/jme-swt.jar /jME_2.1/jinput.jar /jME_2.1/jme-collada.
- jar /jME_2.1/jme-font.jar /jME_2.1/lwjgl.jar /jME_2.1/
- gluegen-rt.jar /jME_2.1/swt.jar /jME_2.1/jme-scene.jar 
- /jME_2.1/jme-awt.jar /jME_2.1/jorbis-0.0.17.jar /jME_2.1/j
- me-editors.jar /jME_2.1/jme-audio.jar /jME_2.1/jogl.jar 
- /jME_2.1/jme.jar /jME_2.1/jme-terrain.jar
-
-Sealed: true
-
+Class-Path: lib/jme-audio.jar lib/jme-awt.jar lib/jme-collada.jar lib
+ /jme-editors.jar lib/jme-effects.jar lib/jme-font.jar lib/jme-gamest
+ ats.jar lib/jme-model.jar lib/jme-ogrexml.jar lib/jme-scene.jar lib/
+ jme-terrain.jar lib/jme.jar lib/lib/jme-colladabinding-src.jar lib/l
+ ib/jme-colladabinding.jarlib/lib/jogl/gluegen-rt.jar lib/lib/jogl/jo
+ gl.jar lib/lib/jorbis/jorbis-0.0.17.jar lib/lib/junit/junit-4.1.jar 
+ lib/lib/lwjgl/jinput.jar lib/lib/lwjgl/lwjgl_util_applet.jar lib/lib
+ /lwjgl/lwjgl_util.jar lib/lib/lwjgl/lwjgl.jar lib/jme-swt.jar lib/li
+ b/lwjgl/native/macosx
 Main-Class: ephemera.GUI
+
