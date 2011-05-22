@@ -27,16 +27,16 @@ public class Regeln{
 	public Regeln(){
 		randomWalk_weight	=	0f;
 		lifeTime			=	30;
-		fluggeschwindigkeit	=	1f;
-		leittierSpeed		=	.001f;
+		fluggeschwindigkeit	=	2.71f;
+		leittierSpeed		=	.01f;
 		maxspeed			=	1f;
 		maxforce			=	1f;
 		coh_weight			=	0.3f;
 		ali_weight			=	0.2f;
 		sep_weight			=	0.4f;
-		follow_weight		=	0.0096f;
-		desiredSeparation	=	20.0f;
-		neighborDistance	=	15.0f;			
+		follow_weight		=	0.1f;
+		desiredSeparation	=	40.0f;
+		neighborDistance	=	20.0f;			
 	}
 
 	/**

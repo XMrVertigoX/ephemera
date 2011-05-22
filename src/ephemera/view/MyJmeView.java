@@ -3,6 +3,7 @@ package ephemera.view;
 import java.awt.Color;
 
 import com.jme.light.DirectionalLight;
+import com.jme.light.PointLight;
 import com.jme.math.Vector3f;
 import com.jme.renderer.ColorRGBA;
 import com.jme.renderer.Renderer;
@@ -53,14 +54,14 @@ public class MyJmeView extends SimpleCanvasImpl {
 		// Schwarm initialisieren
 		schwarm = new SchwarmController();
 		schwarm.setWorld(world);
-		schwarm.addFlies(20);
+		schwarm.addFlies(200);
 
 		Node schwarmNode = schwarm.getSwarmNode();
 		rootNode.attachChild(worldNode);
 		rootNode.attachChild(schwarmNode);	
 		rootNode.attachChild(schwarm.getLeittierNode());
     	//Color bg = new Color(prefs.getInt("bg_color", 0));
-        renderer.setBackgroundColor(ColorRGBA.orange);
+        renderer.setBackgroundColor(ColorRGBA.darkGray);
         cam.setFrustumPerspective(50,50,150, 10000);
 
         
@@ -69,21 +70,21 @@ public class MyJmeView extends SimpleCanvasImpl {
         LightState lightState = renderer.createLightState();
         lightState.detachAll();
         /*
-    	PointLight pl = new PointLight();
+        PointLight pl = new PointLight();
 		pl.setDiffuse(ColorRGBA.yellow);
 		pl.setLinear(1f);
 		pl.setEnabled(true);
 		pl.setLocation(schwarm.getLeittierNode().getLocalTranslation());
-		*/
-        //lightState.attach(pl);
+        lightState.attach(pl);
+        */
         DirectionalLight dl = new DirectionalLight();
     	dl.setEnabled(true);
     	dl.setDirection(new Vector3f(1,0,0));
     	lightState.attach(dl);
-    	//schwarmNode.setRenderState(lightState);            
-        //rootNode.setRenderState(lightState);
     	//schwarmNode.setRenderState(lightState);
-        // Finally, a stand alone node (not attached to root on purpose)
+        
+    	
+    	// Finally, a stand alone node (not attached to root on purpose)
     	
     	grid.updateRenderState();  
         rootNode.attachChild(grid);
@@ -100,7 +101,6 @@ public class MyJmeView extends SimpleCanvasImpl {
         //GUINode.updateRenderState();
 
         rootNode.updateGeometricState(0, true);
-        rootNode.updateRenderState();
         rootNode.updateRenderState();
   
       
