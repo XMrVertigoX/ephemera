@@ -10,6 +10,7 @@ import java.util.List;
 
 import com.jme.animation.SpatialTransformer;
 import com.jme.bounding.BoundingBox;
+import com.jme.bounding.BoundingSphere;
 import com.jme.math.FastMath;
 import com.jme.math.Quaternion;
 import com.jme.math.Vector2f;
@@ -107,7 +108,7 @@ public class Ephemera extends Node{
         spatialTransformer.setSpeed(1f);//10+FastMath.nextRandomFloat()*10);
         // Node element ist host
         this.addController(spatialTransformer);
-        setModelBound(new BoundingBox());
+        setModelBound(new BoundingSphere());
         updateModelBound();
 	}
 	

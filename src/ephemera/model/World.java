@@ -8,6 +8,7 @@ package ephemera.model;
 
 import java.net.URL;
 import com.jme.bounding.BoundingBox;
+import com.jme.bounding.BoundingSphere;
 import com.jme.bounding.BoundingVolume;
 import com.jme.image.Texture;
 import com.jme.math.FastMath;
@@ -40,7 +41,7 @@ public class World {
 	
 	public World(){
 		worldRootNode = new Node("World Root Node");
-		generateRandomObjects(60);
+		generateRandomObjects(20);
 		generateTerrain();
 		//initSky();
 		
