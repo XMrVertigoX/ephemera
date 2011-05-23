@@ -66,14 +66,15 @@ public class Ephemera extends Node{
 		// Form der Fliege
 		Sphere body = new Sphere("Koerper",10,10,2);
 		Sphere head = new Sphere("Kopf",10,10,1);
-		
+		//body.setIsCollidable(false);
+		body.setLocalScale(new Vector3f(.51f,.51f,2));
 		
 		//Kopf verschieben
-		head.setLocalTranslation(1, 2, 2);
+		head.setLocalTranslation(0, 0, 4);
 
 		
-		TriMesh fluegelr = getFluegel(-5,0,0,-5,0,1);
-		TriMesh fluegell = getFluegel(5,0,0,5,0,1);		
+		TriMesh fluegelr = getFluegel(-10,0,0,-10,0,5);
+		TriMesh fluegell = getFluegel(10,0,0,10,0,5);		
 		
 		attachChild(body);
 		attachChild(head);
@@ -231,7 +232,7 @@ public class Ephemera extends Node{
 			  acc.multLocal(regeln.getMaxforce());
 		  }
 	    //acc.addLocal(randomWalk);
-		if (koll.length()!=0)acc = koll;  
+		if (koll.length()!=0)acc = koll.mult(5);  
 	}
 	/**
 	 * Berechnet Vektor der zum Zentrum des Leittiers zeigt

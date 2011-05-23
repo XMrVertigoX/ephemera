@@ -40,9 +40,10 @@ public class World {
 	
 	public World(){
 		worldRootNode = new Node("World Root Node");
-		//initSky();
 		generateRandomObjects(60);
 		generateTerrain();
+		//initSky();
+		
 	}
 	/**
 	 * 
@@ -57,7 +58,7 @@ public class World {
 	 * Lade die Texturen und verknuepfe diese mit Skybox
 	 */
 	public void initSky(){
-		Skybox sky = new Skybox("Skybox",2000,2000,2000);
+		Skybox sky = new Skybox("Skybox",1000,1000,1000);
 		// Lade die Texturen 
 		Texture north = TextureManager.loadTexture(World.class.getClassLoader().getResource("ephemera/SkyboxSkin/cubemap_arch/arch_positive_x.jpg"),Texture.MinificationFilter.BilinearNearestMipMap,Texture.MagnificationFilter.Bilinear); // custom/1.jpg"),Texture.MinificationFilter.BilinearNearestMipMap,Texture.MagnificationFilter.Bilinear);
 		Texture east = TextureManager.loadTexture(World.class.getClassLoader().getResource("ephemera/SkyboxSkin/cubemap_arch/arch_negative_z.jpg"),Texture.MinificationFilter.BilinearNearestMipMap,Texture.MagnificationFilter.Bilinear);
@@ -77,6 +78,7 @@ public class World {
 		sky.updateRenderState();
 		
 		worldRootNode.attachChild(sky);
+		
 	}
 	
 	
