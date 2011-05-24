@@ -1,9 +1,3 @@
-/**
- * ShitController by Kilian Heinrich
- * diese Klasse verwaltet die eigenschaften eines Magnetischen Objektes "Schei§e" 
- * welches in die Welt hinzugefuegt werden kann.
- */
-
 
 package ephemera.controller;
 
@@ -28,9 +22,8 @@ public class ShitController {
 	
 	private World worldController;
 	MaterialState shitMaterial;
-	DisplaySystem display = DisplaySystem.getDisplaySystem(LWJGLSystemProvider.LWJGL_SYSTEM_IDENTIFIER);
 	MyJmeView impl ;
-	
+	DisplaySystem display = DisplaySystem.getDisplaySystem(LWJGLSystemProvider.LWJGL_SYSTEM_IDENTIFIER);
 	
 	public ShitController(World worldController){
 		this.worldController = worldController;
@@ -40,8 +33,9 @@ public class ShitController {
 	
 	
 	public void mouseShot() {
-    		
-		System.out.println("boom");	
+ 
+		
+		//System.out.println("boom");	
 		/** Material erstellen */
 		shitMaterial = display.getRenderer().createMaterialState();
 		shitMaterial.setEmissive(ColorRGBA.brown.clone());
@@ -51,7 +45,8 @@ public class ShitController {
 		/**anz Shits*/
 		int numShits = 0;
 		
-		Camera cam = impl.getRenderer().getCamera();
+		Camera cam = impl.getCamera();
+		
 
 		Sphere shit = new Sphere("bullet" + numShits++, 8, 8, 2);
 		shit.setModelBound(new BoundingSphere());
@@ -61,9 +56,6 @@ public class ShitController {
 		shit.setLocalTranslation(new Vector3f(cam.getLocation()));
 		shit.setRenderState(shitMaterial);
 
-		/**
-		 * Update in worldcontroller
-		 */
 		shit.updateGeometricState(0, true);
 	
 		/**
