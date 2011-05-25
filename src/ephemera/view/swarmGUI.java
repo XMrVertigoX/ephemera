@@ -224,8 +224,44 @@ public class swarmGUI extends JFrame {
     }
 
     private JMenuBar createMenuBar() {
+    	//Neustart-Menuepunkt
+        Action newAction = new AbstractAction("Neustart") {
+            private static final long serialVersionUID = 1L;
 
-        Action showGrid = new AbstractAction("Show Grid") {
+            public void actionPerformed(ActionEvent e) {
+                //createNewSystem();
+            }
+        };
+        newAction.putValue(Action.MNEMONIC_KEY, KeyEvent.VK_N);
+
+    	//Neustart-Menuepunkt
+        Action defaultValues = new AbstractAction("Standardeinstellungen wiederherstellen") {
+            private static final long serialVersionUID = 1L;
+
+            public void actionPerformed(ActionEvent e) {
+               
+            }
+        };
+        newAction.putValue(Action.MNEMONIC_KEY, KeyEvent.VK_N);        
+        //Beenden-Menuepunkt
+        Action quit = new AbstractAction("Beenden") {
+            private static final long serialVersionUID = 1L;
+
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        };
+        quit.putValue(Action.MNEMONIC_KEY, KeyEvent.VK_Q);
+
+    	//Datei-Menue wird erstellt
+    	JMenu file = new JMenu("Datei");
+        file.setMnemonic(KeyEvent.VK_F);
+        file.add(newAction);
+        file.add(defaultValues);
+        file.addSeparator();
+        file.add(quit);
+    	
+        Action showGrid = new AbstractAction("Zeige Grid") {
             private static final long serialVersionUID = 1L;
 
             public void actionPerformed(ActionEvent e) {
@@ -238,39 +274,61 @@ public class swarmGUI extends JFrame {
         showGrid.putValue(Action.MNEMONIC_KEY, KeyEvent.VK_G);
 
       
-
-        Action recenter = new AbstractAction("Recenter Camera") {
-            private static final long serialVersionUID = 1L;
-
-            public void actionPerformed(ActionEvent e) {
-                camhand.recenterCamera();
-            }
-        };
-        recenter.putValue(Action.MNEMONIC_KEY, KeyEvent.VK_R);
-
-        yUp = new JCheckBoxMenuItem("Y-Up Camera");
+        yUp = new JCheckBoxMenuItem("Y-Up Kamera");
         yUp.setMnemonic(KeyEvent.VK_Y);
-        zUp = new JCheckBoxMenuItem("Z-Up Camera");
+        zUp = new JCheckBoxMenuItem("Z-Up Kamera");
         zUp.setMnemonic(KeyEvent.VK_Y);
         ButtonGroup upGroup = new ButtonGroup();
         upGroup.add(yUp);
         upGroup.add(zUp);
 
-        JMenu view = new JMenu("View");
+        //Ansichtsmenue
+        JMenu view = new JMenu("Ansicht");
         view.setMnemonic(KeyEvent.VK_V);
         JCheckBoxMenuItem sgitem = new JCheckBoxMenuItem(showGrid);
         sgitem.setSelected(prefs.getBoolean("showgrid", true));
         view.add(sgitem);
         view.addSeparator();
-        view.add(recenter);
         view.add(yUp);
         view.add(zUp);
+        
+        
+        //Hilfe-Menuepunkt
+        Action help = new AbstractAction("Hilfe") {
+            private static final long serialVersionUID = 1L;
 
+            public void actionPerformed(ActionEvent e) {
+           
+            }
+        };
+        newAction.putValue(Action.MNEMONIC_KEY, KeyEvent.VK_N);
+        
+      //Neustart-Menuepunkt
+        Action about = new AbstractAction("Ueber") {
+            private static final long serialVersionUID = 1L;
+
+            public void actionPerformed(ActionEvent e) {
+               
+            }
+        };
+        newAction.putValue(Action.MNEMONIC_KEY, KeyEvent.VK_N);
+
+        
+        //Infomenue
+        JMenu info = new JMenu("Info");
+        info.setMnemonic(KeyEvent.VK_V);
+        info.add(help);
+        info.add(about);
+
+        //Datei und werden der Menue-Bar hinzugefŸgt
         JMenuBar mbar = new JMenuBar();
-      
+        mbar.add(file);
         mbar.add(view);
+        mbar.add(info);
+        
         return mbar;
     }
+
 
 
     // JPanel, hier werden Buttons etc hinzugefï¿½gt allerdings in das "obere" menue (eben: delete & new button)
@@ -281,7 +339,7 @@ public class swarmGUI extends JFrame {
         countLabel.setForeground(white);
         JLabel speedLabel = new JLabel("Simulationsgeschwindigkeit");
         speedLabel.setForeground(white);
-        JLabel cohLabel = new JLabel("Kohï¿½sion");
+        JLabel cohLabel = new JLabel("Kohaesion");
         cohLabel.setForeground(white);
         JLabel aliLabel = new JLabel("Ausrichtung");
         aliLabel.setForeground(white);
@@ -292,7 +350,7 @@ public class swarmGUI extends JFrame {
 
             private static final long serialVersionUID = 1L;
         	public void actionPerformed(ActionEvent e) {
-                //  Fliege hinzufï¿½gen
+               
             }
         
         };
@@ -301,12 +359,9 @@ public class swarmGUI extends JFrame {
 			
 		
 			public void stateChanged(ChangeEvent ce) {
-				// TODO Auto-generated method stub
 				float value = countSlider.getValue()/100f;
 				System.out.println("Maximale Fliegenanzahl "+value);
 				if (schwarm!=null){
-					
-					//schwarm.getRegeln().setFluggeschwindigkeit(value);
 					updateCountLabel(countLabel, countSlider);
 				}
 			}
@@ -330,7 +385,7 @@ public class swarmGUI extends JFrame {
 
             private static final long serialVersionUID = 1L;
         	public void actionPerformed(ActionEvent e) {
-                //  Fliege hinzufï¿½gen
+
             }
         
         };
@@ -339,7 +394,7 @@ public class swarmGUI extends JFrame {
 			
 		
 			public void stateChanged(ChangeEvent ce) {
-				// TODO Auto-generated method stub
+
 				float value = speedSlider.getValue()/10f;
 				System.out.println("Simulationsgeschwindigkeit "+value);
 				if (impl.getSchwarm()!=null){
@@ -362,7 +417,7 @@ public class swarmGUI extends JFrame {
         speedSlider.setForeground(white);
         
         // Fliege hinzufuegen-Button
-        JButton addFlyButton = new JButton(new AbstractAction("Eine Fliege hinzufï¿½gen"){
+        JButton addFlyButton = new JButton(new AbstractAction("Eine Fliege hinzufuegen"){
         	private static final long serialVersionUID = 1L;
 
         	public void actionPerformed(ActionEvent e) {
@@ -582,13 +637,13 @@ public class swarmGUI extends JFrame {
     	
         JLabel followLabel = new JLabel("Folge Leittier");
         followLabel.setForeground(white);
-        JLabel desiredLabel = new JLabel("Gewï¿½nschter Abstand");
+        JLabel desiredLabel = new JLabel("Gewuenschter Abstand");
         desiredLabel.setForeground(white);
         JLabel neighborLabel = new JLabel ("Abstand zum Nachbarn");
         neighborLabel.setForeground(white);
         
         //Kot hinzufï¿½gen-Button
-        JButton shitButton = new JButton(new AbstractAction("Kot hinzufï¿½gen") {
+        JButton shitButton = new JButton(new AbstractAction("Kot hinzufuegen") {
             private static final long serialVersionUID = 1L;
 
             public void actionPerformed(ActionEvent e) {
