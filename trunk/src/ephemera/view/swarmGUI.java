@@ -154,7 +154,12 @@ public class swarmGUI extends JFrame {
         mainSplit.setRightComponent(tabbedPane);
         mainSplit.setLeftComponent(canvasPanel);
         mainSplit.setDividerLocation(750);
+        mainSplit.setContinuousLayout(true);
+        mainSplit.setOneTouchExpandable(true);
+        
         getContentPane().add(mainSplit, BorderLayout.CENTER);
+        
+        
 
         grid = createGrid();
         impl.setGrid(grid);
@@ -268,7 +273,7 @@ public class swarmGUI extends JFrame {
     }
 
 
-    // JPanel, hier werden Buttons etc hinzugefŸgt allerdings in das "obere" menue (eben: delete & new button)
+    // JPanel, hier werden Buttons etc hinzugefï¿½gt allerdings in das "obere" menue (eben: delete & new button)
     private JPanel createOptionsPanel() {
     	
 
@@ -276,7 +281,7 @@ public class swarmGUI extends JFrame {
         countLabel.setForeground(white);
         JLabel speedLabel = new JLabel("Simulationsgeschwindigkeit");
         speedLabel.setForeground(white);
-        JLabel cohLabel = new JLabel("KohŠsion");
+        JLabel cohLabel = new JLabel("Kohï¿½sion");
         cohLabel.setForeground(white);
         JLabel aliLabel = new JLabel("Ausrichtung");
         aliLabel.setForeground(white);
@@ -287,7 +292,7 @@ public class swarmGUI extends JFrame {
 
             private static final long serialVersionUID = 1L;
         	public void actionPerformed(ActionEvent e) {
-                //  Fliege hinzufŸgen
+                //  Fliege hinzufï¿½gen
             }
         
         };
@@ -325,7 +330,7 @@ public class swarmGUI extends JFrame {
 
             private static final long serialVersionUID = 1L;
         	public void actionPerformed(ActionEvent e) {
-                //  Fliege hinzufŸgen
+                //  Fliege hinzufï¿½gen
             }
         
         };
@@ -357,7 +362,7 @@ public class swarmGUI extends JFrame {
         speedSlider.setForeground(white);
         
         // Fliege hinzufuegen-Button
-        JButton addFlyButton = new JButton(new AbstractAction("Eine Fliege hinzufŸgen"){
+        JButton addFlyButton = new JButton(new AbstractAction("Eine Fliege hinzufï¿½gen"){
         	private static final long serialVersionUID = 1L;
 
         	public void actionPerformed(ActionEvent e) {
@@ -368,12 +373,12 @@ public class swarmGUI extends JFrame {
         addFlyButton.setFont(new Font("DIN", Font.BOLD, 12));
         addFlyButton.setMargin(new Insets(2, 2, 2, 2));
 
-    	// Jaeger hinzufŸgen-Button
+    	// Jaeger hinzufï¿½gen-Button
         JButton hunterButton = new JButton(new AbstractAction("Hunter") {
             private static final long serialVersionUID = 1L;
 
             public void actionPerformed(ActionEvent e) {
-              //  JŠger hinzufŸgen
+              //  Jï¿½ger hinzufï¿½gen
             }
         });
         hunterButton.setMargin(new Insets(1, 1, 1, 1));
@@ -390,7 +395,7 @@ public class swarmGUI extends JFrame {
 
 	    	
 	    		
-	    		System.out.println("KohŠsionswert:"+value);
+	    		System.out.println("Kohï¿½sionswert:"+value);
 	    	}
 	    });
      
@@ -458,10 +463,10 @@ public class swarmGUI extends JFrame {
        sepSlider.setForeground(white);
        
 
-       	// Erstelle Panel fŸr Grundeinstellungen
+       	// Erstelle Panel fï¿½r Grundeinstellungen
         JPanel optionsPanel = new JPanel(new GridBagLayout());
         optionsPanel.setBackground(dgrey);
-        // FŸge dem Tab die Labels, Buttons und Slider hinzu 
+        // Fï¿½ge dem Tab die Labels, Buttons und Slider hinzu 
         optionsPanel.add(countLabel, new GridBagConstraints(0, 0, 1, 1,
                 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE,
                 new Insets(5, 10, 10, 10), 0, 0));
@@ -535,7 +540,7 @@ public class swarmGUI extends JFrame {
 	   
         			impl.getSchwarm().getRegeln().setDesiredSeparation(value);
 
-        			System.out.println("GewŸnschter Abstand: "+value);
+        			System.out.println("Gewï¿½nschter Abstand: "+value);
 	    	}
 	    });
            
@@ -577,13 +582,13 @@ public class swarmGUI extends JFrame {
     	
         JLabel followLabel = new JLabel("Folge Leittier");
         followLabel.setForeground(white);
-        JLabel desiredLabel = new JLabel("GewŸnschter Abstand");
+        JLabel desiredLabel = new JLabel("Gewï¿½nschter Abstand");
         desiredLabel.setForeground(white);
         JLabel neighborLabel = new JLabel ("Abstand zum Nachbarn");
         neighborLabel.setForeground(white);
         
-        //Kot hinzufŸgen-Button
-        JButton shitButton = new JButton(new AbstractAction("Kot hinzufŸgen") {
+        //Kot hinzufï¿½gen-Button
+        JButton shitButton = new JButton(new AbstractAction("Kot hinzufï¿½gen") {
             private static final long serialVersionUID = 1L;
 
             public void actionPerformed(ActionEvent e) {
