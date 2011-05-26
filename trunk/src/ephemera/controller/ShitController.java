@@ -23,7 +23,7 @@ public class ShitController {
 	
 	MaterialState shitMaterial;
 	MyJmeView impl ;
-	DisplaySystem display = DisplaySystem.getDisplaySystem(LWJGLSystemProvider.LWJGL_SYSTEM_IDENTIFIER);
+	
 	
 	public ShitController( MyJmeView impl){
 		this.impl = impl;
@@ -35,12 +35,6 @@ public class ShitController {
 	public void mouseShot() {
  
 		
-		//System.out.println("boom");	
-		/** Material erstellen */
-		shitMaterial = display.getRenderer().createMaterialState();
-		shitMaterial.setEmissive(ColorRGBA.brown.clone());
-    	
-	
     	
 		/**anz Shits*/
 		int numShits = 0;
@@ -83,8 +77,8 @@ public class ShitController {
 			/**Lebenszeit*/
 			float lifeTime = 20;
  
-			ShitMover(TriMesh bullet, Vector3f direction) {
-				this.shit = bullet;
+			ShitMover(TriMesh shit, Vector3f direction) {
+				this.shit = shit;
 				this.direction = direction;
 				this.direction.normalizeLocal();
 		}
@@ -109,6 +103,7 @@ public class ShitController {
 			
 			/** Bewege an Position */
 			Vector3f shitPos = shit.getLocalTranslation();
+			
 			shitPos.addLocal(direction.mult(time * speed));
 			shit.setLocalTranslation(shitPos);
 			
