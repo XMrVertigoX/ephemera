@@ -2,6 +2,7 @@
 package ephemera.controller;
 
 import com.jme.bounding.BoundingSphere;
+import com.jme.curve.Curve;
 import com.jme.math.Vector3f;
 import com.jme.renderer.Camera;
 import com.jme.renderer.ColorRGBA;
@@ -76,7 +77,8 @@ public class ShitController {
 		
 			/**Lebenszeit*/
 			float lifeTime = 20;
- 
+			
+		
 			ShitMover(TriMesh shit, Vector3f direction) {
 				this.shit = shit;
 				this.direction = direction;
@@ -103,6 +105,8 @@ public class ShitController {
 			
 			/** Bewege an Position */
 			Vector3f shitPos = shit.getLocalTranslation();
+		
+ 	
 			
 			shitPos.addLocal(direction.mult(time * speed));
 			shit.setLocalTranslation(shitPos);
@@ -111,14 +115,16 @@ public class ShitController {
 			/**
 			 * Kollisionsabfrage
 			 
+			*/
 			
-			if (shit.getWorldBound().intersects(impl.getWorld().getWorldRootNode().getWorldBound())) {
+			
+			if (shit.getWorldBound().intersects(impl.getWorld().getTerrainNode().getWorldBound())) {
 
 				System.out.println("baaaaaaam");
 				speed = 0;
  
 			}
-		*/
+		
 			
 		}
 	}

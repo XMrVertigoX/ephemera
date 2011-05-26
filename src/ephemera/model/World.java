@@ -122,6 +122,13 @@ public class World {
 	public Node getWorldRootNode(){
 		return worldRootNode;
 	}
+	
+	
+	public Node getTerrainNode(){
+		return terrainNode;
+	}
+	
+	
 	/**
 	 * Erstelle Zufallig N Objekte der zufälligen Ausdehnung von 100 RE
 	 * @param N anzahl Objekte die erstellt werden sollen
