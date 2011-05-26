@@ -73,7 +73,7 @@ public class ShitController {
 			Vector3f direction;
  
 			/** Geschwindigkeit */
-			float speed = 100;
+			float speed = 300;
 		
 			/**Lebenszeit*/
 			float lifeTime = 20;
@@ -120,7 +120,6 @@ public class ShitController {
 			
 			if (shit.getWorldBound().intersects(impl.getWorld().getTerrainNode().getWorldBound())) {
 
-				System.out.println("baaaaaaam");
 				speed = 0;
  
 			}
