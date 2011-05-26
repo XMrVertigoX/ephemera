@@ -70,7 +70,8 @@ public class swarmGUI extends JFrame {
 
 	private SchwarmController 		schwarm;
 	private ShitController 			shit;
-	
+	public DisplaySystem display = DisplaySystem.getDisplaySystem(LWJGLSystemProvider.LWJGL_SYSTEM_IDENTIFIER);
+
     private static final long serialVersionUID = 1L;
 
     int width = 640, height = 480;
@@ -237,6 +238,8 @@ public class swarmGUI extends JFrame {
         setTitle("ephemera");
     }
 
+
+    
     private JMenuBar createMenuBar() {
     	//Neustart-Menuepunkt
         Action newAction = new AbstractAction("Neustart") {
@@ -721,7 +724,6 @@ public class swarmGUI extends JFrame {
             // -------------GL STUFF------------------
 
             // make the canvas:
-        	DisplaySystem display = DisplaySystem.getDisplaySystem(LWJGLSystemProvider.LWJGL_SYSTEM_IDENTIFIER);
         	display.registerCanvasConstructor("AWT", LWJGLAWTCanvasConstructor.class);
             glCanvas = (Canvas)display.createCanvas(width, height);
             glCanvas.setMinimumSize(new Dimension(100, 100));
