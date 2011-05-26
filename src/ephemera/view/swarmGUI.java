@@ -8,6 +8,7 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.PopupMenu;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
@@ -20,11 +21,14 @@ import javax.swing.Action;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JSlider;
 import javax.swing.JSplitPane;
@@ -35,6 +39,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
 
 import com.jme.math.FastMath;
 import com.jme.math.Vector3f;
@@ -42,6 +47,7 @@ import com.jme.renderer.Camera;
 import com.jme.renderer.ColorRGBA;
 import com.jme.renderer.Renderer;
 import com.jme.scene.Geometry;
+import com.jme.scene.QuadMesh;
 import com.jme.scene.Spatial;
 import com.jme.system.DisplaySystem;
 import com.jme.system.canvas.JMECanvas;
@@ -53,6 +59,8 @@ import com.jmex.awt.lwjgl.LWJGLAWTCanvasConstructor;
 
 
 import ephemera.controller.SchwarmController;
+import ephemera.controller.ShitController;
+import ephemera.model.World;
 
 public class swarmGUI extends JFrame {
 
@@ -61,6 +69,7 @@ public class swarmGUI extends JFrame {
     private static final float GRID_SPACING = 100f;
 
 	private SchwarmController 		schwarm;
+	private ShitController 			shit;
 	
     private static final long serialVersionUID = 1L;
 
@@ -77,9 +86,9 @@ public class swarmGUI extends JFrame {
             .userNodeForPackage(swarmGUI.class);
 
     private JCheckBoxMenuItem yUp;
-
     private JCheckBoxMenuItem zUp;
 
+    
 	// Farben festlegen
 	Color white = new Color(255,255,255);
 	Color blue = new Color(21,159,210);
@@ -129,9 +138,11 @@ public class swarmGUI extends JFrame {
         setFont(new Font("Arial", 0, 12));
 
         setJMenuBar(createMenuBar());
-     
+       
+        
         //3D view ----------------------------------------------
         JPanel canvasPanel = new JPanel();
+
         canvasPanel.setLayout(new BorderLayout());
         canvasPanel.add(getGlCanvas(), BorderLayout.CENTER);
         Dimension minimumSize = new Dimension(150, 150);
@@ -147,6 +158,8 @@ public class swarmGUI extends JFrame {
         tabbedPane.setPreferredSize(new Dimension(300,150));
 
 
+       
+
         
         //Bildschirm unterteilen in interface und 3D view
         JSplitPane mainSplit = new JSplitPane();
@@ -158,6 +171,7 @@ public class swarmGUI extends JFrame {
         mainSplit.setOneTouchExpandable(true);
         
         getContentPane().add(mainSplit, BorderLayout.CENTER);
+        
         
         
 
@@ -298,7 +312,9 @@ public class swarmGUI extends JFrame {
             private static final long serialVersionUID = 1L;
 
             public void actionPerformed(ActionEvent e) {
-           
+            	
+            
+            
             }
         };
         newAction.putValue(Action.MNEMONIC_KEY, KeyEvent.VK_N);
@@ -320,7 +336,7 @@ public class swarmGUI extends JFrame {
         info.add(help);
         info.add(about);
 
-        //Datei und werden der Menue-Bar hinzugefŸgt
+        //Datei und werden der Menue-Bar hinzugefï¿½gt
         JMenuBar mbar = new JMenuBar();
         mbar.add(file);
         mbar.add(view);
@@ -642,12 +658,18 @@ public class swarmGUI extends JFrame {
         JLabel neighborLabel = new JLabel ("Abstand zum Nachbarn");
         neighborLabel.setForeground(white);
         
-        //Kot hinzufï¿½gen-Button
+        //Kot hinzufuegen-Button
         JButton shitButton = new JButton(new AbstractAction("Kot hinzufuegen") {
             private static final long serialVersionUID = 1L;
 
             public void actionPerformed(ActionEvent e) {
               //  
+            	
+            	
+            	
+				shit = new ShitController( impl);
+            	shit.mouseShot();
+            	
             }
         });
         
