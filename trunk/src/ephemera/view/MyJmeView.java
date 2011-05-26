@@ -46,6 +46,11 @@ public class MyJmeView extends SimpleCanvasImpl {
 	public void setGrid(Geometry grid){
 		this.grid=grid;
 	}
+	
+	public World getWorld(){
+		return world;
+	}
+	
     //3D gedšns
     public void simpleSetup() {
     	

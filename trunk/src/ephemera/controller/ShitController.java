@@ -20,13 +20,13 @@ import ephemera.view.MyJmeView;
 public class ShitController {
 
 	
-	private World worldController;
+	
 	MaterialState shitMaterial;
 	MyJmeView impl ;
 	DisplaySystem display = DisplaySystem.getDisplaySystem(LWJGLSystemProvider.LWJGL_SYSTEM_IDENTIFIER);
 	
-	public ShitController(World worldController){
-		this.worldController = worldController;
+	public ShitController( MyJmeView impl){
+		this.impl = impl;
 	}
 	
 	
@@ -48,7 +48,7 @@ public class ShitController {
 		Camera cam = impl.getCamera();
 		
 
-		Sphere shit = new Sphere("bullet" + numShits++, 8, 8, 2);
+		Sphere shit = new Sphere("bullet" + numShits++, 10, 10, 2);
 		shit.setModelBound(new BoundingSphere());
 		shit.updateModelBound();
 	
@@ -62,7 +62,8 @@ public class ShitController {
 		 * BewegungsController hinzufuegen "ShitMover"
 		 */
 		shit.addController(new ShitMover(shit, new Vector3f(cam.getDirection())));
-		worldController.getWorldRootNode().attachChild(shit);
+		
+		impl.getWorld().getWorldRootNode().attachChild(shit);
 		shit.updateRenderState();
 			
 		
@@ -101,7 +102,7 @@ public class ShitController {
 			
 			/** Entfernen wenn "lebenszeit" vorbei */
 			if (lifeTime < 0) {
-				worldController.getWorldRootNode().detachChild(shit);
+				impl.getWorld().getWorldRootNode().detachChild(shit);
 				shit.removeController(this);
 				return;
 			}
@@ -114,14 +115,15 @@ public class ShitController {
 			
 			/**
 			 * Kollisionsabfrage
-			 */
-			if (shit.getWorldBound().intersects(worldController.getWorldRootNode().getWorldBound())) {
+			 
+			
+			if (shit.getWorldBound().intersects(impl.getWorld().getWorldRootNode().getWorldBound())) {
 
 				System.out.println("baaaaaaam");
 				speed = 0;
  
 			}
-		
+		*/
 			
 		}
 	}
