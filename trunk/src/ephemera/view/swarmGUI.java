@@ -436,40 +436,32 @@ public class swarmGUI extends JFrame {
         speedSlider.setForeground(white);
         
         // Fliege hinzufuegen-Button
-        JButton addFlyButton = new JButton(new AbstractAction("Eine Fliege hinzufuegen"){
+        JButton addFlyButton = new JButton(new AbstractAction("Fliege hinzufuegen"){
         	private static final long serialVersionUID = 1L;
 
         	public void actionPerformed(ActionEvent e) {
         		impl.getSchwarm().addFly(new Vector3f());
+        		System.out.println ("Fliege hinzugefuegt");
         	}
         });
         
         addFlyButton.setFont(new Font("DIN", Font.BOLD, 12));
         addFlyButton.setMargin(new Insets(2, 2, 2, 2));
-
-    	// Jaeger hinzuf�gen-Button
-        JButton hunterButton = new JButton(new AbstractAction("Hunter") {
-            private static final long serialVersionUID = 1L;
-
-            public void actionPerformed(ActionEvent e) {
-              //  J�ger hinzuf�gen
-            }
-        });
-        hunterButton.setMargin(new Insets(1, 1, 1, 1));
-        hunterButton.setEnabled(true);
         
-        final JSlider cohSlider = new JSlider();
-		
+        
+        JSlider cohSlider = new JSlider();
+ /*       System.out.println("Test");
+        cohSlider.setValue((int)(impl.getSchwarm().getRegeln().getCoh_weight()*100));
+        System.out.println("Test2");
+        */
 	    cohSlider.addChangeListener(new ChangeListener(){
 	    	public void stateChanged(ChangeEvent ce) {
 	    		
-	    		float value = cohSlider.getValue()/100f;
-	   
-	    		impl.getSchwarm().getRegeln().setCoh_weight(value);
-
-	    	
+	    		float value = impl.getSchwarm().getRegeln().getCoh_weight();
+	    		//float value = cohSlider.getValue()/100f;
 	    		
-	    		System.out.println("Koh�sionswert:"+value);
+	    		impl.getSchwarm().getRegeln().setCoh_weight(value);
+	    		System.out.println("Kohaesionswert:"+value);
 	    	}
 	    });
      
@@ -485,7 +477,7 @@ public class swarmGUI extends JFrame {
      cohSlider.setEnabled(true);
      cohSlider.setForeground(white);
     
-     final	JSlider aliSlider = new JSlider();
+     final JSlider aliSlider = new JSlider();
 		
 	    aliSlider.addChangeListener(new ChangeListener(){
 	    	public void stateChanged(ChangeEvent ce) {
@@ -661,15 +653,25 @@ public class swarmGUI extends JFrame {
         JLabel neighborLabel = new JLabel ("Abstand zum Nachbarn");
         neighborLabel.setForeground(white);
         
+       	// Jaeger hinzufuegen-Button
+        JButton hunterButton = new JButton(new AbstractAction("Jaeger hinzufuegen") {
+            private static final long serialVersionUID = 1L;
+
+            public void actionPerformed(ActionEvent e) {
+              //  Jaeger hinzufuegen
+            	System.out.println("Jaeger hinzugefuegt");
+            }
+        });
+        hunterButton.setFont(new Font("DIN", Font.BOLD, 12));
+        hunterButton.setMargin(new Insets(2, 2, 2, 2));
+        hunterButton.setEnabled(true);
+        
         //Kot hinzufuegen-Button
         JButton shitButton = new JButton(new AbstractAction("Kot hinzufuegen") {
             private static final long serialVersionUID = 1L;
 
             public void actionPerformed(ActionEvent e) {
-              //  
-            	
-            	
-            	
+
 				shit = new ShitController( impl);
             	shit.mouseShot();
             	
@@ -682,10 +684,13 @@ public class swarmGUI extends JFrame {
         
         JPanel addPanel = new JPanel(new GridBagLayout());
         addPanel.setBackground(dgrey);
-        
 
-        addPanel.add(shitButton, new GridBagConstraints(0, 12, 1, 1,
-                0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE,
+        
+        addPanel.add(hunterButton, new GridBagConstraints(0, 11, 5, 1,
+                0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
+                new Insets(5, 10, 10, 10), 0, 0));
+        addPanel.add(shitButton, new GridBagConstraints(0, 12, 5, 1,
+                0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
                 new Insets(5, 10, 10, 10), 0, 0));
         addPanel.add(followLabel, new GridBagConstraints(0, 13, 1, 1,
                 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE,
