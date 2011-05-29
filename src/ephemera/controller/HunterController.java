@@ -6,10 +6,12 @@ import com.jme.scene.Node;
 
 import ephemera.model.Ephemera;
 import ephemera.model.Jaeger;
+import ephemera.model.World;
 
 public class HunterController {
 	
 	private boolean exits;
+	private World world;
 	private SchwarmController schwarm;
 	private Jaeger j;
 	private Node hunter;
@@ -23,9 +25,11 @@ public class HunterController {
 	private int index = 1;
 	
 	
-	public HunterController(SchwarmController schwarm){
+	public HunterController(World world, SchwarmController schwarm){
+		this.world = world;
 		this.schwarm = schwarm;
 		exits = false;
+		
 	}
 	
 	
@@ -36,7 +40,7 @@ public class HunterController {
 		
 		if(!exits){
 			
-			actualPos = new Vector3f(800,800,800);
+			actualPos = new Vector3f(1000,1000,1000);
 			ZielPos = actualPos;
 			j = new Jaeger(actualPos);
 			hunter = new Node("Hunter");
@@ -83,9 +87,9 @@ public class HunterController {
 		 * wenn jaeger aelter als 20 sekunden ist, dann verlaesst er die simulation,
 		 * indem er zum rand der simulation fliegt (skybox)
 		 */
-		if(j.getAge()>20){
+		if(j.getAge()>200){
 
-			Vector3f weg = new Vector3f(-2000,-2000,-2000);
+			Vector3f weg = new Vector3f(1000,1000,1000);
 			ZielPos = weg.subtract(actualPos);	
 			
 			/**
@@ -93,6 +97,7 @@ public class HunterController {
 			 * wird er entfernt
 			 */
 			if(actualPos.distance(weg)<3){
+				
 				deleteHunter();
 			}	
 		}
@@ -134,7 +139,15 @@ public class HunterController {
 			ZielPos = ZielPos.mult(fac);
 		}
 		
-		actualPos = actualPos.addLocal(ZielPos);
+		if(world.obstacleAvoidance(j)){
+			
+			actualPos = actualPos.addLocal(world.getCollisionVector());
+			
+		}else{
+	
+			actualPos = actualPos.addLocal(ZielPos);
+ 		}
+		
 //		System.out.println(FastMath.RAD_TO_DEG*((lastPos.normalize()).angleBetween((actualPos.normalize()))));
 		
 		j.setPos(actualPos);
@@ -164,8 +177,10 @@ public class HunterController {
 	 * entfernt jaeger aus der simulation
 	 */
 	public void deleteHunter(){
+		
 		exits = false;
 		hunter.detachAllChildren();
+		
 	}
 	
 	

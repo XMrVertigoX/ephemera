@@ -18,6 +18,7 @@ import com.jme.system.canvas.SimpleCanvasImpl;
 import com.jme.util.Debug;
 import com.jme.util.stat.StatCollector;
 
+import ephemera.controller.HunterController;
 import ephemera.controller.SchwarmController;
 import ephemera.model.Jaeger;
 import ephemera.model.World;
@@ -32,9 +33,10 @@ public class MyJmeView extends SimpleCanvasImpl {
 	private TextureState 			textureState;
 	private Node root;
     private Geometry grid;
-    
+    private HunterController hunter;
     boolean flycam=false;
     private Quad labGraph;
+    
     public MyJmeView(int width, int height) {
         super(width, height);
     }
@@ -68,8 +70,10 @@ public class MyJmeView extends SimpleCanvasImpl {
     	//Color bg = new Color(prefs.getInt("bg_color", 0));
         renderer.setBackgroundColor(ColorRGBA.darkGray);
         cam.setFrustumPerspective(50,50,150, 10000);
-
         
+    	hunter = new HunterController(world, schwarm);
+    	hunter.createHunter();
+    	rootNode.attachChild(hunter.getHunterNode());
 
         // Licht und Schatten
         LightState lightState = renderer.createLightState();
@@ -121,6 +125,7 @@ public class MyJmeView extends SimpleCanvasImpl {
     public void simpleUpdate() {
     	//schwarm.setWorld(worldController);
     	schwarm.updateAll();
+    	hunter.updateHunter();
     	
     }
 

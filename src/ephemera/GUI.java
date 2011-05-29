@@ -853,7 +853,7 @@ public class GUI extends JFrame{
     		schwarm.addFlies(5);
     		Node schwarmNode = schwarm.getSwarmNode();
     		
-    		hunter = new HunterController(schwarm);
+    		hunter = new HunterController(worldController, schwarm);
     		hunter.createHunter();
     		rootNode.attachChild(hunter.getHunterNode());
     		

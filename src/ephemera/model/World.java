@@ -7,6 +7,8 @@
 package ephemera.model;
 
 import java.net.URL;
+import java.util.ArrayList;
+
 import com.jme.bounding.BoundingBox;
 import com.jme.bounding.BoundingSphere;
 import com.jme.bounding.BoundingVolume;
@@ -17,6 +19,7 @@ import com.jme.renderer.ColorRGBA;
 import com.jme.renderer.Renderer;
 import com.jme.scene.Node;
 import com.jme.scene.Skybox;
+import com.jme.scene.Spatial;
 import com.jme.scene.Spatial.NormalsMode;
 import com.jme.scene.TriMesh;
 import com.jme.scene.shape.Box;
@@ -38,10 +41,13 @@ public class World {
 	private Node worldRootNode;
 	private Node objectNode;
 	private Node terrainNode;
+	private Vector3f avoidObstacles; 
+	private ArrayList<Spatial> obs;
 	
 	public World(){
 		worldRootNode = new Node("World Root Node");
-		generateRandomObjects(20);
+		obs = new ArrayList<Spatial>();
+		generateRandomObjects(10);
 		generateTerrain();
 		//initSky();
 		
@@ -157,6 +163,7 @@ public class World {
 			box.setLocalTranslation(new Vector3f(x,y,z));
 			// Hier werden die Texturen angemeldet
 			init(box,display,ts,objectNode);
+			obs.add(box);
 	
 			box.updateModelBound();
 		}
@@ -222,5 +229,29 @@ public class World {
 	
 	public Node getObjectNode(){ 
 		return objectNode;
+	}
+	
+	public boolean obstacleAvoidance(Node animal){
+		avoidObstacles = new Vector3f(0,0,0);   
+		
+		// Abbrechen wenn keine Hindernisse vorhanden.
+		if (obs==null) return false;
+		
+		// Wenn Hindernisse vorhanden durchlaufen.
+		for (int i=0;i<obs.size();i++) {
+			
+			if(animal.hasCollision(obs.get(i), false)){
+				
+				// Einen Kurs weg vom Zentrum wählen.
+				avoidObstacles = new Vector3f(animal.getLocalTranslation().subtract(obs.get(i).getLocalTranslation()));
+				avoidObstacles.normalizeLocal();
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public Vector3f getCollisionVector(){
+		return avoidObstacles;
 	}
 }
