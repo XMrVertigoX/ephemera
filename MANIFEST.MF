@@ -1,12 +1,9 @@
 Manifest-Version: 1.0
-Class-Path: lib/jme-audio.jar lib/jme-awt.jar lib/jme-collada.jar lib
- /jme-editors.jar lib/jme-effects.jar lib/jme-font.jar lib/jme-gamest
- ats.jar lib/jme-model.jar lib/jme-ogrexml.jar lib/jme-scene.jar lib/
- jme-terrain.jar lib/jme.jar lib/lib/jme-colladabinding-src.jar lib/l
- ib/jme-colladabinding.jarlib/lib/jogl/gluegen-rt.jar lib/lib/jogl/jo
- gl.jar lib/lib/jorbis/jorbis-0.0.17.jar lib/lib/junit/junit-4.1.jar 
- lib/lib/lwjgl/jinput.jar lib/lib/lwjgl/lwjgl_util_applet.jar lib/lib
- /lwjgl/lwjgl_util.jar lib/lib/lwjgl/lwjgl.jar lib/jme-swt.jar lib/li
- b/lwjgl/native/macosx
+Sealed: true
+Class-Path: lib/jme.jar lib/jme-awt.jar lib/jme-editors.jar lib/jme-eff
+ ects.jar lib/jme-gamestates.jar lib/jme-model.jar lib/jme-scene.jar li
+ b/jme-swt.jar lib/jme-terrain.jar lib/lwjgl/lwjgl.jar lib/lwjgl/lwjgl_
+ util.jar lib/lwjgl/lwjgl_util_applet.jar lib/lwjgl/jinput.jar lib/swt/
+ swt.jar lib/swt/swt_64.jar
 Main-Class: ephemera.view.swarmGUI
 
