@@ -45,6 +45,7 @@ public class Jaeger extends Node{
 	public void initHunter(){
 	
 		s = new Sphere("jaeger",25,25,5f);
+		s.setDefaultColor(new ColorRGBA(1,0,0,0));
 		attachChild(s);
 		s.setModelBound(new BoundingSphere());
 		s.setLocalTranslation(actualPos);
