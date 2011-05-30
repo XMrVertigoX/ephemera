@@ -53,15 +53,6 @@ public class World {
 		
 	}
 	/**
-	 * 
-	 */
-	public Vector3f calcPosition(Vector3f pos){
-		// TO DO
-		// ..
-		// .
-		return new Vector3f(0,0,0);
-	}
-	/**
 	 * Lade die Texturen und verknuepfe diese mit Skybox
 	 */
 	public void initSky(){
@@ -153,7 +144,7 @@ public class World {
 			float z = FastMath.nextRandomInt(1, 300);
 			// Erstelle Objekt
 			TriMesh box = new Box("Box_"+i,new Vector3f(0,0,0),new Vector3f(x,y,z));
-			box.setModelBound(new BoundingBox());
+			box.setModelBound(new BoundingSphere());
 			
 			// Zufällige Position
 			x = FastMath.nextRandomInt(-1000, 1000);

@@ -112,10 +112,6 @@ public class Ephemera extends Node{
         updateModelBound();
 	}
 	
-	
-
-	
-	
 	/**
 	 * Erstelle Linken und Rechten FlŸgel der Fliege (default Model)
 	 * @return
@@ -224,16 +220,21 @@ public class Ephemera extends Node{
 	    acc.addLocal(target);
 	   
 	    
-	 // Implement Reynolds: Steering = Desired - Velocity
-		  acc.normalizeLocal();
-		  acc.multLocal(regeln.getMaxspeed());
-		  acc.subtractLocal(vel);
-		  if (acc.length()>regeln.getMaxforce()){
+	    // Implement Reynolds: Steering = Desired - Velocity
+		acc.normalizeLocal();
+		acc.multLocal(regeln.getMaxspeed());
+		acc.subtractLocal(vel);
+		if (acc.length()>regeln.getMaxforce()){
 			  acc.normalizeLocal();
 			  acc.multLocal(regeln.getMaxforce());
-		  }
+		}
 	    //acc.addLocal(randomWalk);
+		// Kollisionsvermeidung mit Objekten in der Welt
 		if (koll.length()!=0)acc = koll.mult(5);  
+		// Kollisionsvermeidung mit anderen Schwarmmitgliedern
+		Vector3f koli = kollider(this.getParent());
+		if (koli.length()!=0) acc.add(koli).mult(2f);
+		
 	}
 	/**
 	 * Berechnet Vektor der zum Zentrum des Leittiers zeigt
@@ -289,8 +290,8 @@ public class Ephemera extends Node{
 			// Berechne Vektor der von anderer Fliege wegzeigt 
 			Vector3f diff = getLocalTranslation().subtract(other.getLocalTranslation());
 			diff = diff.normalize();
-			diff.mult(1f/d,diff);        // Gewichte anhand der distanz
-			steer.add(diff,steer);
+			diff.multLocal(1f/d);        // Gewichte anhand der distanz
+			steer.addLocal(diff);
 			count++;            // Merker wie viele Fliegen einfluss nehmen
 		  }
 		  

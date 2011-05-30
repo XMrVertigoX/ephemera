@@ -37,9 +37,7 @@ public class HunterController {
 	 * initialisiert den jaeger
 	 */
 	public void createHunter(){
-		
 		if(!exits){
-			
 			actualPos = new Vector3f(1000,1000,1000);
 			ZielPos = actualPos;
 			j = new Jaeger(actualPos);
@@ -78,7 +76,7 @@ public class HunterController {
 	 * falls jaeger ein bestimmtes alter hat, verlaesst er die simulation
 	 */
 	public void updateHunter(){
-		
+		System.out.println(exits);
 		if(!exits){return;}
 		
 		lastPos = ZielPos;
@@ -87,7 +85,7 @@ public class HunterController {
 		 * wenn jaeger aelter als 20 sekunden ist, dann verlaesst er die simulation,
 		 * indem er zum rand der simulation fliegt (skybox)
 		 */
-		if(j.getAge()>200){
+		if(j.getAge()>20){
 
 			Vector3f weg = new Vector3f(1000,1000,1000);
 			ZielPos = weg.subtract(actualPos);	
@@ -177,7 +175,7 @@ public class HunterController {
 	 * entfernt jaeger aus der simulation
 	 */
 	public void deleteHunter(){
-		
+		System.out.println("deleted");
 		exits = false;
 		hunter.detachAllChildren();
 		
