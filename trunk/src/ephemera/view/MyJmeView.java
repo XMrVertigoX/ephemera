@@ -42,6 +42,12 @@ public class MyJmeView extends SimpleCanvasImpl {
     }
     
     
+    public void addNewHunter(){ 
+    	hunter = new HunterController(world, schwarm);
+    	hunter.createHunter();
+    	rootNode.attachChild(hunter.getHunterNode());
+    }
+    
     public SchwarmController getSchwarm(){
     	return schwarm;
     }
@@ -120,8 +126,10 @@ public class MyJmeView extends SimpleCanvasImpl {
 
     
     
-    
-    
+    public HunterController getHunter(){
+    	return hunter;
+    }
+ 
     public void simpleUpdate() {
     	//schwarm.setWorld(worldController);
     	schwarm.updateAll();
