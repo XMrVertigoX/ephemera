@@ -18,9 +18,8 @@ import com.jme.system.canvas.SimpleCanvasImpl;
 import com.jme.util.Debug;
 import com.jme.util.stat.StatCollector;
 
-import ephemera.controller.HunterController;
 import ephemera.controller.SchwarmController;
-import ephemera.model.Jaeger;
+import ephemera.model.Hunter;
 import ephemera.model.World;
 
 public class MyJmeView extends SimpleCanvasImpl {
@@ -33,9 +32,10 @@ public class MyJmeView extends SimpleCanvasImpl {
 	private TextureState 			textureState;
 	private Node root;
     private Geometry grid;
-    private HunterController hunter;
     boolean flycam=false;
     private Quad labGraph;
+    private Hunter hunter;
+    private static boolean exist;
     
     public MyJmeView(int width, int height) {
         super(width, height);
@@ -43,9 +43,11 @@ public class MyJmeView extends SimpleCanvasImpl {
     
     
     public void addNewHunter(){ 
-    	hunter = new HunterController(world, schwarm);
-    	hunter.createHunter();
-    	rootNode.attachChild(hunter.getHunterNode());
+    	if(!exist){
+    		hunter = new Hunter(new Vector3f(1000,1000,1000), world, schwarm);
+    		rootNode.attachChild(hunter);
+    		exist = true;
+    	}
     }
     
     public SchwarmController getSchwarm(){
@@ -77,9 +79,6 @@ public class MyJmeView extends SimpleCanvasImpl {
         renderer.setBackgroundColor(ColorRGBA.darkGray);
         cam.setFrustumPerspective(50,50,150, 10000);
         
-    	hunter = new HunterController(world, schwarm);
-    	hunter.createHunter();
-    	rootNode.attachChild(hunter.getHunterNode());
 
         // Licht und Schatten
         LightState lightState = renderer.createLightState();
@@ -123,19 +122,20 @@ public class MyJmeView extends SimpleCanvasImpl {
     };
 
     
-
-    
-    
-    public HunterController getHunter(){
-    	return hunter;
-    }
- 
     public void simpleUpdate() {
     	//schwarm.setWorld(worldController);
     	schwarm.updateAll();
-    	hunter.updateHunter();
+    	
+    	if(exist){
+    		hunter.updateHunter();
+    	}
     	
     }
+    
+    public void setExist(boolean value){
+    	exist = value;
+    }
+    
 
     
     
