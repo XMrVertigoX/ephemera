@@ -44,10 +44,14 @@ public class MyJmeView extends SimpleCanvasImpl {
     
     public void addNewHunter(){ 
     	if(!exist){
-    		hunter = new Hunter(new Vector3f(1000,1000,1000), world, schwarm);
+    		System.out.println("dabei");
+    		hunter = new Hunter(new Vector3f(300,300,300), world, schwarm);
     		rootNode.attachChild(hunter);
     		exist = true;
     	}
+    }
+    public Hunter getHunter(){
+    	return hunter;
     }
     
     public SchwarmController getSchwarm(){
@@ -129,11 +133,18 @@ public class MyJmeView extends SimpleCanvasImpl {
     	if(exist){
     		hunter.updateHunter();
     	}
+    	else{
+    		rootNode.detachChild(hunter);
+    	}
     	
     }
     
-    public void setExist(boolean value){
+    public static void setExist(boolean value){
     	exist = value;
+    	
+    	if(value==false){
+    		
+    	}
     }
     
 

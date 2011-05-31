@@ -1,7 +1,5 @@
 /**
  * klasse jaeger
- * diese version ist als bastelversion fuer ben und caro gedacht,
- * also noch nicht zur weiterverwendung gedacht
  */
 
 package ephemera.model;
@@ -11,7 +9,7 @@ import com.jme.math.Vector3f;
 import com.jme.renderer.ColorRGBA;
 import com.jme.scene.Node;
 import com.jme.scene.shape.Sphere;
-
+import ephemera.view.MyJmeView;
 import ephemera.controller.SchwarmController;
 
 
@@ -19,17 +17,16 @@ public class Hunter extends Node{
 
 	private static final long serialVersionUID = 1L;
 	public Sphere s; // stellt erst einmal den jaeger dar
-	private long age; // alter des jaegers
+	private float age; // alter des jaegers
 	private Vector3f actualPos;
 	private World world;
 	private SchwarmController swarm;
-	private Node hunter;
 	private Vector3f average;
 	private Vector3f target;
-	private float fac = 5f;
+	private float fac = 10f;
 	private boolean hungry;
-	private boolean eat;
 	private int index = 1;
+	private float lifetime = 20;
 	
 
 	/**
@@ -44,6 +41,7 @@ public class Hunter extends Node{
 		initHunter();
 		this.world = world;
 		this.swarm = swarm;
+		MyJmeView.setExist(true);
 	}
 	
 	/**
@@ -92,9 +90,9 @@ public class Hunter extends Node{
 		 * wenn jaeger aelter als 20 sekunden ist, dann verlaesst er die simulation,
 		 * indem er zum rand der simulation fliegt (skybox)
 		 */
-		if(getAge()>20){
+		if(getAge()>lifetime || (swarm.getSchwarm().size() == 0)){
 
-			Vector3f weg = new Vector3f(1000,1000,1000);
+			Vector3f weg = new Vector3f(300,300,300);
 			target = weg.subtract(actualPos);	
 			
 			/**
@@ -115,44 +113,41 @@ public class Hunter extends Node{
 				target = getAverageSwarmPos().subtract(actualPos);	
 			}
 			else{
-				if(index>0){
+				if(index>=0){
+					if(index>0){
 					index = (swarm.getSchwarm().size())-1;
+					}
 					Vector3f flyPos = swarm.getSchwarm().get(index).getLocalTranslation();
 					target = flyPos.subtract(actualPos);
-					eat = eatBoid(flyPos, index);
-					
-					if(eat){
-						eat = false;
-					}
+					eatBoid(flyPos, index);
+					System.out.println(index);
 				}
 			}
 			
 		}
 		
-		target = target.normalize();
+		target.normalizeLocal();
 		
 		/**
 		 * wenn abstand zum schwarm einen gewissen wert (50) unterschreitet,
 		 * wird die geschwindigkeit reduziert (erst einmal nur zu beobachtungszwecken)
 		 */
 		if(actualPos.distance(getAverageSwarmPos())<50){
-			target = target.mult(fac/10f);
+			target.multLocal(fac/2f);
 			hungry = true;
 		}
 		else{
-			target = target.mult(fac);
+			target.multLocal(fac);
 		}
 		
 		if(world.obstacleAvoidance(this)){
 			
-			actualPos = actualPos.addLocal(world.getCollisionVector());
+			actualPos.addLocal(world.getCollisionVector());
 			
 		}else{
 	
-			actualPos = actualPos.addLocal(target);
+			actualPos.addLocal(target);
  		}
-		
-//		System.out.println(FastMath.RAD_TO_DEG*((lastPos.normalize()).angleBetween((actualPos.normalize()))));
 		
 		setPos(actualPos);
 	}
@@ -164,17 +159,13 @@ public class Hunter extends Node{
 	 * @param numberBoid
 	 * @return
 	 */
-	public boolean eatBoid(Vector3f flyPos, int numberBoid){
+	public void eatBoid(Vector3f flyPos, int numberBoid){
 		
 		if(actualPos.distance(flyPos)<1){
 			Ephemera e = swarm.getSchwarm().get(numberBoid);
 			swarm.getSchwarm().remove(e);
 			swarm.getSwarmNode().detachChildNamed(e.getName());
-			
-			return true;
 		}
-		else
-			return false;
 	}
 	
 	/**
@@ -182,27 +173,19 @@ public class Hunter extends Node{
 	 */
 	public void deleteHunter(){
 		System.out.println("deleted");
-		hunter.detachAllChildren();
-		
+		MyJmeView.setExist(false);
+		this.detachChild(s);
 	}
 	
 	
-	/**
-	 * gibt hunternode zurueck
-	 * @return
-	 */
-	public Node getHunterNode(){
-		return hunter;
+	public void setLifetime(float time){
+		lifetime = time;
 	}
 	
-	/**
-	 * gibt aktuelle jaegerposition zurueck
-	 * @return
-	 */
-	public Vector3f getPos(){
-		
-		return actualPos;
+	public float getLifetime(){
+		return lifetime;
 	}
+	
 	
 	public float getAge(){
 		return ((System.currentTimeMillis()-age)/1000f);

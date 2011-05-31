@@ -580,17 +580,26 @@ public class swarmGUI extends JFrame {
     private JPanel createAdditionalPanel() {
     	
         final JSlider hunterSlider = new JSlider();
-
+        
+        if(impl.getHunter()==null){
+        	hunterSlider.setValue(20);
+        }
         hunterSlider.addChangeListener(new ChangeListener(){
     		public void stateChanged(ChangeEvent ce) {
     		
     			float value = hunterSlider.getValue();
     			
+    			if(impl.getHunter()!=null){
+    				hunterSlider.setValue((int)impl.getHunter().getLifetime());
+    				impl.getHunter().setLifetime(value);
+    				System.out.println(impl.getHunter().getLifetime()+"Zeit");
+    			}
     			
 
     			System.out.println("Jaegerlebensdauer: "+value);
+    		//	
     	}
-    });
+        });
        
         hunterSlider.setMinorTickSpacing(20);
         hunterSlider.setMajorTickSpacing(40);
