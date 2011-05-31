@@ -61,6 +61,7 @@ import com.jmex.awt.lwjgl.LWJGLAWTCanvasConstructor;
 import ephemera.controller.HunterController;
 import ephemera.controller.SchwarmController;
 import ephemera.controller.ShitController;
+import ephemera.model.Regeln;
 import ephemera.model.World;
 
 public class swarmGUI extends JFrame {
@@ -89,6 +90,8 @@ public class swarmGUI extends JFrame {
 
     private JCheckBoxMenuItem yUp;
     private JCheckBoxMenuItem zUp;
+    
+	private static Regeln regeln = new Regeln();
 
     
 	// Farben festlegen
@@ -401,14 +404,16 @@ public class swarmGUI extends JFrame {
         countSlider.setEnabled(true);
         countSlider.setForeground(white);
         
-    	final JSlider speedSlider = new JSlider (){
+    	 final JSlider speedSlider = new JSlider ();
+		speedSlider.setValue((int)(regeln.getFluggeschwindigkeit()*10));
+		System.out.println("Simu:"+speedSlider.getValue());
+    	/*{
 
             private static final long serialVersionUID = 1L;
         	public void actionPerformed(ActionEvent e) {
-
             }
         
-        };
+        };*/
         
         speedSlider.addChangeListener(new ChangeListener() {
 			
@@ -424,9 +429,8 @@ public class swarmGUI extends JFrame {
 			}
 		});
         
-        speedSlider.setMinimum(0);		// Minmalwert
+        speedSlider.setMinimum(20);		// Minmalwert
         speedSlider.setMaximum(40);	// Maximalwert
-        speedSlider.setValue(1);		// Beim Start eingestellter Wert
         speedSlider.setSnapToTicks(true);	// Automatisches Versetzen deaktiviert
         speedSlider.setExtent(1);		// Zeiger verspringt 10 Einheiten
         speedSlider.setOrientation(SwingConstants.HORIZONTAL);	// horizontale Ausrichtung
@@ -451,10 +455,7 @@ public class swarmGUI extends JFrame {
         
         
         JSlider cohSlider = new JSlider();
- /*       System.out.println("Test");
-        cohSlider.setValue((int)(impl.getSchwarm().getRegeln().getCoh_weight()*100));
-        System.out.println("Test2");
-        */
+		cohSlider.setValue((int)(regeln.getCoh_weight()*100));
 	    cohSlider.addChangeListener(new ChangeListener(){
 	    	public void stateChanged(ChangeEvent ce) {
 	    		
@@ -479,7 +480,9 @@ public class swarmGUI extends JFrame {
      cohSlider.setForeground(white);
     
      final JSlider aliSlider = new JSlider();
-		
+   
+    
+		aliSlider.setValue((int)(regeln.getAli_weight()*100));
 	    aliSlider.addChangeListener(new ChangeListener(){
 	    	public void stateChanged(ChangeEvent ce) {
 	    		
@@ -505,6 +508,7 @@ public class swarmGUI extends JFrame {
     
     
  	final JSlider sepSlider = new JSlider();
+ 	sepSlider.setValue((int)(regeln.getSep_weight()*100));
 		
 	   sepSlider.addChangeListener(new ChangeListener(){
 	    	public void stateChanged(ChangeEvent ce) {
@@ -575,8 +579,35 @@ public class swarmGUI extends JFrame {
     }
     
     private JPanel createAdditionalPanel() {
+    	
+        final JSlider hunterSlider = new JSlider();
+
+        hunterSlider.addChangeListener(new ChangeListener(){
+    		public void stateChanged(ChangeEvent ce) {
+    		
+    			float value = hunterSlider.getValue();
+    			
+    			
+
+    			System.out.println("Jaegerlebensdauer: "+value);
+    	}
+    });
+       
+        hunterSlider.setMinorTickSpacing(20);
+        hunterSlider.setMajorTickSpacing(40);
+        hunterSlider.setMinimum(20);		// Minmalwert
+        hunterSlider.setMaximum(200);	// Maximalwert
+        hunterSlider.setSnapToTicks(true);	// Automatisches Versetzen deaktiviert
+        hunterSlider.setOrientation(SwingConstants.HORIZONTAL);	// horizontale Ausrichtung
+        hunterSlider.setPaintTicks(true);	//Striche werden nicht angezeigt
+        hunterSlider.setPaintLabels(true);	//Zahlen werden nicht angezeigt
+        hunterSlider.setPaintTrack(true);	//Balken wird angezeigt
+        hunterSlider.setEnabled(true); 
+        hunterSlider.setForeground(white);   
 
         final JSlider followSlider = new JSlider();
+		followSlider.setValue((int)(regeln.getFollow_weight()*100));
+		
         	followSlider.addChangeListener(new ChangeListener(){
         		public void stateChanged(ChangeEvent ce) {
 	    		
@@ -600,6 +631,8 @@ public class swarmGUI extends JFrame {
     	
  
         final JSlider desiredSlider = new JSlider();
+		desiredSlider.setValue((int)(regeln.getDesiredSeparation()));
+        
         	desiredSlider.addChangeListener(new ChangeListener(){
         		public void stateChanged(ChangeEvent ce) {
 	    		
@@ -607,7 +640,7 @@ public class swarmGUI extends JFrame {
 	   
         			impl.getSchwarm().getRegeln().setDesiredSeparation(value);
 
-        			System.out.println("Gew�nschter Abstand: "+value);
+        			System.out.println("Gewuenschter Abstand: "+value);
 	    	}
 	    });
            
@@ -622,6 +655,7 @@ public class swarmGUI extends JFrame {
         	desiredSlider.setForeground(white);          
  
            final JSlider neighborSlider = new JSlider();
+   		   neighborSlider.setValue((int)(regeln.getNeighborDistance()));
 
            neighborSlider.addChangeListener(new ChangeListener(){
        		public void stateChanged(ChangeEvent ce) {
@@ -634,8 +668,8 @@ public class swarmGUI extends JFrame {
 	    	}
 	    });
            
-       	   neighborSlider.setMinorTickSpacing(5);
-       	   neighborSlider.setMajorTickSpacing(20);
+       	  neighborSlider.setMinorTickSpacing(5);
+       	  neighborSlider.setMajorTickSpacing(20);
           neighborSlider.setMinimum(0);		// Minmalwert
           neighborSlider.setMaximum(100);	// Maximalwert
           neighborSlider.setSnapToTicks(true);	// Automatisches Versetzen deaktiviert
@@ -646,7 +680,9 @@ public class swarmGUI extends JFrame {
           neighborSlider.setEnabled(true);  
           neighborSlider.setForeground(white);
          
-    	
+          
+        JLabel hunterLabel = new JLabel("Jaeger-Lebensdauer in Sekunden");
+        hunterLabel.setForeground(white);   	
         JLabel followLabel = new JLabel("Folge Leittier");
         followLabel.setForeground(white);
         JLabel desiredLabel = new JLabel("Gewuenschter Abstand");
@@ -689,7 +725,13 @@ public class swarmGUI extends JFrame {
         addPanel.setBackground(dgrey);
 
         
-        addPanel.add(hunterButton, new GridBagConstraints(0, 11, 5, 1,
+        addPanel.add(hunterButton, new GridBagConstraints(0, 8, 5, 1,
+                0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
+                new Insets(5, 10, 10, 10), 0, 0));
+        addPanel.add(hunterLabel, new GridBagConstraints(0, 10, 1, 1,
+                0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE,
+                new Insets(5, 10, 10, 10), 0, 0));  
+        addPanel.add(hunterSlider, new GridBagConstraints(0, 11, 5, 1,
                 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
                 new Insets(5, 10, 10, 10), 0, 0));
         addPanel.add(shitButton, new GridBagConstraints(0, 12, 5, 1,
