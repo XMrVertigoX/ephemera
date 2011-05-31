@@ -233,7 +233,7 @@ public class World {
 			
 			if(animal.hasCollision(obs.get(i), false)){
 				
-				// Einen Kurs weg vom Zentrum wählen.
+				// Einen Kurs weg vom Zentrum waehlen.
 				avoidObstacles = new Vector3f(animal.getLocalTranslation().subtract(obs.get(i).getLocalTranslation()));
 				avoidObstacles.normalizeLocal();
 				return true;

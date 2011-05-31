@@ -58,7 +58,6 @@ import com.jme.util.stat.StatCollector;
 import com.jmex.awt.lwjgl.LWJGLAWTCanvasConstructor;
 
 
-import ephemera.controller.HunterController;
 import ephemera.controller.SchwarmController;
 import ephemera.controller.ShitController;
 import ephemera.model.Regeln;
