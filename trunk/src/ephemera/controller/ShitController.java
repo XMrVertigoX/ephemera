@@ -2,18 +2,13 @@
 package ephemera.controller;
 
 import com.jme.bounding.BoundingSphere;
-import com.jme.curve.Curve;
 import com.jme.math.Vector3f;
 import com.jme.renderer.Camera;
-import com.jme.renderer.ColorRGBA;
 import com.jme.scene.Controller;
 import com.jme.scene.TriMesh;
 import com.jme.scene.shape.Sphere;
 import com.jme.scene.state.MaterialState;
-import com.jme.system.DisplaySystem;
-import com.jme.system.lwjgl.LWJGLSystemProvider;
 
-import ephemera.model.World;
 import ephemera.view.MyJmeView;
 
 
@@ -24,13 +19,12 @@ public class ShitController {
 	
 	MaterialState shitMaterial;
 	MyJmeView impl ;
+	private Sphere shit;
 	
 	
 	public ShitController( MyJmeView impl){
 		this.impl = impl;
 	}
-	
-	
 	
 	
 	public void mouseShot() {
@@ -39,11 +33,11 @@ public class ShitController {
     	
 		/**anz Shits*/
 		int numShits = 0;
-		
+
 		Camera cam = impl.getCamera();
 		
-
-		Sphere shit = new Sphere("bullet" + numShits++, 10, 10, 2);
+		
+		shit = new Sphere("shit" + numShits++, 10, 10, 2);
 		shit.setModelBound(new BoundingSphere());
 		shit.updateModelBound();
 	
@@ -74,10 +68,11 @@ public class ShitController {
  
 			/** Geschwindigkeit */
 			float speed = 300;
+			
 		
 			/**Lebenszeit*/
 			float lifeTime = 20;
-			
+						
 		
 			ShitMover(TriMesh shit, Vector3f direction) {
 				this.shit = shit;
@@ -87,13 +82,7 @@ public class ShitController {
  
 		public void update(float time) {
 			lifeTime -= time;
-			
-			
-			/**
-			 * Flubahn
-			 */
-			//kommt noch
-			
+				
 			
 			
 			/** Entfernen wenn "lebenszeit" vorbei */
@@ -103,21 +92,14 @@ public class ShitController {
 				return;
 			}
 			
-			/** Bewege an Position */
 			Vector3f shitPos = shit.getLocalTranslation();
-		
- 	
-			
 			shitPos.addLocal(direction.mult(time * speed));
 			shit.setLocalTranslation(shitPos);
 			
 			
 			/**
 			 * Kollisionsabfrage
-			 
-			*/
-			
-			
+			 */
 			if (shit.getWorldBound().intersects(impl.getWorld().getTerrainNode().getWorldBound())) {
 
 				speed = 0;
