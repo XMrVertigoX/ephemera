@@ -5,6 +5,8 @@
 package ephemera.model;
 
 import com.jme.bounding.BoundingSphere;
+import com.jme.math.FastMath;
+import com.jme.math.Matrix3f;
 import com.jme.math.Vector3f;
 import com.jme.renderer.ColorRGBA;
 import com.jme.scene.Node;
@@ -17,7 +19,7 @@ public class Hunter extends Node{
 
 	private static final long serialVersionUID = 1L;
 	public Sphere s; // stellt erst einmal den jaeger dar
-	private float age; // alter des jaegers
+	private long age; // alter des jaegers
 	private Vector3f actualPos;
 	private World world;
 	private SchwarmController swarm;
@@ -90,16 +92,17 @@ public class Hunter extends Node{
 		 * wenn jaeger aelter als 20 sekunden ist, dann verlaesst er die simulation,
 		 * indem er zum rand der simulation fliegt (skybox)
 		 */
+	
 		if(getAge()>lifetime || (swarm.getSchwarm().size() == 0)){
 
 			Vector3f weg = new Vector3f(300,300,300);
 			target = weg.subtract(actualPos);	
-			
+			System.out.println(actualPos);
 			/**
 			 * wenn jaeger am rand der skybox angekommen ist,
 			 * wird er entfernt
 			 */
-			if(actualPos.distance(weg)<3){
+			if(actualPos.distance(weg)<5){
 				
 				deleteHunter();
 			}	
@@ -141,13 +144,21 @@ public class Hunter extends Node{
 		}
 		
 		if(world.obstacleAvoidance(this)){
+			System.out.println("collision");
+		//	actualPos.addLocal(world.getCollisionVector());
 			
-			actualPos.addLocal(world.getCollisionVector());
+			float angle = FastMath.PI/2f;
 			
-		}else{
+			Matrix3f rotMat = new Matrix3f(1,0,0,0,FastMath.cos(angle),FastMath.sin(angle)*-1f,0,FastMath.sin(angle),FastMath.cos(angle));
+			
+			target = rotMat.mult(target);
+			System.out.println(target);
+			
+		}
+	//	else{
 	
 			actualPos.addLocal(target);
- 		}
+// 		}
 		
 		setPos(actualPos);
 	}
@@ -161,7 +172,7 @@ public class Hunter extends Node{
 	 */
 	public void eatBoid(Vector3f flyPos, int numberBoid){
 		
-		if(actualPos.distance(flyPos)<1){
+		if(actualPos.distance(flyPos)<3f){
 			Ephemera e = swarm.getSchwarm().get(numberBoid);
 			swarm.getSchwarm().remove(e);
 			swarm.getSwarmNode().detachChildNamed(e.getName());
@@ -188,7 +199,9 @@ public class Hunter extends Node{
 	
 	
 	public float getAge(){
+	
 		return ((System.currentTimeMillis()-age)/1000f);
+		
 	}
 	
 	public void setPos(Vector3f pos){
