@@ -47,7 +47,7 @@ public class World {
 	public World(){
 		worldRootNode = new Node("World Root Node");
 		obs = new ArrayList<Spatial>();
-		generateRandomObjects(10);
+		generateRandomObjects(25);
 		generateTerrain();
 		initSky();
 		
