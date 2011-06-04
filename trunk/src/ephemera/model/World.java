@@ -35,6 +35,7 @@ import com.jmex.terrain.util.MidPointHeightMap;
 import ephemera.controller.HelloTerain;
 import ephemera.controller.SchwarmController;
 import ephemera.tester.HelloTexture;
+//import ephemera.model.*;
 
 public class World {
 
@@ -48,6 +49,7 @@ public class World {
 		worldRootNode = new Node("World Root Node");
 		obs = new ArrayList<Spatial>();
 		generateRandomObjects(25);
+		//PlantObstacles.createTree(0,-150,0,worldRootNode,obs);
 		generateTerrain();
 		initSky();
 		
@@ -163,6 +165,10 @@ public class World {
 		
 		
 	}
+	
+	
+	
+	
 	/**
 	 * erzeuge einen Fliegenbrutkasten an pos Vector3f mit rate t[s] 
 	 */
