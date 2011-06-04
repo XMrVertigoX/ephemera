@@ -704,7 +704,7 @@ public class swarmGUI extends JFrame {
 
             public void actionPerformed(ActionEvent e) {
               //  Jaeger hinzufuegen
-            	
+            	if (impl.getHunter()==null)
             	impl.addNewHunter();
             	System.out.println("Jaeger hinzugefuegt");
             }

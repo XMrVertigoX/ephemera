@@ -86,7 +86,7 @@ public class MyJmeView extends SimpleCanvasImpl {
 
         // Licht und Schatten
         LightState lightState = renderer.createLightState();
-        lightState.detachAll();
+        //lightState.detachAll();
         /*
         PointLight pl = new PointLight();
 		pl.setDiffuse(ColorRGBA.yellow);
@@ -99,8 +99,8 @@ public class MyJmeView extends SimpleCanvasImpl {
     	dl.setEnabled(true);
     	dl.setDirection(new Vector3f(1,0,0));
     	lightState.attach(dl);
-    	//schwarmNode.setRenderState(lightState);
-        
+    	schwarmNode.setRenderState(lightState);
+        //worldNode.getChild("dome").setRenderState(lightState);
     	
     	// Finally, a stand alone node (not attached to root on purpose)
     	
@@ -129,6 +129,8 @@ public class MyJmeView extends SimpleCanvasImpl {
     public void simpleUpdate() {
     	//schwarm.setWorld(worldController);
     	schwarm.updateAll();
+    	world.getDome().update();
+    	world.getDome().render();
     	
     	if(exist){
     		hunter.updateHunter();

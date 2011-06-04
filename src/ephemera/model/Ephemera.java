@@ -221,19 +221,20 @@ public class Ephemera extends Node{
 	   
 	    
 	    // Implement Reynolds: Steering = Desired - Velocity
-		acc.normalizeLocal();
-		acc.multLocal(regeln.getMaxspeed());
+		//acc.normalizeLocal();
+		//acc.multLocal(regeln.getMaxspeed());
 		acc.subtractLocal(vel);
-		if (acc.length()>regeln.getMaxforce()){
+		if (acc.length()>regeln.getFluggeschwindigkeit()){
 			  acc.normalizeLocal();
 			  acc.multLocal(regeln.getMaxforce());
 		}
+		
 	    //acc.addLocal(randomWalk);
 		// Kollisionsvermeidung mit Objekten in der Welt
 		if (koll.length()!=0)acc = koll.mult(5);  
 		// Kollisionsvermeidung mit anderen Schwarmmitgliedern
-		Vector3f koli = kollider(this.getParent());
-		if (koli.length()!=0) acc.add(koli).mult(2f);
+		//Vector3f koli = kollider(this.getParent());
+//		if (koli.length()!=0) acc.add(koli).mult(2f);
 		
 	}
 	/**
@@ -293,6 +294,7 @@ public class Ephemera extends Node{
 			diff.multLocal(1f/d);        // Gewichte anhand der distanz
 			steer.addLocal(diff);
 			count++;            // Merker wie viele Fliegen einfluss nehmen
+			if (this.hasCollision(other, true)) steer.mult(1/regeln.getSep_weight());
 		  }
 		  
 		}
