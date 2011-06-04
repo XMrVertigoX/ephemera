@@ -99,7 +99,8 @@ public class MyJmeView extends SimpleCanvasImpl {
     	dl.setEnabled(true);
     	dl.setDirection(new Vector3f(1,0,0));
     	lightState.attach(dl);
-    	schwarmNode.setRenderState(lightState);
+    	worldNode.attachChild(schwarmNode);
+    	//schwarmNode.setRenderState(lightState);
         //worldNode.getChild("dome").setRenderState(lightState);
     	
     	// Finally, a stand alone node (not attached to root on purpose)
@@ -131,7 +132,6 @@ public class MyJmeView extends SimpleCanvasImpl {
     	schwarm.updateAll();
     	world.getDome().update();
     	world.getDome().render();
-    	
     	if(exist){
     		hunter.updateHunter();
     	}
