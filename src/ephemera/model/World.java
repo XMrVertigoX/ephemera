@@ -61,13 +61,12 @@ public class World {
 	public void initSky(){
 		
 		dome = new SkyDome("dome",100,100,2000);
-		
 		dome.setModelBound(new BoundingSphere());
         dome.updateModelBound();
         dome.updateRenderState();
-        dome.setUpdateTime(1f);
-        dome.setTimeWarp(180.0f);
-        dome.setDay(100);
+        dome.setUpdateTime(.01f);
+        dome.setTimeWarp(500.0f);
+        dome.setDay(264);
         dome.setLatitude(-22.9f);
         dome.setLongitude(-47.083f);
         dome.setStandardMeridian(-45.0f);
@@ -76,12 +75,13 @@ public class World {
         dome.setSunEnabled(true);
         dome.setExposure(true, 18.0f);
         dome.setOvercastFactor(0.0f);
-        dome.setGammaCorrection(2.2f);
+        dome.setGammaCorrection(1.0f);
         dome.setRootNode(worldRootNode);
-        dome.setIntensity(.19f);
+        dome.setIntensity(.175f);
 		dome.setTarget(worldRootNode);
 		dome.updateRenderState();
 		dome.setLocalTranslation(0,-350,0);
+		dome.updateGeometricState(0f, true);
 		worldRootNode.attachChild(dome);
 		/*
 		Skybox sky = new Skybox("Skybox",400,400,400);
