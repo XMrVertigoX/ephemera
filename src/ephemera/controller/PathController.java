@@ -6,6 +6,7 @@ package ephemera.controller;
 
 import ephemera.model.BSpline;
 import ephemera.model.Regeln;
+import ephemera.model.Leader;
 
 import com.jme.curve.CurveController;
 import com.jme.light.PointLight;
@@ -19,7 +20,7 @@ import com.jme.scene.shape.Sphere;
 public class PathController{
 	
 	private CurveController curveControllerc;
-	private Sphere Leittier;
+	private Leader Leittier;
 	private Node pfad;
 	private Regeln regeln;
 	
@@ -36,8 +37,8 @@ public class PathController{
 		BSpline bp = new BSpline("Bewegungspfad",data);
 		
 		// erstelle das Leittier 
-		Leittier = new Sphere("Leittier",new Vector3f(0,0,0),25,25,5f);
-		Leittier.setDefaultColor(ColorRGBA.green);
+		Leittier = new Leader();
+		
 		
 		// Kurvencontroller erstellen 
 		curveControllerc = new CurveController(bp,Leittier);
