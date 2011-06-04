@@ -7,21 +7,35 @@ package ephemera.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.swt.widgets.Display;
+
 
 import com.jme.animation.SpatialTransformer;
 import com.jme.bounding.BoundingBox;
 import com.jme.bounding.BoundingSphere;
+import com.jme.image.Texture;
 import com.jme.math.FastMath;
 import com.jme.math.Quaternion;
 import com.jme.math.Vector2f;
 import com.jme.math.Vector3f;
 import com.jme.renderer.ColorRGBA;
+import com.jme.renderer.Renderer;
 import com.jme.scene.Node;
 import com.jme.scene.Spatial;
+import com.jme.scene.TexCoords;
 
 import com.jme.scene.TriMesh;
 import com.jme.scene.shape.Sphere;
+import com.jme.scene.state.BlendState;
+import com.jme.scene.state.MaterialState;
+import com.jme.scene.state.TextureState;
+import com.jme.system.DisplaySystem;
+import com.jme.system.lwjgl.LWJGLSystemProvider;
+import com.jme.util.TextureManager;
 import com.jme.util.geom.BufferUtils;
+import com.jmex.model.ogrexml.Material;
+
+import ephemera.tester.HelloTexture;
 
 public class Ephemera extends Node{
 
@@ -73,12 +87,12 @@ public class Ephemera extends Node{
 		//Kopf verschieben
 		head.setLocalTranslation(0, 0, 4);
 
-		
 		TriMesh fluegelr = getFluegel(-10,0,0,-10,0,5);
 		TriMesh fluegell = getFluegel(10,0,0,10,0,5);		
 		
 		attachChild(body);
 		attachChild(head);
+		
 		attachChild(fluegelr);
 		attachChild(fluegell);
 		// Node auf pos bewegen
@@ -111,7 +125,7 @@ public class Ephemera extends Node{
         setModelBound(new BoundingSphere());
         updateModelBound();
 	}
-	
+
 	/**
 	 * Erstelle Linken und Rechten FlŸgel der Fliege (default Model)
 	 * @return
@@ -144,13 +158,14 @@ public class Ephemera extends Node{
         };
 
         // Texture Coordinates for each position
+        TexCoords tc = new TexCoords();
         Vector2f[] texCoords={
-            new Vector2f(0,0),
-            new Vector2f(1,0),
-            new Vector2f(0,1),
-            new Vector2f(1,1)
+        		new Vector2f(0, 0),
+    			new Vector2f(0, 1),
+    			new Vector2f(5,0),
+    			new Vector2f(1,1)
         };
-
+        tc = tc.makeNew(texCoords);
         // The indexes of Vertex/Normal/Color/TexCoord sets.  Every 3 makes a triangle.
         int[] indexes={
             0,1,2,1,2,3
@@ -158,7 +173,8 @@ public class Ephemera extends Node{
 
         // Feed the information to the TriMesh
         m.reconstruct(BufferUtils.createFloatBuffer(vertexes), BufferUtils.createFloatBuffer(normals),
-                null, null, BufferUtils.createIntBuffer(indexes));
+        		null,tc, BufferUtils.createIntBuffer(indexes));
+        
         return m;
 	}
 	/**
@@ -224,7 +240,7 @@ public class Ephemera extends Node{
 		//acc.normalizeLocal();
 		//acc.multLocal(regeln.getMaxspeed());
 		acc.subtractLocal(vel);
-		if (acc.length()>regeln.getFluggeschwindigkeit()){
+		if (acc.length()>regeln.getMaxspeed()){
 			  acc.normalizeLocal();
 			  acc.multLocal(regeln.getMaxforce());
 		}

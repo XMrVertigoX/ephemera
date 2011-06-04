@@ -419,7 +419,7 @@ public class swarmGUI extends JFrame {
 		
 			public void stateChanged(ChangeEvent ce) {
 
-				float value = speedSlider.getValue()/10f;
+				float value = speedSlider.getValue()/100f;
 				System.out.println("Simulationsgeschwindigkeit "+value);
 				if (impl.getSchwarm()!=null){
 					
@@ -428,8 +428,8 @@ public class swarmGUI extends JFrame {
 			}
 		});
         
-        speedSlider.setMinimum(20);		// Minmalwert
-        speedSlider.setMaximum(40);	// Maximalwert
+        speedSlider.setMinimum(0);		// Minmalwert
+        speedSlider.setMaximum(500);	// Maximalwert
         speedSlider.setSnapToTicks(true);	// Automatisches Versetzen deaktiviert
         speedSlider.setExtent(1);		// Zeiger verspringt 10 Einheiten
         speedSlider.setOrientation(SwingConstants.HORIZONTAL);	// horizontale Ausrichtung
