@@ -44,7 +44,8 @@ public class World {
 	private Node terrainNode;
 	private Vector3f avoidObstacles; 
 	private ArrayList<Spatial> obs;
-	
+	SkyDome dome;
+	public SkyDome getDome(){return dome;}
 	public World(){
 		worldRootNode = new Node("World Root Node");
 		obs = new ArrayList<Spatial>();
@@ -58,7 +59,32 @@ public class World {
 	 * Lade die Texturen und verknuepfe diese mit Skybox
 	 */
 	public void initSky(){
-		Skybox sky = new Skybox("Skybox",1500,1500,1500);
+		
+		dome = new SkyDome("dome",100,100,2000);
+		
+		dome.setModelBound(new BoundingSphere());
+        dome.updateModelBound();
+        dome.updateRenderState();
+        dome.setUpdateTime(1f);
+        dome.setTimeWarp(180.0f);
+        dome.setDay(100);
+        dome.setLatitude(-22.9f);
+        dome.setLongitude(-47.083f);
+        dome.setStandardMeridian(-45.0f);
+        dome.setSunPosition(5.75f);             // 5:45 am
+        dome.setTurbidity(2.0f);
+        dome.setSunEnabled(true);
+        dome.setExposure(true, 18.0f);
+        dome.setOvercastFactor(0.0f);
+        dome.setGammaCorrection(2.2f);
+        dome.setRootNode(worldRootNode);
+        dome.setIntensity(.19f);
+		dome.setTarget(worldRootNode);
+		dome.updateRenderState();
+		dome.setLocalTranslation(0,-350,0);
+		worldRootNode.attachChild(dome);
+		/*
+		Skybox sky = new Skybox("Skybox",400,400,400);
 		// Lade die Texturen 
 		Texture north = TextureManager.loadTexture(World.class.getClassLoader().getResource("ephemera/SkyboxSkin/skybox_img/reef_west.bmp"),Texture.MinificationFilter.BilinearNearestMipMap,Texture.MagnificationFilter.Bilinear); // custom/1.jpg"),Texture.MinificationFilter.BilinearNearestMipMap,Texture.MagnificationFilter.Bilinear);
 		Texture east = TextureManager.loadTexture(World.class.getClassLoader().getResource("ephemera/SkyboxSkin/skybox_img/reef_north.bmp"),Texture.MinificationFilter.BilinearNearestMipMap,Texture.MagnificationFilter.Bilinear);
@@ -78,7 +104,7 @@ public class World {
 		sky.updateRenderState();
 		
 		worldRootNode.attachChild(sky);
-		
+		*/
 	}
 	
 	
@@ -93,7 +119,7 @@ public class World {
         MidPointHeightMap mph=new MidPointHeightMap(64,1.5f);
         // Create a terrain block from the created terrain map.
         TerrainBlock tb=new TerrainBlock("midpoint block",mph.getSize(),
-                new Vector3f(-30,.911f,-30),
+                new Vector3f(-90,.911f,-90),
                 mph.getHeightMap(),
                 new Vector3f(-100,-100,-100));
 
@@ -107,11 +133,11 @@ public class World {
         // Give the terrain a bounding box.
         tb.setModelBound(new BoundingBox());
         tb.updateModelBound();
-        tb.setLocalTranslation(new Vector3f(1000,-450,1000));
+        tb.setLocalTranslation(new Vector3f(3000,-550,3000));
         // Attach the terrain TriMesh to rootNode
         terrainNode.attachChild(tb);
         worldRootNode.attachChild(terrainNode);
-        //objectNode.attachChild(terrainNode);
+        objectNode.attachChild(tb);
     }
 	
 	/**
@@ -142,15 +168,15 @@ public class World {
 		for (int i=0;i<N;i++){
 			// Grš§e
 			float x = FastMath.nextRandomInt(1, 200);
-			float y = FastMath.nextRandomInt(1, 500);
+			float y = FastMath.nextRandomInt(1, 900);
 			float z = FastMath.nextRandomInt(1, 300);
 			// Erstelle Objekt
 			TriMesh box = new Box("Box_"+i,new Vector3f(0,0,0),new Vector3f(x,y,z));
-			box.setModelBound(new BoundingSphere());
+			box.setModelBound(new BoundingBox());
 			
 			// ZufŠllige Position
 			x = FastMath.nextRandomInt(-1000, 1000);
-			y = -130;//FastMath.nextRandomInt(-1000, 1000);
+			y = -400;//FastMath.nextRandomInt(-1000, 1000);
 			z = FastMath.nextRandomInt(-1000, 1000);
 			// Verschiebe Objekt
 			box.setLocalTranslation(new Vector3f(x,y,z));
