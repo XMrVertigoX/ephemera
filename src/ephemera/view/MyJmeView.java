@@ -73,12 +73,15 @@ public class MyJmeView extends SimpleCanvasImpl {
 		// Schwarm initialisieren
 		schwarm = new SchwarmController();
 		schwarm.setWorld(world);
-		schwarm.addFlies(200);
+		schwarm.addFlies(80);
 
 		Node schwarmNode = schwarm.getSwarmNode();
-		rootNode.attachChild(worldNode);
-		rootNode.attachChild(schwarmNode);	
-		rootNode.attachChild(schwarm.getLeittierNode());
+
+		
+		rootNode.attachChild(world.getDome());
+		rootNode.attachChild(world.getObjectNode());
+		//rootNode.attachChild(schwarmNode);	
+		//worldNode.attachChild(schwarm.getLeittierNode());
     	//Color bg = new Color(prefs.getInt("bg_color", 0));
         renderer.setBackgroundColor(ColorRGBA.darkGray);
         cam.setFrustumPerspective(50,50,150, 10000);
@@ -119,10 +122,14 @@ public class MyJmeView extends SimpleCanvasImpl {
         //GUINode.setRenderState(zbuf);
         //GUINode.updateRenderState();
 
+        world.getDome().setTarget(schwarmNode);
+        rootNode.attachChild(schwarmNode);
+        rootNode.attachChild(schwarm.getLeittierNode());
         rootNode.updateGeometricState(0, true);
         rootNode.updateRenderState();
   
-      
+        
+        //rootNode.attachChild(schwarmNode);
 
     };
 
@@ -132,6 +139,7 @@ public class MyJmeView extends SimpleCanvasImpl {
     	schwarm.updateAll();
     	world.getDome().update();
     	world.getDome().render();
+    	
     	if(exist){
     		hunter.updateHunter();
     	}

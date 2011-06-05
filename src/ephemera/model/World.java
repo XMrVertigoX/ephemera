@@ -18,9 +18,7 @@ import com.jme.math.Vector3f;
 import com.jme.renderer.ColorRGBA;
 import com.jme.renderer.Renderer;
 import com.jme.scene.Node;
-import com.jme.scene.Skybox;
 import com.jme.scene.Spatial;
-import com.jme.scene.Spatial.NormalsMode;
 import com.jme.scene.TriMesh;
 import com.jme.scene.shape.Box;
 import com.jme.scene.shape.Sphere;
@@ -37,22 +35,23 @@ import ephemera.controller.SchwarmController;
 import ephemera.tester.HelloTexture;
 //import ephemera.model.*;
 
-public class World {
+public class World extends Node{
 
-	private Node worldRootNode;
 	private Node objectNode;
 	private Node terrainNode;
+	
 	private Vector3f avoidObstacles; 
 	private ArrayList<Spatial> obs;
 	SkyDome dome;
 	public SkyDome getDome(){return dome;}
 	public World(){
-		worldRootNode = new Node("World Root Node");
+		super("World Root Node");
 		obs = new ArrayList<Spatial>();
-		generateRandomObjects(25);
+		generateRandomObjects(10);
 		//PlantObstacles.createTree(0,-150,0,worldRootNode,obs);
 		generateTerrain();
 		initSky();
+		
 		
 	}
 	/**
@@ -60,7 +59,7 @@ public class World {
 	 */
 	public void initSky(){
 		
-		dome = new SkyDome("dome",100,100,3000);
+		dome = new SkyDome("dome",100,100,1500);
 		dome.setModelBound(new BoundingSphere());
         dome.updateModelBound();
         dome.updateRenderState();
@@ -76,13 +75,13 @@ public class World {
         dome.setExposure(true, 18.0f);
         dome.setOvercastFactor(0.0f);
         dome.setGammaCorrection(.8f);
-        dome.setRootNode(worldRootNode);
+        dome.setRootNode(this);
         dome.setIntensity(.75f);
-		dome.setTarget(worldRootNode);
+		dome.setTarget(objectNode);
 		dome.updateRenderState();
 		dome.setLocalTranslation(0,-350,0);
 		dome.updateGeometricState(0f, true);
-		worldRootNode.attachChild(dome);
+		
 		/*
 		Skybox sky = new Skybox("Skybox",400,400,400);
 		// Lade die Texturen 
@@ -136,7 +135,7 @@ public class World {
         tb.setLocalTranslation(new Vector3f(3000,-550,3000));
         // Attach the terrain TriMesh to rootNode
         terrainNode.attachChild(tb);
-        worldRootNode.attachChild(terrainNode);
+        //worldRootNode.attachChild(terrainNode);
         objectNode.attachChild(tb);
     }
 	
@@ -145,7 +144,7 @@ public class World {
 	 * @return
 	 */
 	public Node getWorldRootNode(){
-		return worldRootNode;
+		return this;
 	}
 	
 	
@@ -172,7 +171,7 @@ public class World {
 			float z = FastMath.nextRandomInt(1, 300);
 			// Erstelle Objekt
 			TriMesh box = new Box("Box_"+i,new Vector3f(0,0,0),new Vector3f(x,y,z));
-			box.setModelBound(new BoundingBox());
+			box.setModelBound(new BoundingSphere());
 			
 			// Zufällige Position
 			x = FastMath.nextRandomInt(-1000, 1000);
@@ -187,7 +186,6 @@ public class World {
 			box.updateModelBound();
 		}
 		objectNode.updateModelBound();
-		worldRootNode.attachChild(objectNode);
 		
 		
 	}
