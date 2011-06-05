@@ -41,7 +41,7 @@ public class Ephemera extends Node{
 
 	private static final long 	serialVersionUID = 1L;
 	public static int 			count;	// Fliegennummer
-	private static Regeln 		regeln; // Verhaltensparameter
+	private static Regeln 		rules; // Verhaltensparameter
 	private long				age;	// Alter
 	private Vector3f 			acc;	// Beschleunigungsvektor
 	private Vector3f			vel;	// Geschwindigkeitsvektor
@@ -49,7 +49,7 @@ public class Ephemera extends Node{
 	
 	//public static ModelController loader=new ModelController();
 	
-	private Vector3f[] basis = {		// Richtungsvektoren für RandomWalk 
+	private Vector3f[] base = {		// Richtungsvektoren für RandomWalk 
 			new Vector3f(1,0,0),
 			new Vector3f(-1,0,0),
 			new Vector3f(0,1,0),
@@ -62,11 +62,11 @@ public class Ephemera extends Node{
 	 * @param pos Position der Fliege 
 	 */
 	public Ephemera(Vector3f pos){
-		super("Fliege_"+count);		// Instanziiere Node der die Fliege repräsentiert
+		super("Fly_"+count);		// Instanziiere Node der die Fliege repräsentiert
 		acc = new Vector3f(0,0,0);	// Mit 0 initialisieren
 		vel = new Vector3f(0,0,0);
 		age = System.currentTimeMillis();
-		regeln = new Regeln();
+		rules = new Regeln();
 		// Lade Form
 		initDefaultFly();
 		setLocalTranslation(pos);
@@ -158,14 +158,8 @@ public class Ephemera extends Node{
         };
 
         // Texture Coordinates for each position
-        TexCoords tc = new TexCoords();
-        Vector2f[] texCoords={
-        		new Vector2f(0, 0),
-    			new Vector2f(0, 1),
-    			new Vector2f(5,0),
-    			new Vector2f(1,1)
-        };
-        tc = tc.makeNew(texCoords);
+
+     
         // The indexes of Vertex/Normal/Color/TexCoord sets.  Every 3 makes a triangle.
         int[] indexes={
             0,1,2,1,2,3
@@ -173,7 +167,7 @@ public class Ephemera extends Node{
 
         // Feed the information to the TriMesh
         m.reconstruct(BufferUtils.createFloatBuffer(vertexes), BufferUtils.createFloatBuffer(normals),
-        		null,tc, BufferUtils.createIntBuffer(indexes));
+        		null,null, BufferUtils.createIntBuffer(indexes));
         
         return m;
 	}
@@ -191,10 +185,8 @@ public class Ephemera extends Node{
 		List<Spatial> list = schwarmNode.getChildren();
 		for (int i=0;i<list.size();i++){
 			Spatial s = list.get(i);
-			float d = this.getLocalTranslation().distance(s.getLocalTranslation());
 			if (s.getWorldBound().intersects(this.getWorldBound())){//hasCollision(s, false)){
 				steerAway = getLocalTranslation().subtract(s.getLocalTranslation());
-				//System.out.println(s.getName()+" "+this.getName());
 				steerAway.normalizeLocal();
 				return steerAway;
 			}
@@ -223,10 +215,10 @@ public class Ephemera extends Node{
 	    Vector3f coh = cohesion(flies);
 	    //Vector3f randomWalk = randomWalk();
 	    
-	    target.multLocal(regeln.getFollow_weight());
-	    sep.multLocal(regeln.getSep_weight());
-	    ali.multLocal(regeln.getAli_weight());
-	    coh.multLocal(regeln.getCoh_weight());
+	    target.multLocal(rules.getFollow_weight());
+	    sep.multLocal(rules.getSep_weight());
+	    ali.multLocal(rules.getAli_weight());
+	    coh.multLocal(rules.getCoh_weight());
 	    //randomWalk.multLocal(regeln.getRandomWalk_weight());
 	    
 	    //if (kollider(this.getParent())) sep.multLocal(4f)
@@ -239,12 +231,13 @@ public class Ephemera extends Node{
 	    // Implement Reynolds: Steering = Desired - Velocity
 		//acc.normalizeLocal();
 		//acc.multLocal(regeln.getMaxspeed());
-		acc.subtractLocal(vel);
-		if (acc.length()>regeln.getMaxspeed()){
+		//acc.subtractLocal(vel);
+		/*
+		if (acc.length()>rules.getMaxspeed()){
 			  acc.normalizeLocal();
-			  acc.multLocal(regeln.getMaxforce());
+			  acc.multLocal(rules.getMaxforce());
 		}
-		
+		*/
 	    //acc.addLocal(randomWalk);
 		// Kollisionsvermeidung mit Objekten in der Welt
 		if (koll.length()!=0)acc = koll.mult(5);  
@@ -270,21 +263,22 @@ public class Ephemera extends Node{
 	void updateMember() {
 	    vel.addLocal(acc);
 	    // Passe vektor an regeln an
-	    if (vel.length()>regeln.getMaxforce()){
+	    
+	    if (vel.length()>rules.getMaxspeed()){
 			  vel = vel.normalize();
-			  vel.mult(regeln.getMaxforce());
+			  vel.mult(rules.getMaxspeed());
 		}
-	   
+	    
 	    // "Gucke in Flugrichtung
-	    this.lookAt(getLocalTranslation().subtract(vel.mult(-1)),new Vector3f(0,-1,0));
+	    this.lookAt(getLocalTranslation().subtract(vel.mult(-1)),new Vector3f(0,1,0));
 	    //this.lookAt(vel.cross(Vector3f.UNIT_Y).cross(vel), vel);
 	    // Setze geschiwindigkeit der Flügel annhand 
 	    // Bewegung
 	    
 	    // Passe geschwindigeit an
-	    vel.multLocal(regeln.getFluggeschwindigkeit());
 	    // Position verschieben
-	    spatialTransformer.setSpeed(vel.length()*100);
+	    spatialTransformer.setSpeed(vel.length()*10);
+	    vel.multLocal(rules.getFluggeschwindigkeit());
 	    getLocalTranslation().addLocal(vel);
 	    
 	    acc.mult(0);
@@ -303,14 +297,14 @@ public class Ephemera extends Node{
 	    for (Ephemera other:flies) {
 		  float d = getPos().distance(other.getLocalTranslation());
 		  // Ist der Abstabd der >0 also es handelt sich nicht
-		  if ((d > 0) && (d < regeln.getDesiredSeparation())) {
+		  if ((d > 0) && (d < rules.getDesiredSeparation())) {
 			// Berechne Vektor der von anderer Fliege wegzeigt 
 			Vector3f diff = getLocalTranslation().subtract(other.getLocalTranslation());
 			diff = diff.normalize();
 			diff.multLocal(1f/d);        // Gewichte anhand der distanz
 			steer.addLocal(diff);
 			count++;            // Merker wie viele Fliegen einfluss nehmen
-			if (this.hasCollision(other, true)) steer.mult(1/regeln.getSep_weight());
+			if (this.hasCollision(other, true)) steer.mult(1/rules.getSep_weight());
 		  }
 		  
 		}
@@ -344,7 +338,7 @@ public class Ephemera extends Node{
 	    int count = 0;
 	    for (Ephemera other:flies) {
 	      float d = getPos().distance(other.getPos());
-	      if ((d > 0) && (d < regeln.getNeighborDistance())) {
+	      if ((d > 0) && (d < rules.getNeighborDistance())) {
 	        steer.addLocal(other.getVel());
 	        count++;
 	      }
@@ -376,7 +370,7 @@ public class Ephemera extends Node{
 	  	int count = 0;
 		for (Ephemera other:flies) {
 			float d = getPos().distance(other.getPos());
-		    if ((d > 0) && (d < regeln.getNeighborDistance())) {
+		    if ((d > 0) && (d < rules.getNeighborDistance())) {
 		    	sum.addLocal(other.getLocalTranslation()); // Mittelwert über Fliegen innerhalb des Radiuses berechnen
 		        count++;
 		    } 
@@ -403,8 +397,8 @@ public class Ephemera extends Node{
 	      // Normalize desired
 	      desired.normalize();
 	      // Two options for desired vector magnitude (1 -- based on distance, 2 -- maxspeed)
-	      if ((slowdown) && (d < 100.0)) desired.multLocal(regeln.getMaxspeed()*(d/100.0f)); // This damping is somewhat arbitrary
-	      else desired.multLocal(regeln.getMaxspeed());
+	      if ((slowdown) && (d < 100.0)) desired.multLocal(rules.getMaxspeed()*(d/100.0f)); // This damping is somewhat arbitrary
+	      else desired.multLocal(rules.getMaxspeed());
 	      // Steering = Desired minus Velocity
 	      steer = desired.subtractLocal(vel);
 	      //steer.mult(maxforce);  // Limit to maximum steering force
@@ -425,7 +419,7 @@ public class Ephemera extends Node{
 		int x = FastMath.nextRandomInt(0, 1);
 		int y = FastMath.nextRandomInt(2, 3);
 		int z = FastMath.nextRandomInt(4, 5);
-		Vector3f res = basis[x].add(basis[y]).add(basis[z]); 
+		Vector3f res = base[x].add(base[y]).add(base[z]); 
 		// Kamera Rotiert -> ausgleich indem man vektor abbildet auf kreuzprodukt von ....
 		return res;	
 	}
@@ -434,10 +428,10 @@ public class Ephemera extends Node{
 	 * Getter und Setter
 	 */
 	public Regeln getRegeln(){ 
-		return regeln;
+		return rules;
 	}
 	public void setRegeln(Regeln regel){
-		regeln = regel;
+		rules = regel;
 	}
 	public Vector3f getPos(){
 		return getLocalTranslation();

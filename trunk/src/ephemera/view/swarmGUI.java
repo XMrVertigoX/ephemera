@@ -429,7 +429,7 @@ public class swarmGUI extends JFrame {
 		});
         
         speedSlider.setMinimum(0);		// Minmalwert
-        speedSlider.setMaximum(500);	// Maximalwert
+        speedSlider.setMaximum(1000);	// Maximalwert
         speedSlider.setSnapToTicks(true);	// Automatisches Versetzen deaktiviert
         speedSlider.setExtent(1);		// Zeiger verspringt 10 Einheiten
         speedSlider.setOrientation(SwingConstants.HORIZONTAL);	// horizontale Ausrichtung
