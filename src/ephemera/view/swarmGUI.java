@@ -8,7 +8,6 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.PopupMenu;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
@@ -21,14 +20,11 @@ import javax.swing.Action;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
-import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JSlider;
 import javax.swing.JSplitPane;
@@ -36,10 +32,8 @@ import javax.swing.JTabbedPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
 
 import com.jme.math.FastMath;
 import com.jme.math.Vector3f;
@@ -47,7 +41,6 @@ import com.jme.renderer.Camera;
 import com.jme.renderer.ColorRGBA;
 import com.jme.renderer.Renderer;
 import com.jme.scene.Geometry;
-import com.jme.scene.QuadMesh;
 import com.jme.scene.Spatial;
 import com.jme.system.DisplaySystem;
 import com.jme.system.canvas.JMECanvas;
@@ -56,12 +49,9 @@ import com.jme.util.GameTaskQueue;
 import com.jme.util.GameTaskQueueManager;
 import com.jme.util.stat.StatCollector;
 import com.jmex.awt.lwjgl.LWJGLAWTCanvasConstructor;
-
-
 import ephemera.controller.SchwarmController;
 import ephemera.controller.ShitController;
 import ephemera.model.Regeln;
-import ephemera.model.World;
 
 public class swarmGUI extends JFrame {
 
@@ -82,10 +72,9 @@ public class swarmGUI extends JFrame {
     private CamHandler camhand;
     private Canvas glCanvas;
     private Geometry grid;
-    private boolean flycam=false;
+    //private boolean flycam=false;
 
-    private Preferences prefs = Preferences
-            .userNodeForPackage(swarmGUI.class);
+    private Preferences prefs = Preferences.userNodeForPackage(swarmGUI.class);
 
     private JCheckBoxMenuItem yUp;
     private JCheckBoxMenuItem zUp;
@@ -104,13 +93,9 @@ public class swarmGUI extends JFrame {
     	SwingUtilities.invokeLater(new Runnable() {
 
     		public void run() {
-    			try {
-    				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-    			} catch (Exception e) {
-    				//Hier Fehlermeldung bzw logger
-    			}
     			new swarmGUI();
-    		}});
+    		}
+    	});
     }
 
     public swarmGUI() {
@@ -123,14 +108,11 @@ public class swarmGUI extends JFrame {
             setLocationRelativeTo(null);
             // show frame
             setVisible(true);
-            
-            
+             
             // init some location dependent sub frames
-
             while (glCanvas == null) {
             	try { Thread.sleep(100); } catch (InterruptedException e) {}
             }
-
         } catch (Exception ex) {
         }
     }
@@ -140,29 +122,23 @@ public class swarmGUI extends JFrame {
     	updateTitle();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setFont(new Font("Arial", 0, 12));
-
         setJMenuBar(createMenuBar());
        
         
         //3D view ----------------------------------------------
         JPanel canvasPanel = new JPanel();
-
         canvasPanel.setLayout(new BorderLayout());
         canvasPanel.add(getGlCanvas(), BorderLayout.CENTER);
         Dimension minimumSize = new Dimension(150, 150);
-     //   tabbedPane.setMinimumSize(minimumSize);
+        //tabbedPane.setMinimumSize(minimumSize);
         canvasPanel.setMinimumSize(minimumSize);  
 
-        
        
         //Tabs---------------------
         JTabbedPane tabbedPane = new JTabbedPane();
         tabbedPane.add(new JScrollPane(createOptionsPanel(), ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED), "Grundeinstellungen");
         tabbedPane.add(new JScrollPane(createAdditionalPanel(), ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED), "Weiteres");
         tabbedPane.setPreferredSize(new Dimension(300,150));
-
-
-       
 
         
         //Bildschirm unterteilen in interface und 3D view
@@ -175,8 +151,6 @@ public class swarmGUI extends JFrame {
         mainSplit.setOneTouchExpandable(true);
         
         getContentPane().add(mainSplit, BorderLayout.CENTER);
-        
-        
         
 
         grid = createGrid();
@@ -285,8 +259,7 @@ public class swarmGUI extends JFrame {
             private static final long serialVersionUID = 1L;
 
             public void actionPerformed(ActionEvent e) {
-                grid
-                        .setCullHint(grid.getCullHint() == Spatial.CullHint.Always ? Spatial.CullHint.Dynamic
+                grid.setCullHint(grid.getCullHint() == Spatial.CullHint.Always ? Spatial.CullHint.Dynamic
                                 : Spatial.CullHint.Always);
                 prefs.putBoolean("showgrid", grid.getCullHint() != Spatial.CullHint.Always);
             }
@@ -318,8 +291,7 @@ public class swarmGUI extends JFrame {
             private static final long serialVersionUID = 1L;
 
             public void actionPerformed(ActionEvent e) {
-            	
-            
+            	    
             
             }
         };
@@ -351,12 +323,9 @@ public class swarmGUI extends JFrame {
         return mbar;
     }
 
-
-
     // JPanel, hier werden Buttons etc hinzugef�gt allerdings in das "obere" menue (eben: delete & new button)
     private JPanel createOptionsPanel() {
     	
-
         final JLabel countLabel = new JLabel("Maximale Fliegenanzahl");
         countLabel.setForeground(white);
         JLabel speedLabel = new JLabel("Simulationsgeschwindigkeit");
@@ -371,10 +340,11 @@ public class swarmGUI extends JFrame {
     	final JSlider countSlider = new JSlider (){
 
             private static final long serialVersionUID = 1L;
+            /*
         	public void actionPerformed(ActionEvent e) {
                
             }
-        
+        */
         };
         
         countSlider.addChangeListener(new ChangeListener() {
@@ -594,8 +564,6 @@ public class swarmGUI extends JFrame {
     				impl.getHunter().setLifetime(value);
     				System.out.println(impl.getHunter().getLifetime()+"Zeit");
     			}
-    			
-
     			System.out.println("Jaegerlebensdauer: "+value);
     		//	
     	}
@@ -645,9 +613,7 @@ public class swarmGUI extends JFrame {
         		public void stateChanged(ChangeEvent ce) {
 	    		
         			float value = desiredSlider.getValue();
-	   
         			impl.getSchwarm().getRegeln().setDesiredSeparation(value);
-
         			System.out.println("Gewuenschter Abstand: "+value);
 	    	}
 	    });
@@ -664,7 +630,6 @@ public class swarmGUI extends JFrame {
  
            final JSlider neighborSlider = new JSlider();
    		   neighborSlider.setValue((int)(regeln.getNeighborDistance()));
-
            neighborSlider.addChangeListener(new ChangeListener(){
        		public void stateChanged(ChangeEvent ce) {
 	    		
@@ -802,11 +767,9 @@ public class swarmGUI extends JFrame {
             glCanvas.addMouseMotionListener(camhand);
 
             // Important! Here is where we add the guts to the canvas:
-
             ((JMECanvas) glCanvas).setImplementor(impl);
 
             // -----------END OF GL STUFF-------------
-
             Callable<Void> exe = new Callable<Void>() {
                 public Void call() {
                     forceUpdateToSize();
@@ -839,8 +802,7 @@ public class swarmGUI extends JFrame {
                         return null;
                     }
                 };
-                GameTaskQueueManager.getManager()
-                        .getQueue(GameTaskQueue.RENDER).enqueue(exe);
+                GameTaskQueueManager.getManager().getQueue(GameTaskQueue.RENDER).enqueue(exe);
             }
         }
     }
