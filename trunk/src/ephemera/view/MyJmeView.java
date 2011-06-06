@@ -2,6 +2,8 @@ package ephemera.view;
 
 import java.awt.Color;
 
+import org.lwjgl.Sys;
+
 import com.jme.light.DirectionalLight;
 import com.jme.light.PointLight;
 import com.jme.math.Vector3f;
@@ -36,7 +38,7 @@ public class MyJmeView extends SimpleCanvasImpl {
     private Quad labGraph;
     private Hunter hunter;
     private static boolean exist;
-    
+    private long time;
     public MyJmeView(int width, int height) {
         super(width, height);
     }
@@ -67,7 +69,7 @@ public class MyJmeView extends SimpleCanvasImpl {
 	
     //3D gedšns
     public void simpleSetup() {
-    	
+    	time = System.currentTimeMillis();
     	world = new World();
 		Node worldNode = world.getWorldRootNode();
 		// Schwarm initialisieren
@@ -136,11 +138,13 @@ public class MyJmeView extends SimpleCanvasImpl {
 
     
     public void simpleUpdate() {
+    	float t = (System.currentTimeMillis()-time)/1000f;
+    	if (t>25) time = System.currentTimeMillis();
+    	System.out.println(t);
     	//schwarm.setWorld(worldController);
     	schwarm.updateAll();
     	//world.getDome().update();
     	//world.getDome().render();
-    	
     	if(exist){
     		hunter.updateHunter();
     	}

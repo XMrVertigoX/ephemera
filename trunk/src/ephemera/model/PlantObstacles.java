@@ -16,6 +16,7 @@ import com.jme.system.lwjgl.LWJGLSystemProvider;
 import com.jme.util.TextureManager;
 import com.jme.bounding.*;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class PlantObstacles{
@@ -222,7 +223,7 @@ public class PlantObstacles{
 	 * @param node	Knoten, an das Objekt angehängt wird.
 	 * @param obs	ArrayListe, zu der das Objekt hinzugefügt wird.
 	 */
-	public static void createTree(float posX, float posY, float posZ, Node node, ArrayList<Spatial> obs){
+	public static void createTree(float posX, float posY, float posZ, Node node, List<Spatial> obs){
 		
 		Node objectNode = new Node();
 		Node trunkNode = new Node();

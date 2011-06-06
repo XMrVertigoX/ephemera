@@ -43,13 +43,15 @@ public class World extends Node{
 	
 	private Vector3f avoidObstacles; 
 	private ArrayList<Spatial> obs;
-	SkyDome dome;
+	private SkyDome dome;
+	
 	public SkyDome getDome(){return dome;}
+	
 	public World(){
 		super("World Root Node");
 		obs = new ArrayList<Spatial>();
 		generateRandomObjects(10);
-		//PlantObstacles.createTree(0,-150,0,worldRootNode,obs);
+		PlantObstacles.createTree(0,-150,0,this,objectNode.getChildren());
 		generateTerrain();
 		initSky();
 		
@@ -229,7 +231,7 @@ public class World extends Node{
 	 * @param textureState TexturState
 	 * @param ObjectNode rootNode
 	 */
-	private void init(TriMesh spatial, DisplaySystem display, TextureState textureState, Node ObjectNode ) {
+	public void init(TriMesh spatial, DisplaySystem display, TextureState textureState, Node ObjectNode ) {
 	        BlendState alphaState = display.getRenderer().createBlendState();
 	        alphaState.setEnabled( true );
 	        alphaState.setBlendEnabled( true );
