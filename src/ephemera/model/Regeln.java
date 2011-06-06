@@ -29,7 +29,7 @@ public class Regeln{
 		lifeTime			=	30;
 		fluggeschwindigkeit	=	2.71f;
 		leittierSpeed		=	.01f;
-		maxspeed			=	1f;
+		maxspeed			=	10f;
 		maxforce			=	1f;
 		coh_weight			=	0.3f;
 		ali_weight			=	0.2f;

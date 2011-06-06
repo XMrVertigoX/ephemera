@@ -174,12 +174,12 @@ public class Ephemera extends Node{
 	 * @param leittier
 	 */
 	public void run(ArrayList<Ephemera> boids, Vector3f leittier,World world) {
-		berechneAktuelleVektoren(boids,leittier,world);
+		calcSteeringVector(boids,leittier,world);
 	    updateMember(); 	
 	}
-	public Vector3f kollider(Node schwarmNode){
+	public Vector3f kollider(Node swarmNode){
 		Vector3f steerAway = new Vector3f();
-		List<Spatial> list = schwarmNode.getChildren();
+		List<Spatial> list = swarmNode.getChildren();
 		for (int i=0;i<list.size();i++){
 			Spatial s = list.get(i);
 			if (s.getWorldBound().intersects(this.getWorldBound())){//hasCollision(s, false)){
@@ -198,7 +198,7 @@ public class Ephemera extends Node{
 	 * @param flies
 	 * @param leittier
 	 */
-	void berechneAktuelleVektoren(ArrayList<Ephemera> flies,Vector3f leittier,World world) {
+	void calcSteeringVector(ArrayList<Ephemera> flies,Vector3f leittier,World world) {
 	    
 		
 		Vector3f koll = new Vector3f();
@@ -238,7 +238,7 @@ public class Ephemera extends Node{
 		*/
 	    //acc.addLocal(randomWalk);
 		// Kollisionsvermeidung mit Objekten in der Welt
-		if (koll.length()!=0)acc = koll.mult(5);  
+		if (koll.length()!=0)acc = koll.mult(1);  
 		// Kollisionsvermeidung mit anderen Schwarmmitgliedern
 		//Vector3f koli = kollider(this.getParent());
 //		if (koli.length()!=0) acc.add(koli).mult(2f);
