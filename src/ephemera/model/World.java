@@ -18,6 +18,7 @@ import com.jme.math.Vector3f;
 import com.jme.renderer.ColorRGBA;
 import com.jme.renderer.Renderer;
 import com.jme.scene.Node;
+import com.jme.scene.Skybox;
 import com.jme.scene.Spatial;
 import com.jme.scene.TriMesh;
 import com.jme.scene.shape.Box;
@@ -59,6 +60,7 @@ public class World extends Node{
 	 */
 	public void initSky(){
 		
+		/*
 		dome = new SkyDome("dome",100,100,1500);
 		dome.setModelBound(new BoundingSphere());
         dome.updateModelBound();
@@ -81,9 +83,9 @@ public class World extends Node{
 		dome.updateRenderState();
 		dome.setLocalTranslation(0,-350,0);
 		dome.updateGeometricState(0f, true);
+		*/
 		
-		/*
-		Skybox sky = new Skybox("Skybox",400,400,400);
+		Skybox sky = new Skybox("Skybox",5000,5000,5000);
 		// Lade die Texturen 
 		Texture north = TextureManager.loadTexture(World.class.getClassLoader().getResource("ephemera/SkyboxSkin/skybox_img/reef_west.bmp"),Texture.MinificationFilter.BilinearNearestMipMap,Texture.MagnificationFilter.Bilinear); // custom/1.jpg"),Texture.MinificationFilter.BilinearNearestMipMap,Texture.MagnificationFilter.Bilinear);
 		Texture east = TextureManager.loadTexture(World.class.getClassLoader().getResource("ephemera/SkyboxSkin/skybox_img/reef_north.bmp"),Texture.MinificationFilter.BilinearNearestMipMap,Texture.MagnificationFilter.Bilinear);
@@ -102,8 +104,8 @@ public class World extends Node{
 		sky.preloadTextures();
 		sky.updateRenderState();
 		
-		worldRootNode.attachChild(sky);
-		*/
+		attachChild(sky);
+		
 	}
 	
 	

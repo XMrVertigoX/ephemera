@@ -7,9 +7,6 @@ package ephemera.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.swt.widgets.Display;
-
-
 import com.jme.animation.SpatialTransformer;
 import com.jme.bounding.BoundingBox;
 import com.jme.bounding.BoundingSphere;
@@ -213,19 +210,20 @@ public class Ephemera extends Node{
 		Vector3f sep  = separate(flies); 
 	    Vector3f ali = align(flies);
 	    Vector3f coh = cohesion(flies);
-	    //Vector3f randomWalk = randomWalk();
+	    Vector3f randomWalk = randomWalk();
 	    
 	    target.multLocal(rules.getFollow_weight());
 	    sep.multLocal(rules.getSep_weight());
 	    ali.multLocal(rules.getAli_weight());
 	    coh.multLocal(rules.getCoh_weight());
-	    //randomWalk.multLocal(regeln.getRandomWalk_weight());
+	    randomWalk.multLocal(rules.getRandomWalk_weight());
 	    
 	    //if (kollider(this.getParent())) sep.multLocal(4f)
 	    acc.addLocal(sep);
 	    acc.addLocal(ali);
 	    acc.addLocal(coh);
 	    acc.addLocal(target);
+	    acc.addLocal(randomWalk);
 	   
 	    
 	    // Implement Reynolds: Steering = Desired - Velocity

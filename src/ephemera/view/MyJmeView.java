@@ -122,7 +122,8 @@ public class MyJmeView extends SimpleCanvasImpl {
         //GUINode.setRenderState(zbuf);
         //GUINode.updateRenderState();
 
-        world.getDome().setTarget(schwarmNode);
+        //world.getDome().setTarget(schwarmNode);
+        rootNode.attachChild(world);
         rootNode.attachChild(schwarmNode);
         rootNode.attachChild(schwarm.getLeittierNode());
         rootNode.updateGeometricState(0, true);
@@ -137,8 +138,8 @@ public class MyJmeView extends SimpleCanvasImpl {
     public void simpleUpdate() {
     	//schwarm.setWorld(worldController);
     	schwarm.updateAll();
-    	world.getDome().update();
-    	world.getDome().render();
+    	//world.getDome().update();
+    	//world.getDome().render();
     	
     	if(exist){
     		hunter.updateHunter();

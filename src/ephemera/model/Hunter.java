@@ -172,7 +172,7 @@ public class Hunter extends Node{
 	 */
 	public void eatBoid(Vector3f flyPos, int numberBoid){
 		
-		if(actualPos.distance(flyPos)<3f){
+		if(actualPos.distance(flyPos)<5f){
 			Ephemera e = swarm.getSchwarm().get(numberBoid);
 			swarm.getSchwarm().remove(e);
 			swarm.getSwarmNode().detachChildNamed(e.getName());
