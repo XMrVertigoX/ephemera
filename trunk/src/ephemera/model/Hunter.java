@@ -67,6 +67,8 @@ public class Hunter extends Node{
 	 */
 	public void initHunter(){
 	
+		Sphere innen = new Sphere("innen", 15,15,19f);
+		
 		oben = new Dome("hunter",15,15,20f);
 	    unten = new Dome("hunter",15,15,20f);
 	    
@@ -77,6 +79,7 @@ public class Hunter extends Node{
 	    augeL.setDefaultColor(new ColorRGBA(0,0,0,0));
 	    oben.setDefaultColor(new ColorRGBA(1,1,0,0));
 	    unten.setDefaultColor(new ColorRGBA(1,1,0,0));
+	    innen.setDefaultColor(new ColorRGBA(0.5f,0,0,0));
 
 	    
 	    rotQuat.fromAngleAxis(angle, axis);
@@ -90,6 +93,7 @@ public class Hunter extends Node{
 	    hunterNode.setModelBound(new BoundingSphere());
 	    hunterNode.updateModelBound();
 	    
+	    hunterNode.attachChild(innen);
 	    hunterNode.attachChild(augeL);
 	    hunterNode.attachChild(augeR);
 	    hunterNode.attachChild(oben);
@@ -137,7 +141,7 @@ public class Hunter extends Node{
 		/**
 		 * update Mund Position
 		 */
-		if(angle <= 150){
+		if(angle <= 130){
 			  sign = 1;
 			  
 			  
