@@ -72,6 +72,7 @@ public class SchwarmController {
 	void deleteFly(Ephemera dead){
 		flies.remove(dead);
 		schwarm.detachChildNamed(dead.getName());
+		Ephemera.count--;
 	}
 	
 	
