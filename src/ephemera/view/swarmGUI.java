@@ -654,12 +654,12 @@ public class swarmGUI extends JFrame {
          
         JLabel hunterLabel = new JLabel("Jaeger: ");
         hunterLabel.setForeground(white);
-        JLabel hunterAliveLabel = new JLabel("aktiv");
-        hunterAliveLabel.setForeground(Color.green);   
+        final JLabel hunterAliveLabel = new JLabel("inaktiv");
+        hunterAliveLabel.setForeground(Color.red);   
         JLabel hunterTimeLabel = new JLabel("Jaeger-Lebensdauer in Sekunden");
         hunterTimeLabel.setForeground(white);  
-       // JLabel hunterLabel = new JLabel("Jaeger-Lebensdauer in Sekunden");
-        hunterLabel.setForeground(white);   	
+  	
+        
         JLabel followLabel = new JLabel("Folge Leittier");
         followLabel.setForeground(white);
         JLabel desiredLabel = new JLabel("Gewuenschter Abstand");
@@ -675,7 +675,9 @@ public class swarmGUI extends JFrame {
               //  Jaeger hinzufuegen
 
             	impl.addNewHunter((float)hunterSlider.getValue());
+            	updateHunterActiveLabel(hunterAliveLabel, true);
             	System.out.println("Jaeger hinzugefuegt");
+      
             }
         });
         hunterButton.setFont(new Font("DIN", Font.BOLD, 12));
@@ -701,13 +703,16 @@ public class swarmGUI extends JFrame {
         JPanel addPanel = new JPanel(new GridBagLayout());
         addPanel.setBackground(dgrey);
 
-        
+        addPanel.add(hunterLabel, new GridBagConstraints(0, 1, 1, 1,
+                0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE,
+                new Insets(5, 10, 10, 10), 0, 0)); 
+        addPanel.add(hunterAliveLabel, new GridBagConstraints(1, 1, 1, 1,
+                0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE,
+                new Insets(5, 10, 10, 10), 0, 0)); 
         addPanel.add(hunterButton, new GridBagConstraints(0, 8, 5, 1,
                 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
                 new Insets(5, 10, 10, 10), 0, 0));
-        addPanel.add(hunterLabel, new GridBagConstraints(0, 10, 1, 1,
-                0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE,
-                new Insets(5, 10, 10, 10), 0, 0));  
+        
         addPanel.add(hunterSlider, new GridBagConstraints(0, 11, 5, 1,
                 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
                 new Insets(5, 10, 10, 10), 0, 0));
@@ -735,6 +740,9 @@ public class swarmGUI extends JFrame {
         
         
         return addPanel;
+        
+        
+        
     }
     
     private void updateCountLabel(JLabel cl, JSlider cs) {
@@ -743,6 +751,26 @@ public class swarmGUI extends JFrame {
     	int val = countSlider.getValue();
         countLabel.setText("Maximale Fliegenanzahl: " + val);
     }
+    
+    private void updateHunterActiveLabel(JLabel hl, boolean alive){
+    	
+    	if (alive==true){
+    	JLabel hunterAliveLabel = hl;
+    	hunterAliveLabel.setText("aktiv");
+    	hunterAliveLabel.setForeground(Color.green);
+    	}
+    	else if (alive==false){
+        	JLabel hunterAliveLabel = hl;
+        	hunterAliveLabel.setText("inaktiv");
+        	hunterAliveLabel.setForeground(Color.red);
+    	}
+    }
+    
+    public static void updateHunterInactiveLabel(){
+    	//updateHunterAliveLabel(, false);
+    }
+    
+
 
 
     protected Canvas getGlCanvas() {
