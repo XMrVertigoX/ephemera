@@ -7,9 +7,11 @@ package ephemera.model;
 import com.jme.bounding.BoundingSphere;
 import com.jme.math.FastMath;
 import com.jme.math.Matrix3f;
+import com.jme.math.Quaternion;
 import com.jme.math.Vector3f;
 import com.jme.renderer.ColorRGBA;
 import com.jme.scene.Node;
+import com.jme.scene.shape.Dome;
 import com.jme.scene.shape.Sphere;
 import ephemera.view.MyJmeView;
 import ephemera.controller.SchwarmController;
@@ -30,6 +32,20 @@ public class Hunter extends Node{
 	private int index = 1;
 	private float lifetime = 20f;
 	
+	
+
+    private Vector3f axis = new Vector3f(1, 0, 0);
+    private float angle = -.2f;
+    private float angle2 = -2.8f;
+
+    private Quaternion rotQuat = new Quaternion();
+    private Quaternion rotQuat2 = new Quaternion();
+
+	private static Node hunterNode = new Node();
+	private Dome oben;
+	private Dome unten;
+	private Sphere augeL;
+	private Sphere augeR;
 
 	/**
 	 * konstruktor
@@ -51,11 +67,41 @@ public class Hunter extends Node{
 	 */
 	public void initHunter(){
 	
-		s = new Sphere("jaeger",25,25,5f);
-		s.setDefaultColor(new ColorRGBA(1,0,0,0));
-		attachChild(s);
-		s.setModelBound(new BoundingSphere());
-		s.setLocalTranslation(actualPos);
+		oben = new Dome("hunter",15,15,20f);
+	    unten = new Dome("hunter",15,15,20f);
+	    
+	    augeL = new Sphere("eye", 10,10,5f);
+	    augeR = new Sphere("eye", 10,10,5f);
+
+	    augeR.setDefaultColor(new ColorRGBA(0,0,0,0));    
+	    augeL.setDefaultColor(new ColorRGBA(0,0,0,0));
+	    oben.setDefaultColor(new ColorRGBA(1,1,0,0));
+	    unten.setDefaultColor(new ColorRGBA(1,1,0,0));
+
+	    
+	    rotQuat.fromAngleAxis(angle, axis);
+	    rotQuat2.fromAngleAxis(angle2, axis);
+
+	    oben.setLocalRotation(rotQuat);
+	    unten.setLocalRotation(rotQuat2);
+	    augeL.setLocalTranslation(new Vector3f(11f, 10f, 9));
+	    augeR.setLocalTranslation(new Vector3f(-11f, 10f, 9));
+
+
+
+	    hunterNode.setModelBound(new BoundingSphere());
+	    hunterNode.updateModelBound();
+	    
+	    hunterNode.attachChild(augeL);
+	    hunterNode.attachChild(augeR);
+	    hunterNode.attachChild(oben);
+	    hunterNode.attachChild(unten);
+		
+		
+		
+		attachChild(hunterNode);
+		hunterNode.setModelBound(new BoundingSphere());
+		hunterNode.setLocalTranslation(actualPos);
 	}
 	
 	
