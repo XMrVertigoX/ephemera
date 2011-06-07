@@ -163,17 +163,19 @@ public class Hunter extends Node{
 	
 		if(getAge()>lifetime || (swarm.getSchwarm().size() == 0)){
 
-			Vector3f weg = new Vector3f(300,300,300);
-			target = weg.subtract(actualPos);	
-
-			/**
-			 * wenn jaeger am rand der skybox angekommen ist,
-			 * wird er entfernt
-			 */
-			if(actualPos.distance(weg)<5){
-				
-				deleteHunter();
-			}	
+//			Vector3f weg = new Vector3f(300,300,300);
+//			target = weg.subtract(actualPos);	
+//
+//			/**
+//			 * wenn jaeger am rand der skybox angekommen ist,
+//			 * wird er entfernt
+//			 */
+//			if(actualPos.distance(weg)<5){
+//				
+//				deleteHunter();
+//			}
+			
+			deleteHunter();
 		}
 		else{
 			/**
