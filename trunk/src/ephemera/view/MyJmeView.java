@@ -80,7 +80,7 @@ public class MyJmeView extends SimpleCanvasImpl {
 		Node schwarmNode = schwarm.getSwarmNode();
 
 		
-		rootNode.attachChild(world.getDome());
+		//rootNode.attachChild(world.getDome());
 		rootNode.attachChild(world.getObjectNode());
 		//rootNode.attachChild(schwarmNode);	
 		//worldNode.attachChild(schwarm.getLeittierNode());

@@ -414,8 +414,10 @@ public class swarmGUI extends JFrame {
         	private static final long serialVersionUID = 1L;
 
         	public void actionPerformed(ActionEvent e) {
-        		impl.getSchwarm().addFly(new Vector3f());
-        		System.out.println ("Fliege hinzugefuegt");
+        		if(impl.getSchwarm().getSchwarm().size()<(countSlider.getValue()/100f)){
+        			impl.getSchwarm().addFly(new Vector3f());
+        			System.out.println ("Fliege hinzugefuegt");
+        		}
         	}
         });
         
