@@ -40,7 +40,7 @@ public class PlantObstacles{
 		
 		
 		//Stamm
-		Cylinder trunk = new Cylinder("Trunk", 100, 100, .25f, 2f);
+		Cylinder trunk = new Cylinder("Trunk", 25, 25, .25f, 2f);
 		rotTrunk.fromAngleAxis(-FastMath.PI/2f, Vector3f.UNIT_X);
 		trunk.setLocalRotation(rotTrunk);
 		
@@ -49,21 +49,21 @@ public class PlantObstacles{
 		rotLeaves.fromAngleAxis(-FastMath.PI/2f, Vector3f.UNIT_X);
 		Vector3f scale = new Vector3f(1, 1, .7f);
 		
-		Torus leaves1 = new Torus ("Leaves 1", 100, 100, 1, 1);
+		Torus leaves1 = new Torus ("Leaves 1", 25, 25, 1, 1);
 		leaves1.setLocalScale(scale);
 		leaves1.setLocalRotation(rotLeaves);
 			
-		Torus leaves2 = new Torus("Leaves 2", 100, 100, .75f, .75f);
+		Torus leaves2 = new Torus("Leaves 2", 25, 25, .75f, .75f);
 		leaves2.setLocalScale(scale);
 		leaves2.setLocalRotation(rotLeaves);
 		leaves2.setLocalTranslation(0, .75f, 0);
 		
-		Torus leaves3 = new Torus("Leaves 3", 100, 100, .52f, .52f);
+		Torus leaves3 = new Torus("Leaves 3", 25, 25, .52f, .52f);
 		leaves3.setLocalScale(scale);
 		leaves3.setLocalRotation(rotLeaves);
 		leaves3.setLocalTranslation(0, 1.35f, 0);
 		
-		Sphere leaves4 = new Sphere("Leaves 4", 100, 100, .65f);
+		Sphere leaves4 = new Sphere("Leaves 4", 25, 25, .65f);
 		leaves4.setLocalScale(new Vector3f(1, .7f, 1));
 		leaves4.setLocalTranslation(0, 1.7f, 0);
 			
@@ -74,8 +74,8 @@ public class PlantObstacles{
 		leavesNode.attachChild(leaves4);
 		
 		//Texturen
-		setTexture("ephemera/ObjTextures/stamm.jpg", trunk);
-		setTexture("ephemera/ObjTextures/laub.jpg", leavesNode);
+		setTexture("ephemera/texture/objects/stamm.jpg", trunk);
+		setTexture("ephemera/texture/objects/laub.jpg", leavesNode);
 	
 		//Objekt Knoten
 		objectNode.attachChild(leavesNode);
@@ -124,55 +124,55 @@ public class PlantObstacles{
 		
 		
 		//Laub
-		Sphere leaves1 = new Sphere ("Leaves 1", 100, 100, .3f);
+		Sphere leaves1 = new Sphere ("Leaves 1", 25, 25, .3f);
 		leaves1.setLocalScale(scale);
 		rot90X.fromAngleAxis(FastMath.PI/2f, Vector3f.UNIT_X);
 		leaves1.setLocalRotation(rot90X);
 		leaves1.setLocalTranslation(new Vector3f(0, -.525f, 0.5f));
 		
-		Sphere leaves2 = new Sphere ("Leaves 2", 100, 100, .3f);
+		Sphere leaves2 = new Sphere ("Leaves 2", 25, 25, .3f);
 		leaves2.setLocalScale(scale);
 		rotM90X.fromAngleAxis(-FastMath.PI/2f, Vector3f.UNIT_X);
 		leaves2.setLocalRotation(rotM90X);
 		leaves2.setLocalTranslation(new Vector3f(0, -.525f, -0.5f));
 			
-		Sphere leaves3 = new Sphere ("Leaves 3", 100, 100, .3f);
+		Sphere leaves3 = new Sphere ("Leaves 3", 25, 25, .3f);
 		leaves3.setLocalScale(scale);
 		rot90Z.fromAngleAxis(FastMath.PI/2f, Vector3f.UNIT_Z);
 		leaves3.setLocalRotation(rot90Z);
 		leaves3.setLocalTranslation(new Vector3f(0.5f, -.525f, 0));
 		
-		Sphere leaves4 = new Sphere ("Leaves 4", 100, 100, .3f);
+		Sphere leaves4 = new Sphere ("Leaves 4", 25, 25, .3f);
 		leaves4.setLocalScale(scale);
 		rotM90Z.fromAngleAxis(-FastMath.PI/2f, Vector3f.UNIT_Z);
 		leaves4.setLocalRotation(rotM90Z);
 		leaves4.setLocalTranslation(new Vector3f(-0.5f, -.525f, 0));
 		
-		Sphere leaves5 = new Sphere ("Leaves 5", 100, 100, .255f);
+		Sphere leaves5 = new Sphere ("Leaves 5", 25, 25, .255f);
 		leaves5.setLocalScale(scale);
 		rot45X.fromAngleAxis(FastMath.PI/4f, Vector3f.UNIT_X);
 		leaves5.setLocalRotation(rot45X);
 		leaves5.setLocalTranslation(new Vector3f(0, 0, 0.73f));
 		
-		Sphere leaves6 = new Sphere ("Leaves 6", 100, 100, .255f);
+		Sphere leaves6 = new Sphere ("Leaves 6", 25, 25, .255f);
 		leaves6.setLocalScale(scale);
 		rotM45X.fromAngleAxis(-FastMath.PI/4f, Vector3f.UNIT_X);
 		leaves6.setLocalRotation(rotM45X);
 		leaves6.setLocalTranslation(new Vector3f(0, 0, -0.73f));
 			
-		Sphere leaves7 = new Sphere ("Leaves 7", 100, 100, .255f);
+		Sphere leaves7 = new Sphere ("Leaves 7", 25, 25, .255f);
 		leaves7.setLocalScale(scale);
 		rot45Z.fromAngleAxis(FastMath.PI/4f, Vector3f.UNIT_Z);
 		leaves7.setLocalRotation(rot45Z);
 		leaves7.setLocalTranslation(new Vector3f(-0.73f, 0, 0));
 		
-		Sphere leaves8 = new Sphere ("Leaves 8", 100, 100, .255f);
+		Sphere leaves8 = new Sphere ("Leaves 8", 25, 25, .255f);
 		leaves8.setLocalScale(scale);
 		rotM45Z.fromAngleAxis(-FastMath.PI/4f, Vector3f.UNIT_Z);
 		leaves8.setLocalRotation(rotM45Z);
 		leaves8.setLocalTranslation(new Vector3f(0.73f, 0, 0));
 		
-		Sphere leaves9 = new Sphere ("Leaves 9", 100, 100, .3f);
+		Sphere leaves9 = new Sphere ("Leaves 9", 25, 25, .3f);
 		leaves9.setLocalScale(scale);
 
 		
@@ -195,7 +195,7 @@ public class PlantObstacles{
 		objectNode.attachChild(rotNode);
 		
 		//Textur
-		setTexture("ephemera/ObjTextures/laub.jpg", objectNode);
+		setTexture("ephemera/texture/objects/laub.jpg", objectNode);
 		
 		//Groeﬂe anpassen
 		objectNode.setLocalScale(80);
@@ -262,8 +262,8 @@ public class PlantObstacles{
 		leavesNode.attachChild(leaves2);
 		
 		//Texturen
-		setTexture("ephemera/ObjTextures/laub.jpg", leavesNode);
-		setTexture("ephemera/ObjTextures/stamm.jpg", trunkNode);
+		setTexture("ephemera/texture/objects/laub.jpg", leavesNode);
+		setTexture("ephemera/texture/objects/stamm.jpg", trunkNode);
 		
 		//Objekt Knoten
 		objectNode.attachChild(leavesNode);
@@ -302,7 +302,7 @@ public class PlantObstacles{
 		Quaternion rotTrunk = new Quaternion();
 		
 		//Stamm
-		Cylinder trunk = new Cylinder("Trunk", 100, 100, .65f, 2);
+		Cylinder trunk = new Cylinder("Trunk", 25, 25, .65f, 2);
 		rotTrunk.fromAngleAxis(-FastMath.PI/2f, Vector3f.UNIT_X);
 		trunk.setLocalRotation(rotTrunk);
 			
@@ -336,8 +336,8 @@ public class PlantObstacles{
 		leavesNode.attachChild(leaves6);
 		
 		//Texturen
-		setTexture("ephemera/ObjTextures/stamm.jpg", trunk);
-		setTexture("ephemera/ObjTextures/tanne.jpg", leavesNode);		
+		setTexture("ephemera/texture/objects/stamm.jpg", trunk);
+		setTexture("ephemera/texture/objects/tanne.jpg", leavesNode);		
 		
 		//Objekt Knoten
 		objectNode.attachChild(trunk);
@@ -375,7 +375,7 @@ public class PlantObstacles{
 		Quaternion rotBranches = new Quaternion();
 		
 		//Stamm
-		Cylinder trunk = new Cylinder("Trunk", 100, 100, .65f, 2);
+		Cylinder trunk = new Cylinder("Trunk", 25, 25, .65f, 2);
 		rotTrunk.fromAngleAxis(-FastMath.PI/2f, Vector3f.UNIT_X);
 		trunk.setLocalRotation(rotTrunk);
 			
@@ -415,8 +415,8 @@ public class PlantObstacles{
 		branchesNode.attachChild(leaves6);
 		
 		//Texturen
-		setTexture("ephemera/ObjTextures/stamm.jpg", trunk);
-		setTexture("ephemera/ObjTextures/tanne.jpg", branchesNode);
+		setTexture("ephemera/texture/objects/stamm.jpg", trunk);
+		setTexture("ephemera/texture/objects/tanne.jpg", branchesNode);
 		
 		//Objekt Knoten
 		objectNode.attachChild(trunk);
