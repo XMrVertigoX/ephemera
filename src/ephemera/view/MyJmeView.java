@@ -49,7 +49,7 @@ public class MyJmeView extends SimpleCanvasImpl {
     	
     	if(!exist){
     		System.out.println("dabei");
-    		hunter = new Hunter(new Vector3f(300,300,300), world, schwarm, lifetime);
+    		hunter = new Hunter(new Vector3f(300,300,300), world, schwarm);
     		rootNode.attachChild(hunter);
     		exist = true;
     	}

@@ -234,13 +234,13 @@ public class PlantObstacles{
 		Quaternion rotBranchY = new Quaternion();
 		
 		//Stamm
-		Cylinder trunk = new Cylinder("Trunk", 100, 100, .5f, 7f);
+		Cylinder trunk = new Cylinder("Trunk", 25, 25, .5f, 7f);
 		rotTrunk.fromAngleAxis(-FastMath.PI/2f, Vector3f.UNIT_X);
 		trunk.setLocalRotation(rotTrunk);
 		
 		
 		//Ast
-		Cylinder branch = new Cylinder ("Branch", 100, 100, .1f, 2.5f);
+		Cylinder branch = new Cylinder ("Branch", 25, 25, .1f, 2.5f);
 		rotBranchX.fromAngleAxis(FastMath.PI/6f, Vector3f.UNIT_X);
 		rotBranchY.fromAngleAxis(FastMath.PI/2f, Vector3f.UNIT_Y);
 		branch.setLocalRotation(rotBranchX);
@@ -248,10 +248,10 @@ public class PlantObstacles{
 		
 		
 		//Laub
-		Sphere leaves = new Sphere ("Leaves", 100, 100, 3.5f);
+		Sphere leaves = new Sphere ("Leaves", 25, 25, 3.5f);
 		leaves.setLocalTranslation(0, 5f, 0);
 		
-		Sphere leaves2 = new Sphere("Leaves 2", 100, 100, .6f);
+		Sphere leaves2 = new Sphere("Leaves 2", 25, 25, .6f);
 		leaves2.setLocalTranslation(0, .4f, -2f);
 		
 		
