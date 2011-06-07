@@ -653,9 +653,7 @@ public class swarmGUI extends JFrame {
           neighborSlider.setForeground(white);
          
         JLabel hunterLabel = new JLabel("Jaeger: ");
-        hunterLabel.setForeground(white);
-        final JLabel hunterAliveLabel = new JLabel("inaktiv");
-        hunterAliveLabel.setForeground(Color.red);   
+        hunterLabel.setForeground(white);  
         JLabel hunterTimeLabel = new JLabel("Jaeger-Lebensdauer in Sekunden");
         hunterTimeLabel.setForeground(white);  
   	
@@ -675,7 +673,6 @@ public class swarmGUI extends JFrame {
               //  Jaeger hinzufuegen
 
             	impl.addNewHunter((float)hunterSlider.getValue());
-            	updateHunterActiveLabel(hunterAliveLabel, true);
             	System.out.println("Jaeger hinzugefuegt");
       
             }
@@ -705,10 +702,7 @@ public class swarmGUI extends JFrame {
 
         addPanel.add(hunterLabel, new GridBagConstraints(0, 1, 1, 1,
                 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE,
-                new Insets(5, 10, 10, 10), 0, 0)); 
-        addPanel.add(hunterAliveLabel, new GridBagConstraints(1, 1, 1, 1,
-                0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE,
-                new Insets(5, 10, 10, 10), 0, 0)); 
+                new Insets(5, 10, 10, 10), 0, 0));
         addPanel.add(hunterButton, new GridBagConstraints(0, 8, 5, 1,
                 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
                 new Insets(5, 10, 10, 10), 0, 0));
