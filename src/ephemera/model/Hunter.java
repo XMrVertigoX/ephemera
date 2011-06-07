@@ -97,7 +97,7 @@ public class Hunter extends Node{
 
 			Vector3f weg = new Vector3f(300,300,300);
 			target = weg.subtract(actualPos);	
-			System.out.println(actualPos);
+
 			/**
 			 * wenn jaeger am rand der skybox angekommen ist,
 			 * wird er entfernt
@@ -123,7 +123,7 @@ public class Hunter extends Node{
 					Vector3f flyPos = swarm.getSchwarm().get(index).getLocalTranslation();
 					target = flyPos.subtract(actualPos);
 					eatBoid(flyPos, index);
-					System.out.println(index);
+	
 				}
 			}
 			
@@ -144,7 +144,7 @@ public class Hunter extends Node{
 		}
 		
 		if(world.obstacleAvoidance(this)){
-			System.out.println("collision");
+
 		//	actualPos.addLocal(world.getCollisionVector());
 			
 			float angle = FastMath.PI/2f;
@@ -152,7 +152,7 @@ public class Hunter extends Node{
 			Matrix3f rotMat = new Matrix3f(1,0,0,0,FastMath.cos(angle),FastMath.sin(angle)*-1f,0,FastMath.sin(angle),FastMath.cos(angle));
 			
 			target = rotMat.mult(target);
-			System.out.println(target);
+
 			
 		}
 	//	else{
