@@ -1,11 +1,5 @@
 ephemera
-ephemera.ben.leittier
 ephemera.controller
-ephemera.gui
-ephemera.loader.collada
-ephemera.loader.maya
-ephemera.loader.obj
 ephemera.model
-ephemera.semjon
 ephemera.tester
 ephemera.view
