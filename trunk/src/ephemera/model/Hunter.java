@@ -51,7 +51,7 @@ public class Hunter extends Node{
 	 * konstruktor
 	 * @param pos
 	 */
-	public Hunter(Vector3f pos, World world, SchwarmController swarm){	
+	public Hunter(Vector3f pos, World world, SchwarmController swarm, float lifetime){	
 		
 		super("Hunter");
 		age = System.currentTimeMillis();
@@ -59,6 +59,7 @@ public class Hunter extends Node{
 		initHunter();
 		this.world = world;
 		this.swarm = swarm;
+		this.lifetime = lifetime;
 		MyJmeView.setExist(true);
 	}
 	
