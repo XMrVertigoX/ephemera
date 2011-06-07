@@ -31,6 +31,7 @@ import com.jme.system.lwjgl.LWJGLSystemProvider;
 import com.jme.util.TextureManager;
 import com.jme.util.geom.BufferUtils;
 import com.jmex.model.ogrexml.Material;
+import ephemera.model.Shit;
 
 import ephemera.tester.HelloTexture;
 
@@ -206,7 +207,16 @@ public class Ephemera extends Node{
 			koll = kollider(world.getObjectNode());
 		}
 		// Berechne die Vektoren 
-		Vector3f target = getLeittierZielVector(leittier);
+		
+		Vector3f target = new Vector3f();
+	
+		if(Shit.getShit() > 0){
+			target = Shit.getShitPos();
+			rules.setFollow_weight(1f);
+		}
+		
+		target = getLeittierZielVector(leittier);
+		
 		Vector3f sep  = separate(flies); 
 	    Vector3f ali = align(flies);
 	    Vector3f coh = cohesion(flies);
