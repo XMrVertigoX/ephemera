@@ -11,10 +11,6 @@
         </sealing>
     </manifest>
     <selectedElements exportClassFiles="true" exportJavaFiles="true" exportOutputFolder="false">
-        <javaElement handleIdentifier="=ephemera/src"/>
-        <file path="/ephemera/MANIFEST.MF"/>
-        <file path="/ephemera/properties.cfg"/>
-        <file path="/ephemera/.classpath"/>
-        <file path="/ephemera/.project"/>
+        <javaElement handleIdentifier="=ephemera"/>
     </selectedElements>
 </jardesc>
