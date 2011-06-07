@@ -28,7 +28,7 @@ public class Hunter extends Node{
 	private float fac = 10f;
 	private boolean hungry;
 	private int index = 1;
-	private float lifetime = 20;
+	private float lifetime = 20f;
 	
 
 	/**
