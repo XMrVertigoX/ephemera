@@ -136,7 +136,6 @@ public class Hunter extends Node{
 	 */
 	public void updateHunter(){
 		
-		System.out.println("hunter" + angle);
 		
 		/**
 		 * update Mund Position
