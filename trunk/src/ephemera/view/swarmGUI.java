@@ -55,7 +55,7 @@ import ephemera.model.Regeln;
 
 public class swarmGUI extends JFrame {
 
-	//
+	// 
     private static final int GRID_LINES = 51;
     private static final float GRID_SPACING = 100f;
 
@@ -121,7 +121,7 @@ public class swarmGUI extends JFrame {
    
     	updateTitle();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setFont(new Font("Arial", 0, 12));
+        setFont(new Font("DIN", 0, 12));
         setJMenuBar(createMenuBar());
        
         
@@ -323,7 +323,7 @@ public class swarmGUI extends JFrame {
         return mbar;
     }
 
-    // JPanel, hier werden Buttons etc hinzugef�gt allerdings in das "obere" menue (eben: delete & new button)
+    // JPanel Hauptfunktionen
     private JPanel createOptionsPanel() {
     	
         final JLabel countLabel = new JLabel("Maximale Fliegenanzahl");
@@ -389,7 +389,7 @@ public class swarmGUI extends JFrame {
 		
 			public void stateChanged(ChangeEvent ce) {
 
-				float value = speedSlider.getValue()/100f;
+				float value = speedSlider.getValue()/10f;
 				System.out.println("Simulationsgeschwindigkeit "+value);
 				if (impl.getSchwarm()!=null){
 					
@@ -414,10 +414,8 @@ public class swarmGUI extends JFrame {
         	private static final long serialVersionUID = 1L;
 
         	public void actionPerformed(ActionEvent e) {
-        		if(impl.getSchwarm().getSchwarm().size()<(countSlider.getValue()/100f)){
-        			impl.getSchwarm().addFly(new Vector3f());
-        			System.out.println ("Fliege hinzugefuegt");
-        		}
+        		impl.getSchwarm().addFly(new Vector3f());
+        		System.out.println ("Fliege hinzugefuegt");
         	}
         });
         
@@ -552,22 +550,21 @@ public class swarmGUI extends JFrame {
     private JPanel createAdditionalPanel() {
     	
         final JSlider hunterSlider = new JSlider();
-        
-        if(impl.getHunter()==null){
+
         	hunterSlider.setValue(20);
-        }
+        
         hunterSlider.addChangeListener(new ChangeListener(){
     		public void stateChanged(ChangeEvent ce) {
-    		
-    			float value = hunterSlider.getValue();
-    			
-    			if(impl.getHunter()!=null){
-    				hunterSlider.setValue((int)impl.getHunter().getLifetime());
+    	
+    			float value = (float)hunterSlider.getValue();
+    				
+    			if (impl.getHunter()!=null)
     				impl.getHunter().setLifetime(value);
-    				System.out.println(impl.getHunter().getLifetime()+"Zeit");
-    			}
-    			System.out.println("Jaegerlebensdauer: "+value);
-    		//	
+    			//else if (impl.getHunter()==null)
+    			
+	  
+        		System.out.println("Jaegerlebensdauer: "+value);
+    		
     	}
         });
        
@@ -655,8 +652,13 @@ public class swarmGUI extends JFrame {
           neighborSlider.setEnabled(true);  
           neighborSlider.setForeground(white);
          
-          
-        JLabel hunterLabel = new JLabel("Jaeger-Lebensdauer in Sekunden");
+        JLabel hunterLabel = new JLabel("Jaeger: ");
+        hunterLabel.setForeground(white);
+        JLabel hunterAliveLabel = new JLabel("aktiv");
+        hunterAliveLabel.setForeground(Color.green);   
+        JLabel hunterTimeLabel = new JLabel("Jaeger-Lebensdauer in Sekunden");
+        hunterTimeLabel.setForeground(white);  
+       // JLabel hunterLabel = new JLabel("Jaeger-Lebensdauer in Sekunden");
         hunterLabel.setForeground(white);   	
         JLabel followLabel = new JLabel("Folge Leittier");
         followLabel.setForeground(white);
@@ -671,8 +673,8 @@ public class swarmGUI extends JFrame {
 
             public void actionPerformed(ActionEvent e) {
               //  Jaeger hinzufuegen
-            	if (impl.getHunter()==null)
-            	impl.addNewHunter();
+
+            	impl.addNewHunter((float)hunterSlider.getValue());
             	System.out.println("Jaeger hinzugefuegt");
             }
         });
