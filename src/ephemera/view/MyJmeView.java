@@ -44,10 +44,12 @@ public class MyJmeView extends SimpleCanvasImpl {
     }
     
     
-    public void addNewHunter(){ 
+    public void addNewHunter(float lifetime){ 
+    	
+    	
     	if(!exist){
     		System.out.println("dabei");
-    		hunter = new Hunter(new Vector3f(300,300,300), world, schwarm);
+    		hunter = new Hunter(new Vector3f(300,300,300), world, schwarm, lifetime);
     		rootNode.attachChild(hunter);
     		exist = true;
     	}
@@ -80,7 +82,7 @@ public class MyJmeView extends SimpleCanvasImpl {
 		Node schwarmNode = schwarm.getSwarmNode();
 
 		
-		//rootNode.attachChild(world.getDome());
+		rootNode.attachChild(world.getDome());
 		rootNode.attachChild(world.getObjectNode());
 		//rootNode.attachChild(schwarmNode);	
 		//worldNode.attachChild(schwarm.getLeittierNode());
