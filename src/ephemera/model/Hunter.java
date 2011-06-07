@@ -35,23 +35,22 @@ public class Hunter extends Node{
 	
 
     private Vector3f axis = new Vector3f(1, 0, 0);
-    private float angle = -.2f;
-    private float angle2 = -2.8f;
+    private float angle = 180*(FastMath.PI/180f);
 
     private Quaternion rotQuat = new Quaternion();
-    private Quaternion rotQuat2 = new Quaternion();
 
 	private static Node hunterNode = new Node();
 	private Dome oben;
 	private Dome unten;
 	private Sphere augeL;
 	private Sphere augeR;
+	private int sign;
 
 	/**
 	 * konstruktor
 	 * @param pos
 	 */
-	public Hunter(Vector3f pos, World world, SchwarmController swarm, float lifetime){	
+	public Hunter(Vector3f pos, World world, SchwarmController swarm){	
 		
 		super("Hunter");
 		age = System.currentTimeMillis();
@@ -59,8 +58,8 @@ public class Hunter extends Node{
 		initHunter();
 		this.world = world;
 		this.swarm = swarm;
-		this.lifetime = lifetime;
 		MyJmeView.setExist(true);
+		sign = 1;
 	}
 	
 	/**
@@ -81,10 +80,8 @@ public class Hunter extends Node{
 
 	    
 	    rotQuat.fromAngleAxis(angle, axis);
-	    rotQuat2.fromAngleAxis(angle2, axis);
 
-	    oben.setLocalRotation(rotQuat);
-	    unten.setLocalRotation(rotQuat2);
+	    unten.setLocalRotation(rotQuat);
 	    augeL.setLocalTranslation(new Vector3f(11f, 10f, 9));
 	    augeR.setLocalTranslation(new Vector3f(-11f, 10f, 9));
 
@@ -134,6 +131,27 @@ public class Hunter extends Node{
 	 * falls jaeger ein bestimmtes alter hat, verlaesst er die simulation
 	 */
 	public void updateHunter(){
+		
+		System.out.println("hunter" + angle);
+		
+		/**
+		 * update Mund Position
+		 */
+		if(angle <= 150){
+			  sign = 1;
+			  
+			  
+		  }else if(angle >=180){
+			  sign = -1;
+		  }
+		  
+		  angle +=(2f*sign); 
+		   
+	      rotQuat.fromAngleAxis((-angle*(FastMath.PI/180f)), axis);
+
+	      unten.setLocalRotation(rotQuat);
+			
+		
 		
 		/**
 		 * wenn jaeger aelter als 20 sekunden ist, dann verlaesst er die simulation,
@@ -208,6 +226,10 @@ public class Hunter extends Node{
 // 		}
 		
 		setPos(actualPos);
+		
+		
+		
+		
 	}
 	
 	/**
