@@ -89,12 +89,12 @@ public class World extends Node{
 		
 		Skybox sky = new Skybox("Skybox",5000,5000,5000);
 		// Lade die Texturen 
-		Texture north = TextureManager.loadTexture(World.class.getClassLoader().getResource("ephemera/SkyboxSkin/skybox_img/reef_west.bmp"),Texture.MinificationFilter.BilinearNearestMipMap,Texture.MagnificationFilter.Bilinear); // custom/1.jpg"),Texture.MinificationFilter.BilinearNearestMipMap,Texture.MagnificationFilter.Bilinear);
-		Texture east = TextureManager.loadTexture(World.class.getClassLoader().getResource("ephemera/SkyboxSkin/skybox_img/reef_north.bmp"),Texture.MinificationFilter.BilinearNearestMipMap,Texture.MagnificationFilter.Bilinear);
-		Texture south = TextureManager.loadTexture(World.class.getClassLoader().getResource("ephemera/SkyboxSkin/skybox_img/reef_east.bmp"),Texture.MinificationFilter.BilinearNearestMipMap,Texture.MagnificationFilter.Bilinear);
-		Texture west = TextureManager.loadTexture(World.class.getClassLoader().getResource("ephemera/SkyboxSkin/skybox_img/reef_south.bmp"),Texture.MinificationFilter.BilinearNearestMipMap,Texture.MagnificationFilter.Bilinear);
-		Texture up = TextureManager.loadTexture(World.class.getClassLoader().getResource("ephemera/SkyboxSkin/skybox_img/reef_up.bmp"),Texture.MinificationFilter.BilinearNearestMipMap,Texture.MagnificationFilter.Bilinear);
-		Texture down = TextureManager.loadTexture(World.class.getClassLoader().getResource("ephemera/SkyboxSkin/skybox_img/reef_down.bmp"),Texture.MinificationFilter.BilinearNearestMipMap,Texture.MagnificationFilter.Bilinear);
+		Texture north = TextureManager.loadTexture(World.class.getClassLoader().getResource("ephemera/SkyboxSkin/reef_west.bmp"),Texture.MinificationFilter.BilinearNearestMipMap,Texture.MagnificationFilter.Bilinear); // custom/1.jpg"),Texture.MinificationFilter.BilinearNearestMipMap,Texture.MagnificationFilter.Bilinear);
+		Texture east = TextureManager.loadTexture(World.class.getClassLoader().getResource("ephemera/SkyboxSkin/reef_north.bmp"),Texture.MinificationFilter.BilinearNearestMipMap,Texture.MagnificationFilter.Bilinear);
+		Texture south = TextureManager.loadTexture(World.class.getClassLoader().getResource("ephemera/SkyboxSkin/reef_east.bmp"),Texture.MinificationFilter.BilinearNearestMipMap,Texture.MagnificationFilter.Bilinear);
+		Texture west = TextureManager.loadTexture(World.class.getClassLoader().getResource("ephemera/SkyboxSkin/reef_south.bmp"),Texture.MinificationFilter.BilinearNearestMipMap,Texture.MagnificationFilter.Bilinear);
+		Texture up = TextureManager.loadTexture(World.class.getClassLoader().getResource("ephemera/SkyboxSkin/reef_up.bmp"),Texture.MinificationFilter.BilinearNearestMipMap,Texture.MagnificationFilter.Bilinear);
+		Texture down = TextureManager.loadTexture(World.class.getClassLoader().getResource("ephemera/SkyboxSkin/reef_down.bmp"),Texture.MinificationFilter.BilinearNearestMipMap,Texture.MagnificationFilter.Bilinear);
 		
 		sky.setTexture(Skybox.Face.North, north);
 		sky.setTexture(Skybox.Face.East, east);
