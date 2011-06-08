@@ -32,7 +32,7 @@ public class Main extends SimpleGame {
 		schwarm.setWorld(wc);
 		Node n = schwarm.getSwarmNode();
 		rootNode.attachChild(n);
-		rootNode.attachChild(wc.getWorldRootNode());
+		rootNode.attachChild(wc);
 		rootNode.attachChild(schwarm.getLeittierNode());
 		//ctm.generateCollisionTree(CollisionTree.Type.Sphere, n, true);
 		
