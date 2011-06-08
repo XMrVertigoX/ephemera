@@ -42,7 +42,7 @@ import javax.swing.event.ChangeListener;
 
 import ephemera.controller.SchwarmController;
 import ephemera.model.Hunter;
-import ephemera.model.Regeln;
+import ephemera.model.Rules;
 import ephemera.model.World;
 import ephemera.tester.HelloTexture;
 
