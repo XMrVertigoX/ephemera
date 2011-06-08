@@ -1,7 +1,3 @@
-/**
- * klasse jaeger
- */
-
 package ephemera.model;
 
 import com.jme.bounding.BoundingSphere;
@@ -16,7 +12,11 @@ import com.jme.scene.shape.Sphere;
 import ephemera.view.MyJmeView;
 import ephemera.controller.SchwarmController;
 
-
+/**
+ * Der Jaeger
+ * @author Benedikt Schuld, Carolin Todt
+ *
+ */
 public class Hunter extends Node{
 
 	private static final long serialVersionUID = 1L;
@@ -31,8 +31,6 @@ public class Hunter extends Node{
 	private boolean hungry;
 	private int index = 1;
 	private float lifetime = 20f;
-	
-	
 
     private Vector3f axis = new Vector3f(1, 0, 0);
     private float angle = 180*(FastMath.PI/180f);

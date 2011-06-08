@@ -14,8 +14,6 @@ import com.jme.scene.shape.Sphere;
  * @author Benedikt Schuld, Gudrun Wagner
  *
  */
-
-
 public class Leader extends Spatial {
 	
 	
