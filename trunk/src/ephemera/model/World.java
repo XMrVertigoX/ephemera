@@ -24,7 +24,6 @@ import com.jmex.terrain.TerrainBlock;
 import com.jmex.terrain.util.MidPointHeightMap;
 
 import ephemera.controller.SchwarmController;
-import ephemera.tester.HelloTexture;
 
 public class World extends Node{
 	
@@ -199,7 +198,7 @@ public class World extends Node{
         TextureState textureState = display.getRenderer().createTextureState();
         textureState.setEnabled(true);
         Texture t1 = TextureManager.loadTexture(
-                HelloTexture.class.getClassLoader().getResource(path), Texture.MinificationFilter.BilinearNearestMipMap,
+                World.class.getClassLoader().getResource(path), Texture.MinificationFilter.BilinearNearestMipMap,
                 Texture.MagnificationFilter.Bilinear);
         textureState.setTexture(t1);
         return textureState;

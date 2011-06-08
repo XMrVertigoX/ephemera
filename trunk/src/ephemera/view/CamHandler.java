@@ -15,8 +15,6 @@ import com.jme.renderer.Camera;
 import com.jme.util.GameTaskQueue;
 import com.jme.util.GameTaskQueueManager;
 
-import ephemera.GUI;
-
 class CamHandler extends MouseAdapter implements MouseMotionListener,MouseWheelListener {
 	
 	MyJmeView impl;

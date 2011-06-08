@@ -33,8 +33,6 @@ import com.jme.util.geom.BufferUtils;
 import com.jmex.model.ogrexml.Material;
 import ephemera.model.Shit;
 
-import ephemera.tester.HelloTexture;
-
 public class Ephemera extends Node{
 
 	private static final long 	serialVersionUID = 1L;
