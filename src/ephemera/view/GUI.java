@@ -1,5 +1,11 @@
 package ephemera.view;
 
+
+/**
+ * swarmGUI by Kilian Heinrich & Stefan Greuel
+ * Dies Klasse stellt das Swing-Interface dar ..... etc.
+ */
+
 import java.awt.*;
 import java.awt.event.*;
 import java.util.concurrent.*;
@@ -7,7 +13,6 @@ import java.util.prefs.*;
 import javax.swing.*;
 import javax.swing.event.*;
 import com.jme.math.*;
-import com.jme.renderer.Camera;
 import com.jme.renderer.ColorRGBA;
 import com.jme.renderer.Renderer;
 import com.jme.scene.Geometry;
@@ -19,52 +24,52 @@ import com.jme.util.GameTaskQueue;
 import com.jme.util.GameTaskQueueManager;
 import com.jme.util.stat.StatCollector;
 import com.jmex.awt.lwjgl.*;
-
 import ephemera.controller.*;
 import ephemera.model.*;
 
-public class swarmGUI extends JFrame {
 
-	// 
-    private static final int GRID_LINES = 51;
-    private static final float GRID_SPACING = 100f;
+
+
+public class GUI extends JFrame {
 
 	private SchwarmController schwarm;
 	private ShitController shit;
-	public static DisplaySystem display = DisplaySystem.getDisplaySystem(LWJGLSystemProvider.LWJGL_SYSTEM_IDENTIFIER);
-
-    private static final long serialVersionUID = 1L;
-
-    int width = 1280, height = 720;
-
-    MyJmeView impl;
-    
+    private MyJmeView impl;
     private CamHandler camhand;
     private Canvas glCanvas;
     private Geometry grid;
-
-    private Preferences prefs = Preferences.userNodeForPackage(swarmGUI.class);
-
-    private JCheckBoxMenuItem yUp;
-    private JCheckBoxMenuItem zUp;
     
+
+    private static final int GRID_LINES = 51;
+    private static final float GRID_SPACING = 100f;
+	public static DisplaySystem display = DisplaySystem.getDisplaySystem(LWJGLSystemProvider.LWJGL_SYSTEM_IDENTIFIER);
+    private static final long serialVersionUID = 1L;
+ 
+    private Preferences prefs = Preferences.userNodeForPackage(GUI.class);
 	private static Rules regeln = new Rules();
     
+	//Groese des Startfensters
+	int width = 1280, height = 720;
+		
 	// Farben festlegen
 	Color white = new Color(255,255,255);
 	Color blue = new Color(21,159,210);
 	Color dgrey= new Color(68,68,68);
 
+	
+	//kommt noch raus
     public static void main(String[] args) {
     	SwingUtilities.invokeLater(new Runnable() {
-
     		public void run() {
-    			new swarmGUI();
+    			new GUI();
     		}
     	});
     }
 
-    public swarmGUI() {
+    /**
+     * Konstriktor 
+     */
+    public GUI() {
     	
     	try {
             init();
@@ -128,58 +133,6 @@ public class swarmGUI extends JFrame {
         grid = createGrid();
         impl.setGrid(grid);
         
-//        yUp.addActionListener(new ActionListener() {
-//            public void actionPerformed(ActionEvent e) {
-//                Callable<Void> exe = new Callable<Void>() {
-//                    public Void call() {
-//                        camhand.worldUpVector.set(Vector3f.UNIT_Y);
-//                        Camera cam = impl.getRenderer().getCamera();
-//                        cam.getLocation().set(0, 850, -850);
-//                        camhand.recenterCamera();
-//                        grid.unlock();
-//                        grid.getLocalRotation().fromAngleAxis(0, Vector3f.UNIT_X);
-//                        grid.lock();
-//                        prefs.putBoolean("yUp", true);
-//                        return null;
-//                    }
-//                };
-//                GameTaskQueueManager.getManager().getQueue(GameTaskQueue.RENDER)
-//                        .enqueue(exe);
-//            }
-//        });
-//        
-//        zUp.addActionListener(new ActionListener() {
-//            public void actionPerformed(ActionEvent e) {
-//                Callable<Void> exe = new Callable<Void>() {
-//                    public Void call() {
-//                        camhand.worldUpVector.set(Vector3f.UNIT_Z);
-//                        Camera cam = impl.getRenderer().getCamera();
-//                        cam.getLocation().set(0, -850, 850);
-//                        camhand.recenterCamera();
-//                        grid.unlock();
-//                        grid.getLocalRotation().fromAngleAxis(FastMath.HALF_PI, Vector3f.UNIT_X);
-//                        grid.lock();
-//                        prefs.putBoolean("yUp", false);
-//                        return null;
-//                    }
-//                };
-//                GameTaskQueueManager.getManager().getQueue(GameTaskQueue.RENDER)
-//                        .enqueue(exe);
-//            }
-//        });
-        
-        Callable<Void> exe = new Callable<Void>() {
-            public Void call() {
-                if (prefs.getBoolean("yUp", true)) {
-                    yUp.doClick();
-                } else {
-                    zUp.doClick();
-                }
-                return null;
-            }
-        };
-        GameTaskQueueManager.getManager().getQueue(GameTaskQueue.RENDER)
-                .enqueue(exe);
 
         setSize(new Dimension(width, height));
     }
@@ -240,23 +193,13 @@ public class swarmGUI extends JFrame {
         showGrid.putValue(Action.MNEMONIC_KEY, KeyEvent.VK_G);
 
       
-        yUp = new JCheckBoxMenuItem("Y-Up Kamera");
-        yUp.setMnemonic(KeyEvent.VK_Y);
-        zUp = new JCheckBoxMenuItem("Z-Up Kamera");
-        zUp.setMnemonic(KeyEvent.VK_Y);
-        ButtonGroup upGroup = new ButtonGroup();
-        upGroup.add(yUp);
-        upGroup.add(zUp);
-
         //Ansichtsmenue
         JMenu view = new JMenu("Ansicht");
         view.setMnemonic(KeyEvent.VK_V);
         JCheckBoxMenuItem sgitem = new JCheckBoxMenuItem(showGrid);
         sgitem.setSelected(prefs.getBoolean("showgrid", true));
         view.add(sgitem);
-        view.addSeparator();
-        view.add(yUp);
-        view.add(zUp);
+      
         
         
         //Hilfe-Menuepunkt

@@ -139,7 +139,7 @@ public class MyJmeView extends SimpleCanvasImpl {
     
 	private void setupEnvironment() {
     	
-    	DisplaySystem display = swarmGUI.getDisplay();
+    	DisplaySystem display = GUI.getDisplay();
     	
     	cam.setFrustumPerspective(45.0f, (float) display.getWidth() / (float) display.getHeight(), 1f, farPlane);
     	cam.getLocation().set(0, 850, 850);
