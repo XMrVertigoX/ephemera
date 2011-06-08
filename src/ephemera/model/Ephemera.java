@@ -1,38 +1,28 @@
-/**
- * Klasse Flugobjekt in 2011 by Semjon Mooraj
- * Die Klasse stellt ein Flugobjekt im System dar. JŠger und Fliege werden abgeleitet
- **/
 package ephemera.model;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.jme.animation.SpatialTransformer;
-import com.jme.bounding.BoundingBox;
-import com.jme.bounding.BoundingSphere;
+import com.jme.bounding.*;
 import com.jme.image.Texture;
 import com.jme.math.FastMath;
 import com.jme.math.Quaternion;
-import com.jme.math.Vector2f;
 import com.jme.math.Vector3f;
 import com.jme.renderer.ColorRGBA;
-import com.jme.renderer.Renderer;
 import com.jme.scene.Node;
 import com.jme.scene.Spatial;
-import com.jme.scene.TexCoords;
 
 import com.jme.scene.TriMesh;
 import com.jme.scene.shape.Sphere;
-import com.jme.scene.state.BlendState;
-import com.jme.scene.state.MaterialState;
-import com.jme.scene.state.TextureState;
-import com.jme.system.DisplaySystem;
-import com.jme.system.lwjgl.LWJGLSystemProvider;
-import com.jme.util.TextureManager;
 import com.jme.util.geom.BufferUtils;
-import com.jmex.model.ogrexml.Material;
 import ephemera.model.Shit;
 
+/**
+ * Die Klasse stellt ein Flugobjekt im System dar. JŠger und Fliege werden abgeleitet
+ * @author Semjon Mooraj
+ *
+ */
 public class Ephemera extends Node{
 
 	private static final long 	serialVersionUID = 1L;
