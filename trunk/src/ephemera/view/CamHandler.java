@@ -15,6 +15,13 @@ import com.jme.renderer.Camera;
 import com.jme.util.GameTaskQueue;
 import com.jme.util.GameTaskQueueManager;
 
+/**
+ * CamHandler - Maus & Camera Steuerung
+ * Modifiziert von Stefan Greuel & Kilian Heinrich
+ * @author Joshua Slack
+ *
+ */
+
 class CamHandler extends MouseAdapter implements MouseMotionListener,MouseWheelListener {
 	
 	MyJmeView impl;
@@ -29,6 +36,9 @@ class CamHandler extends MouseAdapter implements MouseMotionListener,MouseWheelL
 		impl = i;
 	}
 	
+	/**
+	 * Mausbewegung
+	 */
 	public void mouseDragged(final MouseEvent arg0) {
 	    Callable<Void> exe = new Callable<Void>() {
 	        public Void call() {
@@ -60,11 +70,17 @@ class CamHandler extends MouseAdapter implements MouseMotionListener,MouseWheelL
 	public void mouseMoved(MouseEvent arg0) {
 	}
 	
+	/**
+	 * Mausklick
+	 */
 	public void mousePressed(MouseEvent arg0) {
 	    last.x = arg0.getX();
 	    last.y = arg0.getY();
 	}
 	
+	/**
+	 * Mausrad
+	 */
 	public void mouseWheelMoved(final MouseWheelEvent arg0) {
 	    Callable<Void> exe = new Callable<Void>() {
 	        public Void call() {
@@ -77,6 +93,9 @@ class CamHandler extends MouseAdapter implements MouseMotionListener,MouseWheelL
 	            .enqueue(exe);
 	}
 	
+	/**
+	 * Camera  Zentrieren
+	 */
 	public void recenterCamera() {
 	    Callable<Void> exe = new Callable<Void>() {
 	        public Void call() {
@@ -93,6 +112,11 @@ class CamHandler extends MouseAdapter implements MouseMotionListener,MouseWheelL
 	            .enqueue(exe);
 	}
 	
+	/**
+	 * Camera drehen
+	 * @param axis
+	 * @param amount
+	 */
 	private void rotateCamera(Vector3f axis, float amount) {
 	    Camera cam = impl.getRenderer().getCamera();
 	    if (axis.equals(cam.getLeft())) {
@@ -118,6 +142,10 @@ class CamHandler extends MouseAdapter implements MouseMotionListener,MouseWheelL
 	    cam.onFrameChange();
 	}
 	
+	/**
+	 * Zoom
+	 * @param amount
+	 */
 	private void zoomCamera(float amount) {
 	    Camera cam = impl.getRenderer().getCamera();
 	    float dist = cam.getLocation().distance(focus);
