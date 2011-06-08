@@ -24,7 +24,7 @@ public class MyJmeView extends SimpleCanvasImpl {
     private static boolean exist;
     private long time;
 
-    private float farPlane = 1.0f;
+    private float farPlane = 20000.0f;
     
     public MyJmeView(int width, int height) {
         super(width, height);
@@ -155,6 +155,9 @@ public class MyJmeView extends SimpleCanvasImpl {
     	}
     }
     
+    public float getFarPlane(){
+    	return farPlane;
+    }
 
     
     

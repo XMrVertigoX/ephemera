@@ -3,7 +3,9 @@ package ephemera.view;
 
 /**
  * swarmGUI by Kilian Heinrich & Stefan Greuel
- * Dies Klasse stellt das Swing-Interface dar ..... etc.
+ * Diese Klasse stellt die Bedienung der Simulation dar. Dazu wird ein Swing-Interface genutzt.
+ * 
+ * @author Kilian Heinrich & Stefan Greuel
  */
 
 import java.awt.*;
@@ -38,25 +40,23 @@ public class GUI extends JFrame {
     private CamHandler camhand;
     private Canvas glCanvas;
     private Geometry grid;
+	private static Rules rules = new Rules();
+	
+	//Groesse des Startfensters
+	int width = 1280, height = 720;
+	
+	// CI Farben festlegen
+	Color white = new Color(255,255,255);
+	Color blue = new Color(21,159,210);
+	Color dgrey= new Color(68,68,68);
     
-
     private static final int GRID_LINES = 51;
     private static final float GRID_SPACING = 100f;
 	public static DisplaySystem display = DisplaySystem.getDisplaySystem(LWJGLSystemProvider.LWJGL_SYSTEM_IDENTIFIER);
     private static final long serialVersionUID = 1L;
- 
     private Preferences prefs = Preferences.userNodeForPackage(GUI.class);
-	private static Rules regeln = new Rules();
     
-	//Groese des Startfensters
-	int width = 1280, height = 720;
-		
-	// Farben festlegen
-	Color white = new Color(255,255,255);
-	Color blue = new Color(21,159,210);
-	Color dgrey= new Color(68,68,68);
-
-	
+			
 	//kommt noch raus
     public static void main(String[] args) {
     	SwingUtilities.invokeLater(new Runnable() {
@@ -66,52 +66,58 @@ public class GUI extends JFrame {
     	});
     }
 
+    
     /**
-     * Konstriktor 
+     * Konstruktor
+     * Initialisiert die GUI 
      */
     public GUI() {
     	
     	try {
-            init();
-            //camhand.setJmeView(impl);
-            
-            // center the frame
+            init(); 
+            // Frame zentrieren
             setLocationRelativeTo(null);
-            // show frame
-            setVisible(true);
-             
-            // init some location dependent sub frames
-            while (glCanvas == null) {
-            	try { Thread.sleep(100); } catch (InterruptedException e) {}
-            }
+            // Zeige frame
+            setVisible(true);           
+            
+// L…SCHEN            
+// 				init some location dependent sub frames
+//            while (glCanvas == null) {
+//            	try { Thread.sleep(100); } catch (InterruptedException e) {}
+//            }
         } catch (Exception ex) {
         }
     }
 
     
+    /**
+     * Gibt Display System zurueck
+     * @return DisplaySystem
+     */
     public static DisplaySystem getDisplay(){
     	return display;
     }
     
     
+    /**
+     * Unterteilung der GUI: JPanel, JTabbedPane, JSplitPane
+     * @throws Exception
+     */
     private void init() throws Exception {
    
-    	updateTitle();
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    	setTitle("ephemera");
+    	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setFont(new Font("DIN", 0, 12));
         setJMenuBar(createMenuBar());
-       
-        
+          
         //3D view ----------------------------------------------
         JPanel canvasPanel = new JPanel();
         canvasPanel.setLayout(new BorderLayout());
         canvasPanel.add(getGlCanvas(), BorderLayout.CENTER);
         Dimension minimumSize = new Dimension(150, 150);
-        //tabbedPane.setMinimumSize(minimumSize);
         canvasPanel.setMinimumSize(minimumSize);  
 
-       
-        //Tabs---------------------
+        //Tabs--------------------------------------------------
         JTabbedPane tabbedPane = new JTabbedPane();
         tabbedPane.add(new JScrollPane(createOptionsPanel(), ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED), "Grundeinstellungen");
         tabbedPane.add(new JScrollPane(createAdditionalPanel(), ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED), "Weiteres");
@@ -135,10 +141,6 @@ public class GUI extends JFrame {
         
 
         setSize(new Dimension(width, height));
-    }
-
-    private void updateTitle() {
-        setTitle("ephemera");
     }
 
 
@@ -290,7 +292,7 @@ public class GUI extends JFrame {
         countSlider.setForeground(white);
         
     	 final JSlider speedSlider = new JSlider ();
-		speedSlider.setValue((int)(regeln.getFluggeschwindigkeit()*10));
+		speedSlider.setValue((int)(rules.getFluggeschwindigkeit()*10));
 		System.out.println("Simu:"+speedSlider.getValue());
     	/*{
 
@@ -340,7 +342,7 @@ public class GUI extends JFrame {
         
         
         JSlider cohSlider = new JSlider();
-		cohSlider.setValue((int)(regeln.getCoh_weight()*100));
+		cohSlider.setValue((int)(rules.getCoh_weight()*100));
 	    cohSlider.addChangeListener(new ChangeListener(){
 	    	public void stateChanged(ChangeEvent ce) {
 	    		
@@ -367,7 +369,7 @@ public class GUI extends JFrame {
      final JSlider aliSlider = new JSlider();
    
     
-		aliSlider.setValue((int)(regeln.getAli_weight()*100));
+		aliSlider.setValue((int)(rules.getAli_weight()*100));
 	    aliSlider.addChangeListener(new ChangeListener(){
 	    	public void stateChanged(ChangeEvent ce) {
 	    		
@@ -393,7 +395,7 @@ public class GUI extends JFrame {
     
     
  	final JSlider sepSlider = new JSlider();
- 	sepSlider.setValue((int)(regeln.getSep_weight()*100));
+ 	sepSlider.setValue((int)(rules.getSep_weight()*100));
 		
 	   sepSlider.addChangeListener(new ChangeListener(){
 	    	public void stateChanged(ChangeEvent ce) {
@@ -497,7 +499,7 @@ public class GUI extends JFrame {
         hunterSlider.setForeground(white);   
 
         final JSlider followSlider = new JSlider();
-		followSlider.setValue((int)(regeln.getFollow_weight()*100));
+		followSlider.setValue((int)(rules.getFollow_weight()*100));
 		
         	followSlider.addChangeListener(new ChangeListener(){
         		public void stateChanged(ChangeEvent ce) {
@@ -522,7 +524,7 @@ public class GUI extends JFrame {
     	
  
         final JSlider desiredSlider = new JSlider();
-		desiredSlider.setValue((int)(regeln.getDesiredSeparation()));
+		desiredSlider.setValue((int)(rules.getDesiredSeparation()));
         
         	desiredSlider.addChangeListener(new ChangeListener(){
         		public void stateChanged(ChangeEvent ce) {
@@ -544,7 +546,7 @@ public class GUI extends JFrame {
         	desiredSlider.setForeground(white);          
  
            final JSlider neighborSlider = new JSlider();
-   		   neighborSlider.setValue((int)(regeln.getNeighborDistance()));
+   		   neighborSlider.setValue((int)(rules.getNeighborDistance()));
            neighborSlider.addChangeListener(new ChangeListener(){
        		public void stateChanged(ChangeEvent ce) {
 	    		
@@ -707,13 +709,17 @@ public class GUI extends JFrame {
         glCanvas.setSize(glCanvas.getWidth(), glCanvas.getHeight() - 1);
     }
 
+    
+    /**
+     * resize vergroesert die simulation bzw verkleineiert bei groessen aenderung des fensters
+     */
     protected void doResize() {
         if (impl != null) {
             impl.resizeCanvas(glCanvas.getWidth(), glCanvas.getHeight());
             if (impl.getCamera() != null) {
                 Callable<Void> exe = new Callable<Void>() {
                     public Void call() {
-                        impl.getCamera().setFrustumPerspective( 45.0f, (float) glCanvas.getWidth() / (float) glCanvas.getHeight(), 1, 10000);
+                        impl.getCamera().setFrustumPerspective( 45.0f, (float) glCanvas.getWidth() / (float) glCanvas.getHeight(), 1, impl.getFarPlane());
                         return null;
                     }
                 };
