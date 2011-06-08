@@ -1,6 +1,5 @@
 package ephemera.model;
 
-
 import java.net.URL;
 import com.jme.image.Texture;
 import com.jme.math.FastMath;
@@ -18,7 +17,11 @@ import com.jme.bounding.*;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * ...
+ * @author Gudrun Wagner
+ *
+ */
 public class PlantObstacles{
 	
 	/**
@@ -27,7 +30,7 @@ public class PlantObstacles{
 	 * @param posX 
 	 * @param posY 
 	 * @param posZ 
-	 * @param node Knoten, an den das Objekt angehängt wird.
+	 * @param node Knoten, an den das Objekt angehaengt wird.
 	 * @param obs  ArrayListe, zu der das Objekt hinzugefügt wird.
 	 */
 	public static void createShrub1(float posX, float posY, float posZ, Node node, ArrayList<Spatial> obs){
@@ -44,7 +47,6 @@ public class PlantObstacles{
 		rotTrunk.fromAngleAxis(-FastMath.PI/2f, Vector3f.UNIT_X);
 		trunk.setLocalRotation(rotTrunk);
 		
-				
 		//Laub
 		rotLeaves.fromAngleAxis(-FastMath.PI/2f, Vector3f.UNIT_X);
 		Vector3f scale = new Vector3f(1, 1, .7f);
@@ -122,7 +124,6 @@ public class PlantObstacles{
 		Quaternion rotM90X = new Quaternion();
 		Quaternion rot45Y = new Quaternion();
 		
-		
 		//Laub
 		Sphere leaves1 = new Sphere ("Leaves 1", 25, 25, .3f);
 		leaves1.setLocalScale(scale);
@@ -175,7 +176,6 @@ public class PlantObstacles{
 		Sphere leaves9 = new Sphere ("Leaves 9", 25, 25, .3f);
 		leaves9.setLocalScale(scale);
 
-		
 		//Teilknoten
 		rotNode.attachChild(leaves5);
 		rotNode.attachChild(leaves6);
@@ -184,7 +184,6 @@ public class PlantObstacles{
 		
 		rot45Y.fromAngleAxis(FastMath.PI/4f, Vector3f.UNIT_Y);
 		rotNode.setLocalRotation(rot45Y);
-		
 		
 		//Objekt Knoten
 		objectNode.attachChild(leaves1);
@@ -210,9 +209,7 @@ public class PlantObstacles{
 		//an uebergebene Weltinstanzen haengen
 		obs.add(objectNode);
 		node.attachChild(objectNode);
-		
 	}
-	
 	
 	/**
 	 * erstellt Hindernis; Baum
@@ -238,7 +235,6 @@ public class PlantObstacles{
 		rotTrunk.fromAngleAxis(-FastMath.PI/2f, Vector3f.UNIT_X);
 		trunk.setLocalRotation(rotTrunk);
 		
-		
 		//Ast
 		Cylinder branch = new Cylinder ("Branch", 25, 25, .1f, 2.5f);
 		rotBranchX.fromAngleAxis(FastMath.PI/6f, Vector3f.UNIT_X);
@@ -246,14 +242,12 @@ public class PlantObstacles{
 		branch.setLocalRotation(rotBranchX);
 		branch.setLocalTranslation(0, -.5f, -.65f);
 		
-		
 		//Laub
 		Sphere leaves = new Sphere ("Leaves", 25, 25, 3.5f);
 		leaves.setLocalTranslation(0, 5f, 0);
 		
 		Sphere leaves2 = new Sphere("Leaves 2", 25, 25, .6f);
 		leaves2.setLocalTranslation(0, .4f, -2f);
-		
 		
 		//Teilknoten
 		trunkNode.attachChild(trunk);
@@ -284,7 +278,6 @@ public class PlantObstacles{
 		node.attachChild(objectNode);
 	}
 
-	
 	/**
 	 * erstellt ein Hindernis; Tanne
 	 * 
@@ -306,7 +299,6 @@ public class PlantObstacles{
 		rotTrunk.fromAngleAxis(-FastMath.PI/2f, Vector3f.UNIT_X);
 		trunk.setLocalRotation(rotTrunk);
 			
-		
 		//Laub
 		Pyramid leaves1 = new Pyramid("Leaves 1", 5, 5);
 		leaves1.setLocalTranslation(0f, 2.75f, 0f);
@@ -325,7 +317,6 @@ public class PlantObstacles{
 		
 		Pyramid leaves6 = new Pyramid("TLeaves 6", 2.5f, 2.5f);
 		leaves6.setLocalTranslation(0f, 6.25f, 0f);
-	
 	
 		//Teilknoten
 		leavesNode.attachChild(leaves1);
@@ -379,8 +370,6 @@ public class PlantObstacles{
 		rotTrunk.fromAngleAxis(-FastMath.PI/2f, Vector3f.UNIT_X);
 		trunk.setLocalRotation(rotTrunk);
 			
-		
-		
 		//Laub
 		Pyramid leaves1 = new Pyramid("Leaves 1", 5, 5);
 		leaves1.setLocalTranslation(0f,2.75f,0f);
@@ -425,7 +414,6 @@ public class PlantObstacles{
 		//Groeße anpassen
 		objectNode.setLocalScale(80);
 		
-		
 		//BoundingBox
 		objectNode.setModelBound(new BoundingSphere());
 		objectNode.updateModelBound();
@@ -437,8 +425,6 @@ public class PlantObstacles{
 		obs.add(objectNode);
 		node.attachChild(objectNode);
 	}
-	
-	
 	
 	/**
 	 * Texturiert ein Objekt
@@ -471,5 +457,4 @@ public class PlantObstacles{
 		tsPlant.setTexture(texPlant);
 		object.setRenderState(tsPlant);
 	}
-		
 }
