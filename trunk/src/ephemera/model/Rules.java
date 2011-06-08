@@ -6,19 +6,28 @@
 package ephemera.model;
 
 public class Rules{
-	private float		fluggeschwindigkeit;
-	private float		randomWalk_weight;
-	private float 		lifeTime;
-	private float 		randomWalk;
-	private float		leittierSpeed;
-	private float 		maxspeed;
-	private float		maxforce;
-	private float		coh_weight;
-	private float		ali_weight;
-	private float		sep_weight;
-	private float		follow_weight;
-	private float		desiredSeparation;
-	private float		neighborDistance;
+	private float speed;
+	private float randomWalk_weight;
+	private float lifeTime;
+	private float randomWalk;
+	private float leittierSpeed;
+	private float maxspeed;
+	private float maxforce;
+	private float coh_weight;
+	private float ali_weight;
+	private float sep_weight;
+	private float follow_weight;
+	private float desiredSeparation;
+	private float neighborDistance;
+	private int flyCount;
+
+	public int getFlyCount() {
+		return flyCount;
+	}
+
+	public void setFlyCount(int flyCount) {
+		this.flyCount = flyCount;
+	}
 
 	/**
 	 * Konstruktor
@@ -27,7 +36,7 @@ public class Rules{
 	public Rules(){
 		randomWalk_weight	=	0f;
 		lifeTime			=	30;
-		fluggeschwindigkeit	=	2.71f;
+		speed	=	2.71f;
 		leittierSpeed		=	.01f;
 		maxspeed			=	10f;
 		maxforce			=	1f;
@@ -138,11 +147,11 @@ public class Rules{
 		this.leittierSpeed = leittierSpeed;
 	}
 	public float getFluggeschwindigkeit() {
-		return fluggeschwindigkeit;
+		return speed;
 	}
 
 	public void setFluggeschwindigkeit(float fluggeschwindigkeit) {
-		this.fluggeschwindigkeit = fluggeschwindigkeit;
+		this.speed = fluggeschwindigkeit;
 	}
 	public float getLifeTime() {
 		return lifeTime;
