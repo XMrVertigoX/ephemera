@@ -52,7 +52,7 @@ public class Shit {
 		 */
 		shit.addController(new ShitMover(shit, new Vector3f(cam.getDirection())));
 		
-		impl.getWorld().getWorldRootNode().attachChild(shit);
+		impl.getWorld().attachChild(shit);
 		shit.updateRenderState();
 			
 		
@@ -98,7 +98,7 @@ public class Shit {
 			
 			/** Entfernen wenn "lebenszeit" vorbei */
 			if (lifeTime < 0) {
-				impl.getWorld().getWorldRootNode().detachChild(shit);
+				impl.getWorld().detachChild(shit);
 				shit.removeController(this);
 				return;
 			}

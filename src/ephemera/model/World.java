@@ -118,16 +118,6 @@ public class World extends Node{
         terrainNode.attachChild(tb);
         objectNode.attachChild(tb);
     }
-		
-	
-	/**
-	 * Szenenknoten des Wuerfels
-	 * @return
-	 */
-	public Node getWorldRootNode(){
-		return this;
-	}
-	
 	
 	public Node getTerrainNode(){
 		return terrainNode;
