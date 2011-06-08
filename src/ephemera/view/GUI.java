@@ -69,11 +69,6 @@ public class GUI extends JFrame {
             // Zeige frame
             setVisible(true);           
             
-// L…SCHEN            
-// 				init some location dependent sub frames
-//            while (glCanvas == null) {
-//            	try { Thread.sleep(100); } catch (InterruptedException e) {}
-//            }
         } catch (Exception ex) {
         }
     }
@@ -225,6 +220,9 @@ public class GUI extends JFrame {
      */
     private JPanel createOptionsPanel() {
     	
+        JLabel ephemeraLabel = new JLabel("ephemera");
+        ephemeraLabel.setForeground(blue);
+        ephemeraLabel.setFont(new Font("Arial", Font.PLAIN, 24));
         final JLabel countLabel = new JLabel("Maximale Fliegenanzahl");
         countLabel.setForeground(white);
         JLabel speedLabel = new JLabel("Simulationsgeschwindigkeit");
@@ -385,40 +383,43 @@ public class GUI extends JFrame {
        	// Arrangement des Grundeinstellungspanel
         JPanel optionsPanel = new JPanel(new GridBagLayout());
         optionsPanel.setBackground(dgrey);
-        optionsPanel.add(countLabel, new GridBagConstraints(0, 0, 1, 1,
+        optionsPanel.add(ephemeraLabel, new GridBagConstraints(0, 0, 1, 1,
+                0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE,
+                new Insets(5, 10, 10, 10), 0, 0));        
+        optionsPanel.add(countLabel, new GridBagConstraints(0, 1, 1, 1,
                 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE,
                 new Insets(5, 10, 10, 10), 0, 0));
-        optionsPanel.add(countSlider, new GridBagConstraints(0, 1, 5, 1,
+        optionsPanel.add(countSlider, new GridBagConstraints(0, 2, 5, 1,
                 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
                 new Insets(5, 10, 10, 10), 0, 0));
-        optionsPanel.add(speedLabel, new GridBagConstraints(0, 2, 1, 1,
+        optionsPanel.add(speedLabel, new GridBagConstraints(0, 3, 1, 1,
                 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE,
                 new Insets(5, 10, 10, 10), 0, 0));
-        optionsPanel.add(speedSlider, new GridBagConstraints(0, 3, 5, 1,
+        optionsPanel.add(speedSlider, new GridBagConstraints(0, 4, 5, 1,
                 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
                 new Insets(5, 10, 10, 10), 0, 0));        
-        optionsPanel.add(addFlyButton, new GridBagConstraints(0, 4, 5, 1,
-                0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
-                new Insets(5, 10, 10, 10), 0, 0));
         optionsPanel.add(addFlyButton, new GridBagConstraints(0, 5, 5, 1,
                 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
                 new Insets(5, 10, 10, 10), 0, 0));
-        optionsPanel.add(cohLabel, new GridBagConstraints(0, 6, 1, 1,
-                0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE,
-                new Insets(5, 10, 10, 10), 0, 0));
-        optionsPanel.add(cohSlider, new GridBagConstraints(0, 7, 5, 1,
+        optionsPanel.add(addFlyButton, new GridBagConstraints(0, 6, 5, 1,
                 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
                 new Insets(5, 10, 10, 10), 0, 0));
-        optionsPanel.add(aliLabel, new GridBagConstraints(0, 8, 1, 1,
+        optionsPanel.add(cohLabel, new GridBagConstraints(0, 7, 1, 1,
                 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE,
                 new Insets(5, 10, 10, 10), 0, 0));
-        optionsPanel.add(aliSlider, new GridBagConstraints(0, 9, 5, 1,
+        optionsPanel.add(cohSlider, new GridBagConstraints(0, 8, 5, 1,
                 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
                 new Insets(5, 10, 10, 10), 0, 0));
-        optionsPanel.add(sepLabel, new GridBagConstraints(0, 10, 1, 1,
+        optionsPanel.add(aliLabel, new GridBagConstraints(0, 9, 1, 1,
                 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE,
                 new Insets(5, 10, 10, 10), 0, 0));
-        optionsPanel.add(sepSlider, new GridBagConstraints(0, 11, 5, 1,
+        optionsPanel.add(aliSlider, new GridBagConstraints(0, 10, 5, 1,
+                0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
+                new Insets(5, 10, 10, 10), 0, 0));
+        optionsPanel.add(sepLabel, new GridBagConstraints(0, 11, 1, 1,
+                0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE,
+                new Insets(5, 10, 10, 10), 0, 0));
+        optionsPanel.add(sepSlider, new GridBagConstraints(0, 12, 5, 1,
                 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
                 new Insets(5, 10, 10, 10), 0, 0));
 
@@ -566,34 +567,34 @@ public class GUI extends JFrame {
         JPanel addPanel = new JPanel(new GridBagLayout());
         addPanel.setBackground(dgrey);
 
-        addPanel.add(hunterButton, new GridBagConstraints(0, 0, 5, 1,
+        addPanel.add(hunterButton, new GridBagConstraints(0, 1, 5, 1,
                 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
                 new Insets(5, 10, 10, 10), 0, 0));
-        addPanel.add(hunterLabel, new GridBagConstraints(0, 1, 1, 1,
+        addPanel.add(hunterLabel, new GridBagConstraints(0, 2, 1, 1,
                 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE,
                 new Insets(5, 10, 10, 10), 0, 0));         
-        addPanel.add(hunterSlider, new GridBagConstraints(0, 2, 5, 1,
+        addPanel.add(hunterSlider, new GridBagConstraints(0, 3, 5, 1,
                 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
                 new Insets(5, 10, 10, 10), 0, 0));
-        addPanel.add(shitButton, new GridBagConstraints(0, 3, 5, 1,
+        addPanel.add(shitButton, new GridBagConstraints(0, 4, 5, 1,
                 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
                 new Insets(5, 10, 10, 10), 0, 0));
-        addPanel.add(followLabel, new GridBagConstraints(0, 4, 1, 1,
+        addPanel.add(followLabel, new GridBagConstraints(0, 5, 1, 1,
                 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE,
                 new Insets(5, 10, 10, 10), 0, 0));  
-        addPanel.add(followSlider, new GridBagConstraints(0, 5, 5, 1,
+        addPanel.add(followSlider, new GridBagConstraints(0, 6, 5, 1,
                 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
                 new Insets(5, 10, 10, 10), 0, 0));
-        addPanel.add(desiredLabel, new GridBagConstraints(0, 6, 1, 1,
+        addPanel.add(desiredLabel, new GridBagConstraints(0, 7, 1, 1,
                 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE,
                 new Insets(5, 10, 10, 10), 0, 0)); 
-        addPanel.add(desiredSlider, new GridBagConstraints(0, 7, 5, 1,
+        addPanel.add(desiredSlider, new GridBagConstraints(0, 8, 5, 1,
                 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
                 new Insets(5, 10, 10, 10), 0, 0));
-        addPanel.add(neighborLabel, new GridBagConstraints(0, 8, 1, 1,
+        addPanel.add(neighborLabel, new GridBagConstraints(0, 9, 1, 1,
                 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE,
                 new Insets(5, 10, 10, 10), 0, 0)); 
-        addPanel.add(neighborSlider, new GridBagConstraints(0, 9, 5, 1,
+        addPanel.add(neighborSlider, new GridBagConstraints(0, 10, 5, 1,
                 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
                 new Insets(5, 10, 10, 10), 0, 0));
         
