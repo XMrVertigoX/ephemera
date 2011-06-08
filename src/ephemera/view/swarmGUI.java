@@ -1,42 +1,12 @@
 package ephemera.view;
 
-import java.awt.BorderLayout;
-import java.awt.Canvas;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.KeyEvent;
-import java.util.concurrent.Callable;
-import java.util.prefs.Preferences;
-import javax.swing.AbstractAction;
-import javax.swing.Action;
-import javax.swing.ButtonGroup;
-import javax.swing.JButton;
-import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JSlider;
-import javax.swing.JSplitPane;
-import javax.swing.JTabbedPane;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
-import com.jme.math.FastMath;
-import com.jme.math.Vector3f;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.concurrent.*;
+import java.util.prefs.*;
+import javax.swing.*;
+import javax.swing.event.*;
+import com.jme.math.*;
 import com.jme.renderer.Camera;
 import com.jme.renderer.ColorRGBA;
 import com.jme.renderer.Renderer;
@@ -48,10 +18,10 @@ import com.jme.system.lwjgl.LWJGLSystemProvider;
 import com.jme.util.GameTaskQueue;
 import com.jme.util.GameTaskQueueManager;
 import com.jme.util.stat.StatCollector;
-import com.jmex.awt.lwjgl.LWJGLAWTCanvasConstructor;
-import ephemera.controller.SchwarmController;
-import ephemera.controller.ShitController;
-import ephemera.model.Regeln;
+import com.jmex.awt.lwjgl.*;
+
+import ephemera.controller.*;
+import ephemera.model.*;
 
 public class swarmGUI extends JFrame {
 
@@ -59,35 +29,31 @@ public class swarmGUI extends JFrame {
     private static final int GRID_LINES = 51;
     private static final float GRID_SPACING = 100f;
 
-	private SchwarmController 		schwarm;
-	private ShitController 			shit;
-	public DisplaySystem display = DisplaySystem.getDisplaySystem(LWJGLSystemProvider.LWJGL_SYSTEM_IDENTIFIER);
+	private SchwarmController schwarm;
+	private ShitController shit;
+	public static DisplaySystem display = DisplaySystem.getDisplaySystem(LWJGLSystemProvider.LWJGL_SYSTEM_IDENTIFIER);
 
     private static final long serialVersionUID = 1L;
 
-    int width = 640, height = 480;
+    int width = 1280, height = 720;
 
-    MyJmeView impl ;
+    MyJmeView impl;
     
     private CamHandler camhand;
     private Canvas glCanvas;
     private Geometry grid;
-    //private boolean flycam=false;
 
     private Preferences prefs = Preferences.userNodeForPackage(swarmGUI.class);
 
     private JCheckBoxMenuItem yUp;
     private JCheckBoxMenuItem zUp;
     
-	private static Regeln regeln = new Regeln();
-
+	private static Rules regeln = new Rules();
     
 	// Farben festlegen
 	Color white = new Color(255,255,255);
 	Color blue = new Color(21,159,210);
 	Color dgrey= new Color(68,68,68);
-	
-	
 
     public static void main(String[] args) {
     	SwingUtilities.invokeLater(new Runnable() {
@@ -117,6 +83,12 @@ public class swarmGUI extends JFrame {
         }
     }
 
+    
+    public static DisplaySystem getDisplay(){
+    	return display;
+    }
+    
+    
     private void init() throws Exception {
    
     	updateTitle();
@@ -146,7 +118,7 @@ public class swarmGUI extends JFrame {
         mainSplit.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
         mainSplit.setRightComponent(tabbedPane);
         mainSplit.setLeftComponent(canvasPanel);
-        mainSplit.setDividerLocation(750);
+        mainSplit.setDividerLocation(1000);
         mainSplit.setContinuousLayout(true);
         mainSplit.setOneTouchExpandable(true);
         
@@ -155,45 +127,46 @@ public class swarmGUI extends JFrame {
 
         grid = createGrid();
         impl.setGrid(grid);
-        //schwarm = impl.getSchwarm();
-        yUp.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                Callable<Void> exe = new Callable<Void>() {
-                    public Void call() {
-                        camhand.worldUpVector.set(Vector3f.UNIT_Y);
-                        Camera cam = impl.getRenderer().getCamera();
-                        cam.getLocation().set(0, 850, -850);
-                        camhand.recenterCamera();
-                        grid.unlock();
-                        grid.getLocalRotation().fromAngleAxis(0, Vector3f.UNIT_X);
-                        grid.lock();
-                        prefs.putBoolean("yUp", true);
-                        return null;
-                    }
-                };
-                GameTaskQueueManager.getManager().getQueue(GameTaskQueue.RENDER)
-                        .enqueue(exe);
-            }
-        });
-        zUp.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                Callable<Void> exe = new Callable<Void>() {
-                    public Void call() {
-                        camhand.worldUpVector.set(Vector3f.UNIT_Z);
-                        Camera cam = impl.getRenderer().getCamera();
-                        cam.getLocation().set(0, -850, 850);
-                        camhand.recenterCamera();
-                        grid.unlock();
-                        grid.getLocalRotation().fromAngleAxis(FastMath.HALF_PI, Vector3f.UNIT_X);
-                        grid.lock();
-                        prefs.putBoolean("yUp", false);
-                        return null;
-                    }
-                };
-                GameTaskQueueManager.getManager().getQueue(GameTaskQueue.RENDER)
-                        .enqueue(exe);
-            }
-        });
+        
+//        yUp.addActionListener(new ActionListener() {
+//            public void actionPerformed(ActionEvent e) {
+//                Callable<Void> exe = new Callable<Void>() {
+//                    public Void call() {
+//                        camhand.worldUpVector.set(Vector3f.UNIT_Y);
+//                        Camera cam = impl.getRenderer().getCamera();
+//                        cam.getLocation().set(0, 850, -850);
+//                        camhand.recenterCamera();
+//                        grid.unlock();
+//                        grid.getLocalRotation().fromAngleAxis(0, Vector3f.UNIT_X);
+//                        grid.lock();
+//                        prefs.putBoolean("yUp", true);
+//                        return null;
+//                    }
+//                };
+//                GameTaskQueueManager.getManager().getQueue(GameTaskQueue.RENDER)
+//                        .enqueue(exe);
+//            }
+//        });
+//        
+//        zUp.addActionListener(new ActionListener() {
+//            public void actionPerformed(ActionEvent e) {
+//                Callable<Void> exe = new Callable<Void>() {
+//                    public Void call() {
+//                        camhand.worldUpVector.set(Vector3f.UNIT_Z);
+//                        Camera cam = impl.getRenderer().getCamera();
+//                        cam.getLocation().set(0, -850, 850);
+//                        camhand.recenterCamera();
+//                        grid.unlock();
+//                        grid.getLocalRotation().fromAngleAxis(FastMath.HALF_PI, Vector3f.UNIT_X);
+//                        grid.lock();
+//                        prefs.putBoolean("yUp", false);
+//                        return null;
+//                    }
+//                };
+//                GameTaskQueueManager.getManager().getQueue(GameTaskQueue.RENDER)
+//                        .enqueue(exe);
+//            }
+//        });
         
         Callable<Void> exe = new Callable<Void>() {
             public Void call() {
@@ -208,7 +181,7 @@ public class swarmGUI extends JFrame {
         GameTaskQueueManager.getManager().getQueue(GameTaskQueue.RENDER)
                 .enqueue(exe);
 
-        setSize(new Dimension(1024, 768));
+        setSize(new Dimension(width, height));
     }
 
     private void updateTitle() {
@@ -651,9 +624,7 @@ public class swarmGUI extends JFrame {
           neighborSlider.setPaintTrack(true);	//Balken wird angezeigt
           neighborSlider.setEnabled(true);  
           neighborSlider.setForeground(white);
-         
-        JLabel hunterLabel = new JLabel("Jaeger: ");
-        hunterLabel.setForeground(white);  
+          
         JLabel hunterTimeLabel = new JLabel("Jaeger-Lebensdauer in Sekunden");
         hunterTimeLabel.setForeground(white);  
   	
@@ -700,9 +671,6 @@ public class swarmGUI extends JFrame {
         JPanel addPanel = new JPanel(new GridBagLayout());
         addPanel.setBackground(dgrey);
 
-        addPanel.add(hunterLabel, new GridBagConstraints(0, 1, 1, 1,
-                0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE,
-                new Insets(5, 10, 10, 10), 0, 0));
         addPanel.add(hunterButton, new GridBagConstraints(0, 8, 5, 1,
                 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
                 new Insets(5, 10, 10, 10), 0, 0));
@@ -732,11 +700,7 @@ public class swarmGUI extends JFrame {
                 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
                 new Insets(5, 10, 10, 10), 0, 0));
         
-        
         return addPanel;
-        
-        
-        
     }
     
     private void updateCountLabel(JLabel cl, JSlider cs) {
@@ -744,20 +708,6 @@ public class swarmGUI extends JFrame {
         JSlider countSlider=cs;
     	int val = countSlider.getValue();
         countLabel.setText("Maximale Fliegenanzahl: " + val);
-    }
-    
-    private void updateHunterActiveLabel(JLabel hl, boolean alive){
-    	
-    	if (alive==true){
-    	JLabel hunterAliveLabel = hl;
-    	hunterAliveLabel.setText("aktiv");
-    	hunterAliveLabel.setForeground(Color.green);
-    	}
-    	else if (alive==false){
-        	JLabel hunterAliveLabel = hl;
-        	hunterAliveLabel.setText("inaktiv");
-        	hunterAliveLabel.setForeground(Color.red);
-    	}
     }
     
     public static void updateHunterInactiveLabel(){
@@ -820,11 +770,7 @@ public class swarmGUI extends JFrame {
             if (impl.getCamera() != null) {
                 Callable<Void> exe = new Callable<Void>() {
                     public Void call() {
-                        impl.getCamera().setFrustumPerspective(
-                                45.0f,
-                                (float) glCanvas.getWidth()
-                                        / (float) glCanvas.getHeight(), 1,
-                                10000);
+                        impl.getCamera().setFrustumPerspective( 45.0f, (float) glCanvas.getWidth() / (float) glCanvas.getHeight(), 1, 10000);
                         return null;
                     }
                 };
@@ -837,6 +783,7 @@ public class swarmGUI extends JFrame {
     private Geometry createGrid() {
         Vector3f[] vertices = new Vector3f[GRID_LINES * 2 * 2];
         float edge = GRID_LINES / 2 * GRID_SPACING;
+        
         for (int ii = 0, idx = 0; ii < GRID_LINES; ii++) {
             float coord = (ii - GRID_LINES / 2) * GRID_SPACING;
             vertices[idx++] = new Vector3f(-edge, 0f, coord);
@@ -844,8 +791,8 @@ public class swarmGUI extends JFrame {
             vertices[idx++] = new Vector3f(coord, 0f, -edge);
             vertices[idx++] = new Vector3f(coord, 0f, +edge);
         }
-        Geometry grid = new com.jme.scene.Line("grid", vertices, null,
-                null, null) {
+        
+        Geometry grid = new com.jme.scene.Line("grid", vertices, null, null, null) {
             private static final long serialVersionUID = 1L;
             @Override
             public void draw(Renderer r) {
@@ -854,9 +801,10 @@ public class swarmGUI extends JFrame {
                 StatCollector.resume();
             }
         };
+        
         grid.getDefaultColor().set(ColorRGBA.darkGray.clone());
-        grid.setCullHint(prefs.getBoolean("showgrid", true) ? Spatial.CullHint.Dynamic
-                : Spatial.CullHint.Always);
+        grid.setCullHint(prefs.getBoolean("showgrid", true) ? Spatial.CullHint.Dynamic: Spatial.CullHint.Always);
+        
         return grid;
     }
 }

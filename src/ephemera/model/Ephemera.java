@@ -39,7 +39,7 @@ public class Ephemera extends Node{
 
 	private static final long 	serialVersionUID = 1L;
 	public static int 			count;	// Fliegennummer
-	private static Regeln 		rules; // Verhaltensparameter
+	private static Rules 		rules; // Verhaltensparameter
 	private long				age;	// Alter
 	private Vector3f 			acc;	// Beschleunigungsvektor
 	private Vector3f			vel;	// Geschwindigkeitsvektor
@@ -64,7 +64,7 @@ public class Ephemera extends Node{
 		acc = new Vector3f(0,0,0);	// Mit 0 initialisieren
 		vel = new Vector3f(0,0,0);
 		age = System.currentTimeMillis();
-		rules = new Regeln();
+		rules = new Rules();
 		// Lade Form
 		initDefaultFly();
 		setLocalTranslation(pos);
@@ -435,10 +435,10 @@ public class Ephemera extends Node{
 	/**
 	 * Getter und Setter
 	 */
-	public Regeln getRegeln(){ 
+	public Rules getRegeln(){ 
 		return rules;
 	}
-	public void setRegeln(Regeln regel){
+	public void setRegeln(Rules regel){
 		rules = regel;
 	}
 	public Vector3f getPos(){

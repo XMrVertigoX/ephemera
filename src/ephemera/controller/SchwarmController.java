@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ephemera.model.Ephemera;
-import ephemera.model.Regeln;
+import ephemera.model.Rules;
 import ephemera.model.World;
 
 
@@ -30,7 +30,7 @@ public class SchwarmController {
 	 */
 	public SchwarmController(){
 		flies = new ArrayList<Ephemera>();
-		pathController = new PathController(new Regeln());
+		pathController = new PathController(new Rules());
 	}
 	public void setWorld(World w){
 		world = w;
@@ -39,7 +39,7 @@ public class SchwarmController {
 	/**
 	 * gibt Regeln der Fliege zurueck
 	 */
-	public Regeln getRegeln(){
+	public Rules getRegeln(){
 		return flies.get(0).getRegeln();
 	}
 	
