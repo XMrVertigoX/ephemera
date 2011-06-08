@@ -56,15 +56,6 @@ public class GUI extends JFrame {
     private static final long serialVersionUID = 1L;
     private Preferences prefs = Preferences.userNodeForPackage(GUI.class);
     
-			
-	//kommt noch raus
-    public static void main(String[] args) {
-    	SwingUtilities.invokeLater(new Runnable() {
-    		public void run() {
-    			new GUI();
-    		}
-    	});
-    }
 
     
     /**
@@ -107,46 +98,45 @@ public class GUI extends JFrame {
    
     	setTitle("ephemera");
     	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setFont(new Font("DIN", 0, 12));
+        setFont(new Font("Arial", 0, 12));
         setJMenuBar(createMenuBar());
           
-        //3D view ----------------------------------------------
+        //3D-Ansicht ----------------------------------------------
         JPanel canvasPanel = new JPanel();
         canvasPanel.setLayout(new BorderLayout());
         canvasPanel.add(getGlCanvas(), BorderLayout.CENTER);
         Dimension minimumSize = new Dimension(150, 150);
         canvasPanel.setMinimumSize(minimumSize);  
 
-        //Tabs--------------------------------------------------
+        //Tabs-----------------------------------------------------
         JTabbedPane tabbedPane = new JTabbedPane();
         tabbedPane.add(new JScrollPane(createOptionsPanel(), ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED), "Grundeinstellungen");
         tabbedPane.add(new JScrollPane(createAdditionalPanel(), ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED), "Weiteres");
         tabbedPane.setPreferredSize(new Dimension(300,150));
 
-        
-        //Bildschirm unterteilen in interface und 3D view
+        //Bildschirm unterteilen in Interface und 3D-Ansicht
         JSplitPane mainSplit = new JSplitPane();
         mainSplit.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
         mainSplit.setRightComponent(tabbedPane);
         mainSplit.setLeftComponent(canvasPanel);
         mainSplit.setDividerLocation(1000);
         mainSplit.setContinuousLayout(true);
-        mainSplit.setOneTouchExpandable(true);
-        
+        mainSplit.setOneTouchExpandable(true);     
         getContentPane().add(mainSplit, BorderLayout.CENTER);
         
-
         grid = createGrid();
         impl.setGrid(grid);
-        
-
         setSize(new Dimension(width, height));
     }
 
 
-    
+    /**
+     * Erstellt obere Menueleiste
+     * @return JMenueBar
+     */
     private JMenuBar createMenuBar() {
-    	//Neustart-Menuepunkt
+    	
+    	//TODO Neustart  	
         Action newAction = new AbstractAction("Neustart") {
             private static final long serialVersionUID = 1L;
 
@@ -155,8 +145,8 @@ public class GUI extends JFrame {
             }
         };
         newAction.putValue(Action.MNEMONIC_KEY, KeyEvent.VK_N);
-
-    	//Neustart-Menuepunkt
+    	
+        //TODO Standarteinstellungen  	
         Action defaultValues = new AbstractAction("Standardeinstellungen wiederherstellen") {
             private static final long serialVersionUID = 1L;
 
@@ -165,7 +155,7 @@ public class GUI extends JFrame {
             }
         };
         newAction.putValue(Action.MNEMONIC_KEY, KeyEvent.VK_N);        
-        //Beenden-Menuepunkt
+       
         Action quit = new AbstractAction("Beenden") {
             private static final long serialVersionUID = 1L;
 
@@ -175,7 +165,6 @@ public class GUI extends JFrame {
         };
         quit.putValue(Action.MNEMONIC_KEY, KeyEvent.VK_Q);
 
-    	//Datei-Menue wird erstellt
     	JMenu file = new JMenu("Datei");
         file.setMnemonic(KeyEvent.VK_F);
         file.add(newAction);
@@ -193,29 +182,23 @@ public class GUI extends JFrame {
             }
         };
         showGrid.putValue(Action.MNEMONIC_KEY, KeyEvent.VK_G);
-
-      
-        //Ansichtsmenue
+    
         JMenu view = new JMenu("Ansicht");
         view.setMnemonic(KeyEvent.VK_V);
         JCheckBoxMenuItem sgitem = new JCheckBoxMenuItem(showGrid);
         sgitem.setSelected(prefs.getBoolean("showgrid", true));
         view.add(sgitem);
       
-        
-        
-        //Hilfe-Menuepunkt
+    	//TODO HILFE  	     
         Action help = new AbstractAction("Hilfe") {
             private static final long serialVersionUID = 1L;
-
             public void actionPerformed(ActionEvent e) {
-            	    
-            
+            	               
             }
         };
         newAction.putValue(Action.MNEMONIC_KEY, KeyEvent.VK_N);
         
-      //Neustart-Menuepunkt
+    	//TODO UEBER  	
         Action about = new AbstractAction("Ueber") {
             private static final long serialVersionUID = 1L;
 
@@ -225,14 +208,11 @@ public class GUI extends JFrame {
         };
         newAction.putValue(Action.MNEMONIC_KEY, KeyEvent.VK_N);
 
-        
-        //Infomenue
         JMenu info = new JMenu("Info");
         info.setMnemonic(KeyEvent.VK_V);
         info.add(help);
         info.add(about);
 
-        //Datei und werden der Menue-Bar hinzugef�gt
         JMenuBar mbar = new JMenuBar();
         mbar.add(file);
         mbar.add(view);
@@ -241,7 +221,10 @@ public class GUI extends JFrame {
         return mbar;
     }
 
-    // JPanel Hauptfunktionen
+    /**
+     * JPanel Hauptfunktionen des Menues
+     * @return JPanel
+     */
     private JPanel createOptionsPanel() {
     	
         final JLabel countLabel = new JLabel("Maximale Fliegenanzahl");
@@ -254,57 +237,40 @@ public class GUI extends JFrame {
         aliLabel.setForeground(white);
         JLabel sepLabel = new JLabel("Trennung");
         sepLabel.setForeground(white);
+    
+	   
+    	final JSlider countSlider = new JSlider ();
         
-    	final JSlider countSlider = new JSlider (){
-
-            private static final long serialVersionUID = 1L;
-            /*
-        	public void actionPerformed(ActionEvent e) {
-               
-            }
-        */
-        };
-        
-        countSlider.addChangeListener(new ChangeListener() {
-			
-		
+        countSlider.addChangeListener(new ChangeListener() {	
 			public void stateChanged(ChangeEvent ce) {
 				float value = countSlider.getValue()/100f;
 				System.out.println("Maximale Fliegenanzahl "+value);
-				if (schwarm!=null){
+//TODO: Fliegenanzahl dynamisch einstellbar
 					updateCountLabel(countLabel, countSlider);
-				}
+
 			}
 		});
         
-   	// 	countSlider.setMinorTickSpacing(250);
-   	 	countSlider.setMajorTickSpacing(1000);
-        countSlider.setMinimum(0);		// Minmalwert
-        countSlider.setMaximum(3000);	// Maximalwert
+ 
+   	 	countSlider.setMajorTickSpacing(250);
+        countSlider.setMinimum(0);
+        countSlider.setMaximum(1000);
+        
+        //TODO: FLiegenanzahl soll sich gezogen werden
         countSlider.setValue(100);		// Beim Start eingestellter Wert
-        //countSlider.setSnapToTicks(true);	// Automatisches Versetzen deaktiviert
-        //countSlider.setExtent(5);		// Zeiger verspringt 10 Einheiten
-        countSlider.setOrientation(SwingConstants.HORIZONTAL);	// horizontale Ausrichtung
-        countSlider.setPaintTicks(true);	//Striche werden nicht angezeigt
-        countSlider.setPaintLabels(true);	//Zahlen werden nicht angezeigt
-        countSlider.setPaintTrack(true);	//Balken wird angezeigt
+        countSlider.setOrientation(SwingConstants.HORIZONTAL);
+        countSlider.setPaintTicks(true);
+        countSlider.setPaintLabels(true);	
+        countSlider.setPaintTrack(true);
         countSlider.setEnabled(true);
         countSlider.setForeground(white);
         
-    	 final JSlider speedSlider = new JSlider ();
+    	final JSlider speedSlider = new JSlider ();
 		speedSlider.setValue((int)(rules.getFluggeschwindigkeit()*10));
-		System.out.println("Simu:"+speedSlider.getValue());
-    	/*{
-
-            private static final long serialVersionUID = 1L;
-        	public void actionPerformed(ActionEvent e) {
-            }
-        
-        };*/
+		System.out.println("Simulationsgeschwindigkeit:"+speedSlider.getValue());
         
         speedSlider.addChangeListener(new ChangeListener() {
 			
-		
 			public void stateChanged(ChangeEvent ce) {
 
 				float value = speedSlider.getValue()/10f;
@@ -316,18 +282,17 @@ public class GUI extends JFrame {
 			}
 		});
         
-        speedSlider.setMinimum(0);		// Minmalwert
-        speedSlider.setMaximum(1000);	// Maximalwert
-        speedSlider.setSnapToTicks(true);	// Automatisches Versetzen deaktiviert
-        speedSlider.setExtent(1);		// Zeiger verspringt 10 Einheiten
-        speedSlider.setOrientation(SwingConstants.HORIZONTAL);	// horizontale Ausrichtung
-        speedSlider.setPaintTicks(true);	//Striche werden nicht angezeigt
-        speedSlider.setPaintLabels(true);	//Zahlen werden nicht angezeigt
-        speedSlider.setPaintTrack(true);	//Balken wird angezeigt
+        speedSlider.setMinimum(0);	
+        speedSlider.setMaximum(50);	
+   	 	speedSlider.setMajorTickSpacing(10);
+        speedSlider.setOrientation(SwingConstants.HORIZONTAL);
+        speedSlider.setPaintTicks(true);
+        speedSlider.setPaintLabels(true);	
+        speedSlider.setPaintTrack(true);
         speedSlider.setEnabled(true);
         speedSlider.setForeground(white);
+
         
-        // Fliege hinzufuegen-Button
         JButton addFlyButton = new JButton(new AbstractAction("Fliege hinzufuegen"){
         	private static final long serialVersionUID = 1L;
 
@@ -337,7 +302,7 @@ public class GUI extends JFrame {
         	}
         });
         
-        addFlyButton.setFont(new Font("DIN", Font.BOLD, 12));
+        addFlyButton.setFont(new Font("Arial", Font.BOLD, 12));
         addFlyButton.setMargin(new Insets(2, 2, 2, 2));
         
         
@@ -354,50 +319,48 @@ public class GUI extends JFrame {
 	    	}
 	    });
      
-	 cohSlider.setMinorTickSpacing(5);
-	 cohSlider.setMajorTickSpacing(20);
-     cohSlider.setMinimum(0);		// Minmalwert
-     cohSlider.setMaximum(100);	// Maximalwert
-     cohSlider.setSnapToTicks(true);	// Automatisches Versetzen deaktiviert
-     cohSlider.setOrientation(SwingConstants.HORIZONTAL);	// horizontale Ausrichtung
-     cohSlider.setPaintTicks(true);	//Striche werden nicht angezeigt
-     cohSlider.setPaintLabels(true);	//Zahlen werden nicht angezeigt
-     cohSlider.setPaintTrack(true);	//Balken wird angezeigt
-     cohSlider.setEnabled(true);
-     cohSlider.setForeground(white);
+	    cohSlider.setMinorTickSpacing(5);
+	    cohSlider.setMajorTickSpacing(20);
+	    cohSlider.setMinimum(0);
+	    cohSlider.setMaximum(100);	
+	    cohSlider.setSnapToTicks(true);
+	    cohSlider.setOrientation(SwingConstants.HORIZONTAL);
+	    cohSlider.setPaintTicks(true);
+	    cohSlider.setPaintLabels(true);
+	    cohSlider.setPaintTrack(true);
+	    cohSlider.setEnabled(true);
+	    cohSlider.setForeground(white);
     
-     final JSlider aliSlider = new JSlider();
+	    final JSlider aliSlider = new JSlider();
    
-    
 		aliSlider.setValue((int)(rules.getAli_weight()*100));
 	    aliSlider.addChangeListener(new ChangeListener(){
+	    	
 	    	public void stateChanged(ChangeEvent ce) {
 	    		
 	    		float value = aliSlider.getValue()/100f;
-	   
 	    		impl.getSchwarm().getRegeln().setAli_weight(value);
-
 	    		System.out.println("Ausrichtungswert:"+value);
 	    	}
 	    });
 	   
-	aliSlider.setMinorTickSpacing(5);
-	aliSlider.setMajorTickSpacing(20);    
-    aliSlider.setMinimum(0);		// Minmalwert
-    aliSlider.setMaximum(100);	// Maximalwert
-    aliSlider.setSnapToTicks(true);	// Automatisches Versetzen deaktiviert
-    aliSlider.setOrientation(SwingConstants.HORIZONTAL);	// horizontale Ausrichtung
-    aliSlider.setPaintTicks(true);	//Striche werden nicht angezeigt
-    aliSlider.setPaintLabels(true);	//Zahlen werden nicht angezeigt
-    aliSlider.setPaintTrack(true);	//Balken wird angezeigt
-    aliSlider.setEnabled(true);
-    aliSlider.setForeground(white);
+	    aliSlider.setMinorTickSpacing(5);
+	    aliSlider.setMajorTickSpacing(20);    
+	    aliSlider.setMinimum(0);
+	    aliSlider.setMaximum(100);
+	    aliSlider.setSnapToTicks(true);	
+	    aliSlider.setOrientation(SwingConstants.HORIZONTAL);
+	    aliSlider.setPaintTicks(true);
+	    aliSlider.setPaintLabels(true);
+	    aliSlider.setPaintTrack(true);
+	    aliSlider.setEnabled(true);
+    	aliSlider.setForeground(white);
     
     
- 	final JSlider sepSlider = new JSlider();
- 	sepSlider.setValue((int)(rules.getSep_weight()*100));
+    	final JSlider sepSlider = new JSlider();
+    	sepSlider.setValue((int)(rules.getSep_weight()*100));
 		
-	   sepSlider.addChangeListener(new ChangeListener(){
+    	sepSlider.addChangeListener(new ChangeListener(){
 	    	public void stateChanged(ChangeEvent ce) {
 	    		
 	    		float value = sepSlider.getValue()/100f;
@@ -410,21 +373,20 @@ public class GUI extends JFrame {
 	   
 	   sepSlider.setMinorTickSpacing(5);
 	   sepSlider.setMajorTickSpacing(20);
-       sepSlider.setMinimum(0);		// Minmalwert
-       sepSlider.setMaximum(100);	// Maximalwert
-       sepSlider.setSnapToTicks(true);	// Automatisches Versetzen deaktiviert
-       sepSlider.setOrientation(SwingConstants.HORIZONTAL);	// horizontale Ausrichtung
-       sepSlider.setPaintTicks(true);	//Striche werden nicht angezeigt
-       sepSlider.setPaintLabels(true);	//Zahlen werden nicht angezeigt
-       sepSlider.setPaintTrack(true);	//Balken wird angezeigt
+       sepSlider.setMinimum(0);
+       sepSlider.setMaximum(100);
+       sepSlider.setSnapToTicks(true);
+       sepSlider.setOrientation(SwingConstants.HORIZONTAL);
+       sepSlider.setPaintTicks(true);
+       sepSlider.setPaintLabels(true);
+       sepSlider.setPaintTrack(true);
        sepSlider.setEnabled(true); 
        sepSlider.setForeground(white);
        
 
-       	// Erstelle Panel f�r Grundeinstellungen
+       	// Arrangement des Grundeinstellungspanel
         JPanel optionsPanel = new JPanel(new GridBagLayout());
         optionsPanel.setBackground(dgrey);
-        // F�ge dem Tab die Labels, Buttons und Slider hinzu 
         optionsPanel.add(countLabel, new GridBagConstraints(0, 0, 1, 1,
                 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE,
                 new Insets(5, 10, 10, 10), 0, 0));
@@ -465,6 +427,7 @@ public class GUI extends JFrame {
         return optionsPanel;
     }
     
+    // Erweitertes Menue
     private JPanel createAdditionalPanel() {
     	
         final JSlider hunterSlider = new JSlider();
@@ -593,7 +556,7 @@ public class GUI extends JFrame {
       
             }
         });
-        hunterButton.setFont(new Font("DIN", Font.BOLD, 12));
+        hunterButton.setFont(new Font("Arial", Font.BOLD, 12));
         hunterButton.setMargin(new Insets(2, 2, 2, 2));
         hunterButton.setEnabled(true);
         
@@ -609,7 +572,7 @@ public class GUI extends JFrame {
             }
         });
         
-        shitButton.setFont(new Font("DIN", Font.BOLD, 12));
+        shitButton.setFont(new Font("Arial", Font.BOLD, 12));
         shitButton.setMargin(new Insets(2, 2, 2, 2));
         shitButton.setEnabled(true);
         
