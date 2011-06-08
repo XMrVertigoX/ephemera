@@ -20,7 +20,6 @@ import ephemera.controller.SchwarmController;
 public class Hunter extends Node{
 
 	private static final long serialVersionUID = 1L;
-	public Sphere s; // stellt erst einmal den jaeger dar
 	private long age; // alter des jaegers
 	private Vector3f actualPos;
 	private World world;
@@ -38,10 +37,11 @@ public class Hunter extends Node{
     private Quaternion rotQuat = new Quaternion();
 
 	private static Node hunterNode = new Node();
-	private Dome oben;
-	private Dome unten;
-	private Sphere augeL;
-	private Sphere augeR;
+	private Dome upperHead;
+	private Dome lowerHead;
+	private Sphere eyeL;
+	private Sphere eyeR;
+	private Sphere inside;
 	private int sign;
 
 	/**
@@ -65,37 +65,39 @@ public class Hunter extends Node{
 	 */
 	public void initHunter(){
 	
-		Sphere innen = new Sphere("innen", 15,15,19f);
+		 
 		
-		oben = new Dome("hunter",15,15,20f);
-	    unten = new Dome("hunter",15,15,20f);
+		upperHead = new Dome("hunter",15,15,20f);
+	    lowerHead = new Dome("hunter",15,15,20f);
 	    
-	    augeL = new Sphere("eye", 10,10,5f);
-	    augeR = new Sphere("eye", 10,10,5f);
+	    eyeL = new Sphere("eye", 10,10,5f);
+	    eyeR = new Sphere("eye", 10,10,5f);
+	    
+	    inside = new Sphere("innen", 15,15,19f);
 
-	    augeR.setDefaultColor(new ColorRGBA(0,0,0,0));    
-	    augeL.setDefaultColor(new ColorRGBA(0,0,0,0));
-	    oben.setDefaultColor(new ColorRGBA(1,1,0,0));
-	    unten.setDefaultColor(new ColorRGBA(1,1,0,0));
-	    innen.setDefaultColor(new ColorRGBA(0.5f,0,0,0));
+	    eyeR.setDefaultColor(new ColorRGBA(0,0,0,0));    
+	    eyeL.setDefaultColor(new ColorRGBA(0,0,0,0));
+	    upperHead.setDefaultColor(new ColorRGBA(1,1,0,0));
+	    lowerHead.setDefaultColor(new ColorRGBA(1,1,0,0));
+	    inside.setDefaultColor(new ColorRGBA(0.5f,0,0,0));
 
 	    
 	    rotQuat.fromAngleAxis(angle, axis);
 
-	    unten.setLocalRotation(rotQuat);
-	    augeL.setLocalTranslation(new Vector3f(11f, 10f, 9));
-	    augeR.setLocalTranslation(new Vector3f(-11f, 10f, 9));
+	    lowerHead.setLocalRotation(rotQuat);
+	    eyeL.setLocalTranslation(new Vector3f(11f, 10f, 9));
+	    eyeR.setLocalTranslation(new Vector3f(-11f, 10f, 9));
 
 
 
 	    hunterNode.setModelBound(new BoundingSphere());
 	    hunterNode.updateModelBound();
 	    
-	    hunterNode.attachChild(innen);
-	    hunterNode.attachChild(augeL);
-	    hunterNode.attachChild(augeR);
-	    hunterNode.attachChild(oben);
-	    hunterNode.attachChild(unten);
+	    hunterNode.attachChild(inside);
+	    hunterNode.attachChild(eyeL);
+	    hunterNode.attachChild(eyeR);
+	    hunterNode.attachChild(upperHead);
+	    hunterNode.attachChild(lowerHead);
 		
 		
 		
@@ -150,7 +152,7 @@ public class Hunter extends Node{
 		   
 	      rotQuat.fromAngleAxis((-angle*(FastMath.PI/180f)), axis);
 
-	      unten.setLocalRotation(rotQuat);
+	      lowerHead.setLocalRotation(rotQuat);
 			
 		
 		
@@ -160,18 +162,6 @@ public class Hunter extends Node{
 		 */
 	
 		if(getAge()>lifetime || (swarm.getSchwarm().size() == 0)){
-
-//			Vector3f weg = new Vector3f(300,300,300);
-//			target = weg.subtract(actualPos);	
-//
-//			/**
-//			 * wenn jaeger am rand der skybox angekommen ist,
-//			 * wird er entfernt
-//			 */
-//			if(actualPos.distance(weg)<5){
-//				
-//				deleteHunter();
-//			}
 			
 			deleteHunter();
 		}
@@ -212,8 +202,6 @@ public class Hunter extends Node{
 		}
 		
 		if(world.obstacleAvoidance(this)){
-
-		//	actualPos.addLocal(world.getCollisionVector());
 			
 			float angle = FastMath.PI/2f;
 			
@@ -223,16 +211,10 @@ public class Hunter extends Node{
 
 			
 		}
-	//	else{
 	
-			actualPos.addLocal(target);
-// 		}
+			hunterNode.lookAt(actualPos.add(target), new Vector3f(0,1,0));
 		
-		setPos(actualPos);
-		
-		
-		
-		
+			actualPos.addLocal(target);		
 	}
 	
 	/**
@@ -242,6 +224,7 @@ public class Hunter extends Node{
 	 * @param numberBoid
 	 * @return
 	 */
+	
 	public void eatBoid(Vector3f flyPos, int numberBoid){
 		
 		if(actualPos.distance(flyPos)<5f){
@@ -254,10 +237,12 @@ public class Hunter extends Node{
 	/**
 	 * entfernt jaeger aus der simulation
 	 */
+	
 	public void deleteHunter(){
 		System.out.println("deleted");
 		MyJmeView.setExist(false);
-		world.detachChild(this);
+		detachChild(hunterNode);
+		
 	}
 	
 	

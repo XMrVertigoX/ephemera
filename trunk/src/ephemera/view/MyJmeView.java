@@ -33,7 +33,7 @@ public class MyJmeView extends SimpleCanvasImpl {
     	if(!exist){
     		System.out.println("dabei");
     		hunter = new Hunter(new Vector3f(300,300,300), world, schwarm);
-    		world.attachChild(hunter);
+    		rootNode.attachChild(hunter);
     		exist = true;
     	}
     }
@@ -147,10 +147,7 @@ public class MyJmeView extends SimpleCanvasImpl {
  
     public static void setExist(boolean value){
     	exist = value;
-    	
-    	if(value==false){
-    		
-    	}
+   
     }
     
     public float getFarPlane(){
