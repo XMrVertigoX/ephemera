@@ -30,11 +30,9 @@ import ephemera.controller.*;
 import ephemera.model.*;
 
 
-
-
 public class GUI extends JFrame {
 
-	private SchwarmController schwarm;
+	
 	private ShitController shit;
     private MyJmeView impl;
     private CamHandler camhand;
@@ -111,7 +109,7 @@ public class GUI extends JFrame {
         //Tabs-----------------------------------------------------
         JTabbedPane tabbedPane = new JTabbedPane();
         tabbedPane.add(new JScrollPane(createOptionsPanel(), ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED), "Grundeinstellungen");
-        tabbedPane.add(new JScrollPane(createAdditionalPanel(), ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED), "Weiteres");
+        tabbedPane.add(new JScrollPane(createAdditionalPanel(), ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED), "Erweitert");
         tabbedPane.setPreferredSize(new Dimension(300,150));
 
         //Bildschirm unterteilen in Interface und 3D-Ansicht
@@ -146,7 +144,7 @@ public class GUI extends JFrame {
         };
         newAction.putValue(Action.MNEMONIC_KEY, KeyEvent.VK_N);
     	
-        //TODO Standarteinstellungen  	
+        //TODO Standardeinstellungen  	
         Action defaultValues = new AbstractAction("Standardeinstellungen wiederherstellen") {
             private static final long serialVersionUID = 1L;
 
@@ -427,91 +425,93 @@ public class GUI extends JFrame {
         return optionsPanel;
     }
     
-    // Erweitertes Menue
+    /**
+     * Erstellt JPanel des erweiterten Menues
+     * @return JPanel
+     */
     private JPanel createAdditionalPanel() {
     	
+        JLabel hunterLabel = new JLabel("Jaeger-Lebensdauer in Sekunden");
+        hunterLabel.setForeground(white);  
+        JLabel followLabel = new JLabel("Folge Leittier");
+        followLabel.setForeground(white);
+        JLabel desiredLabel = new JLabel("Gewuenschter Abstand");
+        desiredLabel.setForeground(white);
+        JLabel neighborLabel = new JLabel ("Sichtweite");
+        neighborLabel.setForeground(white);
+    	
         final JSlider hunterSlider = new JSlider();
-
-        	hunterSlider.setValue(20);
-     
-        
+        hunterSlider.setValue(20);
+      
         hunterSlider.addChangeListener(new ChangeListener(){
     		public void stateChanged(ChangeEvent ce) {
     	
+    					
     			float value = (float)hunterSlider.getValue();
-    				
     			if (impl.getHunter()!=null)
     				impl.getHunter().setLifetime(value);
-    			//else if (impl.getHunter()==null)
-    			
-	  
-        		System.out.println("Jaegerlebensdauer: "+value);
-    		
-    	}
+    			System.out.println("Jaegerlebensdauer: "+value);
+    		}
         });
        
         hunterSlider.setMinorTickSpacing(20);
         hunterSlider.setMajorTickSpacing(40);
-        hunterSlider.setMinimum(20);		// Minmalwert
-        hunterSlider.setMaximum(200);	// Maximalwert
-        hunterSlider.setSnapToTicks(true);	// Automatisches Versetzen deaktiviert
-        hunterSlider.setOrientation(SwingConstants.HORIZONTAL);	// horizontale Ausrichtung
-        hunterSlider.setPaintTicks(true);	//Striche werden nicht angezeigt
-        hunterSlider.setPaintLabels(true);	//Zahlen werden nicht angezeigt
-        hunterSlider.setPaintTrack(true);	//Balken wird angezeigt
+        hunterSlider.setMinimum(20);		
+        hunterSlider.setMaximum(200);	
+        hunterSlider.setSnapToTicks(true);	
+        hunterSlider.setOrientation(SwingConstants.HORIZONTAL);	
+        hunterSlider.setPaintTicks(true);	
+        hunterSlider.setPaintLabels(true);	
+        hunterSlider.setPaintTrack(true);	
         hunterSlider.setEnabled(true); 
         hunterSlider.setForeground(white);   
 
         final JSlider followSlider = new JSlider();
-		followSlider.setValue((int)(rules.getFollow_weight()*100));
-		
-        	followSlider.addChangeListener(new ChangeListener(){
-        		public void stateChanged(ChangeEvent ce) {
+		followSlider.setValue((int)(rules.getFollow_weight()*100));	
+        followSlider.addChangeListener(new ChangeListener(){
+        	public void stateChanged(ChangeEvent ce) {
 	    		
-        			float value = followSlider.getValue()/100f;
-	   
-        			impl.getSchwarm().getRegeln().setFollow_weight(value);
-
-        			System.out.println("Folge Leittier-Wert: "+value);
+        		float value = followSlider.getValue()/100f;   
+        		impl.getSchwarm().getRegeln().setFollow_weight(value);
+        		System.out.println("Folge Leittier-Wert: "+value);
 	    	}
 	    });
            
-       	   followSlider.setMinorTickSpacing(5);
-    	   followSlider.setMajorTickSpacing(20);
-           followSlider.setSnapToTicks(true);	// Automatisches Versetzen deaktiviert
-           followSlider.setOrientation(SwingConstants.HORIZONTAL);	// horizontale Ausrichtung
-           followSlider.setPaintTicks(true);	//Striche werden nicht angezeigt
-           followSlider.setPaintLabels(true);	//Zahlen werden nicht angezeigt
-           followSlider.setPaintTrack(true);	//Balken wird angezeigt
-           followSlider.setEnabled(true); 
-           followSlider.setForeground(white);
+        followSlider.setMinorTickSpacing(5);
+        followSlider.setMajorTickSpacing(20);
+        followSlider.setSnapToTicks(true);	
+        followSlider.setOrientation(SwingConstants.HORIZONTAL);	
+        followSlider.setPaintTicks(true);	
+        followSlider.setPaintLabels(true);	
+        followSlider.setPaintTrack(true);	
+        followSlider.setEnabled(true); 
+        followSlider.setForeground(white);
     	
  
         final JSlider desiredSlider = new JSlider();
-		desiredSlider.setValue((int)(rules.getDesiredSeparation()));
-        
-        	desiredSlider.addChangeListener(new ChangeListener(){
-        		public void stateChanged(ChangeEvent ce) {
+		desiredSlider.setValue((int)(rules.getDesiredSeparation()));    
+        desiredSlider.addChangeListener(new ChangeListener(){
+        	public void stateChanged(ChangeEvent ce) {
 	    		
-        			float value = desiredSlider.getValue();
-        			impl.getSchwarm().getRegeln().setDesiredSeparation(value);
-        			System.out.println("Gewuenschter Abstand: "+value);
+        		float value = desiredSlider.getValue();
+        		impl.getSchwarm().getRegeln().setDesiredSeparation(value);
+        		System.out.println("Gewuenschter Abstand: "+value);
 	    	}
 	    });
            
-        	desiredSlider.setMinorTickSpacing(5);
-        	desiredSlider.setMajorTickSpacing(20);
-        	desiredSlider.setSnapToTicks(true);	// Automatisches Versetzen deaktiviert
-        	desiredSlider.setOrientation(SwingConstants.HORIZONTAL);	// horizontale Ausrichtung
-        	desiredSlider.setPaintTicks(true);	//Striche werden nicht angezeigt
-        	desiredSlider.setPaintLabels(true);	//Zahlen werden nicht angezeigt
-        	desiredSlider.setPaintTrack(true);	//Balken wird angezeigt
-        	desiredSlider.setEnabled(true); 
-        	desiredSlider.setForeground(white);          
+        desiredSlider.setMinorTickSpacing(5);
+        desiredSlider.setMajorTickSpacing(20);
+        desiredSlider.setSnapToTicks(true);	
+        desiredSlider.setOrientation(SwingConstants.HORIZONTAL);	
+        desiredSlider.setPaintTicks(true);	
+        desiredSlider.setPaintLabels(true);	
+        desiredSlider.setPaintTrack(true);	
+        desiredSlider.setEnabled(true); 
+        desiredSlider.setForeground(white);          
  
-           final JSlider neighborSlider = new JSlider();
-   		   neighborSlider.setValue((int)(rules.getNeighborDistance()));
-           neighborSlider.addChangeListener(new ChangeListener(){
+        final JSlider neighborSlider = new JSlider();
+   		neighborSlider.setValue((int)(rules.getNeighborDistance()));
+        neighborSlider.addChangeListener(new ChangeListener(){
        		public void stateChanged(ChangeEvent ce) {
 	    		
        			float value = neighborSlider.getValue();
@@ -522,36 +522,23 @@ public class GUI extends JFrame {
 	    	}
 	    });
            
-       	  neighborSlider.setMinorTickSpacing(5);
-       	  neighborSlider.setMajorTickSpacing(20);
-          neighborSlider.setMinimum(0);		// Minmalwert
-          neighborSlider.setMaximum(100);	// Maximalwert
-          neighborSlider.setSnapToTicks(true);	// Automatisches Versetzen deaktiviert
-          neighborSlider.setOrientation(SwingConstants.HORIZONTAL);	// horizontale Ausrichtung
-          neighborSlider.setPaintTicks(true);	//Striche werden nicht angezeigt
-          neighborSlider.setPaintLabels(true);	//Zahlen werden nicht angezeigt
-          neighborSlider.setPaintTrack(true);	//Balken wird angezeigt
-          neighborSlider.setEnabled(true);  
-          neighborSlider.setForeground(white);
+       	neighborSlider.setMinorTickSpacing(5);
+       	neighborSlider.setMajorTickSpacing(20);
+        neighborSlider.setMinimum(0);		
+        neighborSlider.setMaximum(100);	
+        neighborSlider.setSnapToTicks(true);	
+        neighborSlider.setOrientation(SwingConstants.HORIZONTAL);	
+        neighborSlider.setPaintTicks(true);	
+        neighborSlider.setPaintLabels(true);	
+        neighborSlider.setPaintTrack(true);	
+        neighborSlider.setEnabled(true);  
+        neighborSlider.setForeground(white);
           
-        JLabel hunterTimeLabel = new JLabel("Jaeger-Lebensdauer in Sekunden");
-        hunterTimeLabel.setForeground(white);  
-  	
         
-        JLabel followLabel = new JLabel("Folge Leittier");
-        followLabel.setForeground(white);
-        JLabel desiredLabel = new JLabel("Gewuenschter Abstand");
-        desiredLabel.setForeground(white);
-        JLabel neighborLabel = new JLabel ("Abstand zum Nachbarn");
-        neighborLabel.setForeground(white);
-        
-       	// Jaeger hinzufuegen-Button
         JButton hunterButton = new JButton(new AbstractAction("Jaeger hinzufuegen") {
             private static final long serialVersionUID = 1L;
 
             public void actionPerformed(ActionEvent e) {
-              //  Jaeger hinzufuegen
-
             	impl.addNewHunter((float)hunterSlider.getValue());
             	System.out.println("Jaeger hinzugefuegt");
       
@@ -561,12 +548,10 @@ public class GUI extends JFrame {
         hunterButton.setMargin(new Insets(2, 2, 2, 2));
         hunterButton.setEnabled(true);
         
-        //Kot hinzufuegen-Button
         JButton shitButton = new JButton(new AbstractAction("Kot hinzufuegen") {
             private static final long serialVersionUID = 1L;
 
             public void actionPerformed(ActionEvent e) {
-
 				shit = new ShitController( impl);
             	shit.mouseShot();
             	
@@ -577,73 +562,75 @@ public class GUI extends JFrame {
         shitButton.setMargin(new Insets(2, 2, 2, 2));
         shitButton.setEnabled(true);
         
+        // Arrangement des erweiterten Panels 
         JPanel addPanel = new JPanel(new GridBagLayout());
         addPanel.setBackground(dgrey);
 
-        addPanel.add(hunterButton, new GridBagConstraints(0, 8, 5, 1,
+        addPanel.add(hunterButton, new GridBagConstraints(0, 0, 5, 1,
                 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
                 new Insets(5, 10, 10, 10), 0, 0));
-        
-        addPanel.add(hunterSlider, new GridBagConstraints(0, 11, 5, 1,
+        addPanel.add(hunterLabel, new GridBagConstraints(0, 1, 1, 1,
+                0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE,
+                new Insets(5, 10, 10, 10), 0, 0));         
+        addPanel.add(hunterSlider, new GridBagConstraints(0, 2, 5, 1,
                 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
                 new Insets(5, 10, 10, 10), 0, 0));
-        addPanel.add(shitButton, new GridBagConstraints(0, 12, 5, 1,
+        addPanel.add(shitButton, new GridBagConstraints(0, 3, 5, 1,
                 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
                 new Insets(5, 10, 10, 10), 0, 0));
-        addPanel.add(followLabel, new GridBagConstraints(0, 13, 1, 1,
+        addPanel.add(followLabel, new GridBagConstraints(0, 4, 1, 1,
                 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE,
                 new Insets(5, 10, 10, 10), 0, 0));  
-        addPanel.add(followSlider, new GridBagConstraints(0, 14, 5, 1,
+        addPanel.add(followSlider, new GridBagConstraints(0, 5, 5, 1,
                 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
                 new Insets(5, 10, 10, 10), 0, 0));
-        addPanel.add(desiredLabel, new GridBagConstraints(0, 15, 1, 1,
+        addPanel.add(desiredLabel, new GridBagConstraints(0, 6, 1, 1,
                 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE,
                 new Insets(5, 10, 10, 10), 0, 0)); 
-        addPanel.add(desiredSlider, new GridBagConstraints(0, 16, 5, 1,
+        addPanel.add(desiredSlider, new GridBagConstraints(0, 7, 5, 1,
                 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
                 new Insets(5, 10, 10, 10), 0, 0));
-        addPanel.add(neighborLabel, new GridBagConstraints(0, 17, 1, 1,
+        addPanel.add(neighborLabel, new GridBagConstraints(0, 8, 1, 1,
                 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE,
                 new Insets(5, 10, 10, 10), 0, 0)); 
-        addPanel.add(neighborSlider, new GridBagConstraints(0, 18, 5, 1,
+        addPanel.add(neighborSlider, new GridBagConstraints(0, 9, 5, 1,
                 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
                 new Insets(5, 10, 10, 10), 0, 0));
         
         return addPanel;
     }
     
+    /**
+     * Aktualisiert countLabel nach betätigen von countSlider
+     * @param JLabel
+     * @param JSlider
+     */
     private void updateCountLabel(JLabel cl, JSlider cs) {
         JLabel countLabel=cl;
         JSlider countSlider=cs;
     	int val = countSlider.getValue();
         countLabel.setText("Maximale Fliegenanzahl: " + val);
     }
-    
-    public static void updateHunterInactiveLabel(){
-    	//updateHunterAliveLabel(, false);
-    }
-    
 
-
-
+    /**
+     * Erstellt 3D-Fenster und gibt es zurueck
+     * @return Canvas
+     */
     protected Canvas getGlCanvas() {
         if (glCanvas == null) {
 
-            // -------------GL STUFF------------------
-
-            // make the canvas:
+            // -----------GL Canvas-------------
         	display.registerCanvasConstructor("AWT", LWJGLAWTCanvasConstructor.class);
             glCanvas = (Canvas)display.createCanvas(width, height);
             glCanvas.setMinimumSize(new Dimension(100, 100));
 
-            // add a listener... if window is resized, we can do something about
-            // it.
             glCanvas.addComponentListener(new ComponentAdapter() {
                 @Override
 				public void componentResized(ComponentEvent ce) {
                     doResize();
                 }
             });
+            
             impl = new MyJmeView(width, height);
             camhand = new CamHandler();
             camhand.setJmeView(impl);
@@ -651,10 +638,9 @@ public class GUI extends JFrame {
             glCanvas.addMouseListener(camhand);
             glCanvas.addMouseMotionListener(camhand);
 
-            // Important! Here is where we add the guts to the canvas:
             ((JMECanvas) glCanvas).setImplementor(impl);
 
-            // -----------END OF GL STUFF-------------
+            // -----------ENDE GL Canvas-------------
             Callable<Void> exe = new Callable<Void>() {
                 public Void call() {
                     forceUpdateToSize();
@@ -667,6 +653,9 @@ public class GUI extends JFrame {
         return glCanvas;
     }
 
+    /**
+     * Aendert Canvas-Fenstergroesse
+     */
     public void forceUpdateToSize() {
         // force a resize to ensure proper canvas size.
         glCanvas.setSize(glCanvas.getWidth(), glCanvas.getHeight() + 1);
@@ -675,7 +664,7 @@ public class GUI extends JFrame {
 
     
     /**
-     * resize vergroesert die simulation bzw verkleineiert bei groessen aenderung des fensters
+     * doResize aendert die Fenstergroesse bei Vergroesserung/Verkleinerung
      */
     protected void doResize() {
         if (impl != null) {
@@ -692,7 +681,10 @@ public class GUI extends JFrame {
         }
     }
     
-
+    /**
+     * Erstellt Grid
+     * @return Geometry
+     */
     private Geometry createGrid() {
         Vector3f[] vertices = new Vector3f[GRID_LINES * 2 * 2];
         float edge = GRID_LINES / 2 * GRID_SPACING;
