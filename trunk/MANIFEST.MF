@@ -5,5 +5,5 @@ Class-Path: lib/jme.jar lib/jme-awt.jar lib/jme-editors.jar lib/jme-eff
  b/jme-swt.jar lib/jme-terrain.jar lib/lwjgl/lwjgl.jar lib/lwjgl/lwjgl_
  util.jar lib/lwjgl/lwjgl_util_applet.jar lib/lwjgl/jinput.jar lib/swt/
  swt.jar lib/swt/swt_64.jar
-Main-Class: ephemera.view.GUI
+Main-Class: ephemera.Main
 
