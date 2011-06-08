@@ -9,12 +9,9 @@ import ephemera.model.Rules;
 import ephemera.model.Leader;
 
 import com.jme.curve.CurveController;
-import com.jme.light.PointLight;
 import com.jme.math.Vector3f;
-import com.jme.renderer.ColorRGBA;
 import com.jme.scene.Controller;
 import com.jme.scene.Node;
-import com.jme.scene.shape.Sphere;
 
 
 public class PathController{
