@@ -70,6 +70,9 @@ public class Ephemera extends Node{
 		//body.setIsCollidable(false);
 		body.setLocalScale(new Vector3f(.51f,.51f,2));
 		
+		body.setDefaultColor(new ColorRGBA(0,0,0,0));
+		
+		
 		//Kopf verschieben
 		head.setLocalTranslation(0, 0, 4);
 
