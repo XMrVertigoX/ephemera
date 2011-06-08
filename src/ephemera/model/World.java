@@ -9,119 +9,96 @@ package ephemera.model;
 import java.net.URL;
 import java.util.ArrayList;
 
-import com.jme.bounding.BoundingBox;
-import com.jme.bounding.BoundingSphere;
-import com.jme.bounding.BoundingVolume;
+import com.jme.bounding.*;
 import com.jme.image.Texture;
-import com.jme.math.FastMath;
-import com.jme.math.Vector3f;
+import com.jme.math.*;
 import com.jme.renderer.ColorRGBA;
 import com.jme.renderer.Renderer;
-import com.jme.scene.Node;
-import com.jme.scene.Skybox;
-import com.jme.scene.Spatial;
-import com.jme.scene.TriMesh;
-import com.jme.scene.shape.Box;
-import com.jme.scene.shape.Sphere;
-import com.jme.scene.state.BlendState;
-import com.jme.scene.state.MaterialState;
-import com.jme.scene.state.TextureState;
+import com.jme.scene.*;
+import com.jme.scene.shape.*;
+import com.jme.scene.state.*;
 import com.jme.system.DisplaySystem;
 import com.jme.system.lwjgl.LWJGLSystemProvider;
 import com.jme.util.TextureManager;
 import com.jmex.terrain.TerrainBlock;
 import com.jmex.terrain.util.MidPointHeightMap;
-import ephemera.controller.HelloTerain;
+
 import ephemera.controller.SchwarmController;
 import ephemera.tester.HelloTexture;
-//import ephemera.model.*;
 
 public class World extends Node{
-
+	
+	private static final long serialVersionUID = 1;
+	
 	private Node objectNode;
 	private Node terrainNode;
 	
 	private Vector3f avoidObstacles; 
 	private ArrayList<Spatial> obs;
-	private SkyDome dome;
+	private Skybox skybox ;
 	
-	public SkyDome getDome(){return dome;}
 	
 	public World(){
 		super("World Root Node");
+		
 		obs = new ArrayList<Spatial>();
-		generateRandomObjects(10);
-		PlantObstacles.createTree(0,-150,0,this,objectNode.getChildren());
-		generateTerrain();
+		objectNode = new Node();
+		
 		initSky();
+		generateTerrain();
+		generateRandomObjects(10);
+		PlantObstacles.createTree(0, -150, 0, this, objectNode.getChildren());
 		
-		
+		attachChild(skybox);
+		attachChild(objectNode);
 	}
+	
+	
+	public Skybox getSkybox(){
+		return skybox;
+	}
+	
+	
 	/**
-	 * Lade die Texturen und verknuepfe diese mit Skybox
+	 * Lade die Texturen und verknuepfe diese mit der Skybox
+	 * @author ...
 	 */
 	public void initSky(){
+	
+		skybox = new Skybox("Skybox", 5000, 5000, 5000);
 		
-		/*
-		dome = new SkyDome("dome",100,100,1500);
-		dome.setModelBound(new BoundingSphere());
-        dome.updateModelBound();
-        dome.updateRenderState();
-        dome.setUpdateTime(0.01f);
-        dome.setTimeWarp(500.0f);
-        dome.setDay(264);
-        dome.setLatitude(-22.9f);
-        dome.setLongitude(-47.083f);
-        dome.setStandardMeridian(-45.0f);
-        dome.setSunPosition(5.75f);             // 5:45 am
-        dome.setTurbidity(2.0f);
-        dome.setSunEnabled(true);
-        dome.setExposure(true, 18.0f);
-        dome.setOvercastFactor(0.0f);
-        dome.setGammaCorrection(.8f);
-        dome.setRootNode(this);
-        dome.setIntensity(.75f);
-		dome.setTarget(objectNode);
-		dome.updateRenderState();
-		dome.setLocalTranslation(0,-350,0);
-		dome.updateGeometricState(0f, true);
-		*/
-		
-		Skybox sky = new Skybox("Skybox",5000,5000,5000);
 		// Lade die Texturen 
-		Texture north = TextureManager.loadTexture(World.class.getClassLoader().getResource("ephemera/texture/skybox/reef_west.bmp"),Texture.MinificationFilter.BilinearNearestMipMap,Texture.MagnificationFilter.Bilinear); // custom/1.jpg"),Texture.MinificationFilter.BilinearNearestMipMap,Texture.MagnificationFilter.Bilinear);
-		Texture east = TextureManager.loadTexture(World.class.getClassLoader().getResource("ephemera/texture/skybox/reef_north.bmp"),Texture.MinificationFilter.BilinearNearestMipMap,Texture.MagnificationFilter.Bilinear);
-		Texture south = TextureManager.loadTexture(World.class.getClassLoader().getResource("ephemera/texture/skybox/reef_east.bmp"),Texture.MinificationFilter.BilinearNearestMipMap,Texture.MagnificationFilter.Bilinear);
-		Texture west = TextureManager.loadTexture(World.class.getClassLoader().getResource("ephemera/texture/skybox/reef_south.bmp"),Texture.MinificationFilter.BilinearNearestMipMap,Texture.MagnificationFilter.Bilinear);
+		Texture north = TextureManager.loadTexture(World.class.getClassLoader().getResource("ephemera/texture/skybox/reef_north.bmp"),Texture.MinificationFilter.BilinearNearestMipMap,Texture.MagnificationFilter.Bilinear);
+		Texture east = TextureManager.loadTexture(World.class.getClassLoader().getResource("ephemera/texture/skybox/reef_east.bmp"),Texture.MinificationFilter.BilinearNearestMipMap,Texture.MagnificationFilter.Bilinear);
+		Texture south = TextureManager.loadTexture(World.class.getClassLoader().getResource("ephemera/texture/skybox/reef_south.bmp"),Texture.MinificationFilter.BilinearNearestMipMap,Texture.MagnificationFilter.Bilinear);
+		Texture west = TextureManager.loadTexture(World.class.getClassLoader().getResource("ephemera/texture/skybox/reef_west.bmp"),Texture.MinificationFilter.BilinearNearestMipMap,Texture.MagnificationFilter.Bilinear);
 		Texture up = TextureManager.loadTexture(World.class.getClassLoader().getResource("ephemera/texture/skybox/reef_up.bmp"),Texture.MinificationFilter.BilinearNearestMipMap,Texture.MagnificationFilter.Bilinear);
 		Texture down = TextureManager.loadTexture(World.class.getClassLoader().getResource("ephemera/texture/skybox/reef_down.bmp"),Texture.MinificationFilter.BilinearNearestMipMap,Texture.MagnificationFilter.Bilinear);
 		
-		sky.setTexture(Skybox.Face.North, north);
-		sky.setTexture(Skybox.Face.East, east);
-		sky.setTexture(Skybox.Face.South, south);
-		sky.setTexture(Skybox.Face.West, west);
-		sky.setTexture(Skybox.Face.Up, up);
-		sky.setTexture(Skybox.Face.Down, down);
+		skybox.setTexture(Skybox.Face.North, west);
+		skybox.setTexture(Skybox.Face.East, north);
+		skybox.setTexture(Skybox.Face.South, east);
+		skybox.setTexture(Skybox.Face.West, south);
+		skybox.setTexture(Skybox.Face.Up, up);
+		skybox.setTexture(Skybox.Face.Down, down);
 		
-		sky.preloadTextures();
-		sky.updateRenderState();
-		
-		attachChild(sky);
+		skybox.preloadTextures();
 		
 	}
 	
-	
 	private void generateTerrain() {
 		terrainNode = new Node("Terrain");
+		
 		DisplaySystem display = DisplaySystem.getDisplaySystem(LWJGLSystemProvider.LWJGL_SYSTEM_IDENTIFIER);
+		
 		// This will be the texture for the terrain.
-        URL grass=HelloTerain.class.getClassLoader().getResource(
-        		"ephemera/texture/objects/gras.jpg");
+        URL grass=World.class.getClassLoader().getResource("ephemera/texture/objects/gras.jpg");
 
         //  Use the helper class to create a terrain for us.  The terrain will be 64x64
-        MidPointHeightMap mph=new MidPointHeightMap(64,1.5f);
+        MidPointHeightMap mph = new MidPointHeightMap(64,1.5f);
+       
         // Create a terrain block from the created terrain map.
-        TerrainBlock tb=new TerrainBlock("midpoint block",mph.getSize(),
+        TerrainBlock tb = new TerrainBlock("midpoint block", mph.getSize(),
                 new Vector3f(-90,.911f,-90),
                 mph.getHeightMap(),
                 new Vector3f(-100,-100,-100));
@@ -137,11 +114,12 @@ public class World extends Node{
         tb.setModelBound(new BoundingBox());
         tb.updateModelBound();
         tb.setLocalTranslation(new Vector3f(3000,-550,3000));
-        // Attach the terrain TriMesh to rootNode
+        
+        //Attach the terrain TriMesh to rootNode
         terrainNode.attachChild(tb);
-        //worldRootNode.attachChild(terrainNode);
         objectNode.attachChild(tb);
     }
+		
 	
 	/**
 	 * Szenenknoten des Wuerfels
@@ -163,7 +141,8 @@ public class World extends Node{
 	 * @return ObjectNode
 	 */
 	public void generateRandomObjects(int N){
-	    objectNode = new Node("Objekte");
+		
+
 		// DisplaySystem berreit stellen 
 		DisplaySystem display = DisplaySystem.getDisplaySystem(LWJGLSystemProvider.LWJGL_SYSTEM_IDENTIFIER);
 		// TextureState erstellen 
@@ -175,7 +154,7 @@ public class World extends Node{
 			float z = FastMath.nextRandomInt(1, 300);
 			// Erstelle Objekt
 			TriMesh box = new Box("Box_"+i,new Vector3f(0,0,0),new Vector3f(x,y,z));
-			box.setModelBound(new BoundingSphere());
+			box.setModelBound(new BoundingBox());
 			
 			// Zufällige Position
 			x = FastMath.nextRandomInt(-1000, 1000);
@@ -189,6 +168,7 @@ public class World extends Node{
 	
 			box.updateModelBound();
 		}
+		
 		objectNode.updateModelBound();
 		
 		
