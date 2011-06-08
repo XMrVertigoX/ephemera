@@ -5,6 +5,11 @@ import com.jme.app.SimpleGame;
 import ephemera.controller.SchwarmController;
 import ephemera.model.World;
 
+/**
+ * In dieser Klasse wird die Simulation ohne GUI und deren Funtionen gestartet.
+ * @author Caspar Friedrich
+ *
+ */
 public class Basic extends SimpleGame {
 	
 	World world;
@@ -12,25 +17,30 @@ public class Basic extends SimpleGame {
 	
 	protected void simpleInitGame() {
 		
+		/**
+		 * Stellt die Rendertiefe der jME ein.
+		 */
 		cam.setFrustumPerspective(45.0f, (float) display.getWidth() / (float) display.getHeight(), 1f, 20000);
 		
-		//Welt initialisieren
+		// Welt initialisieren
 		world = new World();
 		
 		// Schwarm initialisieren
 		schwarm = new SchwarmController();
 		schwarm.addFlies(50);
 		schwarm.setWorld(world);
+		
+		// Node-Struktur erstellen
 		rootNode.attachChild(world);
 		rootNode.attachChild(schwarm.getLeittierNode());
 		rootNode.attachChild(schwarm.getSwarmNode());
 	}
 	
-	public static void main(String[] args) {
-		new Basic().start();
-	}
-	
 	protected void simpleUpdate(){
 		schwarm.updateAll();
+	}
+	
+	public static void main(String[] args) {
+		new Basic().start();
 	}
 }
