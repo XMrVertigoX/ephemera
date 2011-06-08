@@ -257,7 +257,7 @@ public class Hunter extends Node{
 	public void deleteHunter(){
 		System.out.println("deleted");
 		MyJmeView.setExist(false);
-		this.detachChild(s);
+		world.detachChild(this);
 	}
 	
 	
