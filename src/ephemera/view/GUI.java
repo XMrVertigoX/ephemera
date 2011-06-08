@@ -433,6 +433,7 @@ public class GUI extends JFrame {
         final JSlider hunterSlider = new JSlider();
 
         	hunterSlider.setValue(20);
+     
         
         hunterSlider.addChangeListener(new ChangeListener(){
     		public void stateChanged(ChangeEvent ce) {
