@@ -230,13 +230,12 @@ public class Hunter extends Node{
 	
 	
 	/**
-	 * Methode entfernt Jaeger aus der Simulation.
+	 * Diese Methode enfernt die Geometrie vom Node des Jaegers und macht ihn unsichtbar.
 	 */
 	public void deleteHunter(){
 		MyJmeView.setExist(false);
-		detachChild(hunterNode);	
+		detachChild(hunterNode);
 	}
-	
 	
 	/**
 	 * Methode setzt Lebenszeit des Jaegers.

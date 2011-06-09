@@ -1,9 +1,3 @@
-/**
- * World 2011 by Semjon Mooraj
- * diese Klasse stellt die Welt dar in der sich die Fliegen bewegen.
- * Die Welt ist standartmäig ein Quadratischer Würfel der Kantenlänge 2000 
- */
-
 package ephemera.model;
 
 import java.net.URL;
@@ -25,6 +19,12 @@ import com.jmex.terrain.util.MidPointHeightMap;
 
 import ephemera.controller.SchwarmController;
 
+/**
+ * Diese Klasse stellt die Welt dar in der sich die Fliegen bewegen.
+ * Die Welt ist standartmaeßig ein quadratischer Würfel der Kantenlänge 2000RE.
+ * @author Semjon Mooraj
+ *
+ */
 public class World extends Node{
 	
 	private static final long serialVersionUID = 1;
@@ -58,7 +58,6 @@ public class World extends Node{
 	
 	/**
 	 * Lade die Texturen und verknuepfe diese mit der Skybox
-	 * @author ...
 	 */
 	public void initSky(){
 	

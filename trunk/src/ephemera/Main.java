@@ -4,7 +4,7 @@ import ephemera.view.GUI;
 
 /**
  * Von hier aus wird die GUI und dann die Simulation initialisiert.
- * @author ...
+ * @author Caspar Friedrich
  *
  */
 public class Main {
