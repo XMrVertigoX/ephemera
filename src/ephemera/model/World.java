@@ -25,6 +25,7 @@ import com.jmex.terrain.util.MidPointHeightMap;
 
 import ephemera.controller.SchwarmController;
 
+
 public class World extends Node{
 	
 	private static final long serialVersionUID = 1;
@@ -45,9 +46,37 @@ public class World extends Node{
 		
 		initSky();
 		generateTerrain();
-		generateRandomObjects(10);
-		//PlantObstacles.createTree(0, -150, 0, this, objectNode.getChildren());
+		generateRandomObjects(1);
 		
+		Obstacles.createHouse(-1800,-450,1085, new Vector3f(200,700,400),objectNode,obs);
+		Obstacles.createHouse(2000,-450,0, new Vector3f(200,900,300),objectNode,obs);
+		Obstacles.createHouse(2000,-450,-1350, new Vector3f(350,500,400),objectNode,obs);
+		
+		Obstacles.createTree(-1210, -350, -1720, objectNode, obs);
+		Obstacles.createTree(-850, -350, 1550, objectNode, obs);
+		Obstacles.createTree(1450, -350, 0, objectNode, obs);
+		Obstacles.createTree(1810, -350, 1900, objectNode, obs);
+		
+		Obstacles.createShrub1(-1550, -400, -50, objectNode, obs);
+		Obstacles.createShrub1(-800, -400, 530, objectNode, obs);
+		Obstacles.createShrub1(1050, -400, 2000, objectNode, obs);
+		Obstacles.createShrub1(1695, -400, 810, objectNode, obs);
+		
+		Obstacles.createShrub2(-200, -400, 650, objectNode, obs);
+		Obstacles.createShrub2(600, -400, -1050, objectNode, obs);
+		Obstacles.createShrub2(-2000, -400, 30, objectNode, obs);	
+		Obstacles.createShrub2(1850, -400, -1850, objectNode, obs);
+		Obstacles.createShrub2(1200, -400, 1150, objectNode, obs);
+		Obstacles.createShrub2(1300, -400, -950, objectNode, obs);
+		
+		Obstacles.createFirTwisted(-2000, -400, 2000, objectNode, obs);
+		Obstacles.createFirTwisted(-1730, -400, -910, objectNode, obs);
+		Obstacles.createFirTwisted(-1000, -400, -1100, objectNode, obs);
+		Obstacles.createFirTwisted(-520, -400, -1820, objectNode, obs);
+		Obstacles.createFirTwisted(-260, -400, -890, objectNode, obs);
+		Obstacles.createFirTwisted(300, -400, 250, objectNode, obs);
+		
+
 		attachChild(skybox);
 		attachChild(objectNode);
 	}
@@ -136,7 +165,7 @@ public class World extends Node{
 		DisplaySystem display = DisplaySystem.getDisplaySystem(LWJGLSystemProvider.LWJGL_SYSTEM_IDENTIFIER);
 		// TextureState erstellen 
 		TextureState ts = createTextureState(display,"ephemera/texture/objects/5016.jpg");
-		for (int i=0;i<N;i++){
+		/*for (int i=0;i<N;i++){
 			// Grš§e
 			float x = FastMath.nextRandomInt(1, 200);
 			float y = FastMath.nextRandomInt(1, 900);
@@ -156,7 +185,7 @@ public class World extends Node{
 			obs.add(box);
 	
 			box.updateModelBound();
-		}
+		}*/
 		ts = createTextureState(display,"ephemera/texture/objects/nest.jpg");
 		TriMesh s = new Sphere("nest",20,20,70f);
 		init(s,display,ts,this);
