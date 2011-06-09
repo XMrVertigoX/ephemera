@@ -64,7 +64,6 @@ public class SchwarmController {
 		flies.add(newbie);
 	}
 	
-	
 	/**
 	 * Fliege entfernen
 	 * @param dead
@@ -92,6 +91,12 @@ public class SchwarmController {
 	}
 	public void addFly(Vector3f pos){
 		Ephemera fly= new Ephemera(pos);
+		flies.add(fly);
+		schwarm.attachChild(fly);
+		
+	}	
+	public void addFly(Vector3f pos,Rules rules){
+		Ephemera fly= new Ephemera(pos,rules);
 		flies.add(fly);
 		schwarm.attachChild(fly);
 		
