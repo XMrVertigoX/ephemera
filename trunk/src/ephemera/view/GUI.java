@@ -28,7 +28,6 @@ import ephemera.model.*;
  */
 public class GUI extends JFrame {
 
-	
 	private ShitController shit;
     private MyJmeView impl;
     private CamHandler camhand;
@@ -50,8 +49,6 @@ public class GUI extends JFrame {
     private static final long serialVersionUID = 1L;
     private Preferences prefs = Preferences.userNodeForPackage(GUI.class);
     
-
-    
     /**
      * Konstruktor
      * Initialisiert die GUI 
@@ -69,7 +66,6 @@ public class GUI extends JFrame {
         }
     }
 
-    
     /**
      * Gibt Display System zurueck
      * @return DisplaySystem
@@ -77,7 +73,6 @@ public class GUI extends JFrame {
     public static DisplaySystem getDisplay(){
     	return display;
     }
-    
     
     /**
      * Unterteilung der GUI: JPanel, JTabbedPane, JSplitPane
@@ -117,7 +112,6 @@ public class GUI extends JFrame {
         impl.setGrid(grid);
         setSize(new Dimension(width, height));
     }
-
 
     /**
      * Erstellt obere Menueleiste
