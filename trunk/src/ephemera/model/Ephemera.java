@@ -59,6 +59,20 @@ public class Ephemera extends Node{
 		// Counter HochzŠhlen
 		count++;
 	}
+	public Ephemera(Vector3f pos,Rules rules){
+		super("Fly_"+count);		// Instanziiere Node der die Fliege reprŠsentiert
+		acc = new Vector3f(0,0,0);	// Mit 0 initialisieren
+		vel = new Vector3f(0,0,0);
+		age = System.currentTimeMillis();
+		this.rules = rules;
+		// Lade Form
+		initDefaultFly();
+		setLocalTranslation(pos);
+		// Counter HochzŠhlen
+		count++;
+	}
+	
+	
 	/**
 	 * Erstelle Kšrper und FlŸgel der Fliege / Initialisiere Animationscontroller mit zwei KeyFrames
 	 */
@@ -69,9 +83,6 @@ public class Ephemera extends Node{
 		Sphere head = new Sphere("Kopf",10,10,1);
 		//body.setIsCollidable(false);
 		body.setLocalScale(new Vector3f(.51f,.51f,2));
-		
-		body.setDefaultColor(new ColorRGBA(0,0,0,0));
-		
 		
 		//Kopf verschieben
 		head.setLocalTranslation(0, 0, 4);
@@ -201,10 +212,11 @@ public class Ephemera extends Node{
 		
 		Vector3f target = new Vector3f();
 	
+		/*
 		if(Shit.getShit() > 0){
 			target = Shit.getShitPos();
 			rules.setFollow_weight(1f);
-		}
+		}*/
 		
 		target = getLeittierZielVector(leittier);
 		
@@ -217,14 +229,14 @@ public class Ephemera extends Node{
 	    sep.multLocal(rules.getSep_weight());
 	    ali.multLocal(rules.getAli_weight());
 	    coh.multLocal(rules.getCoh_weight());
-	    randomWalk.multLocal(rules.getRandomWalk_weight());
+	    //randomWalk.multLocal(rules.getRandomWalk_weight());
 	    
 	    //if (kollider(this.getParent())) sep.multLocal(4f)
 	    acc.addLocal(sep);
 	    acc.addLocal(ali);
 	    acc.addLocal(coh);
 	    acc.addLocal(target);
-	    acc.addLocal(randomWalk);
+	    //acc.addLocal(randomWalk);
 	   
 	    
 	    // Implement Reynolds: Steering = Desired - Velocity
@@ -239,11 +251,8 @@ public class Ephemera extends Node{
 		*/
 	    //acc.addLocal(randomWalk);
 		// Kollisionsvermeidung mit Objekten in der Welt
-		if (koll.length()!=0)acc = koll.mult(1);  
-		// Kollisionsvermeidung mit anderen Schwarmmitgliedern
-		//Vector3f koli = kollider(this.getParent());
-//		if (koli.length()!=0) acc.add(koli).mult(2f);
-		
+		if (koll.length()!=0)acc = koll.mult(4);  
+
 	}
 	/**
 	 * Berechnet Vektor der zum Zentrum des Leittiers zeigt
@@ -276,7 +285,7 @@ public class Ephemera extends Node{
 	    
 	    // Passe geschwindigeit an
 	    // Position verschieben
-	    spatialTransformer.setSpeed(vel.length()*10);
+	    spatialTransformer.setSpeed(vel.length()*100*rules.getFluggeschwindigkeit());
 	    vel.multLocal(rules.getFluggeschwindigkeit());
 	    getLocalTranslation().addLocal(vel);
 	    
