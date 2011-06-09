@@ -33,7 +33,7 @@ public class MyJmeView extends SimpleCanvasImpl {
     	if(!exist){
     		System.out.println("dabei");
     		hunter = new Hunter(new Vector3f(300,300,300), world, schwarm);
-    		rootNode.attachChild(hunter);
+    		world.attachChild(hunter);
     		exist = true;
     	}
     }
@@ -126,8 +126,11 @@ public class MyJmeView extends SimpleCanvasImpl {
     	world.getSkybox().updateGeometricState(0.0f, true);
     	
     	float t = (System.currentTimeMillis()-time)/1000f;
-    	if (t>25) time = System.currentTimeMillis();
-    	
+    	if (t>2) {
+    		time = System.currentTimeMillis();
+        	System.out.println(schwarm.getSchwarm().size()+" "+schwarm.getRegeln().getFlyCount());
+    		if (schwarm.getSchwarm().size()<schwarm.getRegeln().getFlyCount()) schwarm.addFly(new Vector3f(),schwarm.getRegeln());
+    	}
     	schwarm.updateAll();
     	
     	if(exist){
@@ -147,7 +150,10 @@ public class MyJmeView extends SimpleCanvasImpl {
  
     public static void setExist(boolean value){
     	exist = value;
-   
+    	
+    	if(value==false){
+    		
+    	}
     }
     
     public float getFarPlane(){
