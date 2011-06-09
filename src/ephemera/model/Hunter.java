@@ -20,7 +20,7 @@ import ephemera.controller.SchwarmController;
 public class Hunter extends Node{
 
 	private static final long serialVersionUID = 1L;
-	private long age; // alter des jaegers
+	private long age;
 	private Vector3f actualPos;
 	private World world;
 	private SchwarmController swarm;
@@ -45,8 +45,10 @@ public class Hunter extends Node{
 	private int sign;
 
 	/**
-	 * konstruktor
+	 * Konstruktor, welchem die Startposition des Jaegers, die Welt mit allen Objekten und der Schwarm uebergeben wird. 
 	 * @param pos
+	 * @param world 
+	 * @param swarm
 	 */
 	public Hunter(Vector3f pos, World world, SchwarmController swarm){	
 		
@@ -61,11 +63,11 @@ public class Hunter extends Node{
 	}
 	
 	/**
-	 * initialisiert das jaegermodel
+	 * Methode, welche den Jaeger initialisiert und vom Konstruktor aufgerufen wird.
+	 * Hier wird das Aussehen des Jaegers festgelegt, welches dem eines Pacman entpricht.
+	 * Jener besteht aus 2 Domes (Halbkugeln) und 3 Spheren (Kugeln), die an eine hunterNode angehängt werden.
 	 */
 	public void initHunter(){
-	
-		 
 		
 		upperHead = new Dome("hunter",15,15,20f);
 	    lowerHead = new Dome("hunter",15,15,20f);
@@ -80,15 +82,12 @@ public class Hunter extends Node{
 	    upperHead.setDefaultColor(new ColorRGBA(1,1,0,0));
 	    lowerHead.setDefaultColor(new ColorRGBA(1,1,0,0));
 	    inside.setDefaultColor(new ColorRGBA(0.5f,0,0,0));
-
 	    
 	    rotQuat.fromAngleAxis(angle, axis);
 
 	    lowerHead.setLocalRotation(rotQuat);
 	    eyeL.setLocalTranslation(new Vector3f(11f, 10f, 9));
 	    eyeR.setLocalTranslation(new Vector3f(-11f, 10f, 9));
-
-
 
 	    hunterNode.setModelBound(new BoundingSphere());
 	    hunterNode.updateModelBound();
@@ -99,8 +98,6 @@ public class Hunter extends Node{
 	    hunterNode.attachChild(upperHead);
 	    hunterNode.attachChild(lowerHead);
 		
-		
-		
 		attachChild(hunterNode);
 		hunterNode.setModelBound(new BoundingSphere());
 		hunterNode.setLocalTranslation(actualPos);
@@ -109,9 +106,8 @@ public class Hunter extends Node{
 	
 	
 	/**
-	 * berechnet mittelpunkt des schwarms
-	 * gibt diesen als vektor zurueck
-	 * @return
+	 * Methode, welche den Schwarmmittelpunkt in Form eines Vektors zurueckgibt.
+	 * @return Vector3f average
 	 */
 	public Vector3f getAverageSwarmPos(){
 		
@@ -131,45 +127,44 @@ public class Hunter extends Node{
 	
 	
 	/**
-	 * berrechnet neuen bewegungsschritt des jaegers
-	 * falls jaeger ein bestimmtes alter hat, verlaesst er die simulation
+	 * Updatemethode des Jaegers, hier wird die neue Position des Jaegers und sein Ziel (etwa Schwarmmittelpunkt
+	 * oder ein einzelnes Boid) errechnet. Weiterhin findet eine Neuberechnung des Jaegermundes statt, welcher
+	 * sich regelmaeßig oeffnet und schließt.
+	 * 
 	 */
 	public void updateHunter(){
 		
 		
 		/**
-		 * update Mund Position
+		 * Update Mund Jaeger
 		 */
 		if(angle <= 130){
 			  sign = 1;
-			  
-			  
+			    
 		  }else if(angle >=180){
 			  sign = -1;
 		  }
 		  
 		  angle +=(2f*sign); 
-		   
 	      rotQuat.fromAngleAxis((-angle*(FastMath.PI/180f)), axis);
-
 	      lowerHead.setLocalRotation(rotQuat);
 			
 		
 		
 		/**
-		 * wenn jaeger aelter als 20 sekunden ist, dann verlaesst er die simulation,
-		 * indem er zum rand der simulation fliegt (skybox)
+		 * Wenn Jaeger aelter als per Slider eingestellte Zeit (lifetime) ist oder kein Schwarm vorhanden ist,
+		 * wird die delteHunter-Methode aufgerufen und der Jäeger verschwindet aus der Simulation.
+		 * Sollte dies noch nicht der Fall sein, so wird das Ziel des Jaegers ermittelt. Wenn hungry auf false
+		 * steht, ist Jaeger noch zu weit vom Schwarm entfernt und bekommt als Zielvektor den Schwarmmittelpunkt
+		 * uebergeben. Wenn nicht, ist der Jaeger hungrig und macht Jagd auf ein einzelnes Boid, dessen Position
+		 * nun sein Zielvektor ist.
 		 */
-	
 		if(getAge()>lifetime || (swarm.getSchwarm().size() == 0)){
 			
 			deleteHunter();
 		}
 		else{
-			/**
-			 * wenn jaeger noch zu "jung" ist dann konzentriert er sich auf den schwarmmittelpunkt
-			 * oder (wenn eatBoid = true) peilt jaeger einen ausgewaehlten boid an
-			 */
+			
 			if(!hungry){
 				target = getAverageSwarmPos().subtract(actualPos);	
 			}
@@ -181,17 +176,16 @@ public class Hunter extends Node{
 					Vector3f flyPos = swarm.getSchwarm().get(index).getLocalTranslation();
 					target = flyPos.subtract(actualPos);
 					eatBoid(flyPos, index);
-	
 				}
 			}
-			
 		}
 		
 		target.normalizeLocal();
 		
 		/**
-		 * wenn abstand zum schwarm einen gewissen wert (50) unterschreitet,
-		 * wird die geschwindigkeit reduziert (erst einmal nur zu beobachtungszwecken)
+		 * Wenn der Abstand zum Schwarm unter 50 ist, bekommt Jaeger Hunger und verringert seine Geschwindigkeit,
+		 * die Variavle hungry wird auf true gesetzt.
+		 * Wenn Abstand noch zu groß ist, dann behaelt Jaeger seine Geschwindkeit bei.
 		 */
 		if(actualPos.distance(getAverageSwarmPos())<50){
 			target.multLocal(fac/2f);
@@ -201,30 +195,30 @@ public class Hunter extends Node{
 			target.multLocal(fac);
 		}
 		
+		/**
+		 * Hier wird die Kollision mit Hindernissen in der Welt vermieden. Wird eine Kollision erkannt,
+		 * so wird der Zielvektor durch eine Rotationsmatrix um 30 Grad rotiert.
+		 */
 		if(world.obstacleAvoidance(this)){
 			
 			float angle = FastMath.PI/2f;
-			
 			Matrix3f rotMat = new Matrix3f(1,0,0,0,FastMath.cos(angle),FastMath.sin(angle)*-1f,0,FastMath.sin(angle),FastMath.cos(angle));
-			
 			target = rotMat.mult(target);
-
-			
 		}
 	
-			hunterNode.lookAt(actualPos.add(target), new Vector3f(0,1,0));
-		
-			actualPos.addLocal(target);		
+		// lookAt-Methode garantiert, dass Jaeger immer in Flugrichtung schaut
+		hunterNode.lookAt(actualPos.add(target), new Vector3f(0,1,0));		
+		actualPos.addLocal(target);		
 	}
 	
+	
 	/**
-	 * wenn jaeger fast die position hat wie der boid, so wird der boid gefressen
-	 * momentan bleiben die totan boids noch in der simulation, wird noch geaendert
+	 * Methode, welche das Fressen eines Boids durch den Jaeger regelt.
+	 * Unterschreitet der Jaeger einen bestimmten Abstand zum Boid, so gilt dieser als
+	 * gefressen und wird aus dem Schwarm entfernt.
 	 * @param flyPos
 	 * @param numberBoid
-	 * @return
 	 */
-	
 	public void eatBoid(Vector3f flyPos, int numberBoid){
 		
 		if(actualPos.distance(flyPos)<5f){
@@ -234,36 +228,39 @@ public class Hunter extends Node{
 		}
 	}
 	
-	/**
-	 * entfernt jaeger aus der simulation
-	 */
 	
+	/**
+	 * Methode entfernt Jaeger aus der Simulation.
+	 */
 	public void deleteHunter(){
-		System.out.println("deleted");
 		MyJmeView.setExist(false);
-		detachChild(hunterNode);
-		
+		detachChild(hunterNode);	
 	}
 	
 	
+	/**
+	 * Methode setzt Lebenszeit des Jaegers.
+	 * @param time
+	 */
 	public void setLifetime(float time){
 		lifetime = time;
 	}
 	
+	/**
+	 * Methode uebergibt eingestellte Lebenszeit des Jaegers.
+	 * @return lifetime
+	 */
 	public float getLifetime(){
 		return lifetime;
 	}
 	
 	
+	/**
+	 * Methode, welche das Alter des Jaegers in Sekunden zurueckgibt.
+	 * @return Lebenszeit [s]
+	 */
 	public float getAge(){
-	
-		return ((System.currentTimeMillis()-age)/1000f);
-		
+		return ((System.currentTimeMillis()-age)/1000f);	
 	}
-	
-	public void setPos(Vector3f pos){
-		this.actualPos = pos; 
-	}
-	
 	
 }
