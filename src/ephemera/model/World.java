@@ -30,9 +30,7 @@ public class World extends Node{
 	private static final long serialVersionUID = 1;
 	
 	private Node objectNode;
-	private Node terrainNode;
-	
-	private Vector3f avoidObstacles; 
+	private Node terrainNode; 
 	private ArrayList<Spatial> obs;
 	private Skybox skybox ;
 	
@@ -117,6 +115,7 @@ public class World extends Node{
         //Attach the terrain TriMesh to rootNode
         terrainNode.attachChild(tb);
         objectNode.attachChild(tb);
+        obs.add(tb);
     }
 	
 	public Node getTerrainNode(){
@@ -225,8 +224,15 @@ public class World extends Node{
 		return objectNode;
 	}
 	
-	public boolean obstacleAvoidance(Node animal){
-		avoidObstacles = new Vector3f(0,0,0);   
+	/**
+	 * Methode zur Erkennung von Kollisionen mit Hindernissen in der Welt.
+	 * Hierbei wird eine Liste mit Hindernissen durchlaufen und geprueft, ob
+	 * es Kollisionen mit dem uebergebenen Node des Flugtieres gibt. Falls ja,
+	 * wird true zurueckgegeben, wenn nicht false.
+	 * @param animal
+	 * @return boolean
+	 */
+	public boolean obstacleAvoidance(Node animal){  
 		
 		// Abbrechen wenn keine Hindernisse vorhanden.
 		if (obs==null) return false;
@@ -235,17 +241,10 @@ public class World extends Node{
 		for (int i=0;i<obs.size();i++) {
 			
 			if(animal.hasCollision(obs.get(i), false)){
-				
-				// Einen Kurs weg vom Zentrum waehlen.
-				avoidObstacles = new Vector3f(animal.getLocalTranslation().subtract(obs.get(i).getLocalTranslation()));
-				avoidObstacles.normalizeLocal();
 				return true;
 			}
 		}
 		return false;
 	}
 	
-	public Vector3f getCollisionVector(){
-		return avoidObstacles;
-	}
 }
