@@ -1,5 +1,13 @@
 package ephemera.view;
 
+
+/**
+ * swarmGUI by Kilian Heinrich & Stefan Greuel
+ * Diese Klasse stellt die Bedienung der Simulation dar. Dazu wird ein Swing-Interface genutzt.
+ * 
+ * @author Kilian Heinrich & Stefan Greuel
+ */
+
 import java.awt.*;
 import java.awt.event.*;
 import java.util.concurrent.*;
@@ -21,13 +29,10 @@ import com.jmex.awt.lwjgl.*;
 import ephemera.controller.*;
 import ephemera.model.*;
 
-/**
- * swarmGUI by Kilian Heinrich & Stefan Greuel
- * Diese Klasse stellt die Bedienung der Simulation dar. Dazu wird ein Swing-Interface genutzt.
- * @author Kilian Heinrich & Stefan Greuel
- */
+
 public class GUI extends JFrame {
 
+	
 	private ShitController shit;
     private MyJmeView impl;
     private CamHandler camhand;
@@ -49,6 +54,8 @@ public class GUI extends JFrame {
     private static final long serialVersionUID = 1L;
     private Preferences prefs = Preferences.userNodeForPackage(GUI.class);
     
+
+    
     /**
      * Konstruktor
      * Initialisiert die GUI 
@@ -66,6 +73,7 @@ public class GUI extends JFrame {
         }
     }
 
+    
     /**
      * Gibt Display System zurueck
      * @return DisplaySystem
@@ -73,6 +81,7 @@ public class GUI extends JFrame {
     public static DisplaySystem getDisplay(){
     	return display;
     }
+    
     
     /**
      * Unterteilung der GUI: JPanel, JTabbedPane, JSplitPane
@@ -112,6 +121,7 @@ public class GUI extends JFrame {
         impl.setGrid(grid);
         setSize(new Dimension(width, height));
     }
+
 
     /**
      * Erstellt obere Menueleiste
@@ -229,15 +239,15 @@ public class GUI extends JFrame {
         
         countSlider.addChangeListener(new ChangeListener() {	
 			public void stateChanged(ChangeEvent ce) {
-				float value = countSlider.getValue()/100f;
+				float value = countSlider.getValue();
 				System.out.println("Maximale Fliegenanzahl "+value);
-//TODO: Fliegenanzahl dynamisch einstellbar
+					//TODO: Fliegenanzahl dynamisch einstellbar
 					updateCountLabel(countLabel, countSlider);
-
+					if (impl.getSchwarm()!=null) 
+						impl.getSchwarm().getRegeln().setFlyCount((int)value);
 			}
 		});
         
- 
    	 	countSlider.setMajorTickSpacing(250);
         countSlider.setMinimum(0);
         countSlider.setMaximum(1000);
