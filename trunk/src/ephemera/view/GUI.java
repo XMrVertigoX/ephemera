@@ -1,13 +1,5 @@
 package ephemera.view;
 
-
-/**
- * swarmGUI by Kilian Heinrich & Stefan Greuel
- * Diese Klasse stellt die Bedienung der Simulation dar. Dazu wird ein Swing-Interface genutzt.
- * 
- * @author Kilian Heinrich & Stefan Greuel
- */
-
 import java.awt.*;
 import java.awt.event.*;
 import java.util.concurrent.*;
@@ -29,7 +21,11 @@ import com.jmex.awt.lwjgl.*;
 import ephemera.controller.*;
 import ephemera.model.*;
 
-
+/**
+ * swarmGUI by Kilian Heinrich & Stefan Greuel
+ * Diese Klasse stellt die Bedienung der Simulation dar. Dazu wird ein Swing-Interface genutzt.
+ * @author Kilian Heinrich & Stefan Greuel
+ */
 public class GUI extends JFrame {
 
 	
