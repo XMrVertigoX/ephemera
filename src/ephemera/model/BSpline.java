@@ -6,7 +6,11 @@ import com.jme.math.Matrix3f;
 import com.jme.math.Vector3f;
 import com.jme.scene.Spatial;
 
-
+/**
+ * 
+ * @author Gudrun Wagner
+ *
+ */
 public final class BSpline extends Curve {
 
 	int anzkontrollPunkte;
@@ -23,7 +27,6 @@ public final class BSpline extends Curve {
 		ordnung = 3;
 		position = new Vector3f(0f,0f,0f); 
 		knotenVec = erzeugeKnotenVec(ordnung,data.length);
-		
 	}
 	
 	private static float[] erzeugeKnotenVec(int ordnung, int anzPoints){
@@ -34,14 +37,11 @@ public final class BSpline extends Curve {
 		float sum = 0f;
 		
 		for(int i=0;i<laenge;i++){
-			
 			knotenVec[i] = sum;
 			sum+= abstand;
-			
 		}
 		
-		return knotenVec; 
-		
+		return knotenVec;
 	}
 	
 	private static float basisfunktion(float[] knotenVec, float t, int ordnung, int counter) {
@@ -50,19 +50,19 @@ public final class BSpline extends Curve {
 			
 			if((knotenVec[counter]<=t)&& (t<=knotenVec[counter+1])){
 				return 1f;
-				
-			}else{
+			}
+			
+			else{
 				return 0f;
 			}
 			
-		}else{
-			
+		}
+		
+		else{
 			return ((t-knotenVec[counter])/(knotenVec[counter+ordnung-1]-knotenVec[counter])*basisfunktion(knotenVec,t,ordnung-1,counter))
 					+((knotenVec[counter+ordnung]-t)/(knotenVec[counter+ordnung]-knotenVec[counter+1])*basisfunktion(knotenVec,t,ordnung-1,counter+1));
-			
 		}
    }
-	
 	
 	public Vector3f getPoint(float t){
 		
@@ -75,13 +75,11 @@ public final class BSpline extends Curve {
 			aux = data[i].mult(basis);
 			
 			sum = sum.add(aux);
-			
 		}
 		
 		position = sum;
 		
 		return sum;
-		
 	}
 	
 	public Vector3f getPoint(float arg0, Vector3f arg1) {
@@ -97,7 +95,6 @@ public final class BSpline extends Curve {
 		
 		return null;
 	}
-
 
 	public Matrix3f getOrientation(float arg0, float arg1, Vector3f arg2) {
 		
@@ -115,7 +112,6 @@ public final class BSpline extends Curve {
 	
 	public static void main(String[] args) {
 		
-		
 		Vector3f[] data = new Vector3f[4];
 		
 		data[0] = new Vector3f(0,0,0);
@@ -124,9 +120,5 @@ public final class BSpline extends Curve {
 		data[3] = new Vector3f(0.7f,0.8f,0.5f);
 		
 		BSpline b1 = new BSpline("test",data);
-		
-		
-
 	}
-
 }

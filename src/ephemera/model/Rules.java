@@ -1,10 +1,10 @@
-/**
- * Klasse Regeln 
- * Diese Klasse enthält die Parameter nach denen sich Fliegen und Jäger innerhalb der Welt bewegen sollen 
- */
-
 package ephemera.model;
 
+/**
+ * Diese Klasse enthält die Parameter nach denen sich Fliegen und Jäger innerhalb der Welt bewegen sollen 
+ * @author ...
+ *
+ */
 public class Rules{
 	private float speed;
 	private float randomWalk_weight;
@@ -21,31 +21,23 @@ public class Rules{
 	private float neighborDistance;
 	private int flyCount;
 
-	public int getFlyCount() {
-		return flyCount;
-	}
-
-	public void setFlyCount(int flyCount) {
-		this.flyCount = flyCount;
-	}
-
 	/**
 	 * Konstruktor
 	 * Erstelle ein "Standard" Model der Fliege mit Default-Einstellungen
 	 */
 	public Rules(){
-		randomWalk_weight	=	0f;
-		lifeTime			=	30;
-		speed	=	2.71f;
-		leittierSpeed		=	.01f;
-		maxspeed			=	10f;
-		maxforce			=	1f;
-		coh_weight			=	0.3f;
-		ali_weight			=	0.2f;
-		sep_weight			=	0.4f;
-		follow_weight		=	0.1f;
-		desiredSeparation	=	40.0f;
-		neighborDistance	=	20.0f;			
+		randomWalk_weight = 0f;
+		lifeTime = 30;
+		speed = 2.71f;
+		leittierSpeed = 0.01f;
+		maxspeed = 10f;
+		maxforce = 1f;
+		coh_weight = 0.3f;
+		ali_weight = 0.2f;
+		sep_weight = 0.4f;
+		follow_weight = 0.1f;
+		desiredSeparation = 40.0f;
+		neighborDistance = 20.0f;			
 	}
 
 	/**
@@ -68,13 +60,6 @@ public class Rules{
 		this.desiredSeparation = desiredSeparation;
 		this.neighborDistance = neighborDistance;
 	}
-
-	
-	/**
-	 * Getter und Setter
-	 * @return
-	 */
-
 
 	public float getMaxspeed() {
 		return maxspeed;
@@ -153,12 +138,15 @@ public class Rules{
 	public void setFluggeschwindigkeit(float fluggeschwindigkeit) {
 		this.speed = fluggeschwindigkeit;
 	}
+	
 	public float getLifeTime() {
 		return lifeTime;
 	}
+	
 	public void setLifeTime(float lifeTime) {
 		this.lifeTime = lifeTime;
 	}
+	
 	public float getRandomWalk_weight() {
 		return randomWalk_weight;
 	}
@@ -167,4 +155,11 @@ public class Rules{
 		this.randomWalk_weight = randomWalk_weight;
 	}
 
+	public int getFlyCount() {
+		return flyCount;
+	}
+
+	public void setFlyCount(int flyCount) {
+		this.flyCount = flyCount;
+	}
 }
