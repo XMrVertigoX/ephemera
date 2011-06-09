@@ -78,7 +78,7 @@ public class Obstacles{
 		
 		//Texturen
 		setTexture("ephemera/texture/objects/stamm.jpg", trunk);
-		setTexture("ephemera/texture/objects/laub.jpg", leavesNode);
+		setTexture("ephemera/texture/objects/busch1.jpg", leavesNode);
 	
 		//Objekt Knoten
 		objectNode.attachChild(leavesNode);
@@ -196,7 +196,7 @@ public class Obstacles{
 		objectNode.attachChild(rotNode);
 		
 		//Textur
-		setTexture("ephemera/texture/objects/laub.jpg", objectNode);
+		setTexture("ephemera/texture/objects/busch2.jpg", objectNode);
 		
 		//Groeﬂe anpassen
 		objectNode.setLocalScale(60);
