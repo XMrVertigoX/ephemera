@@ -19,8 +19,8 @@ import com.jme.util.geom.BufferUtils;
 import ephemera.model.Shit;
 
 /**
- * Die Klasse stellt ein Flugobjekt im System dar. Jäger und Fliege werden abgeleitet
- * @author Semjon Mooraj
+ * Die Fliege
+ * @author
  *
  */
 public class Ephemera extends Node{
@@ -43,9 +43,13 @@ public class Ephemera extends Node{
 			new Vector3f(0,0,1),
 			new Vector3f(0,0,-1)
 	};
+	
 	/**
-	 * Konstruktor
-	 * @param pos Position der Fliege 
+	 * Konstruktor, welchem die Startposition der Fliege uebergeben wird
+	 * Geschwindigkeits- und Beschleunigungsvektor wird mit 0 initialisiert
+	 * Position der einzelnen Fliege wird gesetzt
+	 * Counter läuft mit und zaehlt erstellte Fliegen
+	 * @param pos
 	 */
 	public Ephemera(Vector3f pos){
 		super("Fly_"+count);		// Instanziiere Node der die Fliege repräsentiert
@@ -59,6 +63,14 @@ public class Ephemera extends Node{
 		// Counter Hochzählen
 		count++;
 	}
+	/**
+	 * Konstruktor, welchem Startposition und Regeln der Fliege uebergeben wird
+	 * Geschwindigkeits- und Beschleunigungsvektor wird mit 0 initialisiert
+	 * Position der einzelnen Fliege wird gesetzt
+	 * Counter läuft mit und zaehlt erstellte Fliegen
+	 * @param pos
+	 * @param rules
+	 */
 	public Ephemera(Vector3f pos,Rules rules){
 		super("Fly_"+count);		// Instanziiere Node der die Fliege repräsentiert
 		acc = new Vector3f(0,0,0);	// Mit 0 initialisieren
@@ -73,8 +85,11 @@ public class Ephemera extends Node{
 	}
 	
 	
+	
 	/**
-	 * Erstelle Körper und Flügel der Fliege / Initialisiere Animationscontroller mit zwei KeyFrames
+	 * Initialisierung der Fliege, hier wird das Aussehen der Fliege festgelegt
+	 * Koerper, Kopf und Fluegel der Fliege werden erstellt und an Node gehaengt
+	 * Animationscontroller wird mit 2 Keyframes initialisiert
 	 */
 	public void initDefaultFly(){
 		
@@ -127,8 +142,15 @@ public class Ephemera extends Node{
 	}
 
 	/**
-	 * Erstelle Linken und Rechten Flügel der Fliege (default Model)
-	 * @return
+	 * Methode gibt rechten und linken Fluegel der Fliege zurueck,
+	 * uebergebene Parameter bestimmen die Eckpunkte des Fluegels.
+	 * @param x
+	 * @param y
+	 * @param z
+	 * @param x1
+	 * @param y1
+	 * @param z1
+	 * @return TriMesh
 	 */
 	public TriMesh getFluegel(float x,float y,float z,float x1,float y1,float z1){
 		TriMesh m=new TriMesh("Fluegel");
@@ -171,15 +193,28 @@ public class Ephemera extends Node{
         
         return m;
 	}
+	
+	
 	/**
-	 * Methode die von jeweiliger Fliege implemetiert wird um Flugbahn zu berrechen und anzuwenden
+	 * Methode, welche eine Liste mit allen Fliegen, den Leittiervektor und die Welt uebergeben bekommt.
+	 * Durch diese Parameter wird die Flugbahn berechnet.
 	 * @param boids
 	 * @param leittier
+	 * @param world
 	 */
 	public void run(ArrayList<Ephemera> boids, Vector3f leittier,World world) {
 		calcSteeringVector(boids,leittier,world);
 	    updateMember(); 	
 	}
+	
+	/**
+	 * Methode, welche der Kollisionsvermeidung dient
+	 * Hier wird berechnet, ob es eine Kollision eines Boids mit Hindernissen und den Weltgrenzen gibt.
+	 * Wenn ja, wird ein steerAway-Vektor berechnet, der vom Hindernis wegzeigt.
+	 * Wenn nicht, dann wird ein nicht initialisierter Vektor zurueckgegeben.
+	 * @param swarmNode
+	 * @return Vector3f
+	 */
 	public Vector3f kollider(Node swarmNode){
 		Vector3f steerAway = new Vector3f();
 		List<Spatial> list = swarmNode.getChildren();
@@ -194,12 +229,13 @@ public class Ephemera extends Node{
 		
 		return new Vector3f();
 	}
+	
 	/**
-	 * Navigationsmodul
-	 * Berechne das Verhalten einer Fliege aufgrund aller Regeln
-	 * und Objekte in der Welt
+	 * Methode, welche das Verhalten der Fliege anhand der Regeln und Umwelteinflüsse, wie
+	 * Hindernissen in der Welt, berechnet.
 	 * @param flies
 	 * @param leittier
+	 * @param world
 	 */
 	void calcSteeringVector(ArrayList<Ephemera> flies,Vector3f leittier,World world) {
 	    
@@ -257,7 +293,7 @@ public class Ephemera extends Node{
 	/**
 	 * Berechnet Vektor der zum Zentrum des Leittiers zeigt
 	 * @param leittier
-	 * @return abstandsvektor normalisiert
+	 * @return Abstandsvektor normalisiert
 	 */
 	public Vector3f getLeittierZielVector(Vector3f leittier) {
 		Vector3f pos = getLocalTranslation();
@@ -267,6 +303,12 @@ public class Ephemera extends Node{
 	/**
 	 * 	Flugmodul
 	 *  Berrechne neue Position  verschiebe und rotiere die Fliege
+	 */
+	
+	/**
+	 * Updatemethode, welche neue Position der Fliege berechnet.
+	 * Geschwindigkeit der Fliege wird gesetzt und anhand der lookAt-Methode
+	 * sichergestellt, dass Fliege immer in Flugrichtung schaut.
 	 */
 	void updateMember() {
 	    vel.addLocal(acc);
@@ -421,7 +463,7 @@ public class Ephemera extends Node{
 	
 	/**
 	 * RandomWalk
-	 * Berrechne einen Vektor der innerhalb eines in den Regeln festgelegten radius liegt
+	 * Berrechne einen Vektor der innerhalb eines in den Regeln festgelegten Radius liegt.
 	 */	
 	public Vector3f randomWalk(){
 		int x = FastMath.nextRandomInt(0, 1);
