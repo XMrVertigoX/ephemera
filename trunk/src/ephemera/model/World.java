@@ -46,7 +46,7 @@ public class World extends Node{
 		
 		initSky();
 		generateTerrain();
-		generateRandomObjects(1);
+		generateNest();
 		
 		Obstacles.createHouse(-1800,-450,1085, new Vector3f(200,700,400),objectNode,obs);
 		Obstacles.createHouse(2000,-450,0, new Vector3f(200,900,300),objectNode,obs);
@@ -154,62 +154,22 @@ public class World extends Node{
 	
 	
 	/**
-	 * Erstelle Zufallig N Objekte der zufälligen Ausdehnung von 100 RE
-	 * @param N anzahl Objekte die erstellt werden sollen
-	 * @return ObjectNode
+	 * Erstellt das Nest
 	 */
-	public void generateRandomObjects(int N){
+	public void generateNest(){
 		
-
 		// DisplaySystem berreit stellen 
 		DisplaySystem display = DisplaySystem.getDisplaySystem(LWJGLSystemProvider.LWJGL_SYSTEM_IDENTIFIER);
 		// TextureState erstellen 
 		TextureState ts = createTextureState(display,"ephemera/texture/objects/5016.jpg");
-		/*for (int i=0;i<N;i++){
-			// Größe
-			float x = FastMath.nextRandomInt(1, 200);
-			float y = FastMath.nextRandomInt(1, 900);
-			float z = FastMath.nextRandomInt(1, 300);
-			// Erstelle Objekt
-			TriMesh box = new Box("Box_"+i,new Vector3f(0,0,0),new Vector3f(x,y,z));
-			box.setModelBound(new BoundingBox());
-			
-			// Zufällige Position
-			x = FastMath.nextRandomInt(-1000, 1000);
-			y = -400;//FastMath.nextRandomInt(-1000, 1000);
-			z = FastMath.nextRandomInt(-1000, 1000);
-			// Verschiebe Objekt
-			box.setLocalTranslation(new Vector3f(x,y,z));
-			// Hier werden die Texturen angemeldet
-			init(box,display,ts,objectNode);
-			obs.add(box);
-	
-			box.updateModelBound();
-		}*/
 		ts = createTextureState(display,"ephemera/texture/objects/nest.jpg");
+		//Nest 
 		TriMesh s = new Sphere("nest",20,20,70f);
 		init(s,display,ts,this);
-		objectNode.updateModelBound();
-		
-		
+		objectNode.updateModelBound();		
 	}
+
 	
-	
-	
-	
-	/**
-	 * erzeuge einen Fliegenbrutkasten an pos Vector3f mit rate t[s] 
-	 */
-	public Node initNest(SchwarmController sc,Vector3f pos,float t){
-		Node nest = new Node("Nest");
-		//TextureState ts1 = createTextureState(DisplaySystem.getDisplaySystem(LWJGLSystemProvider.LWJGL_SYSTEM_IDENTIFIER),"ephemera/ObjTextures/nest.jpg");
-		TriMesh form = new Sphere("Nest",new Vector3f(0,0,0),20,20,20);
-		form.setLocalTranslation(pos);
-		
-		
-		return nest;
-		
-	}
 	/**
 	 * Initialisiering einer TextureState für Objekte und Gegenstände
 	 * @param display wird von der GUI übergeben 
