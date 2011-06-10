@@ -8,47 +8,69 @@ import com.jme.scene.Spatial;
 
 /**
  * 
- * @author Gudrun Wagner
+ * @author Gudrun Wagner, Benedikt Schuld
  *
  */
 public final class BSpline extends Curve {
 
-	int anzkontrollPunkte;
+	int numOfControlPoints;
 	Vector3f[] data;
-	int ordnung;
-	float[] knotenVec;
+	int order;
+	float[] nodeVector;
 	String name;
 	Vector3f position; 
 	
+	/**
+	 * Konstruktor, erzeugt B-Spline-Kurve
+	 * 
+	 * @param name Name der Kurve
+	 * @param data Kontrollpunkte-Array
+	 */
 	public BSpline(String name,Vector3f[] data){
 		super(name);
 		this.data = data;
-		anzkontrollPunkte = data.length;
-		ordnung = 3;
+		numOfControlPoints = data.length;
+		order = 3;
 		position = new Vector3f(0f,0f,0f); 
-		knotenVec = erzeugeKnotenVec(ordnung,data.length);
+		nodeVector = createNodeVector(order,data.length);
 	}
 	
-	private static float[] erzeugeKnotenVec(int ordnung, int anzPoints){
+	/**
+	 * berechnet den Knotenvektor der Kurve und gibt ihn zurück
+	 * 
+	 * @param order Ordnung der Kurve
+	 * @param numOfPoints Anzahl der Kontrollpunkte
+	 * @return float[] Knotenvektor
+	 */
+	private static float[] createNodeVector(int order, int numOfPoints){
 		
-		int laenge = ordnung+anzPoints;
-		float[] knotenVec = new float[laenge];
-		float abstand = 1f/(float)(laenge-1f); 
+		int length = order+numOfPoints;
+		float[] nodeVector = new float[length];
+		float distance = 1f/(float)(length-1f); 
 		float sum = 0f;
 		
-		for(int i=0;i<laenge;i++){
-			knotenVec[i] = sum;
-			sum+= abstand;
+		for(int i=0;i<length;i++){
+			nodeVector[i] = sum;
+			sum+= distance;
 		}
 		
-		return knotenVec;
+		return nodeVector;
 	}
 	
-	private static float basisfunktion(float[] knotenVec, float t, int ordnung, int counter) {
+	/**
+	 * löst die Basisfunktionen der B-Spline-Kurve rekursiv
+	 * 
+	 * @param nodeVector Knotenvektor der B-Spline-Kurve
+	 * @param t Parameter der B-Spline-Kurve
+	 * @param order Ordnung der Kurve
+	 * @param counter Zählvariable
+	 * @return float Lösung
+	 */
+	private static float basisfunction(float[] nodeVector, float t, int order, int counter) {
 		
-		if(ordnung==1){
+		if(order==1){
 			
-			if((knotenVec[counter]<=t)&& (t<=knotenVec[counter+1])){
+			if((nodeVector[counter]<=t)&& (t<=nodeVector[counter+1])){
 				return 1f;
 			}
 			
@@ -59,11 +81,17 @@ public final class BSpline extends Curve {
 		}
 		
 		else{
-			return ((t-knotenVec[counter])/(knotenVec[counter+ordnung-1]-knotenVec[counter])*basisfunktion(knotenVec,t,ordnung-1,counter))
-					+((knotenVec[counter+ordnung]-t)/(knotenVec[counter+ordnung]-knotenVec[counter+1])*basisfunktion(knotenVec,t,ordnung-1,counter+1));
+			return ((t-nodeVector[counter])/(nodeVector[counter+order-1]-nodeVector[counter])*basisfunction(nodeVector,t,order-1,counter))
+					+((nodeVector[counter+order]-t)/(nodeVector[counter+order]-nodeVector[counter+1])*basisfunction(nodeVector,t,order-1,counter+1));
 		}
    }
 	
+	/**
+	 * gibt den Punkt der Kurve zur Zeit t zurück
+	 * 
+	 * @param t 
+	 * @return Vector3f Punkt
+	 */
 	public Vector3f getPoint(float t){
 		
 		Vector3f sum = new Vector3f(0,0,0);
@@ -71,7 +99,7 @@ public final class BSpline extends Curve {
 		
 		for(int i=0;i<data.length;i++){
 		
-			float basis = basisfunktion(knotenVec,t,ordnung,i);
+			float basis = basisfunction(nodeVector,t,order,i);
 			aux = data[i].mult(basis);
 			
 			sum = sum.add(aux);
@@ -82,43 +110,52 @@ public final class BSpline extends Curve {
 		return sum;
 	}
 	
+	
+	/**
+	 * Methode der Elternklasse Curve; hier unabhängig von arg1 implementiert 
+	 */
 	public Vector3f getPoint(float arg0, Vector3f arg1) {
 		
 		return getPoint(arg0);
 	}
 	
+	/**
+	 * Methode der Elternklasse Curve; gibt Position zurück
+	 * @return Vector3f Position
+	 */
 	public Vector3f getPoint(){
 		return position;
 	}
 	
+	/**
+	 * Methode der Elternklasse Curve; wird nicht benötigt.
+	 */
 	public Matrix3f getOrientation(float arg0, float arg1) {
 		
 		return null;
 	}
 
+	/**
+	 * Methode der Elternklasse Curve; wird nicht benötigt.
+	 */
 	public Matrix3f getOrientation(float arg0, float arg1, Vector3f arg2) {
 		
 		return null;
 	}
 
+	/**
+	 * Methode der Elternklasse Curve; wird nicht benötigt.
+	 */
 	public void findCollisions(Spatial arg0, CollisionResults arg1, int arg2) {		
 
 	}
 
+	/**
+	 * Methode der Elternklasse Curve; wird nicht benötigt.
+	 */
 	public boolean hasCollision(Spatial arg0, boolean arg1, int arg2) {
 		
 		return false;
 	}
-	
-	public static void main(String[] args) {
-		
-		Vector3f[] data = new Vector3f[4];
-		
-		data[0] = new Vector3f(0,0,0);
-		data[1] = new Vector3f(0.1f,0.2f,0.6f);
-		data[2] = new Vector3f(0.4f,0.4f,0.8f);
-		data[3] = new Vector3f(0.7f,0.8f,0.5f);
-		
-		BSpline b1 = new BSpline("test",data);
-	}
+
 }

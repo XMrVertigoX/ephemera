@@ -286,76 +286,6 @@ public class Obstacles{
 		node.attachChild(objectNode);
 	}
 
-	/**
-	 * erstellt ein Hindernis; Tanne
-	 * 
-	 * @param posX	
-	 * @param pos	
-	 * @param posZ	
-	 * @param node	Knoten, an den das Objekt angehängt wird
-	 * @param obs	ArrayListe, zu der das Objekt hinzugefügt wird.
-	 */
-	public static void createFirStraight(float posX, float posY, float posZ, Node node, ArrayList<Spatial> obs){
-		
-		Node leavesNode = new Node();
-		Node objectNode = new Node();
-		
-		Quaternion rotTrunk = new Quaternion();
-		
-		//Stamm
-		Cylinder trunk = new Cylinder("Trunk", 25, 25, .65f, 2);
-		rotTrunk.fromAngleAxis(-FastMath.PI/2f, Vector3f.UNIT_X);
-		trunk.setLocalRotation(rotTrunk);
-			
-		//Laub
-		Pyramid leaves1 = new Pyramid("Leaves 1", 5, 5);
-		leaves1.setLocalTranslation(0f, 2.75f, 0f);
-		
-		Pyramid leaves2 = new Pyramid("Leaves 2", 4.5f, 4.5f);
-		leaves2.setLocalTranslation(0f, 3.25f, 0f);
-		
-		Pyramid leaves3 = new Pyramid("Leaves 3", 4f, 4);
-		leaves3.setLocalTranslation(0f, 4f, 0f);
-		
-		Pyramid leaves4 = new Pyramid("Leaves 4", 3.5f, 3.5f);
-		leaves4.setLocalTranslation(0f, 4.75f, 0f);
-	
-		Pyramid leaves5 = new Pyramid("Leaves 5", 3f, 3);
-		leaves5.setLocalTranslation(0f, 5.5f, 0f);
-		
-		Pyramid leaves6 = new Pyramid("TLeaves 6", 2.5f, 2.5f);
-		leaves6.setLocalTranslation(0f, 6.25f, 0f);
-	
-		//Teilknoten
-		leavesNode.attachChild(leaves1);
-		leavesNode.attachChild(leaves2);
-		leavesNode.attachChild(leaves3);
-		leavesNode.attachChild(leaves5);
-		leavesNode.attachChild(leaves4);
-		leavesNode.attachChild(leaves6);
-		
-		//Texturen
-		setTexture("ephemera/texture/objects/stamm.jpg", trunk);
-		setTexture("ephemera/texture/objects/tanne.jpg", leavesNode);		
-		
-		//Objekt Knoten
-		objectNode.attachChild(trunk);
-		objectNode.attachChild(leavesNode);
-		
-		//Groeße anpassen
-		objectNode.setLocalScale(60);
-		
-		//BoundingBox
-		objectNode.setModelBound(new BoundingSphere());
-		objectNode.updateModelBound();
-		
-		//Position
-		objectNode.setLocalTranslation(posX, posY+1f, posZ); 
-		
-		// an uebergebene Weltinstanzen haengen
-		obs.add(objectNode);
-		node.attachChild(objectNode);
-	}
 
 	/**
 	 * erstellt Hindernis; Tanne
@@ -366,7 +296,7 @@ public class Obstacles{
 	 * @param node	Knoten, an das Objekt angehängt wird.
 	 * @param obs	ArrayListe, zu der das Objekt hinzugefügt wird.
 	 */
-	public static void createFirTwisted(float posX, float posY, float posZ, Node node, ArrayList<Spatial> obs){
+	public static void createFir(float posX, float posY, float posZ, Node node, ArrayList<Spatial> obs){
 		
 		Node branchesNode = new Node();
 		Node objectNode = new Node();
@@ -434,6 +364,16 @@ public class Obstacles{
 		node.attachChild(objectNode);
 	}
 	
+	/**
+	 * erstellt Hindernis; Haus
+	 * 
+	 * @param posX
+	 * @param posY
+	 * @param posZ
+	 * @param size Größe des Hauses
+	 * @param node Knoten, an das Objekt angehängt wird.
+	 * @param obs  ArrayListe, zu der das Objekt hinzugefügt wird.
+	 */
 	public static void createHouse(float posX, float posY, float posZ, Vector3f size, Node node, ArrayList<Spatial> obs){
 		
 			// Erstelle Objekt
