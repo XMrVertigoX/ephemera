@@ -69,12 +69,12 @@ public class World extends Node{
 		Obstacles.createShrub2(1200, -400, 1150, objectNode, obs);
 		Obstacles.createShrub2(1300, -400, -950, objectNode, obs);
 		
-		Obstacles.createFirTwisted(-2000, -400, 2000, objectNode, obs);
-		Obstacles.createFirTwisted(-1730, -400, -910, objectNode, obs);
-		Obstacles.createFirTwisted(-1000, -400, -1100, objectNode, obs);
-		Obstacles.createFirTwisted(-520, -400, -1820, objectNode, obs);
-		Obstacles.createFirTwisted(-260, -400, -890, objectNode, obs);
-		Obstacles.createFirTwisted(300, -400, 250, objectNode, obs);
+		Obstacles.createFir(-2000, -400, 2000, objectNode, obs);
+		Obstacles.createFir(-1730, -400, -910, objectNode, obs);
+		Obstacles.createFir(-1000, -400, -1100, objectNode, obs);
+		Obstacles.createFir(-520, -400, -1820, objectNode, obs);
+		Obstacles.createFir(-260, -400, -890, objectNode, obs);
+		Obstacles.createFir(300, -400, 250, objectNode, obs);
 		
 
 		attachChild(skybox);
