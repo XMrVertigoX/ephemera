@@ -13,6 +13,8 @@ import com.jme.scene.Spatial;
  */
 public final class BSpline extends Curve {
 
+	private static final long serialVersionUID = 1L;
+	
 	int numOfControlPoints;
 	Vector3f[] data;
 	int order;
