@@ -29,6 +29,7 @@ public class Hunter extends Node{
 	private float fac = 10f;
 	private boolean hungry;
 	private int index = 1;
+	private int countFly = 0;
 	private float lifetime = 20f;
 
     private Vector3f axis = new Vector3f(1, 0, 0);
@@ -169,13 +170,13 @@ public class Hunter extends Node{
 				target = getAverageSwarmPos().subtract(actualPos);	
 			}
 			else{
-				if(index>=0){
-					if(index>0){
+				if(index>0){
 					index = (swarm.getSchwarm().size())-1;
-					}
-					Vector3f flyPos = swarm.getSchwarm().get(index).getLocalTranslation();
+				}
+				if(countFly <= index){
+					Vector3f flyPos = swarm.getSchwarm().get(countFly).getLocalTranslation();
 					target = flyPos.subtract(actualPos);
-					eatBoid(flyPos, index);
+					eatBoid(flyPos, countFly);
 				}
 			}
 		}
@@ -225,6 +226,7 @@ public class Hunter extends Node{
 			Ephemera e = swarm.getSchwarm().get(numberBoid);
 			swarm.getSchwarm().remove(e);
 			swarm.getSwarmNode().detachChildNamed(e.getName());
+			countFly++;
 		}
 	}
 	
