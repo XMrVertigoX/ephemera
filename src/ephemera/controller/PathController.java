@@ -14,17 +14,25 @@ import com.jme.scene.Controller;
 import com.jme.scene.Node;
 
 
+
 public class PathController{
 	
-	private CurveController curveControllerc;
-	private Leader Leittier;
-	private Node pfad;
-	private Rules regeln;
+	private static final long serialVersionUID = 1L;
 	
-	public PathController(Rules regeln){	
+	private CurveController curveController;
+	private Leader leader;
+	private Node path;
+	private Rules rules;
+	
+	/**
+	 * erzeugt BSpline als Bewegungspfad und laesst das Leittier darauf laufen.
+	 * Die Geschwindigkeit wird in den uebergebenen Regeln festgelegt. 
+	 * @param rules
+	 */
+	public PathController(Rules rules){	
 		// erstelle Pfad
-		this.regeln=regeln;
-		pfad = new Node("Pfad");
+		this.rules=rules;
+		path = new Node("Pfad");
 		Vector3f[] data = new Vector3f[5];
 		data[0] = new Vector3f(0f,0f,-1000f);
 		data[1] = new Vector3f(1000f,0f,0f);
@@ -34,19 +42,18 @@ public class PathController{
 		BSpline bp = new BSpline("Bewegungspfad",data);
 		
 		// erstelle das Leittier 
-		Leittier = new Leader();
-		
-		
+		leader = new Leader();
+				
 		// Kurvencontroller erstellen 
-		curveControllerc = new CurveController(bp,Leittier);
-		curveControllerc.setRepeatType(Controller.RT_WRAP);
+		curveController = new CurveController(bp,leader.s); //wenn im Leitttier die Kugel entfernt wird, hier ".s" loeschen
+		curveController.setRepeatType(Controller.RT_WRAP);
 		
 		// Leittier an Kurve anmelden 
-		Leittier.addController(curveControllerc);
+		leader.s.addController(curveController); //wenn im Leitttier die Kugel entfernt wird, hier ".s" loeschen
 		
 		// Geschwindigkeit des Leittieres
-		curveControllerc.setSpeed(regeln.getLeittierSpeed());
-		pfad.attachChild(Leittier);	
+		curveController.setSpeed(rules.getLeittierSpeed());
+		path.attachChild(leader.s);	 //wenn im Leitttier die Kugel entfernt wird, hier ".s" loeschen
 	}
 	
 	
@@ -55,7 +62,7 @@ public class PathController{
 	 * @return pfad
 	 */
 	public Node getLeittier(){
-		return pfad;
+		return path;
 	}
 	
 	
@@ -64,7 +71,7 @@ public class PathController{
 	 * @return Vector3f 
 	 */
 	public Vector3f getPosition(){
-		return Leittier.getLocalTranslation();
+		return leader.getLocalTranslation();
 	}
 			
 }

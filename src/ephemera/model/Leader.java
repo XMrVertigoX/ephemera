@@ -4,15 +4,30 @@ import com.jme.bounding.BoundingVolume;
 import com.jme.intersection.CollisionResults;
 import com.jme.intersection.PickResults;
 import com.jme.math.Ray;
+import com.jme.math.Vector3f;
+import com.jme.renderer.ColorRGBA;
 import com.jme.renderer.Renderer;
 import com.jme.scene.Spatial;
+import com.jme.scene.shape.Sphere;
 
 /**
  * Diese Klasse erstellt ein unsichtbares Leittier Objekt, das sich entlang eines Pfades bewegen kann
  * @author Benedikt Schuld, Gudrun Wagner
  *
  */
+
+
 public class Leader extends Spatial {
+	
+	private static final long serialVersionUID = 1L;
+	
+	public Sphere s;	//Hilfskugel zur Sichtbarkeit. BITTE ZUM SCHLUSS ENTFERNEN!!!
+	
+	public Leader(){	
+		s= new Sphere("Leader",new Vector3f(0,0,0),20,20,20f);
+		s.setDefaultColor(new ColorRGBA(255,0,0,0));
+	}
+	
 	
 	/**
 	 * Diese Methoden sind von der Spatial Klasse geerbt und werden nicht benoetigt
