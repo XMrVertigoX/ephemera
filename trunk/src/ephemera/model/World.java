@@ -23,8 +23,6 @@ import com.jme.util.TextureManager;
 import com.jmex.terrain.TerrainBlock;
 import com.jmex.terrain.util.MidPointHeightMap;
 
-import ephemera.controller.SchwarmController;
-
 
 public class World extends Node{
 	
@@ -39,7 +37,7 @@ public class World extends Node{
 	
 	
 	public World(){
-		super("World Root Node");
+		super("World");
 		
 		obs = new ArrayList<Spatial>();
 		objectNode = new Node();
@@ -48,33 +46,33 @@ public class World extends Node{
 		generateTerrain();
 		generateNest();
 		
-		Obstacles.createHouse(-1800,-450,1085, new Vector3f(200,700,400),objectNode,obs);
-		Obstacles.createHouse(2000,-450,0, new Vector3f(200,900,300),objectNode,obs);
-		Obstacles.createHouse(2000,-450,-1350, new Vector3f(350,500,400),objectNode,obs);
+		Obstacles.createHouse(-1800,-450,1085, new Vector3f(200,700,400),objectNode);
+		Obstacles.createHouse(2000,-450,0, new Vector3f(200,900,300),objectNode);
+		Obstacles.createHouse(2000,-450,-1350, new Vector3f(350,500,400),objectNode);
 		
-		Obstacles.createTree(-1210, -350, -1720, objectNode, obs);
-		Obstacles.createTree(-850, -350, 1550, objectNode, obs);
-		Obstacles.createTree(1450, -350, 0, objectNode, obs);
-		Obstacles.createTree(1810, -350, 1900, objectNode, obs);
+		Obstacles.createTree(-1210, -350, -1720, objectNode);
+		Obstacles.createTree(-850, -350, 1550, objectNode);
+		Obstacles.createTree(1450, -350, 0, objectNode);
+		Obstacles.createTree(1810, -350, 1900, objectNode);
 		
-		Obstacles.createShrub1(-1550, -400, -50, objectNode, obs);
-		Obstacles.createShrub1(-800, -400, 530, objectNode, obs);
-		Obstacles.createShrub1(1050, -400, 2000, objectNode, obs);
-		Obstacles.createShrub1(1695, -400, 810, objectNode, obs);
+		Obstacles.createShrub1(-1550, -400, -50, objectNode);
+		Obstacles.createShrub1(-800, -400, 530, objectNode);
+		Obstacles.createShrub1(1050, -400, 2000, objectNode);
+		Obstacles.createShrub1(1695, -400, 810, objectNode);
 		
-		Obstacles.createShrub2(-200, -400, 650, objectNode, obs);
-		Obstacles.createShrub2(600, -400, -1050, objectNode, obs);
-		Obstacles.createShrub2(-2000, -400, 30, objectNode, obs);	
-		Obstacles.createShrub2(1850, -400, -1850, objectNode, obs);
-		Obstacles.createShrub2(1200, -400, 1150, objectNode, obs);
-		Obstacles.createShrub2(1300, -400, -950, objectNode, obs);
+		Obstacles.createShrub2(-200, -400, 650, objectNode);
+		Obstacles.createShrub2(600, -400, -1050, objectNode);
+		Obstacles.createShrub2(-2000, -400, 30, objectNode);	
+		Obstacles.createShrub2(1850, -400, -1850, objectNode);
+		Obstacles.createShrub2(1200, -400, 1150, objectNode);
+		Obstacles.createShrub2(1300, -400, -950, objectNode);
 		
-		Obstacles.createFir(-2000, -400, 2000, objectNode, obs);
-		Obstacles.createFir(-1730, -400, -910, objectNode, obs);
-		Obstacles.createFir(-1000, -400, -1100, objectNode, obs);
-		Obstacles.createFir(-520, -400, -1820, objectNode, obs);
-		Obstacles.createFir(-260, -400, -890, objectNode, obs);
-		Obstacles.createFir(300, -400, 250, objectNode, obs);
+		Obstacles.createFir(-2000, -400, 2000, objectNode);
+		Obstacles.createFir(-1730, -400, -910, objectNode);
+		Obstacles.createFir(-1000, -400, -1100, objectNode);
+		Obstacles.createFir(-520, -400, -1820, objectNode);
+		Obstacles.createFir(-260, -400, -890, objectNode);
+		Obstacles.createFir(300, -400, 250, objectNode);
 		
 
 		attachChild(skybox);
@@ -144,7 +142,6 @@ public class World extends Node{
         tb.setLocalTranslation(new Vector3f(3000,-550,3000));
         
         //Attach the terrain TriMesh to rootNode
-        terrainNode.attachChild(tb);
         objectNode.attachChild(tb);
     }
 	
@@ -161,10 +158,9 @@ public class World extends Node{
 		// DisplaySystem berreit stellen 
 		DisplaySystem display = DisplaySystem.getDisplaySystem(LWJGLSystemProvider.LWJGL_SYSTEM_IDENTIFIER);
 		// TextureState erstellen 
-		TextureState ts = createTextureState(display,"ephemera/texture/objects/5016.jpg");
-		ts = createTextureState(display,"ephemera/texture/objects/nest.jpg");
+		TextureState ts = createTextureState(display,"ephemera/texture/objects/nest.jpg");
 		//Nest 
-		TriMesh s = new Sphere("nest",20,20,70f);
+		TriMesh s = new Sphere("nest",10,10,70f);
 		init(s,display,ts,this);
 		objectNode.updateModelBound();		
 	}

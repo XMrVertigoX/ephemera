@@ -2,21 +2,17 @@ package ephemera.model;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import com.jme.animation.SpatialTransformer;
 import com.jme.bounding.*;
-import com.jme.image.Texture;
 import com.jme.math.FastMath;
 import com.jme.math.Quaternion;
 import com.jme.math.Vector3f;
 import com.jme.renderer.ColorRGBA;
 import com.jme.scene.Node;
 import com.jme.scene.Spatial;
-
 import com.jme.scene.TriMesh;
 import com.jme.scene.shape.Sphere;
 import com.jme.util.geom.BufferUtils;
-import ephemera.model.Shit;
 
 /**
  * Die Fliege
@@ -246,20 +242,12 @@ public class Ephemera extends Node{
 		}
 		// Berechne die Vektoren 
 		
-		Vector3f target = new Vector3f();
-	
-		/*
-		if(Shit.getShit() > 0){
-			target = Shit.getShitPos();
-			rules.setFollow_weight(1f);
-		}*/
-		
-		target = getLeittierZielVector(leittier);
-		
+		Vector3f target = getLeittierZielVector(leittier);
+		System.out.println(leittier);
 		Vector3f sep  = separate(flies); 
 	    Vector3f ali = align(flies);
 	    Vector3f coh = cohesion(flies);
-	    Vector3f randomWalk = randomWalk();
+	    //Vector3f randomWalk = randomWalk();
 	    
 	    target.multLocal(rules.getFollow_weight());
 	    sep.multLocal(rules.getSep_weight());
@@ -274,18 +262,7 @@ public class Ephemera extends Node{
 	    acc.addLocal(target);
 	    //acc.addLocal(randomWalk);
 	   
-	    
-	    // Implement Reynolds: Steering = Desired - Velocity
-		//acc.normalizeLocal();
-		//acc.multLocal(regeln.getMaxspeed());
-		//acc.subtractLocal(vel);
-		/*
-		if (acc.length()>rules.getMaxspeed()){
-			  acc.normalizeLocal();
-			  acc.multLocal(rules.getMaxforce());
-		}
-		*/
-	    //acc.addLocal(randomWalk);
+	    //System.out.println("Coh: "+rules.getCoh_weight()+" Sep: "+rules.getSep_weight());
 		// Kollisionsvermeidung mit Objekten in der Welt
 		if (koll.length()!=0)acc = koll.mult(4);  
 
@@ -295,7 +272,7 @@ public class Ephemera extends Node{
 	 * @param leittier
 	 * @return Abstandsvektor normalisiert
 	 */
-	public Vector3f getLeittierZielVector(Vector3f leittier) {
+	public Vector3f getLeittierZielVector(Vector3f leittier){
 		Vector3f pos = getLocalTranslation();
 		Vector3f res = leittier.subtract(pos).normalizeLocal();
 		return res;
@@ -321,14 +298,10 @@ public class Ephemera extends Node{
 	    
 	    // "Gucke in Flugrichtung
 	    this.lookAt(getLocalTranslation().subtract(vel.mult(-1)),new Vector3f(0,1,0));
-	    //this.lookAt(vel.cross(Vector3f.UNIT_Y).cross(vel), vel);
-	    // Setze geschiwindigkeit der Flügel annhand 
-	    // Bewegung
-	    
-	    // Passe geschwindigeit an
-	    // Position verschieben
 	    spatialTransformer.setSpeed(vel.length()*100*rules.getFluggeschwindigkeit());
+	    
 	    vel.multLocal(rules.getFluggeschwindigkeit());
+	    
 	    getLocalTranslation().addLocal(vel);
 	    
 	    acc.mult(0);

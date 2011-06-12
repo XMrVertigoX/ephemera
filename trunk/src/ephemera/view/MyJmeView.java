@@ -22,8 +22,8 @@ public class MyJmeView extends SimpleCanvasImpl {
     private Hunter hunter;
     private static boolean exist;
     private long time;
-    private int flies = 200;
-    private float farPlane = 20000.0f;
+    private int flies = 10;
+    private float farPlane = 10000.0f;
     
     public MyJmeView(int width, int height) {
         super(width, height);
@@ -56,12 +56,12 @@ public class MyJmeView extends SimpleCanvasImpl {
 	
     //3D gedšns
     public void simpleSetup() {
-        setupEnvironment();
-
-//    	time = System.currentTimeMillis();
+       
+    	time = System.currentTimeMillis();
     	
     	world = new World();
-    	
+    	setupEnvironment();
+
 		// Schwarm initialisieren
 		schwarm = new SchwarmController();
 		schwarm.setWorld(world);
@@ -69,50 +69,32 @@ public class MyJmeView extends SimpleCanvasImpl {
 
 		Node schwarmNode = schwarm.getSwarmNode();		
 		
-		rootNode.attachChild(world);
-		//rootNode.attachChild(schwarmNode);	
-		//worldNode.attachChild(schwarm.getLeittierNode());
-    	//Color bg = new Color(prefs.getInt("bg_color", 0));
-        renderer.setBackgroundColor(ColorRGBA.darkGray);
+		renderer.setBackgroundColor(ColorRGBA.darkGray);
         
 
         // Licht und Schatten
         LightState lightState = renderer.createLightState();
-        //lightState.detachAll();
-        /*
-        PointLight pl = new PointLight();
-		pl.setDiffuse(ColorRGBA.yellow);
-		pl.setLinear(1f);
-		pl.setEnabled(true);
-		pl.setLocation(schwarm.getLeittierNode().getLocalTranslation());
-        lightState.attach(pl);
-        */
+        lightState.detachAll();
+        
         DirectionalLight dl = new DirectionalLight();
     	dl.setEnabled(true);
     	dl.setDirection(new Vector3f(1,0,0));
     	lightState.attach(dl);
     	
-    	world.attachChild(schwarmNode);
     	//schwarmNode.setRenderState(lightState);
-        //worldNode.getChild("dome").setRenderState(lightState);
-    	
+        
     	// Finally, a stand alone node (not attached to root on purpose)
     	
     	grid.updateRenderState();  
         rootNode.attachChild(grid);
         
        
-        //GUINode = new Node("GUI");
         
         ZBufferState zbuf = renderer.createZBufferState();
         zbuf.setWritable(false);
         zbuf.setEnabled(true);
         zbuf.setFunction(ZBufferState.TestFunction.LessThanOrEqualTo);
         
-        //GUINode.setRenderState(zbuf);
-        //GUINode.updateRenderState();
-
-        //world.getDome().setTarget(schwarmNode);
         rootNode.attachChild(world);
         rootNode.attachChild(schwarmNode);
         rootNode.attachChild(schwarm.getLeittierNode());
@@ -128,8 +110,7 @@ public class MyJmeView extends SimpleCanvasImpl {
     	float t = (System.currentTimeMillis()-time)/1000f;
     	if (t>2) {
     		time = System.currentTimeMillis();
-        	System.out.println(schwarm.getSchwarm().size()+" "+schwarm.getRegeln().getFlyCount());
-    		if (schwarm.getSchwarm().size()<schwarm.getRegeln().getFlyCount()) schwarm.addFly(new Vector3f(),schwarm.getRegeln());
+        	if (schwarm.getSchwarm().size()<schwarm.getRegeln().getFlyCount()) schwarm.addFly(new Vector3f(),schwarm.getRegeln());
     	}
     	schwarm.updateAll();
     	
@@ -144,7 +125,6 @@ public class MyJmeView extends SimpleCanvasImpl {
     	
     	cam.setFrustumPerspective(45.0f, (float) display.getWidth() / (float) display.getHeight(), 1f, farPlane);
     	cam.getLocation().set(0, 850, 850);
-    	//cam.lookAt(new Vector3f(0, -850, 850), Vector3f.UNIT_Y);
     	cam.update();
     }
  

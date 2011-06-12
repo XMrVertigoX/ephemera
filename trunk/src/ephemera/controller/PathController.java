@@ -7,7 +7,6 @@ package ephemera.controller;
 import ephemera.model.BSpline;
 import ephemera.model.Rules;
 import ephemera.model.Leader;
-
 import com.jme.curve.CurveController;
 import com.jme.math.Vector3f;
 import com.jme.scene.Controller;

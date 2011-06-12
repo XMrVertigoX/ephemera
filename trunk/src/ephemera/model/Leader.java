@@ -91,4 +91,5 @@ public class Leader extends Spatial {
 	 * 
 	 */
 	public void updateWorldBound() {}
+	public Vector3f getPos(){ return s.getLocalTranslation();}
 }
