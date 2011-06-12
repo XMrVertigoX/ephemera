@@ -32,8 +32,6 @@ import ephemera.model.*;
 
 public class GUI extends JFrame {
 
-	
-	private ShitController shit;
     private MyJmeView impl;
     private CamHandler camhand;
     private Canvas glCanvas;
@@ -302,14 +300,13 @@ public class GUI extends JFrame {
         addFlyButton.setMargin(new Insets(2, 2, 2, 2));
         
         
-        JSlider cohSlider = new JSlider();
+        final JSlider cohSlider = new JSlider();
 		cohSlider.setValue((int)(rules.getCoh_weight()*100));
 	    cohSlider.addChangeListener(new ChangeListener(){
 	    	public void stateChanged(ChangeEvent ce) {
 	    		
-	    		float value = impl.getSchwarm().getRegeln().getCoh_weight();
-	    		//float value = cohSlider.getValue()/100f;
 	    		
+	    		float value = cohSlider.getValue()/100f;
 	    		impl.getSchwarm().getRegeln().setCoh_weight(value);
 	    		System.out.println("Kohaesionswert:"+value);
 	    	}
@@ -553,9 +550,6 @@ public class GUI extends JFrame {
             private static final long serialVersionUID = 1L;
 
             public void actionPerformed(ActionEvent e) {
-				shit = new ShitController( impl);
-            	shit.mouseShot();
-            	
             }
         });
         
