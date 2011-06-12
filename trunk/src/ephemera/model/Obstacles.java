@@ -401,7 +401,7 @@ public class Obstacles{
 	 * @param resource	Pfad zur Textur 
 	 * @param object	Object, das Texturiert werden soll
 	 */
-	private static void setTexture(String resource, TriMesh object){
+	private static void setTexture(String resource, Spatial object){
 		URL texLoc;
 		DisplaySystem display = DisplaySystem.getDisplaySystem(LWJGLSystemProvider.LWJGL_SYSTEM_IDENTIFIER);
 		texLoc = Obstacles.class. getClassLoader (). getResource(resource);
@@ -411,19 +411,4 @@ public class Obstacles{
 		object.setRenderState(tsPlant);
 	}
 
-	/**
-	 * Texturiert ein Objekt
-	 * 
-	 * @param resource	Pfad zur Textur 
-	 * @param object	Object, das Texturiert werden soll
-	 */
-	private static void setTexture(String resource, Node object){
-		URL texLoc;
-		DisplaySystem display = DisplaySystem.getDisplaySystem(LWJGLSystemProvider.LWJGL_SYSTEM_IDENTIFIER);
-		texLoc = Obstacles.class. getClassLoader (). getResource(resource);
-		TextureState tsPlant = display. getRenderer (). createTextureState ();
-		Texture texPlant = TextureManager.loadTexture (texLoc, Texture.MinificationFilter.BilinearNearestMipMap, Texture.MagnificationFilter.Bilinear);
-		tsPlant.setTexture(texPlant);
-		object.setRenderState(tsPlant);
-	}
 }
