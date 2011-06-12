@@ -47,7 +47,7 @@ public class SchwarmController {
 	 * Update der Position aller Fliegen aufgrund der Position des Leittieres
 	 */
 	public void updateAll(){
-		Vector3f temp = pathController.getPosition();
+		Vector3f temp = pathController.getLeader().getPos();
 		for (Ephemera e:flies){
 			e.run(flies,temp,world);
 			//e.kollider(schwarm);

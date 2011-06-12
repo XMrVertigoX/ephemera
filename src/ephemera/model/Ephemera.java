@@ -243,7 +243,6 @@ public class Ephemera extends Node{
 		// Berechne die Vektoren 
 		
 		Vector3f target = getLeittierZielVector(leittier);
-		System.out.println(leittier);
 		Vector3f sep  = separate(flies); 
 	    Vector3f ali = align(flies);
 	    Vector3f coh = cohesion(flies);

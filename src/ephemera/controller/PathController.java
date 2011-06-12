@@ -72,5 +72,6 @@ public class PathController{
 	public Vector3f getPosition(){
 		return leader.getLocalTranslation();
 	}
+	public Leader getLeader(){ return leader;}
 			
 }
