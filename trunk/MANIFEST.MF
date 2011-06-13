@@ -2,8 +2,7 @@ Manifest-Version: 1.0
 Sealed: true
 Class-Path: lib/jme.jar lib/jme-awt.jar lib/jme-editors.jar lib/jme-eff
  ects.jar lib/jme-gamestates.jar lib/jme-model.jar lib/jme-scene.jar li
- b/jme-swt.jar lib/jme-terrain.jar lib/lwjgl/lwjgl.jar lib/lwjgl/lwjgl_
- util.jar lib/lwjgl/lwjgl_util_applet.jar lib/lwjgl/jinput.jar lib/swt/
- swt.jar lib/swt/swt_64.jar
+ b/jme-swt.jar lib/jme-terrain.jar lib/lwjgl.jar lib/lwjgl_util.jar lib
+ /jinput.jar lib/swt.jar lib/swt_64.jar
 Main-Class: ephemera.Main
 
