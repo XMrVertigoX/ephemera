@@ -369,7 +369,7 @@ public class GUI extends JFrame {
 	    		
 	    		float value = cohSlider.getValue()/100f;
 	    		if (impl.getSchwarm()!=null)
-		    		impl.getSchwarm().getRegeln().setCoh_weight(value);
+		    		impl.getSchwarm().getRules().setCoh_weight(value);
 	    		System.out.println("Kohaesionswert:"+value);
 	    	}
 	    });
@@ -394,7 +394,7 @@ public class GUI extends JFrame {
 	    		
 	    		float value = aliSlider.getValue()/100f;
 	    		if (impl.getSchwarm()!=null)
-		    		impl.getSchwarm().getRegeln().setAli_weight(value);
+		    		impl.getSchwarm().getRules().setAli_weight(value);
 	    		System.out.println("Ausrichtungswert:"+value);
 	    	}
 	    });
@@ -420,7 +420,7 @@ public class GUI extends JFrame {
 	    		float value = sepSlider.getValue()/100f;
 	   
 	    		if (impl.getSchwarm()!=null)
-	    		impl.getSchwarm().getRegeln().setSep_weight(value);
+	    		impl.getSchwarm().getRules().setSep_weight(value);
 	    		System.out.println("Trennungswert: "+value);
 	    	}
 	    });
@@ -509,7 +509,7 @@ public class GUI extends JFrame {
     			float value = (float)hunterSlider.getValue();
     			
     			if (impl.getSchwarm()!=null)
-		    		impl.getSchwarm().getRegeln().setLifeTime(value);
+		    		impl.getSchwarm().getRules().setLifeTime(value);
        			
     			System.out.println("Jaegerlebensdauer: "+value);
     			
@@ -534,7 +534,7 @@ public class GUI extends JFrame {
 	    		
         		float value = followSlider.getValue()/100f;   
         		if (impl.getSchwarm()!=null)
-		    		impl.getSchwarm().getRegeln().setFollow_weight(value);
+		    		impl.getSchwarm().getRules().setFollow_weight(value);
        			
         		System.out.println("Folge Leittier-Wert: "+value);
 	    	}
@@ -557,7 +557,7 @@ public class GUI extends JFrame {
 	    		
         		float value = desiredSlider.getValue();
         		if (impl.getSchwarm()!=null)
-		    		impl.getSchwarm().getRegeln().setNeighborDistance(value);
+		    		impl.getSchwarm().getRules().setNeighborDistance(value);
         		System.out.println("Gewuenschter Abstand: "+value);
 	    	}
 	    });
@@ -578,7 +578,7 @@ public class GUI extends JFrame {
 	    		
        			float value = neighborSlider.getValue();
        			if (impl.getSchwarm()!=null)
-		    		impl.getSchwarm().getRegeln().setDesiredSeparation(value);
+		    		impl.getSchwarm().getRules().setDesiredSeparation(value);
        			
        			System.out.println("Abstand zum Nachbarn: "+value);
 	    	}

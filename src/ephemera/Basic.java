@@ -32,7 +32,7 @@ public class Basic extends SimpleGame {
 		
 		// Node-Struktur erstellen
 		rootNode.attachChild(world);
-		rootNode.attachChild(schwarm.getLeittierNode());
+		rootNode.attachChild(schwarm.getLeaderNode());
 		rootNode.attachChild(schwarm.getSwarmNode());
 	}
 	
