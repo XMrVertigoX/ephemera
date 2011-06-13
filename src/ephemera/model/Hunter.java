@@ -30,20 +30,16 @@ public class Hunter extends Node{
 	private boolean hungry;
 	private int index = 1;
 	private int countFly = 0;
-	private float lifetime = 20f;
-
     private Vector3f axis = new Vector3f(1, 0, 0);
     private float angle = 180*(FastMath.PI/180f);
-
     private Quaternion rotQuat = new Quaternion();
-
-	private static Node hunterNode = new Node();
 	private Dome upperHead;
 	private Dome lowerHead;
 	private Sphere eyeL;
 	private Sphere eyeR;
 	private Sphere inside;
 	private int sign;
+	private int lifetime;
 
 	/**
 	 * Konstruktor, welchem die Startposition des Jaegers, die Welt mit allen Objekten und der Schwarm uebergeben wird. 
@@ -51,9 +47,9 @@ public class Hunter extends Node{
 	 * @param world 
 	 * @param swarm
 	 */
-	public Hunter(Vector3f pos, World world, SwarmController swarm){	
-		
+	public Hunter(Vector3f pos, World world, SwarmController swarm, int lifetime){	
 		super("Hunter");
+		this.lifetime = lifetime;
 		age = System.currentTimeMillis();
 		this.actualPos = pos;
 		initHunter();
@@ -89,22 +85,20 @@ public class Hunter extends Node{
 	    lowerHead.setLocalRotation(rotQuat);
 	    eyeL.setLocalTranslation(new Vector3f(11f, 10f, 9));
 	    eyeR.setLocalTranslation(new Vector3f(-11f, 10f, 9));
+	    
+	    attachChild(inside);
+	    attachChild(eyeL);
+	    attachChild(eyeR);
+	    attachChild(upperHead);
+	    attachChild(lowerHead);
 
-	    hunterNode.setModelBound(new BoundingSphere());
-	    hunterNode.updateModelBound();
-	    
-	    hunterNode.attachChild(inside);
-	    hunterNode.attachChild(eyeL);
-	    hunterNode.attachChild(eyeR);
-	    hunterNode.attachChild(upperHead);
-	    hunterNode.attachChild(lowerHead);
-	    
-	    hunterNode.setLocalScale(0.6f);
+	    setModelBound(new BoundingSphere());
+	    updateModelBound();
+	    setLocalScale(0.6f);
 		
-		attachChild(hunterNode);
-		hunterNode.updateRenderState();
-		hunterNode.setModelBound(new BoundingSphere());
-		hunterNode.setLocalTranslation(actualPos);
+		setLocalTranslation(actualPos);
+	    
+		updateRenderState();
 	}
 	
 	
@@ -145,7 +139,9 @@ public class Hunter extends Node{
 		if(angle <= 130){
 			  sign = 1;
 			    
-		  }else if(angle >=180){
+		  }
+		
+		else if(angle >=180){
 			  sign = -1;
 		  }
 		  
@@ -163,19 +159,21 @@ public class Hunter extends Node{
 		 * uebergeben. Wenn nicht, ist der Jaeger hungrig und macht Jagd auf ein einzelnes Boid, dessen Position
 		 * nun sein Zielvektor ist.
 		 */
-		if(getAge()>lifetime || (swarm.getSwarm().size() == 0)){
-			
+		if (getAge() >= lifetime || (swarm.getSwarm().size() == 0)) {
 			deleteHunter();
 		}
+		
 		else{
 			
 			if(!hungry){
 				target = getAverageSwarmPos().subtract(actualPos);	
 			}
+			
 			else{
 				if(index>0){
 					index = (swarm.getSwarm().size())-1;
 				}
+				
 				if(countFly <= index){
 					Vector3f flyPos = swarm.getSwarm().get(countFly).getLocalTranslation();
 					target = flyPos.subtract(actualPos);
@@ -195,6 +193,7 @@ public class Hunter extends Node{
 			target.multLocal(fac/2f);
 			hungry = true;
 		}
+		
 		else{
 			target.multLocal(fac);
 		}
@@ -211,7 +210,7 @@ public class Hunter extends Node{
 		}
 	
 		// lookAt-Methode garantiert, dass Jaeger immer in Flugrichtung schaut
-		hunterNode.lookAt(actualPos.add(target), new Vector3f(0,1,0));		
+		lookAt(actualPos.add(target), new Vector3f(0,1,0));		
 		actualPos.addLocal(target);		
 	}
 	
@@ -246,7 +245,7 @@ public class Hunter extends Node{
 	 * Methode setzt Lebenszeit des Jaegers.
 	 * @param time
 	 */
-	public void setLifetime(float time){
+	public void setLifetime(int time){
 		lifetime = time;
 	}
 	

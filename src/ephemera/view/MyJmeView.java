@@ -29,12 +29,16 @@ public class MyJmeView extends SimpleCanvasImpl {
         super(width, height);
     }
     
-    public void addNewHunter(float lifetime){ 
-    	if(!exist){
-    		System.out.println("dabei");
-    		hunter = new Hunter(new Vector3f(300,300,300), world, schwarm);
+    public void addNewHunter(int lifetime){ 
+    	if(!exist && lifetime > 0){
+    		hunter = new Hunter(new Vector3f(0, 0, 0), world, schwarm, lifetime);
     		world.attachChild(hunter);
     		exist = true;
+//        	System.out.println("Jaeger hinzugefuegt");
+    	}
+    	
+    	else {
+    		System.out.println("Jaeger ist bereits hinzugefuegt oder Lebenszeit zu gering eingestellt!");
     	}
     }
     
@@ -46,12 +50,10 @@ public class MyJmeView extends SimpleCanvasImpl {
     	return schwarm;
     }
     
-	
 	public World getWorld(){
 		return world;
 	}
 	
-    //3D gedšns
     public void simpleSetup() {
        
     	time = System.currentTimeMillis();
@@ -88,15 +90,15 @@ public class MyJmeView extends SimpleCanvasImpl {
         zbuf.setFunction(ZBufferState.TestFunction.LessThanOrEqualTo);
         
         rootNode.attachChild(world);
-        rootNode.attachChild(schwarmNode);
-        rootNode.attachChild(schwarm.getLeaderNode());
-        rootNode.updateGeometricState(0, true);
-        rootNode.updateRenderState();
-        rootNode.setRenderQueueMode(Renderer.QUEUE_OPAQUE);
+        
+        world.attachChild(schwarmNode);
+        world.attachChild(schwarm.getLeaderNode());
+        world.updateGeometricState(0, true);
+        world.updateRenderState();
+        world.setRenderQueueMode(Renderer.QUEUE_OPAQUE);
 		
     };
 
-    
     public void simpleUpdate() {
     	
         world.getSkybox().getLocalTranslation().set(cam.getLocation());
@@ -118,6 +120,8 @@ public class MyJmeView extends SimpleCanvasImpl {
     	if(exist){
     		hunter.updateHunter();
     	}
+    	
+    	world.updateRenderState();
     }
     
 	private void setupEnvironment() {
@@ -131,17 +135,11 @@ public class MyJmeView extends SimpleCanvasImpl {
  
     public static void setExist(boolean value){
     	exist = value;
-    	
-    	if(value==false){
-    		
-    	}
     }
     
     public float getFarPlane(){
     	return farPlane;
     }
-
-    
     
     @Override
     public void simpleRender() {

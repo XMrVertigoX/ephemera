@@ -42,7 +42,6 @@ public class World extends Node{
 	
 	private Vector3f avoidObstacles; 
 	private Skybox skybox ;
-	private SkyDome dome;
 	
 	public World(){
 		super("World");
@@ -362,9 +361,7 @@ private void setupTerrain() {
 		}
 		return new Vector3f();
 	}
-	
-	public void update(){ dome.update();}
-	public void render(){ dome.render();}
+
 	public Vector3f getCollisionVector(){
 		return avoidObstacles;
 	}
