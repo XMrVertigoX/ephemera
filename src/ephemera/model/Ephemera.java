@@ -94,7 +94,6 @@ public class Ephemera extends Node{
 		Sphere head = new Sphere("Kopf",10,10,1);
 		//body.setIsCollidable(false);
 		body.setLocalScale(new Vector3f(.51f,.51f,2));
-		body.setSolidColor(ColorRGBA.black);
 		
 		//Kopf verschieben
 		head.setLocalTranslation(0, 0, 4);
