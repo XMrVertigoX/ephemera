@@ -16,6 +16,9 @@ import java.awt.event.*;
 import java.util.concurrent.*;
 import java.util.prefs.*;
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
 import javax.swing.event.*;
 
 
@@ -185,23 +188,79 @@ public class GUI extends JFrame {
         sgitem.setSelected(prefs.getBoolean("showgrid", true));
         view.add(sgitem);
       
-    	//TODO HILFE  	     
+  
+        
+        /**
+         * Hilfe 
+         * Oeffnet ein neues Fenster mit Textinhalt
+         */
+        final JFrame hilfe = new JFrame("Hilfe");
+        hilfe.setSize(400, 450);
+        hilfe.setBackground(dgrey);
+        hilfe.setLocation(300, 50);
+        hilfe.setResizable(false);     
+        JLabel hilfeText = new JLabel();
+        hilfeText.setForeground(white);
+        hilfeText.setText("<html><b><font size=\"6\" color=\"#159fd2\">Hilfe</font></b> <br><br>"+                  
+                " <b>Kohäsion</b> <br>" +
+                " Ernöglicht es einem Schwarmmitglied in der nähe seiner Nachbarn zu bleiben.<br><br>" +
+                " <b>Ausrichtung</b> <br>" +
+                " Passt ein Schwarmmitglied seine Bewegungsrichtung oder seine Geschwindigkeit seinen Schwarmnachbarn an.<br><br>" +
+                " <b>Trennung</b> <br>" +
+                " Abstand der einzelnen Schwarmmitglieder.<br><br>" +
+                " <b>Folge Leittier</b> <br>" +
+                " Abstand der Schwarmmitglieder zum Leittier.<br><br>" +
+                " <b>Gewünschter Abstand </b><br>" +
+                " Mindestabstand der Schwarmmitglieder.<br><br>" +
+                " <b>Sichtweite</b> <br>" +
+                " Radius in dem die Schwarmmitglieder sich untereinander wahrnehmen. <br><br> </html>");
+        
+        Border border = BorderFactory.createLineBorder(dgrey);
+        Border margin = new EmptyBorder(10, 10, 10, 10);
+        hilfeText.setBorder(new CompoundBorder(border, margin));
+        hilfe.add(hilfeText);
+        
+         	     
         Action help = new AbstractAction("Hilfe") {
             private static final long serialVersionUID = 1L;
             public void actionPerformed(ActionEvent e) {
-            	               
+            	hilfe.setVisible(true);            
             }
         };
         newAction.putValue(Action.MNEMONIC_KEY, KeyEvent.VK_N);
         
-    	//TODO UEBER  	
+        
+        /**
+         * Ueber das Projekt
+         * Oeffnet ein neues Fenster mit Textinhalt (Informationen ueber das Projekt)
+         */
+        final JFrame ueber = new JFrame("ephemera");
+        ueber.setSize(400, 300);
+        ueber.setBackground(dgrey);
+        ueber.setLocation(400, 50);
+        ueber.setResizable(false);  
+        
+        JLabel ueberText = new JLabel();
+        ueberText.setForeground(white);
+        ueberText.setText("<html><b><font size=\"6\" color=\"#159fd2\">ephemera</font></b> <br><br>"+                 
+                " ephemera die eintagsfliegenscheiße <br>" +
+                " blablablablalba <br>" +
+                " asdasdasdasdasd <br>" +
+                " asdasdasd <br>" +
+                " asdasd</html>");
+        
+        ueberText.setBorder(new CompoundBorder(border, margin));  
+        ueber.add(ueberText);
+        
+        	
         Action about = new AbstractAction("Ueber") {
             private static final long serialVersionUID = 1L;
 
             public void actionPerformed(ActionEvent e) {
-               
+            	ueber.setVisible(true);
             }
         };
+        
         newAction.putValue(Action.MNEMONIC_KEY, KeyEvent.VK_N);
 
         JMenu info = new JMenu("Info");
