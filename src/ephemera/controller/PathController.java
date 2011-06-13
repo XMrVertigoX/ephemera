@@ -33,7 +33,7 @@ public class PathController{
 	 */
 	public PathController(Rules rules){	
 		// erstelle Pfad
-		this.rules=rules;
+		this.rules = rules;
 		path = new Node("Pfad");
 		Vector3f[] data = new Vector3f[5];
 		data[0] = new Vector3f(0f,0f,-1000f);
@@ -63,7 +63,7 @@ public class PathController{
 	 * gibt Pfad des Leittieres zurueck
 	 * @return pfad
 	 */
-	public Node getLeittier(){
+	public Node getLeaderNode(){
 		return path;
 	}
 	
