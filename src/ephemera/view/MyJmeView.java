@@ -109,6 +109,10 @@ public class MyJmeView extends SimpleCanvasImpl {
 //        	if (schwarm.getSwarm().size()<schwarm.getRules().getFlyCount()) schwarm.addFly(schwarm.getRules());
 //    	}
     	
+//    	if (schwarm.getSwarm().size() > schwarm.getMaxFlies()) {
+//    		schwarm.deleteFly(schwarm.getSwarm().get(schwarm.getSwarm().size() - 1));
+//    	}
+    	
     	schwarm.updateAll();
     	
     	if(exist){
