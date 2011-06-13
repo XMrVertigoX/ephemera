@@ -23,17 +23,13 @@ public class MyJmeView extends SimpleCanvasImpl {
     private Hunter hunter;
     private static boolean exist;
     private long time;
-    private int flies = 300;
+    private int flies = 200;
     private float farPlane = 10000.0f;
     
     public MyJmeView(int width, int height) {
         super(width, height);
     }
     
-    /**
-     * Neuen Hunter hinzufuegen
-     * @param lifetime
-     */
     public void addNewHunter(float lifetime){ 
     	if(!exist){
     		System.out.println("dabei");
@@ -59,9 +55,7 @@ public class MyJmeView extends SimpleCanvasImpl {
 		return world;
 	}
 	
-   /**
-    * Umgebung Initialisieren
-    */
+    //3D gedšns
     public void simpleSetup() {
        
     	time = System.currentTimeMillis();
@@ -104,16 +98,14 @@ public class MyJmeView extends SimpleCanvasImpl {
         
         rootNode.attachChild(world);
         rootNode.attachChild(schwarmNode);
-        rootNode.attachChild(schwarm.getLeittierNode());
+        rootNode.attachChild(schwarm.getLeaderNode());
         rootNode.updateGeometricState(0, true);
         rootNode.updateRenderState();
         rootNode.setRenderQueueMode(Renderer.QUEUE_OPAQUE);
 		
     };
 
-    /**
-     * Update der Schwarmsimulation
-     */
+    
     public void simpleUpdate() {
     	
     	//world.update();
@@ -123,7 +115,7 @@ public class MyJmeView extends SimpleCanvasImpl {
     	float t = (System.currentTimeMillis()-time)/1000f;
     	if (t>2) {
     		time = System.currentTimeMillis();
-        	if (schwarm.getSchwarm().size()<schwarm.getRegeln().getFlyCount()) schwarm.addFly(new Vector3f(),schwarm.getRegeln());
+        	if (schwarm.getSwarm().size()<schwarm.getRules().getFlyCount()) schwarm.addFly(new Vector3f(),schwarm.getRules());
     	}
     	schwarm.updateAll();
     	
@@ -132,9 +124,6 @@ public class MyJmeView extends SimpleCanvasImpl {
     	}
     }
     
-    /**
-     * Camera Initialisieren
-     */
 	private void setupEnvironment() {
     	
     	DisplaySystem display = GUI.getDisplay();
