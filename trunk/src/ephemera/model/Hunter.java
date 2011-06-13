@@ -115,7 +115,7 @@ public class Hunter extends Node{
 		int count= 0;
 		average = new Vector3f(0,0,0);
 		
-		for (Ephemera other:swarm.getSchwarm()){
+		for (Ephemera other:swarm.getSwarm()){
 			
 			average = average.add(other.getLocalTranslation());
 			count++;
@@ -160,7 +160,7 @@ public class Hunter extends Node{
 		 * uebergeben. Wenn nicht, ist der Jaeger hungrig und macht Jagd auf ein einzelnes Boid, dessen Position
 		 * nun sein Zielvektor ist.
 		 */
-		if(getAge()>lifetime || (swarm.getSchwarm().size() == 0)){
+		if(getAge()>lifetime || (swarm.getSwarm().size() == 0)){
 			
 			deleteHunter();
 		}
@@ -171,10 +171,10 @@ public class Hunter extends Node{
 			}
 			else{
 				if(index>0){
-					index = (swarm.getSchwarm().size())-1;
+					index = (swarm.getSwarm().size())-1;
 				}
 				if(countFly <= index){
-					Vector3f flyPos = swarm.getSchwarm().get(countFly).getLocalTranslation();
+					Vector3f flyPos = swarm.getSwarm().get(countFly).getLocalTranslation();
 					target = flyPos.subtract(actualPos);
 					eatBoid(flyPos, countFly);
 				}
@@ -223,8 +223,8 @@ public class Hunter extends Node{
 	public void eatBoid(Vector3f flyPos, int numberBoid){
 		
 		if(actualPos.distance(flyPos)<5f){
-			Ephemera e = swarm.getSchwarm().get(numberBoid);
-			swarm.getSchwarm().remove(e);
+			Ephemera e = swarm.getSwarm().get(numberBoid);
+			swarm.getSwarm().remove(e);
 			swarm.getSwarmNode().detachChildNamed(e.getName());
 			countFly++;
 		}
