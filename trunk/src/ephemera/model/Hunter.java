@@ -10,7 +10,7 @@ import com.jme.scene.Node;
 import com.jme.scene.shape.Dome;
 import com.jme.scene.shape.Sphere;
 import ephemera.view.MyJmeView;
-import ephemera.controller.SchwarmController;
+import ephemera.controller.SwarmController;
 
 /**
  * Der Jaeger
@@ -23,7 +23,7 @@ public class Hunter extends Node{
 	private long age;
 	private Vector3f actualPos;
 	private World world;
-	private SchwarmController swarm;
+	private SwarmController swarm;
 	private Vector3f average;
 	private Vector3f target;
 	private float fac = 10f;
@@ -51,7 +51,7 @@ public class Hunter extends Node{
 	 * @param world 
 	 * @param swarm
 	 */
-	public Hunter(Vector3f pos, World world, SchwarmController swarm){	
+	public Hunter(Vector3f pos, World world, SwarmController swarm){	
 		
 		super("Hunter");
 		age = System.currentTimeMillis();
@@ -236,7 +236,7 @@ public class Hunter extends Node{
 	 */
 	public void deleteHunter(){
 		MyJmeView.setExist(false);
-		detachChild(hunterNode);
+		world.detachChild(this);
 	}
 	
 	/**

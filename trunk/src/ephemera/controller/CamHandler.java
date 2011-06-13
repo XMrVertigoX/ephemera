@@ -1,4 +1,4 @@
-package ephemera.view;
+package ephemera.controller;
 
 import java.awt.Point;
 import java.awt.event.InputEvent;
@@ -15,6 +15,8 @@ import com.jme.renderer.Camera;
 import com.jme.util.GameTaskQueue;
 import com.jme.util.GameTaskQueueManager;
 
+import ephemera.view.MyJmeView;
+
 /**
  * CamHandler - Maus & Camera Steuerung
  * Modifiziert von Stefan Greuel & Kilian Heinrich
@@ -22,7 +24,7 @@ import com.jme.util.GameTaskQueueManager;
  *
  */
 
-class CamHandler extends MouseAdapter implements MouseMotionListener,MouseWheelListener {
+public class CamHandler extends MouseAdapter implements MouseMotionListener,MouseWheelListener {
 	
 	MyJmeView impl;
 	

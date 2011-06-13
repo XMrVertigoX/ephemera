@@ -11,14 +11,14 @@ import com.jme.scene.state.ZBufferState;
 import com.jme.system.DisplaySystem;
 import com.jme.system.canvas.SimpleCanvasImpl;
 
-import ephemera.controller.SchwarmController;
+import ephemera.controller.SwarmController;
 import ephemera.model.Hunter;
 import ephemera.model.World;
 
 public class MyJmeView extends SimpleCanvasImpl {
 
 	private World world;
-	private SchwarmController schwarm;
+	private SwarmController schwarm;
     private Geometry grid;
     private Hunter hunter;
     private static boolean exist;
@@ -43,7 +43,7 @@ public class MyJmeView extends SimpleCanvasImpl {
     	return hunter;
     }
     
-    public SchwarmController getSchwarm(){
+    public SwarmController getSchwarm(){
     	return schwarm;
     }
     
@@ -64,7 +64,7 @@ public class MyJmeView extends SimpleCanvasImpl {
     	setupEnvironment();
 
 		// Schwarm initialisieren
-		schwarm = new SchwarmController();
+		schwarm = new SwarmController();
 		schwarm.setWorld(world);
 		schwarm.addFlies(flies);
 

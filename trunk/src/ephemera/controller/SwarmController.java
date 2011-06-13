@@ -19,19 +19,21 @@ import com.jme.scene.Node;
 import com.jme.scene.Spatial;
 import com.jme.scene.Spatial.CullHint;
 
-public class SchwarmController {
+public class SwarmController {
 	
 	private Node schwarm;
 	private ArrayList<Ephemera> flies;
 	private PathController pathController;
 	World world;
+	
 	/**
 	 * Konstruktor erstellt ArrayListe, Pathcontroller
 	 */
-	public SchwarmController(){
+	public SwarmController(){
 		flies = new ArrayList<Ephemera>();
 		pathController = new PathController(new Rules());
 	}
+	
 	public void setWorld(World w){
 		world = w;
 	}
@@ -52,7 +54,6 @@ public class SchwarmController {
 			e.run(flies,temp,world);
 			//e.kollider(schwarm);
 		}
-		
 	}
 	
 	
