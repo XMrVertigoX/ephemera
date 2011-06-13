@@ -2,7 +2,7 @@ package ephemera;
 
 import com.jme.app.SimpleGame;
 
-import ephemera.controller.SchwarmController;
+import ephemera.controller.SwarmController;
 import ephemera.model.World;
 
 /**
@@ -13,7 +13,7 @@ import ephemera.model.World;
 public class Basic extends SimpleGame {
 	
 	World world;
-	SchwarmController schwarm;
+	SwarmController schwarm;
 	
 	protected void simpleInitGame() {
 		
@@ -26,7 +26,7 @@ public class Basic extends SimpleGame {
 		world = new World();
 		
 		// Schwarm initialisieren
-		schwarm = new SchwarmController();
+		schwarm = new SwarmController();
 		schwarm.addFlies(50);
 		schwarm.setWorld(world);
 		

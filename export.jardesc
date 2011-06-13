@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="MacRoman" standalone="no"?>
 <jardesc>
-    <jar path="/Users/casparfriedrich/Desktop/ephemera/ephemera.jar"/>
+    <jar path="/Users/casparfriedrich/Desktop/ephemera.jar"/>
     <options buildIfNeeded="true" compress="true" descriptionLocation="/ephemera/export.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="false" overwrite="false" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
     <storedRefactorings deprecationInfo="true" structuralOnly="false"/>
     <selectedProjects/>
@@ -11,6 +11,7 @@
         </sealing>
     </manifest>
     <selectedElements exportClassFiles="true" exportJavaFiles="true" exportOutputFolder="false">
-        <javaElement handleIdentifier="=ephemera"/>
+        <javaElement handleIdentifier="=ephemera/src"/>
+        <folder path="/ephemera/doc"/>
     </selectedElements>
 </jardesc>
