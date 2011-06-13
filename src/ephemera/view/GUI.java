@@ -15,17 +15,11 @@ import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.*;
-import com.jme.math.*;
-import com.jme.renderer.ColorRGBA;
-import com.jme.renderer.Renderer;
-import com.jme.scene.Geometry;
-import com.jme.scene.Spatial;
 import com.jme.system.DisplaySystem;
 import com.jme.system.canvas.JMECanvas;
 import com.jme.system.lwjgl.LWJGLSystemProvider;
 import com.jme.util.GameTaskQueue;
 import com.jme.util.GameTaskQueueManager;
-import com.jme.util.stat.StatCollector;
 import com.jmex.awt.lwjgl.*;
 import ephemera.controller.CamHandler;
 
@@ -35,7 +29,7 @@ public class GUI extends JFrame {
     private MyJmeView impl;
     private CamHandler camhand;
     private Canvas glCanvas;
-    private Geometry grid;
+
     
 	JSlider countSlider;
 //	final JSlider speedSlider = new JSlider ();
@@ -58,13 +52,10 @@ public class GUI extends JFrame {
 	Color white = new Color(255,255,255);
 	Color blue = new Color(21,159,210);
 	Color dgrey= new Color(68,68,68);
-    
-    private static final int GRID_LINES = 51;
-    private static final float GRID_SPACING = 100f;
+
 	public static DisplaySystem display = DisplaySystem.getDisplaySystem(LWJGLSystemProvider.LWJGL_SYSTEM_IDENTIFIER);
     private static final long serialVersionUID = 1L;
-    private Preferences prefs = Preferences.userNodeForPackage(GUI.class);
-    
+
 
     
     /**
@@ -128,8 +119,7 @@ public class GUI extends JFrame {
         mainSplit.setOneTouchExpandable(true);     
         getContentPane().add(mainSplit, BorderLayout.CENTER);
         
-        grid = createGrid();
-        impl.setGrid(grid);
+
         setSize(new Dimension(width, height));
     }
 
@@ -139,17 +129,7 @@ public class GUI extends JFrame {
      * @return JMenueBar
      */
     private JMenuBar createMenuBar() {
-    	
-    	//TODO Neustart  	
-        Action newAction = new AbstractAction("Neustart") {
-            private static final long serialVersionUID = 1L;
 
-            public void actionPerformed(ActionEvent e) {
-                //createNewSystem();
-            }
-        };
-        newAction.putValue(Action.MNEMONIC_KEY, KeyEvent.VK_N);
-    	
         //TODO Standardeinstellungen  	
         Action defaultValues = new AbstractAction("Standardeinstellungen wiederherstellen") {
             private static final long serialVersionUID = 1L;
@@ -158,7 +138,7 @@ public class GUI extends JFrame {
                
             }
         };
-        newAction.putValue(Action.MNEMONIC_KEY, KeyEvent.VK_N);        
+        defaultValues.putValue(Action.MNEMONIC_KEY, KeyEvent.VK_N);        
        
         Action quit = new AbstractAction("Beenden") {
             private static final long serialVersionUID = 1L;
@@ -171,29 +151,10 @@ public class GUI extends JFrame {
 
     	JMenu file = new JMenu("Datei");
         file.setMnemonic(KeyEvent.VK_F);
-        file.add(newAction);
         file.add(defaultValues);
         file.addSeparator();
         file.add(quit);
-    	
-        Action showGrid = new AbstractAction("Zeige Grid") {
-            private static final long serialVersionUID = 1L;
 
-            public void actionPerformed(ActionEvent e) {
-                grid.setCullHint(grid.getCullHint() == Spatial.CullHint.Always ? Spatial.CullHint.Dynamic
-                                : Spatial.CullHint.Always);
-                prefs.putBoolean("showgrid", grid.getCullHint() != Spatial.CullHint.Always);
-            }
-        };
-        showGrid.putValue(Action.MNEMONIC_KEY, KeyEvent.VK_G);
-    
-        JMenu view = new JMenu("Ansicht");
-        view.setMnemonic(KeyEvent.VK_V);
-        JCheckBoxMenuItem sgitem = new JCheckBoxMenuItem(showGrid);
-        sgitem.setSelected(prefs.getBoolean("showgrid", true));
-        view.add(sgitem);
-      
-  
         
         /**
          * Hilfe 
@@ -232,7 +193,7 @@ public class GUI extends JFrame {
             	helpFrame.setVisible(true);            
             }
         };
-        newAction.putValue(Action.MNEMONIC_KEY, KeyEvent.VK_N);
+        help.putValue(Action.MNEMONIC_KEY, KeyEvent.VK_N);
         
         
         /**
@@ -275,7 +236,6 @@ public class GUI extends JFrame {
 
         JMenuBar mbar = new JMenuBar();
         mbar.add(file);
-        mbar.add(view);
         mbar.add(info);
         
         return mbar;
@@ -302,7 +262,7 @@ public class GUI extends JFrame {
         sepLabel.setForeground(white);
     
 	   
-    	 countSlider = new JSlider ();
+    	countSlider = new JSlider ();
         
         countSlider.addChangeListener(new ChangeListener() {	
 			public void stateChanged(ChangeEvent ce) {
@@ -617,7 +577,7 @@ public class GUI extends JFrame {
         hunterButton.setMargin(new Insets(2, 2, 2, 2));
         hunterButton.setEnabled(true);
         
-        JButton shitButton = new JButton(new AbstractAction("Leittier anzeigen") {
+        JButton showHunterButton = new JButton(new AbstractAction("Leittier anzeigen") {
             private static final long serialVersionUID = 1L;
 
             public void actionPerformed(ActionEvent e) {
@@ -625,9 +585,9 @@ public class GUI extends JFrame {
             }
         });
         
-        shitButton.setFont(new Font("Arial", Font.BOLD, 12));
-        shitButton.setMargin(new Insets(2, 2, 2, 2));
-        shitButton.setEnabled(true);
+        showHunterButton.setFont(new Font("Arial", Font.BOLD, 12));
+        showHunterButton.setMargin(new Insets(2, 2, 2, 2));
+        showHunterButton.setEnabled(true);
         
         // Arrangement des erweiterten Panels 
         JPanel addPanel = new JPanel(new GridBagLayout());
@@ -642,7 +602,7 @@ public class GUI extends JFrame {
         addPanel.add(hunterSlider, new GridBagConstraints(0, 3, 5, 1,
                 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
                 new Insets(5, 10, 10, 10), 0, 0));
-        addPanel.add(shitButton, new GridBagConstraints(0, 4, 5, 1,
+        addPanel.add(showHunterButton, new GridBagConstraints(0, 4, 5, 1,
                 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
                 new Insets(5, 10, 10, 10), 0, 0));
         addPanel.add(followLabel, new GridBagConstraints(0, 5, 1, 1,
@@ -746,37 +706,5 @@ public class GUI extends JFrame {
                 GameTaskQueueManager.getManager().getQueue(GameTaskQueue.RENDER).enqueue(exe);
             }
         }
-    }
-    
-    /**
-     * Erstellt Grid
-     * @return Geometry
-     */
-    private Geometry createGrid() {
-        Vector3f[] vertices = new Vector3f[GRID_LINES * 2 * 2];
-        float edge = GRID_LINES / 2 * GRID_SPACING;
-        
-        for (int ii = 0, idx = 0; ii < GRID_LINES; ii++) {
-            float coord = (ii - GRID_LINES / 2) * GRID_SPACING;
-            vertices[idx++] = new Vector3f(-edge, 0f, coord);
-            vertices[idx++] = new Vector3f(+edge, 0f, coord);
-            vertices[idx++] = new Vector3f(coord, 0f, -edge);
-            vertices[idx++] = new Vector3f(coord, 0f, +edge);
-        }
-        
-        Geometry grid = new com.jme.scene.Line("grid", vertices, null, null, null) {
-            private static final long serialVersionUID = 1L;
-            @Override
-            public void draw(Renderer r) {
-                StatCollector.pause();
-                super.draw(r);
-                StatCollector.resume();
-            }
-        };
-        
-        grid.getDefaultColor().set(ColorRGBA.darkGray.clone());
-        grid.setCullHint(prefs.getBoolean("showgrid", true) ? Spatial.CullHint.Dynamic: Spatial.CullHint.Always);
-        
-        return grid;
     }
 }

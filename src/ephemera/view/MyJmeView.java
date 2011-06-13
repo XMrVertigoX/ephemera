@@ -19,7 +19,7 @@ public class MyJmeView extends SimpleCanvasImpl {
 
 	private World world;
 	private SwarmController schwarm;
-    private Geometry grid;
+
     private Hunter hunter;
     private static boolean exist;
     private long time;
@@ -47,9 +47,6 @@ public class MyJmeView extends SimpleCanvasImpl {
     	return schwarm;
     }
     
-	public void setGrid(Geometry grid){
-		this.grid = grid;
-	}
 	
 	public World getWorld(){
 		return world;
@@ -86,8 +83,7 @@ public class MyJmeView extends SimpleCanvasImpl {
         
     	// Finally, a stand alone node (not attached to root on purpose)
     	
-    	grid.updateRenderState();  
-        rootNode.attachChild(grid);
+
         
        
         
