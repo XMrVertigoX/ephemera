@@ -136,6 +136,7 @@ public class Ephemera extends Node{
         // Node element ist host
         this.addController(spatialTransformer);
         setModelBound(new BoundingSphere());
+        updateRenderState();
         updateModelBound();
 	}
 

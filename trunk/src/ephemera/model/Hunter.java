@@ -98,8 +98,11 @@ public class Hunter extends Node{
 	    hunterNode.attachChild(eyeR);
 	    hunterNode.attachChild(upperHead);
 	    hunterNode.attachChild(lowerHead);
+	    
+	    hunterNode.setLocalScale(0.6f);
 		
 		attachChild(hunterNode);
+		hunterNode.updateRenderState();
 		hunterNode.setModelBound(new BoundingSphere());
 		hunterNode.setLocalTranslation(actualPos);
 	}

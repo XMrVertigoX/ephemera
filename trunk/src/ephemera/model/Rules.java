@@ -66,6 +66,19 @@ public class Rules{
 //		this.desiredSeparation = desiredSeparation;
 //		this.neighborDistance = neighborDistance;
 //	}
+	
+	public void reset() {
+		randomWalk_weight = 1.0f;
+		lifeTime = 30;
+		speed = 4.0f;
+		leittierSpeed = 0.02f;
+		coh_weight = 0.5f;
+		ali_weight = 0.5f;
+		sep_weight = 0.5f;
+		follow_weight = 0.5f;
+		desiredSeparation = 50.0f;
+		neighborDistance = 50.0f;
+	}
 
 	public float getMaxspeed() {
 		return maxspeed;
