@@ -9,7 +9,6 @@ package ephemera.view;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.concurrent.*;
-import java.util.prefs.*;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
@@ -638,6 +637,58 @@ public class GUI extends JFrame {
     	int val = countSlider.getValue();
         countLabel.setText("Maximale Fliegenanzahl: " + val);
     }
+    
+ /*   private void defaultValues(){
+    	
+    	impl.getSchwarm().getRules(setRules(new Rules()));
+
+    	// Standardwerte fuer countSlider wiederherstellen
+		impl.getSchwarm().getRegeln().setFlyCount(defaultRules.getFlyCount());
+		countSlider.setValue(defaultRules.getFlyCount());
+		System.out.println("Maximal Fliegenanzahl auf Standardwert zurueckgesetzt:" +defaultRules.getFlyCount());
+		
+    	// Standardwerte fuer countSlider wiederherstellen
+		impl.getSchwarm().getRegeln().setFluggeschwindigkeit(defaultRules.getFluggeschwindigkeit());
+		speedSlider.setValue((int)(defaultRules.getFluggeschwindigkeit()*10));
+		System.out.println("Simulationsgeschwindigkeit auf Standardwert zurueckgesetzt:" +defaultRules.getFluggeschwindigkeit());
+    	
+    	// Standardwerte fuer cohSlider wiederherstellen
+		impl.getSchwarm().getRegeln().setCoh_weight(defaultRules.getCoh_weight());
+		cohSlider.setValue((int)(defaultRules.getCoh_weight()*100));
+		System.out.println("Kohaesion auf Standardwert zurueckgesetzt:" +defaultRules.getCoh_weight());
+		
+		//Standardwerte fuer aliSlider wiederherstellen
+		impl.getSchwarm().getRegeln().setAli_weight(defaultRules.getAli_weight());
+		aliSlider.setValue((int)(defaultRules.getAli_weight()*100));
+		System.out.println("Ausrichtung auf Standardwert zurueckgesetzt:" +defaultRules.getAli_weight());
+		
+		//Standardwerte fuer hunterSlider wiederherstellen	
+		impl.getHunter().setLifetime(20f);
+        hunterSlider.setValue(20);
+		System.out.println("Jaegerlebensdauer auf Standardwert zurueckgesetzt: "+hunterSlider.getValue());
+			
+		//Standardwerte fuer sepSlider wiederherstellen
+		impl.getSchwarm().getRegeln().setSep_weight(defaultRules.getSep_weight());
+    	sepSlider.setValue((int)(defaultRules.getSep_weight()*100));
+		System.out.println("Separation auf Standardwert zurueckgesetzt:" +defaultRules.getSep_weight());
+		
+		//Standardwerte fuer followSlider wiederherstellen
+		impl.getSchwarm().getRegeln().setFollow_weight(defaultRules.getFollow_weight());
+		followSlider.setValue((int)(defaultRules.getFollow_weight()*100));
+		System.out.println("Folge Leittier auf Standardwert zurueckgesetzt:" +defaultRules.getFollow_weight());
+		
+		//Standardwerte fuer desiredSlider wiederherstellen
+		impl.getSchwarm().getRegeln().setDesiredSeparation(defaultRules.getDesiredSeparation());
+		desiredSlider.setValue((int)(defaultRules.getDesiredSeparation()));
+		System.out.println("Gewuenschter Abstand auf Standardwert zurueckgesetzt:" +defaultRules.getDesiredSeparation());
+		
+		//Standardwerte fuer neighborSlider wiederherstellen
+		impl.getSchwarm().getRegeln().setNeighborDistance(defaultRules.getNeighborDistance());
+   		neighborSlider.setValue((int)(defaultRules.getNeighborDistance()));
+		System.out.println("Sichtweite auf Standardwert zurueckgesetzt:" +defaultRules.getNeighborDistance());
+		
+		
+    }*/
 
     /**
      * Erstellt 3D-Fenster und gibt es zurueck
