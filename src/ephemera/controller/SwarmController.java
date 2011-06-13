@@ -1,9 +1,4 @@
-/**
- * SchwarmController in 2011 by Semjon Mooraj
- */
-
 package ephemera.controller;
-
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,13 +7,17 @@ import ephemera.model.Ephemera;
 import ephemera.model.Rules;
 import ephemera.model.World;
 
-
 import com.jme.bounding.BoundingSphere;
 import com.jme.math.Vector3f;
 import com.jme.scene.Node;
 import com.jme.scene.Spatial;
 import com.jme.scene.Spatial.CullHint;
 
+/**
+ * 
+ * @author Semjon Mooraj
+ *
+ */
 public class SwarmController {
 	
 	private Node swarm;
@@ -26,11 +25,13 @@ public class SwarmController {
 	private PathController pathController;
 	private World world;
 	private Rules rules;
+	private int maxFlies;
 	
 	/**
 	 * Konstruktor erstellt ArrayListe, Pathcontroller
 	 */
 	public SwarmController(){
+		maxFlies = 200;
 		rules = new Rules();
 		flies = new ArrayList<Ephemera>();
 		pathController = new PathController(rules);
@@ -38,6 +39,14 @@ public class SwarmController {
 	
 	public void setWorld(World w){
 		world = w;
+	}
+	
+	public int getMaxFlies() {
+		return maxFlies;
+	}
+	
+	public void setMaxFlies(int value) {
+		maxFlies = value;
 	}
 	
 	/**
