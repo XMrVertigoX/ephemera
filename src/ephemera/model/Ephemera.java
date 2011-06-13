@@ -47,18 +47,19 @@ public class Ephemera extends Node{
 	 * Counter lŠuft mit und zaehlt erstellte Fliegen
 	 * @param pos
 	 */
-	public Ephemera(Vector3f pos){
-		super("Fly_"+count);		// Instanziiere Node der die Fliege reprŠsentiert
-		acc = new Vector3f(0,0,0);	// Mit 0 initialisieren
-		vel = new Vector3f(0,0,0);
-		age = System.currentTimeMillis();
-		rules = new Rules();
-		// Lade Form
-		initDefaultFly();
-		setLocalTranslation(pos);
-		// Counter HochzŠhlen
-		count++;
-	}
+//	public Ephemera(Vector3f pos){
+//		super("Fly_"+count);		// Instanziiere Node der die Fliege reprŠsentiert
+//		acc = new Vector3f(0,0,0);	// Mit 0 initialisieren
+//		vel = new Vector3f(0,0,0);
+//		age = System.currentTimeMillis();
+//		rules = new Rules();
+//		// Lade Form
+//		initDefaultFly();
+//		setLocalTranslation(pos);
+//		// Counter HochzŠhlen
+//		count++;
+//	}
+	
 	/**
 	 * Konstruktor, welchem Startposition und Regeln der Fliege uebergeben wird
 	 * Geschwindigkeits- und Beschleunigungsvektor wird mit 0 initialisiert
@@ -67,7 +68,7 @@ public class Ephemera extends Node{
 	 * @param pos
 	 * @param rules
 	 */
-	public Ephemera(Vector3f pos,Rules rules){
+	public Ephemera(Rules rules){
 		super("Fly_"+count);		// Instanziiere Node der die Fliege reprŠsentiert
 		acc = new Vector3f(0,0,0);	// Mit 0 initialisieren
 		vel = new Vector3f(0,0,0);
@@ -75,7 +76,7 @@ public class Ephemera extends Node{
 		this.rules = rules;
 		// Lade Form
 		initDefaultFly();
-		setLocalTranslation(pos);
+		setLocalTranslation(new Vector3f((float) (Math.random()*100), (float) (Math.random()*100), (float) (Math.random()*100)));
 		// Counter HochzŠhlen
 		count++;
 	}
@@ -94,6 +95,7 @@ public class Ephemera extends Node{
 		Sphere head = new Sphere("Kopf",10,10,1);
 		//body.setIsCollidable(false);
 		body.setLocalScale(new Vector3f(.51f,.51f,2));
+		body.setSolidColor(ColorRGBA.black);
 		
 		//Kopf verschieben
 		head.setLocalTranslation(0, 0, 4);
@@ -274,16 +276,16 @@ public class Ephemera extends Node{
 	    vel.addLocal(acc);
 	    // Passe vektor an regeln an
 	    
-	    if (vel.length()>rules.getFluggeschwindigkeit()){
+	    if (vel.length()>rules.getSpeed()){
 			  vel = vel.normalize();
 			  vel.mult(rules.getMaxspeed());
 		}
 	    
 	    // "Gucke in Flugrichtung
 	    this.lookAt(getLocalTranslation().subtract(vel.mult(-1)),new Vector3f(0,1,0));
-	    spatialTransformer.setSpeed(vel.length()*100*rules.getFluggeschwindigkeit());
+	    spatialTransformer.setSpeed(vel.length()*100*rules.getSpeed());
 	    
-	    vel.multLocal(rules.getFluggeschwindigkeit());
+	    vel.multLocal(rules.getSpeed());
 	    getLocalTranslation().addLocal(vel);
 	    
 	    acc.mult(0);

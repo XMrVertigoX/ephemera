@@ -83,21 +83,21 @@ public class SwarmController {
 	 */
 	public void addFlies(int N){
 		for (int i=0;i<N;i++){
-			Ephemera fly= new Ephemera(new Vector3f((float) (Math.random()*100), (float) (Math.random()*100), (float) (Math.random()*100)), rules);
+			Ephemera fly= new Ephemera(rules);
 			flies.add(fly);
 		}
 		
 		initSwarmNode();	
 	}
 	
-	public void addFly(Vector3f pos){
-		Ephemera fly= new Ephemera(pos);
-		flies.add(fly);
-		swarm.attachChild(fly);
-	}
+//	public void addFly(Vector3f pos){
+//		Ephemera fly= new Ephemera(pos);
+//		flies.add(fly);
+//		swarm.attachChild(fly);
+//	}
 	
-	public void addFly(Vector3f pos, Rules rules){
-		Ephemera fly= new Ephemera(pos,rules);
+	public void addFly(Rules rules){
+		Ephemera fly= new Ephemera(rules);
 		flies.add(fly);
 		swarm.attachChild(fly);
 	}

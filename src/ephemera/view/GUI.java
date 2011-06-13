@@ -37,21 +37,20 @@ public class GUI extends JFrame {
     private Canvas glCanvas;
     private Geometry grid;
     
-    /*
-	final JSlider countSlider = new JSlider ();
-	final JSlider speedSlider = new JSlider ();
-    JButton addFlyButton;
-    final JSlider cohSlider = new JSlider();
-    final JSlider aliSlider = new JSlider();
-	final JSlider sepSlider = new JSlider();
-	
-    JButton hunterButton;
-    final JSlider hunterSlider = new JSlider();
+	JSlider countSlider;
+//	final JSlider speedSlider = new JSlider ();
+//    JButton addFlyButton;
+//    final JSlider cohSlider = new JSlider();
+//    final JSlider aliSlider = new JSlider();
+//	final JSlider sepSlider = new JSlider();
+//	
+//    JButton hunterButton;
+//    final JSlider hunterSlider = new JSlider();
+//    
+//    final JSlider followSlider = new JSlider();
+//    final JSlider desiredSlider = new JSlider();
+//    final JSlider neighborSlider = new JSlider();
     
-    final JSlider followSlider = new JSlider();
-    final JSlider desiredSlider = new JSlider();
-    final JSlider neighborSlider = new JSlider();
-	*/
 	//Groesse des Startfensters
 	int width = 1280, height = 720;
 	
@@ -303,7 +302,7 @@ public class GUI extends JFrame {
         sepLabel.setForeground(white);
     
 	   
-    	final JSlider countSlider = new JSlider ();
+    	 countSlider = new JSlider ();
         
         countSlider.addChangeListener(new ChangeListener() {	
 			public void stateChanged(ChangeEvent ce) {
@@ -314,12 +313,11 @@ public class GUI extends JFrame {
 					}
 		});
         
-   	 	countSlider.setMajorTickSpacing(250);
+   	 	countSlider.setMajorTickSpacing(100);
         countSlider.setMinimum(0);
-        countSlider.setMaximum(1000);
+        countSlider.setMaximum(500);
         
-        //TODO: FLiegenanzahl soll sich gezogen werden
-        countSlider.setValue(100);		// Beim Start eingestellter Wert
+        countSlider.setValue(200);
         countSlider.setOrientation(SwingConstants.HORIZONTAL);
         countSlider.setPaintTicks(true);
         countSlider.setPaintLabels(true);	
@@ -328,20 +326,10 @@ public class GUI extends JFrame {
         countSlider.setForeground(white);
         
     	final JSlider speedSlider = new JSlider ();
-		System.out.println("Simulationsgeschwindigkeit:"+speedSlider.getValue());
-        
-        speedSlider.addChangeListener(new ChangeListener() {
-			
-			public void stateChanged(ChangeEvent ce) {
-
-				float value = speedSlider.getValue();
-				System.out.println("Simulationsgeschwindigkeit: " + value);
-				
-			}
-		});
         
         speedSlider.setMinimum(0);	
         speedSlider.setMaximum(10);	
+        speedSlider.setValue(4);
    	 	speedSlider.setMajorTickSpacing(2);
         speedSlider.setOrientation(SwingConstants.HORIZONTAL);
         speedSlider.setPaintTicks(true);
@@ -350,26 +338,43 @@ public class GUI extends JFrame {
         speedSlider.setEnabled(true);
         speedSlider.setForeground(white);
         
+        speedSlider.addChangeListener(new ChangeListener() {
+			
+			public void stateChanged(ChangeEvent ce) {
+				float value = speedSlider.getValue();
+				
+				impl.getSwarm().getRules().setSpeed(value);
+				System.out.println("Geschwindigkeit der Fliegen: " + value);
+				
+			}
+		});
+        
         JButton addFlyButton = new JButton(new AbstractAction("Fliege hinzufuegen"){
         	private static final long serialVersionUID = 1L;
 
         	public void actionPerformed(ActionEvent e) {
-        		System.out.println ("Fliege hinzugefuegt");
+        		if (impl.getSwarm().getSwarm().size() < countSlider.getValue()) {
+        			impl.getSwarm().addFly(impl.getSwarm().getRules());
+            		System.out.println ("Fliege hinzugefuegt");
+        		}
+        		
+        		else {
+        			System.out.println("Maximale Fliegenanzahl erreicht");
+        		}
+        		
         	}
         });
         
         addFlyButton.setFont(new Font("Arial", Font.BOLD, 12));
         addFlyButton.setMargin(new Insets(2, 2, 2, 2));
         
-        
         final JSlider cohSlider = new JSlider();
-		cohSlider.addChangeListener(new ChangeListener(){
+		
+        cohSlider.addChangeListener(new ChangeListener(){
 	    	public void stateChanged(ChangeEvent ce) {
-	    		
-	    		
 	    		float value = cohSlider.getValue()/100f;
-	    		if (impl.getSchwarm()!=null)
-		    		impl.getSchwarm().getRules().setCoh_weight(value);
+	    		if (impl.getSwarm()!=null)
+		    		impl.getSwarm().getRules().setCoh_weight(value);
 	    		System.out.println("Kohaesionswert:"+value);
 	    	}
 	    });
@@ -393,8 +398,8 @@ public class GUI extends JFrame {
 	    	public void stateChanged(ChangeEvent ce) {
 	    		
 	    		float value = aliSlider.getValue()/100f;
-	    		if (impl.getSchwarm()!=null)
-		    		impl.getSchwarm().getRules().setAli_weight(value);
+	    		if (impl.getSwarm()!=null)
+		    		impl.getSwarm().getRules().setAli_weight(value);
 	    		System.out.println("Ausrichtungswert:"+value);
 	    	}
 	    });
@@ -419,8 +424,8 @@ public class GUI extends JFrame {
 	    		
 	    		float value = sepSlider.getValue()/100f;
 	   
-	    		if (impl.getSchwarm()!=null)
-	    		impl.getSchwarm().getRules().setSep_weight(value);
+	    		if (impl.getSwarm()!=null)
+	    		impl.getSwarm().getRules().setSep_weight(value);
 	    		System.out.println("Trennungswert: "+value);
 	    	}
 	    });
@@ -508,8 +513,8 @@ public class GUI extends JFrame {
     					
     			float value = (float)hunterSlider.getValue();
     			
-    			if (impl.getSchwarm()!=null)
-		    		impl.getSchwarm().getRules().setLifeTime(value);
+    			if (impl.getSwarm()!=null)
+		    		impl.getSwarm().getRules().setLifeTime(value);
        			
     			System.out.println("Jaegerlebensdauer: "+value);
     			
@@ -533,8 +538,8 @@ public class GUI extends JFrame {
         	public void stateChanged(ChangeEvent ce) {
 	    		
         		float value = followSlider.getValue()/100f;   
-        		if (impl.getSchwarm()!=null)
-		    		impl.getSchwarm().getRules().setFollow_weight(value);
+        		if (impl.getSwarm()!=null)
+		    		impl.getSwarm().getRules().setFollow_weight(value);
        			
         		System.out.println("Folge Leittier-Wert: "+value);
 	    	}
@@ -556,8 +561,8 @@ public class GUI extends JFrame {
         	public void stateChanged(ChangeEvent ce) {
 	    		
         		float value = desiredSlider.getValue();
-        		if (impl.getSchwarm()!=null)
-		    		impl.getSchwarm().getRules().setNeighborDistance(value);
+        		if (impl.getSwarm()!=null)
+		    		impl.getSwarm().getRules().setNeighborDistance(value);
         		System.out.println("Gewuenschter Abstand: "+value);
 	    	}
 	    });
@@ -577,8 +582,8 @@ public class GUI extends JFrame {
        		public void stateChanged(ChangeEvent ce) {
 	    		
        			float value = neighborSlider.getValue();
-       			if (impl.getSchwarm()!=null)
-		    		impl.getSchwarm().getRules().setDesiredSeparation(value);
+       			if (impl.getSwarm()!=null)
+		    		impl.getSwarm().getRules().setDesiredSeparation(value);
        			
        			System.out.println("Abstand zum Nachbarn: "+value);
 	    	}
@@ -616,7 +621,7 @@ public class GUI extends JFrame {
             private static final long serialVersionUID = 1L;
 
             public void actionPerformed(ActionEvent e) {
-            	impl.getSchwarm().getPathController().getLeader().toggleVisible();
+            	impl.getSwarm().getPathController().getLeader().toggleVisible();
             }
         });
         

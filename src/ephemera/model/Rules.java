@@ -36,7 +36,7 @@ public class Rules{
 	public Rules(){
 		randomWalk_weight = 1.0f;
 		lifeTime = 30;
-		speed = 5.0f;
+		speed = 4.0f;
 		leittierSpeed = 0.02f;
 		coh_weight = 0.5f;
 		ali_weight = 0.5f;
@@ -137,12 +137,12 @@ public class Rules{
 	public void setLeittierSpeed(float leittierSpeed) {
 		this.leittierSpeed = leittierSpeed;
 	}
-	public float getFluggeschwindigkeit() {
+	public float getSpeed() {
 		return speed;
 	}
 
-	public void setFluggeschwindigkeit(float fluggeschwindigkeit) {
-		this.speed = fluggeschwindigkeit;
+	public void setSpeed(float speed) {
+		this.speed = speed;
 	}
 	public float getLifeTime() {
 		return lifeTime;
