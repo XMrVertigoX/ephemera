@@ -5,15 +5,20 @@ import com.jme.image.Texture;
 import com.jme.math.FastMath;
 import com.jme.math.Quaternion;
 import com.jme.math.Vector3f;
+import com.jme.renderer.ColorRGBA;
+import com.jme.renderer.Renderer;
 import com.jme.scene.Node;
 import com.jme.scene.Spatial;
 import com.jme.scene.TriMesh;
 import com.jme.scene.shape.*;
+import com.jme.scene.state.BlendState;
+import com.jme.scene.state.MaterialState;
 import com.jme.scene.state.TextureState;
 import com.jme.system.DisplaySystem;
 import com.jme.system.lwjgl.LWJGLSystemProvider;
 import com.jme.util.TextureManager;
 import com.jme.bounding.*;
+import com.jmex.terrain.TerrainPage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +39,7 @@ public class Obstacles{
 	 * @param node Knoten, an den das Objekt angehaengt wird.
 	 * @param obs  ArrayListe, zu der das Objekt hinzugefügt wird.
 	 */
-	public static void createShrub1(float posX, float posY, float posZ, Node node){
+	public static void createShrub1(float posX, float posY, float posZ, Node node,TerrainPage terrain){
 		
 		Node objectNode = new Node();
 		Node leavesNode = new Node();
@@ -92,7 +97,8 @@ public class Obstacles{
 		objectNode.updateModelBound();
 		
 		//Position
-		objectNode.setLocalTranslation(posX, posY+1f, posZ);
+		posY = terrain.getHeight(new Vector3f(posX,posY,posZ));
+		objectNode.setLocalTranslation(posX, posY+81f, posZ);
 		
 		//an uebergebene Weltinstanzen haengen
 		
@@ -108,7 +114,7 @@ public class Obstacles{
 	 * @param node	Knoten, an das Objekt angehängt wird.
 	 * @param obs	ArrayListe, zu der das Objekt hinzugefügt wird.
 	 */
-	public static void createShrub2(float posX, float posY, float posZ, Node node){
+	public static void createShrub2(float posX, float posY, float posZ, Node node,TerrainPage terrain){
 		
 		Node rotNode = new Node();
 		Node objectNode = new Node();
@@ -206,7 +212,8 @@ public class Obstacles{
 		objectNode.updateModelBound();
 		
 		//Position
-		objectNode.setLocalTranslation(posX, posY+0.825f, posZ); 
+		posY = terrain.getHeight(new Vector3f(posX,posY,posZ));
+		objectNode.setLocalTranslation(posX, posY+82f, posZ); 
 		
 		//an uebergebene Weltinstanzen haengen
 		
@@ -222,7 +229,7 @@ public class Obstacles{
 	 * @param node	Knoten, an das Objekt angehängt wird.
 	 * @param obs	ArrayListe, zu der das Objekt hinzugefügt wird.
 	 */
-	public static void createTree(float posX, float posY, float posZ, Node node){
+	public static void createTree(float posX, float posY, float posZ, Node node,TerrainPage terrain){
 		
 		Node objectNode = new Node();
 		Node trunkNode = new Node();
@@ -279,7 +286,8 @@ public class Obstacles{
 		objectNode.updateModelBound();
 		
 		//Position
-		objectNode.setLocalTranslation(posX, posY+3.5f, posZ); 
+		posY = terrain.getHeight(new Vector3f(posX,posY,posZ));
+		objectNode.setLocalTranslation(posX, posY+180, posZ); 
 		
 		// an uebergebene Weltinstanzen haengen
 		
@@ -296,7 +304,7 @@ public class Obstacles{
 	 * @param node	Knoten, an das Objekt angehängt wird.
 	 * @param obs	ArrayListe, zu der das Objekt hinzugefügt wird.
 	 */
-	public static void createFir(float posX, float posY, float posZ, Node node){
+	public static void createFir(float posX, float posY, float posZ, Node node,TerrainPage terrain){
 		
 		Node branchesNode = new Node();
 		Node objectNode = new Node();
@@ -357,7 +365,8 @@ public class Obstacles{
 		objectNode.updateModelBound();
 		
 		//Position
-		objectNode.setLocalTranslation(posX, posY+1f, posZ); //Y-Position noch festlegen
+		posY = terrain.getHeight(new Vector3f(posX,posY,posZ));
+		objectNode.setLocalTranslation(posX, posY+100f, posZ); //Y-Position noch festlegen
 		
 		//an uebergebene Weltinstanzen haengen
 		
@@ -374,15 +383,20 @@ public class Obstacles{
 	 * @param node Knoten, an das Objekt angehängt wird.
 	 * @param obs  ArrayListe, zu der das Objekt hinzugefügt wird.
 	 */
-	public static void createHouse(float posX, float posY, float posZ, Vector3f size, Node node){
+	public static void createHouse(float posX, float posY, float posZ, Vector3f size, Node node,TerrainPage terrain){
 		
 			// Erstelle Objekt
 			TriMesh box = new Box("Box",new Vector3f(0,0,0),new Vector3f(size));
 			box.setModelBound(new BoundingBox());
 			box.updateModelBound();
 	
+			
+			
+	        
+			
 			// Verschiebe Objekt
-			box.setLocalTranslation(new Vector3f(posX,posY,posZ));
+			posY = terrain.getHeight(new Vector3f(posX,posY,posZ));
+			box.setLocalTranslation(new Vector3f(posX,posY+80,posZ));
 			
 			// Textur
 			setTexture("ephemera/texture/objects/5016.jpg",box);
@@ -407,7 +421,10 @@ public class Obstacles{
 		TextureState tsPlant = display. getRenderer (). createTextureState ();
 		Texture texPlant = TextureManager.loadTexture (texLoc, Texture.MinificationFilter.BilinearNearestMipMap, Texture.MagnificationFilter.Bilinear);
 		tsPlant.setTexture(texPlant);
-		object.setRenderState(tsPlant);
+        object.setRenderState(tsPlant);
+        object.setRenderQueueMode( Renderer.QUEUE_OPAQUE );
+        object.updateRenderState();
+        object.updateModelBound();
 	}
 
 }

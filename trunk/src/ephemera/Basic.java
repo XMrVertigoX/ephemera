@@ -38,6 +38,8 @@ public class Basic extends SimpleGame {
 	
 	protected void simpleUpdate(){
 		schwarm.updateAll();
+		world.update();
+		world.render();
 	}
 	
 	public static void main(String[] args) {
