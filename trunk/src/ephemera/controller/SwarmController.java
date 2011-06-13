@@ -80,7 +80,7 @@ public class SwarmController {
 	 * Fliege entfernen
 	 * @param dead
 	 */
-	void deleteFly(Ephemera dead){
+	public void deleteFly(Ephemera dead){
 		flies.remove(dead);
 		swarm.detachChildNamed(dead.getName());
 		Ephemera.count--;
