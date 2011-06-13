@@ -1,16 +1,11 @@
-package ephemera.view;
-
-
-
-
 /**
- * swarmGUI by Kilian Heinrich & Stefan Greuel
+ * GUI
  * Diese Klasse stellt die Bedienung der Simulation dar. Dazu wird ein Swing-Interface genutzt.
  * 
  * @author Kilian Heinrich & Stefan Greuel
  */
 
-
+package ephemera.view;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.concurrent.*;
@@ -20,9 +15,6 @@ import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.*;
-
-
-
 import com.jme.math.*;
 import com.jme.renderer.ColorRGBA;
 import com.jme.renderer.Renderer;
@@ -35,7 +27,6 @@ import com.jme.util.GameTaskQueue;
 import com.jme.util.GameTaskQueueManager;
 import com.jme.util.stat.StatCollector;
 import com.jmex.awt.lwjgl.*;
-
 import ephemera.controller.CamHandler;
 
 
@@ -45,7 +36,22 @@ public class GUI extends JFrame {
     private CamHandler camhand;
     private Canvas glCanvas;
     private Geometry grid;
+    
+    /*
+	final JSlider countSlider = new JSlider ();
+	final JSlider speedSlider = new JSlider ();
+    JButton addFlyButton;
+    final JSlider cohSlider = new JSlider();
+    final JSlider aliSlider = new JSlider();
+	final JSlider sepSlider = new JSlider();
 	
+    JButton hunterButton;
+    final JSlider hunterSlider = new JSlider();
+    
+    final JSlider followSlider = new JSlider();
+    final JSlider desiredSlider = new JSlider();
+    final JSlider neighborSlider = new JSlider();
+	*/
 	//Groesse des Startfensters
 	int width = 1280, height = 720;
 	
@@ -194,14 +200,14 @@ public class GUI extends JFrame {
          * Hilfe 
          * Oeffnet ein neues Fenster mit Textinhalt
          */
-        final JFrame hilfe = new JFrame("Hilfe");
-        hilfe.setSize(400, 450);
-        hilfe.setBackground(dgrey);
-        hilfe.setLocation(300, 50);
-        hilfe.setResizable(false);     
-        JLabel hilfeText = new JLabel();
-        hilfeText.setForeground(white);
-        hilfeText.setText("<html><b><font size=\"6\" color=\"#159fd2\">Hilfe</font></b> <br><br>"+                  
+        final JFrame helpFrame = new JFrame("Hilfe");
+        helpFrame.setSize(400, 450);
+        helpFrame.setBackground(dgrey);
+        helpFrame.setLocation(300, 50);
+        helpFrame.setResizable(false);     
+        JLabel helpText = new JLabel();
+        helpText.setForeground(white);
+        helpText.setText("<html><b><font size=\"6\" color=\"#159fd2\">Hilfe</font></b> <br><br>"+                  
                 " <b>Kohäsion</b> <br>" +
                 " Ernöglicht es einem Schwarmmitglied in der nähe seiner Nachbarn zu bleiben.<br><br>" +
                 " <b>Ausrichtung</b> <br>" +
@@ -217,14 +223,14 @@ public class GUI extends JFrame {
         
         Border border = BorderFactory.createLineBorder(dgrey);
         Border margin = new EmptyBorder(10, 10, 10, 10);
-        hilfeText.setBorder(new CompoundBorder(border, margin));
-        hilfe.add(hilfeText);
+        helpText.setBorder(new CompoundBorder(border, margin));
+        helpFrame.add(helpText);
         
          	     
         Action help = new AbstractAction("Hilfe") {
             private static final long serialVersionUID = 1L;
             public void actionPerformed(ActionEvent e) {
-            	hilfe.setVisible(true);            
+            	helpFrame.setVisible(true);            
             }
         };
         newAction.putValue(Action.MNEMONIC_KEY, KeyEvent.VK_N);
@@ -234,34 +240,34 @@ public class GUI extends JFrame {
          * Ueber das Projekt
          * Oeffnet ein neues Fenster mit Textinhalt (Informationen ueber das Projekt)
          */
-        final JFrame ueber = new JFrame("ephemera");
-        ueber.setSize(400, 300);
-        ueber.setBackground(dgrey);
-        ueber.setLocation(400, 50);
-        ueber.setResizable(false);  
+        final JFrame aboutFrame = new JFrame("ephemera");
+        aboutFrame.setSize(400, 300);
+        aboutFrame.setBackground(dgrey);
+        aboutFrame.setLocation(400, 50);
+        aboutFrame.setResizable(false);  
         
-        JLabel ueberText = new JLabel();
-        ueberText.setForeground(white);
-        ueberText.setText("<html><b><font size=\"6\" color=\"#159fd2\">ephemera</font></b> <br><br>"+                 
+        JLabel aboutText = new JLabel();
+        aboutText.setForeground(white);
+        aboutText.setText("<html><b><font size=\"6\" color=\"#159fd2\">ephemera</font></b> <br><br>"+                 
                 " ephemera die eintagsfliegenscheiße <br>" +
                 " blablablablalba <br>" +
                 " asdasdasdasdasd <br>" +
                 " asdasdasd <br>" +
                 " asdasd</html>");
         
-        ueberText.setBorder(new CompoundBorder(border, margin));  
-        ueber.add(ueberText);
+        aboutText.setBorder(new CompoundBorder(border, margin));  
+        aboutFrame.add(aboutText);
         
         	
         Action about = new AbstractAction("Ueber") {
             private static final long serialVersionUID = 1L;
 
             public void actionPerformed(ActionEvent e) {
-            	ueber.setVisible(true);
+            	aboutFrame.setVisible(true);
             }
         };
         
-        newAction.putValue(Action.MNEMONIC_KEY, KeyEvent.VK_N);
+        about.putValue(Action.MNEMONIC_KEY, KeyEvent.VK_N);
 
         JMenu info = new JMenu("Info");
         info.setMnemonic(KeyEvent.VK_V);
@@ -436,7 +442,7 @@ public class GUI extends JFrame {
         JPanel optionsPanel = new JPanel(new GridBagLayout());
         optionsPanel.setBackground(dgrey);
         optionsPanel.add(ephemeraLabel, new GridBagConstraints(0, 0, 1, 1,
-                0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE,
+                0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE,
                 new Insets(5, 10, 10, 10), 0, 0));        
         optionsPanel.add(countLabel, new GridBagConstraints(0, 1, 1, 1,
                 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE,
