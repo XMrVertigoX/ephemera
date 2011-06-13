@@ -208,23 +208,10 @@ public class Ephemera extends Node{
 	 * Hier wird berechnet, ob es eine Kollision eines Boids mit Hindernissen und den Weltgrenzen gibt.
 	 * Wenn ja, wird ein steerAway-Vektor berechnet, der vom Hindernis wegzeigt.
 	 * Wenn nicht, dann wird ein nicht initialisierter Vektor zurueckgegeben.
-	 * @param swarmNode
+	 * @param objectNode
 	 * @return Vector3f
 	 */
-	public Vector3f kollider(Node swarmNode){
-		Vector3f steerAway = new Vector3f();
-		List<Spatial> list = swarmNode.getChildren();
-		for (int i=0;i<list.size();i++){
-			Spatial s = list.get(i);
-			if (s.getWorldBound().intersects(this.getWorldBound())){//hasCollision(s, false)){
-				steerAway = getLocalTranslation().subtract(s.getLocalTranslation());
-				steerAway.normalizeLocal();
-				return steerAway;
-			}
-		}
-		
-		return new Vector3f();
-	}
+
 	
 	/**
 	 * Methode, welche das Verhalten der Fliege anhand der Regeln und UmwelteinflŸsse, wie
@@ -236,10 +223,7 @@ public class Ephemera extends Node{
 	void calcSteeringVector(ArrayList<Ephemera> flies,Vector3f leittier,World world) {
 	    
 		
-		Vector3f koll = new Vector3f();
-		if (world!=null){
-			koll = kollider(world.getObjectNode());
-		}
+		
 		// Berechne die Vektoren 
 		
 		Vector3f target = getLeittierZielVector(leittier);
@@ -253,17 +237,17 @@ public class Ephemera extends Node{
 	    ali.multLocal(rules.getAli_weight());
 	    coh.multLocal(rules.getCoh_weight());
 	    //randomWalk.multLocal(rules.getRandomWalk_weight());
-	    
+	    acc = new Vector3f();
 	    //if (kollider(this.getParent())) sep.multLocal(4f)
 	    acc.addLocal(sep);
 	    acc.addLocal(ali);
 	    acc.addLocal(coh);
 	    acc.addLocal(target);
 	    //acc.addLocal(randomWalk);
-	   
+	    acc.addLocal(world.obstacleAvoidance(this));
 	    //System.out.println("Coh: "+rules.getCoh_weight()+" Sep: "+rules.getSep_weight());
 		// Kollisionsvermeidung mit Objekten in der Welt
-		if (koll.length()!=0)acc = koll.mult(4);  
+		//if (koll.length()!=0)acc = koll.mult(1);  
 
 	}
 	/**
@@ -290,7 +274,7 @@ public class Ephemera extends Node{
 	    vel.addLocal(acc);
 	    // Passe vektor an regeln an
 	    
-	    if (vel.length()>rules.getMaxspeed()){
+	    if (vel.length()>rules.getFluggeschwindigkeit()){
 			  vel = vel.normalize();
 			  vel.mult(rules.getMaxspeed());
 		}
@@ -300,7 +284,6 @@ public class Ephemera extends Node{
 	    spatialTransformer.setSpeed(vel.length()*100*rules.getFluggeschwindigkeit());
 	    
 	    vel.multLocal(rules.getFluggeschwindigkeit());
-	    
 	    getLocalTranslation().addLocal(vel);
 	    
 	    acc.mult(0);
@@ -326,7 +309,6 @@ public class Ephemera extends Node{
 			diff.multLocal(1f/d);        // Gewichte anhand der distanz
 			steer.addLocal(diff);
 			count++;            // Merker wie viele Fliegen einfluss nehmen
-			if (this.hasCollision(other, true)) steer.mult(1/rules.getSep_weight());
 		  }
 		  
 		}
