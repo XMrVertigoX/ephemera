@@ -4,7 +4,6 @@ import com.jme.light.DirectionalLight;
 import com.jme.math.Vector3f;
 import com.jme.renderer.ColorRGBA;
 import com.jme.renderer.Renderer;
-import com.jme.scene.Geometry;
 import com.jme.scene.Node;
 import com.jme.scene.state.LightState;
 import com.jme.scene.state.ZBufferState;
@@ -82,11 +81,7 @@ public class MyJmeView extends SimpleCanvasImpl {
     	//schwarmNode.setRenderState(lightState);
         
     	// Finally, a stand alone node (not attached to root on purpose)
-    	
 
-        
-       
-        
         ZBufferState zbuf = renderer.createZBufferState();
         zbuf.setWritable(false);
         zbuf.setEnabled(true);
