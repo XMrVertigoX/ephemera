@@ -21,17 +21,19 @@ import com.jme.scene.Spatial.CullHint;
 
 public class SwarmController {
 	
-	private Node schwarm;
+	private Node swarm;
 	private ArrayList<Ephemera> flies;
 	private PathController pathController;
-	World world;
+	private World world;
+	private Rules rules;
 	
 	/**
 	 * Konstruktor erstellt ArrayListe, Pathcontroller
 	 */
 	public SwarmController(){
+		rules = new Rules();
 		flies = new ArrayList<Ephemera>();
-		pathController = new PathController(new Rules());
+		pathController = new PathController(rules);
 	}
 	
 	public void setWorld(World w){
@@ -41,8 +43,8 @@ public class SwarmController {
 	/**
 	 * gibt Regeln der Fliege zurueck
 	 */
-	public Rules getRegeln(){
-		return flies.get(0).getRegeln();
+	public Rules getRules(){
+		return rules;
 	}
 	
 	/**
@@ -71,10 +73,9 @@ public class SwarmController {
 	 */
 	void deleteFly(Ephemera dead){
 		flies.remove(dead);
-		schwarm.detachChildNamed(dead.getName());
+		swarm.detachChildNamed(dead.getName());
 		Ephemera.count--;
 	}
-	
 	
 	/**
 	 * fuegt N Fligen zum Schwarm hinzu
@@ -82,25 +83,23 @@ public class SwarmController {
 	 */
 	public void addFlies(int N){
 		for (int i=0;i<N;i++){
-			Ephemera fly= new Ephemera(new Vector3f((float)(Math.random()*100),
-													(float)(Math.random()*100),
-													(float)(Math.random()*100)));
+			Ephemera fly= new Ephemera(new Vector3f((float) (Math.random()*100), (float) (Math.random()*100), (float) (Math.random()*100)), rules);
 			flies.add(fly);
 		}
-		initSwarmNode();
 		
+		initSwarmNode();	
 	}
+	
 	public void addFly(Vector3f pos){
 		Ephemera fly= new Ephemera(pos);
 		flies.add(fly);
-		schwarm.attachChild(fly);
-		
-	}	
-	public void addFly(Vector3f pos,Rules rules){
+		swarm.attachChild(fly);
+	}
+	
+	public void addFly(Vector3f pos, Rules rules){
 		Ephemera fly= new Ephemera(pos,rules);
 		flies.add(fly);
-		schwarm.attachChild(fly);
-		
+		swarm.attachChild(fly);
 	}
 	
 	
@@ -109,10 +108,10 @@ public class SwarmController {
 	 */
 	public void initSwarmNode(){
 		// SzeneKnoten fŸr den Schwarm
-		schwarm = new Node("theSwarm");
+		swarm = new Node("theSwarm");
 		// Fliegen anmelden 
 		for (Ephemera e:flies){
-			schwarm.attachChild((Spatial)e);
+			swarm.attachChild((Spatial)e);
 		}
 		// Leittier anmelden 
 		//schwarm.attachChild(pathController.getLeittier());
@@ -121,11 +120,11 @@ public class SwarmController {
 		//schwarm.setCullHint(Spatial.CullHint.Never);
 	}
 	
-	public Node getSwarmNode(){ return schwarm;}
-	public Node getLeittierNode(){
-		return pathController.getLeittier();
+	public Node getSwarmNode(){ return swarm;}
+	public Node getLeaderNode(){
+		return pathController.getLeaderNode();
 	}
-	public ArrayList<Ephemera> getSchwarm(){
+	public ArrayList<Ephemera> getSwarm(){
 		return flies;
 	}
 	public PathController getPathController(){ return pathController;}
