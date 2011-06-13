@@ -43,7 +43,7 @@ public class Leader extends Spatial {
 		}
 		
 		else {
-			s.setLocalScale(200f);
+			s.setLocalScale(100f);
 			visible = true;
 		}
 	}
