@@ -134,7 +134,7 @@ public class GUI extends JFrame {
             private static final long serialVersionUID = 1L;
 
             public void actionPerformed(ActionEvent e) {
-               
+               defaultValues();
             }
         };
         defaultValues.putValue(Action.MNEMONIC_KEY, KeyEvent.VK_N);        
@@ -638,20 +638,20 @@ public class GUI extends JFrame {
         countLabel.setText("Maximale Fliegenanzahl: " + val);
     }
     
- /*   private void defaultValues(){
+    private void defaultValues(){
     	
-    	impl.getSchwarm().getRules(setRules(new Rules()));
+    	impl.getSwarm().getRules().reset();
 
     	// Standardwerte fuer countSlider wiederherstellen
-		impl.getSchwarm().getRegeln().setFlyCount(defaultRules.getFlyCount());
-		countSlider.setValue(defaultRules.getFlyCount());
-		System.out.println("Maximal Fliegenanzahl auf Standardwert zurueckgesetzt:" +defaultRules.getFlyCount());
-		
+		//impl.getSchwarm().getRegeln().setFlyCount(defaultRules.getFlyCount());
+		//countSlider.setValue(impl.getSwarm().getRules().getFlyCount());
+		//System.out.println("Maximal Fliegenanzahl auf Standardwert zurueckgesetzt:" +impl.getSwarm().getRules().getFlyCount());
+	
     	// Standardwerte fuer countSlider wiederherstellen
-		impl.getSchwarm().getRegeln().setFluggeschwindigkeit(defaultRules.getFluggeschwindigkeit());
-		speedSlider.setValue((int)(defaultRules.getFluggeschwindigkeit()*10));
-		System.out.println("Simulationsgeschwindigkeit auf Standardwert zurueckgesetzt:" +defaultRules.getFluggeschwindigkeit());
-    	
+		//impl.getSchwarm().getRegeln().setFluggeschwindigkeit(defaultRules.getFluggeschwindigkeit());
+		//speedSlider.setValue((int)(impl.getSwarm().getRules().setFluggeschwindigkeit()*10));
+		//System.out.println("Simulationsgeschwindigkeit auf Standardwert zurueckgesetzt:" +defaultRules.getFluggeschwindigkeit());
+/*    	
     	// Standardwerte fuer cohSlider wiederherstellen
 		impl.getSchwarm().getRegeln().setCoh_weight(defaultRules.getCoh_weight());
 		cohSlider.setValue((int)(defaultRules.getCoh_weight()*100));
@@ -687,8 +687,8 @@ public class GUI extends JFrame {
    		neighborSlider.setValue((int)(defaultRules.getNeighborDistance()));
 		System.out.println("Sichtweite auf Standardwert zurueckgesetzt:" +defaultRules.getNeighborDistance());
 		
-		
-    }*/
+	*/	
+    }
 
     /**
      * Erstellt 3D-Fenster und gibt es zurueck
