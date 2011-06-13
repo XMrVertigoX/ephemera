@@ -30,6 +30,10 @@ public class MyJmeView extends SimpleCanvasImpl {
         super(width, height);
     }
     
+    /**
+     * Neuen Hunter hinzufuegen
+     * @param lifetime
+     */
     public void addNewHunter(float lifetime){ 
     	if(!exist){
     		System.out.println("dabei");
@@ -55,7 +59,9 @@ public class MyJmeView extends SimpleCanvasImpl {
 		return world;
 	}
 	
-    //3D gedšns
+   /**
+    * Umgebung Initialisieren
+    */
     public void simpleSetup() {
        
     	time = System.currentTimeMillis();
@@ -105,7 +111,9 @@ public class MyJmeView extends SimpleCanvasImpl {
 		
     };
 
-    
+    /**
+     * Update der Schwarmsimulation
+     */
     public void simpleUpdate() {
     	
     	//world.update();
@@ -124,6 +132,9 @@ public class MyJmeView extends SimpleCanvasImpl {
     	}
     }
     
+    /**
+     * Camera Initialisieren
+     */
 	private void setupEnvironment() {
     	
     	DisplaySystem display = GUI.getDisplay();
