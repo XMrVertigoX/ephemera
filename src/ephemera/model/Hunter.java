@@ -200,7 +200,7 @@ public class Hunter extends Node{
 		 * Hier wird die Kollision mit Hindernissen in der Welt vermieden. Wird eine Kollision erkannt,
 		 * so wird der Zielvektor durch eine Rotationsmatrix um 30 Grad rotiert.
 		 */
-		if(world.obstacleAvoidance(this)){
+		if(world.obstacleAvoidance(this).length()!=0){
 			
 			float angle = FastMath.PI/2f;
 			Matrix3f rotMat = new Matrix3f(1,0,0,0,FastMath.cos(angle),FastMath.sin(angle)*-1f,0,FastMath.sin(angle),FastMath.cos(angle));

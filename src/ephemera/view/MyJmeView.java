@@ -3,6 +3,7 @@ package ephemera.view;
 import com.jme.light.DirectionalLight;
 import com.jme.math.Vector3f;
 import com.jme.renderer.ColorRGBA;
+import com.jme.renderer.Renderer;
 import com.jme.scene.Geometry;
 import com.jme.scene.Node;
 import com.jme.scene.state.LightState;
@@ -22,7 +23,7 @@ public class MyJmeView extends SimpleCanvasImpl {
     private Hunter hunter;
     private static boolean exist;
     private long time;
-    private int flies = 10;
+    private int flies = 300;
     private float farPlane = 10000.0f;
     
     public MyJmeView(int width, int height) {
@@ -100,10 +101,14 @@ public class MyJmeView extends SimpleCanvasImpl {
         rootNode.attachChild(schwarm.getLeittierNode());
         rootNode.updateGeometricState(0, true);
         rootNode.updateRenderState();
+        rootNode.setRenderQueueMode(Renderer.QUEUE_OPAQUE);
+		
     };
 
     
     public void simpleUpdate() {
+    	
+    	//world.update();
         world.getSkybox().getLocalTranslation().set(cam.getLocation());
     	world.getSkybox().updateGeometricState(0.0f, true);
     	
@@ -145,5 +150,6 @@ public class MyJmeView extends SimpleCanvasImpl {
     @Override
     public void simpleRender() {
         rootNode.draw(renderer);
+        //world.render();
     }        
 }

@@ -38,7 +38,7 @@ public class Rules{
 		lifeTime			=	30;
 		speed	=				1.0f;
 		leittierSpeed		=	.01f;
-		maxspeed			=	5f;
+		maxspeed			=	1f;
 		maxforce			=	1f;
 		coh_weight			=	0.3f;
 		ali_weight			=	0.2f;
