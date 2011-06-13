@@ -43,7 +43,7 @@ public class MyJmeView extends SimpleCanvasImpl {
     	return hunter;
     }
     
-    public SwarmController getSchwarm(){
+    public SwarmController getSwarm(){
     	return schwarm;
     }
     
@@ -108,15 +108,16 @@ public class MyJmeView extends SimpleCanvasImpl {
     
     public void simpleUpdate() {
     	
-    	//world.update();
         world.getSkybox().getLocalTranslation().set(cam.getLocation());
     	world.getSkybox().updateGeometricState(0.0f, true);
     	
-    	float t = (System.currentTimeMillis()-time)/1000f;
-    	if (t>2) {
-    		time = System.currentTimeMillis();
-        	if (schwarm.getSwarm().size()<schwarm.getRules().getFlyCount()) schwarm.addFly(new Vector3f(),schwarm.getRules());
-    	}
+//    	float t = (System.currentTimeMillis()-time)/1000f;
+//    	
+//    	if (t > 2) {
+//    		time = System.currentTimeMillis();
+//        	if (schwarm.getSwarm().size()<schwarm.getRules().getFlyCount()) schwarm.addFly(schwarm.getRules());
+//    	}
+    	
     	schwarm.updateAll();
     	
     	if(exist){
