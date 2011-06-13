@@ -267,9 +267,9 @@ public class GUI extends JFrame {
 			public void stateChanged(ChangeEvent ce) {
 				float value = countSlider.getValue();
 				System.out.println("Maximale Fliegenanzahl "+value);
-					//TODO: Fliegenanzahl dynamisch einstellbar
+					impl.getSwarm().setMaxFlies((int) value);
 					updateCountLabel(countLabel, countSlider);
-					}
+				}
 		});
         
    	 	countSlider.setMajorTickSpacing(100);
