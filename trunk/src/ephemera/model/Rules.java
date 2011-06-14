@@ -45,9 +45,9 @@ public class Rules{
 	}
 	
 	public void reset() {
-		randomWalk_weight = .0f;
+		randomWalk_weight = .5f;
 		speed = 4.0f;
-		leittierSpeed = 0.0f;
+		leittierSpeed = 0.02f;
 		coh_weight = 0.5f;
 		ali_weight = 0.5f;
 		sep_weight = 0.5f;
