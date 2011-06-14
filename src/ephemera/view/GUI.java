@@ -467,7 +467,7 @@ public class GUI extends JFrame {
         hunterSlider.addChangeListener(new ChangeListener(){
     		public void stateChanged(ChangeEvent ce) {
     			if (impl.getHunter() != null) {
-    				impl.getHunter().setLifetime(getHunter());
+    				impl.getHunter().setLifetime(getHunterValue());
     			}
     		}
         }); 
@@ -703,14 +703,14 @@ public class GUI extends JFrame {
 	/** Getter fuer countSlider
 	 * @return countSlider-Wert
 	 */
-	public int getCount() {
+	public int getCountValue() {
 		return countSlider.getValue();
 	}
 
 	/** Getter fuer hunterSlider
 	 * @return hunterSlider-Wert
 	 */
-	public int getHunter() {
+	public int getHunterValue() {
 		return hunterSlider.getValue();
 	}
 
