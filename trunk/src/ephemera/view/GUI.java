@@ -40,7 +40,7 @@ public class GUI extends JFrame {
     private JSlider followSlider;
     private JSlider desiredSlider;
     private JSlider neighborSlider;
-    private JLabel countLabel;
+    private JLabel currentLabel;
 
 	//Groesse des Startfensters
 	int width = 1280, height = 720;
@@ -255,8 +255,8 @@ public class GUI extends JFrame {
         JLabel ephemeraLabel = new JLabel("ephemera");
         ephemeraLabel.setForeground(blue);
         ephemeraLabel.setFont(new Font("Arial", Font.PLAIN, 24));
-        countLabel = new JLabel("Fliegenanzahl:");
-        countLabel.setForeground(white);
+        currentLabel = new JLabel("Fliegenanzahl:");
+        currentLabel.setForeground(white);
         final JLabel countLabel = new JLabel("Maximale Fliegenanzahl");
         countLabel.setForeground(white);
         JLabel speedLabel = new JLabel("Fluggeschwindigkeit");
@@ -402,7 +402,7 @@ public class GUI extends JFrame {
         optionsPanel.add(ephemeraLabel, new GridBagConstraints(0, 0, 1, 1,
                 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE,
                 new Insets(5, 10, 10, 10), 0, 0));        
-        optionsPanel.add(countLabel, new GridBagConstraints(0, 1, 1, 1,
+        optionsPanel.add(currentLabel, new GridBagConstraints(0, 1, 1, 1,
                 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE,
                 new Insets(5, 10, 10, 10), 0, 0));
 //        optionsPanel.add(countLabel, new GridBagConstraints(0, 2, 1, 1,
@@ -634,10 +634,10 @@ public class GUI extends JFrame {
      * @param JLabel
      * @param JSlider
      */
-    public void updateCountLabel() {
+    public void updateCurrentLabel() {
     	int val2 = countSlider.getValue();
     	int val = impl.getSwarm().getSwarm().size();
-        countLabel.setText("Fliegenanzahl: " + val +"/"+val2);
+        currentLabel.setText("Fliegenanzahl: " + val +"/"+val2);
     }
     
     /**
