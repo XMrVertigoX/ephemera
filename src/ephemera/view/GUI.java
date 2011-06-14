@@ -41,6 +41,7 @@ public class GUI extends JFrame {
     private JSlider followSlider;
     private JSlider desiredSlider;
     private JSlider neighborSlider;
+
     
 	//Groesse des Startfensters
 	int width = 1280, height = 720;
@@ -99,6 +100,7 @@ public class GUI extends JFrame {
         canvasPanel.add(getGlCanvas(), BorderLayout.CENTER);
         Dimension minimumSize = new Dimension(150, 150);
         canvasPanel.setMinimumSize(minimumSize);  
+//        mbar.setComponentZOrder(i, 123);
 
         //Tabs-----------------------------------------------------
         JTabbedPane tabbedPane = new JTabbedPane();
@@ -118,6 +120,7 @@ public class GUI extends JFrame {
         
 
         setSize(new Dimension(width, height));
+       
     }
 
 
@@ -147,11 +150,7 @@ public class GUI extends JFrame {
         };
         quit.putValue(Action.MNEMONIC_KEY, KeyEvent.VK_Q);
 
-    	JMenu file = new JMenu("Datei");
-        file.setMnemonic(KeyEvent.VK_F);
-        file.add(defaultValues);
-        file.addSeparator();
-        file.add(quit);
+    
 
         
         /**
@@ -227,15 +226,28 @@ public class GUI extends JFrame {
         
         about.putValue(Action.MNEMONIC_KEY, KeyEvent.VK_N);
 
-        JMenu info = new JMenu("Info");
-        info.setMnemonic(KeyEvent.VK_V);
+        
+        //Datei Menue
+    	JMenu file = new JMenu("Datei");
+        file.add(defaultValues);
+        file.addSeparator();
+        file.add(quit);
+        
+        file.getPopupMenu().setLightWeightPopupEnabled(false);
+
+        //info Menue
+        JMenu info = new JMenu("info");
         info.add(help);
         info.add(about);
 
+        //wegen awt und swing mischung
+        info.getPopupMenu().setLightWeightPopupEnabled(false);
+        
+        
         JMenuBar mbar = new JMenuBar();
         mbar.add(file);
         mbar.add(info);
-        
+       
         return mbar;
     }
 
@@ -504,7 +516,7 @@ public class GUI extends JFrame {
  
         desiredSlider = new JSlider();
 		desiredSlider.addChangeListener(new ChangeListener(){
-        	public void stateChanged(ChangeEvent ce) {
+        	 public void stateChanged(ChangeEvent ce) {
 	    		impl.getSwarm().getRules().setNeighborDistance(desiredSlider.getValue());
 //        		System.out.println("Gewuenschter Abstand: " + desiredSlider.getValue());
 	    	}
