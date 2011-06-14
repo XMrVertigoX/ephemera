@@ -30,7 +30,6 @@ public class GUI extends JFrame {
 
     private JButton flyButton;
     private JButton hunterButton;
-    private JButton randomButton;
     private JSlider countSlider;
     private JSlider speedSlider;
     private JSlider cohSlider;
@@ -548,18 +547,6 @@ public class GUI extends JFrame {
         neighborSlider.setForeground(white);
         neighborSlider.setBackground(dgrey);
         
-        //Random-Button
-        randomButton = new JButton(new AbstractAction("Random Walk") {
-            private static final long serialVersionUID = 1L;
-
-            public void actionPerformed(ActionEvent e) {
-            	impl.getSwarm().getRules().toggleRandomWalk();
-            }
-        });
-        
-        randomButton.setFont(new Font("Arial", Font.PLAIN, 12));
-        randomButton.setMargin(new Insets(2, 2, 2, 2));
-        randomButton.setEnabled(true);
 
         //Jaeger-Button
         hunterButton = new JButton(new AbstractAction("Jaeger hinzufuegen") {
@@ -591,9 +578,6 @@ public class GUI extends JFrame {
         JPanel addPanel = new JPanel(new GridBagLayout());
         addPanel.setBackground(dgrey);
 
-        addPanel.add(randomButton, new GridBagConstraints(0, 0, 5, 1,
-                0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
-                new Insets(5, 10, 10, 10), 0, 0));
         addPanel.add(hunterButton, new GridBagConstraints(0, 1, 5, 1,
                 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
                 new Insets(5, 10, 10, 10), 0, 0));
