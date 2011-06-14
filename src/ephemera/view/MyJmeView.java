@@ -14,6 +14,10 @@ import ephemera.controller.SwarmController;
 import ephemera.model.Hunter;
 import ephemera.model.World;
 
+
+/**
+ * Erstellt die Simulationsumgebung
+ */
 public class MyJmeView extends SimpleCanvasImpl {
 
 	private GUI gui;
@@ -25,11 +29,21 @@ public class MyJmeView extends SimpleCanvasImpl {
     private long deathTime;
     private float farPlane = 10000.0f;
     
+    /**
+     * Konstruktor
+     * @param width
+     * @param height
+     * @param gui
+     */
     public MyJmeView(int width, int height, GUI gui) {
         super(width, height);
         this.gui = gui;
     }
     
+    /**
+     * Hunter Hinzufuegen
+     * @param lifetime
+     */
     public void addNewHunter(int lifetime){ 
     	if(!exist && lifetime > 0 && swarm.getSwarm().size() > 0){
     		hunter = new Hunter(new Vector3f(0, 0, 0), world, swarm, lifetime);
@@ -55,6 +69,9 @@ public class MyJmeView extends SimpleCanvasImpl {
 		return world;
 	}
 	
+	/**
+	 * Initialisieren der Schwarmsimulation
+	 */
     public void simpleSetup() {
        
     	birthTime = System.currentTimeMillis();
@@ -92,6 +109,9 @@ public class MyJmeView extends SimpleCanvasImpl {
 		
     };
 
+    /**
+     * Update der Simulation
+     */
     public void simpleUpdate() {
     	
         world.getSkybox().getLocalTranslation().set(cam.getLocation());
@@ -128,6 +148,9 @@ public class MyJmeView extends SimpleCanvasImpl {
     	world.updateRenderState();
     }
     
+    /**
+     * Camera Initialisieren
+     */
 	private void setupEnvironment() {
     	
     	DisplaySystem display = GUI.getDisplay();
