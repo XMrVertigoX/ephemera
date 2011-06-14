@@ -5,14 +5,11 @@ import com.jme.image.Texture;
 import com.jme.math.FastMath;
 import com.jme.math.Quaternion;
 import com.jme.math.Vector3f;
-import com.jme.renderer.ColorRGBA;
 import com.jme.renderer.Renderer;
 import com.jme.scene.Node;
 import com.jme.scene.Spatial;
 import com.jme.scene.TriMesh;
 import com.jme.scene.shape.*;
-import com.jme.scene.state.BlendState;
-import com.jme.scene.state.MaterialState;
 import com.jme.scene.state.TextureState;
 import com.jme.system.DisplaySystem;
 import com.jme.system.lwjgl.LWJGLSystemProvider;
@@ -20,11 +17,9 @@ import com.jme.util.TextureManager;
 import com.jme.bounding.*;
 import com.jmex.terrain.TerrainPage;
 
-import java.util.ArrayList;
-import java.util.List;
 
 /**
- * ...
+ * Diese Klasse erstellt Hindernisse, die in der Welt positioniert werden koennen.
  * @author Gudrun Wagner
  *
  */
@@ -418,10 +413,10 @@ public class Obstacles{
 		URL texLoc;
 		DisplaySystem display = DisplaySystem.getDisplaySystem(LWJGLSystemProvider.LWJGL_SYSTEM_IDENTIFIER);
 		texLoc = Obstacles.class. getClassLoader (). getResource(resource);
-		TextureState tsPlant = display. getRenderer (). createTextureState ();
-		Texture texPlant = TextureManager.loadTexture (texLoc, Texture.MinificationFilter.BilinearNearestMipMap, Texture.MagnificationFilter.Bilinear);
-		tsPlant.setTexture(texPlant);
-        object.setRenderState(tsPlant);
+		TextureState tsObstacle = display. getRenderer (). createTextureState ();
+		Texture texObstacle = TextureManager.loadTexture (texLoc, Texture.MinificationFilter.BilinearNearestMipMap, Texture.MagnificationFilter.Bilinear);
+		tsObstacle.setTexture(texObstacle);
+        object.setRenderState(tsObstacle);
         object.setRenderQueueMode( Renderer.QUEUE_OPAQUE );
         object.updateRenderState();
         object.updateModelBound();

@@ -10,7 +10,7 @@ import ephemera.model.Leader;
 import ephemera.model.Rules;
 
 /**
- * 
+ * Diese Klasse erstellt einen Bewegungspfad und laesst darauf ein Leittier laufen.
  * @author Benedikt Schuld, Gudrun Wagner
  *
  */
@@ -44,15 +44,15 @@ public class PathController{
 		leader = new Leader();
 				
 		// Kurvencontroller erstellen 
-		curveController = new CurveController(bp,leader.getGeometry()); //wenn im Leitttier die Kugel entfernt wird, hier ".s" loeschen
+		curveController = new CurveController(bp,leader.getGeometry()); 
 		curveController.setRepeatType(Controller.RT_WRAP);
 		
 		// Leittier an Kurve anmelden 
-		leader.getGeometry().addController(curveController); //wenn im Leitttier die Kugel entfernt wird, hier ".s" loeschen
+		leader.getGeometry().addController(curveController); 
 		
 		// Geschwindigkeit des Leittieres
-		curveController.setSpeed(rules.getLeittierSpeed());
-		path.attachChild(leader.getGeometry());	 //wenn im Leitttier die Kugel entfernt wird, hier ".s" loeschen
+		curveController.setSpeed(this.rules.getLeittierSpeed());
+		path.attachChild(leader.getGeometry());	 
 	}
 	
 	
