@@ -1,29 +1,27 @@
-package ephemera.view;
+/**
+ * Diese Klasse stellt die Bedienung der Simulation dar. Dazu wird ein Swing-Interface genutzt.
+ * @author Kilian Heinrich, Stefan Greuel
+ *
+ */
 
+package ephemera.view;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.concurrent.*;
-
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.*;
-
 import com.jme.system.DisplaySystem;
 import com.jme.system.canvas.JMECanvas;
 import com.jme.system.lwjgl.LWJGLSystemProvider;
 import com.jme.util.GameTaskQueue;
 import com.jme.util.GameTaskQueueManager;
 import com.jmex.awt.lwjgl.*;
-
 import ephemera.controller.CamHandler;
 
-/**
- * Diese Klasse stellt die Bedienung der Simulation dar. Dazu wird ein Swing-Interface genutzt.
- * @author Kilian Heinrich, Stefan Greuel
- *
- */
+
 public class GUI extends JFrame {
 
     private MyJmeView impl;
@@ -42,7 +40,6 @@ public class GUI extends JFrame {
     private JSlider desiredSlider;
     private JSlider neighborSlider;
 
-    
 	//Groesse des Startfensters
 	int width = 1280, height = 720;
 	
@@ -55,10 +52,8 @@ public class GUI extends JFrame {
     private static final long serialVersionUID = 1L;
 
 
-    
     /**
-     * Konstruktor
-     * Initialisiert die GUI 
+     * Konstruktor der GUI 
      */
     public GUI() {
     	
@@ -73,9 +68,9 @@ public class GUI extends JFrame {
         }
     }
 
-    
+  
     /**
-     * Gibt Display System zurueck
+     * Gibt DisplaySystem zurueck
      * @return DisplaySystem
      */
     public static DisplaySystem getDisplay(){
@@ -84,7 +79,7 @@ public class GUI extends JFrame {
     
     
     /**
-     * Unterteilung der GUI: JPanel, JTabbedPane, JSplitPane
+     * Unterteilung der GUI in JPanel, JTabbedPane, JSplitPane
      * @throws Exception
      */
     private void init() throws Exception {
@@ -117,19 +112,17 @@ public class GUI extends JFrame {
         mainSplit.setOneTouchExpandable(true); 
         getContentPane().add(mainSplit, BorderLayout.CENTER);
         
-
         setSize(new Dimension(width, height));
-       
     }
 
-
+    
     /**
      * Erstellt obere Menueleiste
      * @return JMenueBar
      */
     private JMenuBar createMenuBar() {
 
-        //TODO Standardeinstellungen  	
+
         Action defaultValues = new AbstractAction("Standardeinstellungen wiederherstellen") {
             private static final long serialVersionUID = 1L;
 
@@ -149,12 +142,9 @@ public class GUI extends JFrame {
         };
         quit.putValue(Action.MNEMONIC_KEY, KeyEvent.VK_Q);
 
-    
 
-        
         /**
-         * Hilfe 
-         * Oeffnet ein neues Fenster mit Textinhalt
+         * Oeffnet ein neues Fenster mit Hilfe zur Programmbedienung
          */
         final JFrame helpFrame = new JFrame("Hilfe");
         helpFrame.setSize(400, 450);
@@ -167,10 +157,10 @@ public class GUI extends JFrame {
         helpText.setForeground(white);
         helpText.setText("<html><b><font size=\"6\" color=\"#159fd2\">Hilfe</font></b> <br><br>"+                  
                 " <b>Cohesion</b> <br>" +
-                " Ermoeglicht es einem Schwarmmitglied in der naehe seiner Nachbarn zu bleiben.<br><br>" +
-                " <b>Alignement</b> <br>" +
+                " Ermoeglicht es einem Schwarmmitglied in der Naehe seiner Nachbarn zu bleiben.<br><br>" +
+                " <b>Alignment</b> <br>" +
                 " Passt ein Schwarmmitglied seine Bewegungsrichtung oder seine Geschwindigkeit seinen Schwarmnachbarn an.<br><br>" +
-                " <b>Seperation</b> <br>" +
+                " <b>Separation</b> <br>" +
                 " Abstand der einzelnen Schwarmmitglieder.<br><br>" +
                 " <b>Folge Leittier</b> <br>" +
                 " Abstand der Schwarmmitglieder zum Leittier.<br><br>" +
@@ -183,8 +173,7 @@ public class GUI extends JFrame {
         Border margin = new EmptyBorder(10, 10, 10, 10);
         helpText.setBorder(new CompoundBorder(border, margin));
         helpFrame.add(helpText);
-        
-         	     
+                	     
         Action help = new AbstractAction("Hilfe") {
             private static final long serialVersionUID = 1L;
             public void actionPerformed(ActionEvent e) {
@@ -195,8 +184,7 @@ public class GUI extends JFrame {
         
         
         /**
-         * Ueber das Projekt
-         * Oeffnet ein neues Fenster mit Textinhalt (Informationen ueber das Projekt)
+         * Oeffnet ein neues Fenster mit Informationen zum Projekt
          */
         final JFrame aboutFrame = new JFrame("ephemera");
         aboutFrame.setSize(400, 300);
@@ -217,8 +205,7 @@ public class GUI extends JFrame {
         
         aboutText.setBorder(new CompoundBorder(border, margin));  
         aboutFrame.add(aboutText);
-        
-        	
+           	
         Action about = new AbstractAction("Ueber") {
             private static final long serialVersionUID = 1L;
 
@@ -229,26 +216,21 @@ public class GUI extends JFrame {
         
         about.putValue(Action.MNEMONIC_KEY, KeyEvent.VK_N);
 
-        
-        
-        
-        //Datei Menue
+
+        //Datei-Menue
     	JMenu file = new JMenu("Datei");
         file.add(defaultValues);
         file.addSeparator();
         file.add(quit);
+        //Fuer Kompatibilitaet zwischen AWT und Swing
         file.getPopupMenu().setLightWeightPopupEnabled(false);
         
-
-        //info Menue
+        //Info-Menue
         JMenu info = new JMenu("Info");
         info.add(help);
         info.add(about);
-        //wegen awt und swing mischung
         info.getPopupMenu().setLightWeightPopupEnabled(false);
 
-        
-        
         JMenuBar mbar = new JMenuBar();
         mbar.add(file);
         mbar.add(info);
@@ -262,6 +244,7 @@ public class GUI extends JFrame {
      */
     private JPanel createOptionsPanel() {
     	
+    	//Alle Label im Hauptfunktionsmenue
         JLabel ephemeraLabel = new JLabel("ephemera");
         ephemeraLabel.setForeground(blue);
         ephemeraLabel.setFont(new Font("Arial", Font.PLAIN, 24));
@@ -271,18 +254,16 @@ public class GUI extends JFrame {
         speedLabel.setForeground(white);
         JLabel cohLabel = new JLabel("Cohesion");
         cohLabel.setForeground(white);
-        JLabel aliLabel = new JLabel("Alignement");
+        JLabel aliLabel = new JLabel("Alignment");
         aliLabel.setForeground(white);
-        JLabel sepLabel = new JLabel("Seperation");
+        JLabel sepLabel = new JLabel("Separation");
         sepLabel.setForeground(white);
-    
-	   
+        
+        //Anzahl-Slider
     	countSlider = new JSlider ();
         
         countSlider.addChangeListener(new ChangeListener() {	
 			public void stateChanged(ChangeEvent ce) {
-				float value = countSlider.getValue();
-//				System.out.println("Maximale Fliegenanzahl "+value);
 					updateCountLabel(countLabel, countSlider);
 				}
 		});
@@ -291,7 +272,6 @@ public class GUI extends JFrame {
    	 	countSlider.setMinorTickSpacing(100);
         countSlider.setMinimum(0);
         countSlider.setMaximum(1000);
-        
         countSlider.setValue(200);
         countSlider.setOrientation(SwingConstants.HORIZONTAL);
         countSlider.setPaintTicks(true);
@@ -302,8 +282,8 @@ public class GUI extends JFrame {
         countSlider.setSnapToTicks(false);
         countSlider.setBackground(dgrey);
         
+        //Geschwindigkeit-Slider
     	speedSlider = new JSlider();
-        
         speedSlider.setMinimum(0);	
         speedSlider.setMaximum(100);
         speedSlider.setMinorTickSpacing(5);
@@ -322,10 +302,10 @@ public class GUI extends JFrame {
         speedSlider.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent ce) {
 				impl.getSwarm().getRules().setSpeed(speedSlider.getValue()/10f);
-//				System.out.println("Geschwindigkeit der Fliegen: " + speedSlider.getValue());
 			}
 		});
         
+        //Fliege-Button
         flyButton = new JButton(new AbstractAction("Fliege hinzufuegen"){
         	private static final long serialVersionUID = 1L;
 
@@ -334,22 +314,20 @@ public class GUI extends JFrame {
         			impl.getSwarm().addFly(impl.getSwarm().getRules());
             		System.out.println ("Fliege hinzugefuegt");
         		}
-        		
         		else {
         			System.out.println("Maximale Fliegenanzahl erreicht");
         		}
         	}
         });
         
-        flyButton.setFont(new Font("Arial", Font.BOLD, 12));
+        flyButton.setFont(new Font("Arial", Font.PLAIN, 12));
         flyButton.setMargin(new Insets(2, 2, 2, 2));
         
+        //Cohesion-Slider
         cohSlider = new JSlider();
-		
         cohSlider.addChangeListener(new ChangeListener(){
 	    	public void stateChanged(ChangeEvent ce) {
 	    		impl.getSwarm().getRules().setCoh_weight(cohSlider.getValue()/100f);
-//	    		System.out.println("Kohaesionswert: " + (cohSlider.getValue()/100f));
 	    	}
 	    });
      
@@ -366,12 +344,12 @@ public class GUI extends JFrame {
 	    cohSlider.setForeground(white);
 	    cohSlider.setBackground(dgrey);
     
+	    //Alignment-Slider
 	    aliSlider = new JSlider();
    
 		aliSlider.addChangeListener(new ChangeListener() {
 	    	public void stateChanged(ChangeEvent ce) {
 	    		impl.getSwarm().getRules().setAli_weight(aliSlider.getValue()/100f);
-//	    		System.out.println("Ausrichtungswert: " + aliSlider.getValue()/100f);
 	    	}
 	    });
 	   
@@ -388,12 +366,11 @@ public class GUI extends JFrame {
     	aliSlider.setForeground(white);
     	aliSlider.setBackground(dgrey);
     
+    	//Separation-Slider
     	sepSlider = new JSlider();
-    	
     	sepSlider.addChangeListener(new ChangeListener(){
 	    	public void stateChanged(ChangeEvent ce) {
 	    		impl.getSwarm().getRules().setSep_weight(sepSlider.getValue()/100f);
-//	    		System.out.println("Trennungswert: " + sepSlider.getValue()/100f);
 	    	}
 	    });
 	   
@@ -462,6 +439,7 @@ public class GUI extends JFrame {
      */
     private JPanel createAdditionalPanel() {
     	
+    	//Alle Label im erweiterten Menue
         JLabel hunterLabel = new JLabel("Jaeger-Lebensdauer in Sekunden");
         hunterLabel.setForeground(white);  
         JLabel followLabel = new JLabel("Folge Leittier");
@@ -471,8 +449,8 @@ public class GUI extends JFrame {
         JLabel neighborLabel = new JLabel ("Sichtweite");
         neighborLabel.setForeground(white);
     	
+        //Jaeger-Slider
         hunterSlider = new JSlider();
-        
         hunterSlider.setMinimum(0);		
         hunterSlider.setMaximum(200);
         hunterSlider.setMajorTickSpacing(40);
@@ -491,17 +469,15 @@ public class GUI extends JFrame {
     			if (impl.getHunter() != null) {
     				impl.getHunter().setLifetime(getHunter());
     			}
-    			
-//    			System.out.println("Jaegerlebensdauer: " + hunterSlider.getValue());
     		}
         }); 
 
+        //Folge-Leittier-Slider
         followSlider = new JSlider();
         
 		followSlider.addChangeListener(new ChangeListener(){
         	public void stateChanged(ChangeEvent ce) {
 	    		impl.getSwarm().getRules().setFollow_weight(followSlider.getValue()/100f);
-//        		System.out.println("Folge Leittier-Wert: " + followSlider.getValue()/100f);
 	    	}
 	    });
 
@@ -518,13 +494,12 @@ public class GUI extends JFrame {
         followSlider.setForeground(white);
         followSlider.setBackground(dgrey);  
     	
- 
+        //Minimaler Abstand-Slider
         desiredSlider = new JSlider();
 		desiredSlider.addChangeListener(new ChangeListener(){
         	 public void stateChanged(ChangeEvent ce) {
 	    		impl.getSwarm().getRules().setNeighborDistance(desiredSlider.getValue());
-//        		System.out.println("Gewuenschter Abstand: " + desiredSlider.getValue());
-	    	}
+        	 }
 	    });
 
 		desiredSlider.setMinimum(0);		
@@ -539,13 +514,12 @@ public class GUI extends JFrame {
         desiredSlider.setEnabled(true); 
         desiredSlider.setForeground(white);
         desiredSlider.setBackground(dgrey);
-//        desiredSlider.setValue(0);
  
+        //Sichtweite-Slider
         neighborSlider = new JSlider();
    		neighborSlider.addChangeListener(new ChangeListener(){
        		public void stateChanged(ChangeEvent ce) {
 	    		impl.getSwarm().getRules().setDesiredSeparation(neighborSlider.getValue());
-//       			System.out.println("Abstand zum Nachbarn: " + neighborSlider.getValue());
 	    	}
 	    });
            
@@ -562,6 +536,7 @@ public class GUI extends JFrame {
         neighborSlider.setForeground(white);
         neighborSlider.setBackground(dgrey);
 
+        //Jaeger-Button
         hunterButton = new JButton(new AbstractAction("Jaeger hinzufuegen") {
             private static final long serialVersionUID = 1L;
 
@@ -570,10 +545,11 @@ public class GUI extends JFrame {
             }
         });
 
-        hunterButton.setFont(new Font("Arial", Font.BOLD, 12));
+        hunterButton.setFont(new Font("Arial", Font.PLAIN, 12));
         hunterButton.setMargin(new Insets(2, 2, 2, 2));
         hunterButton.setEnabled(true);
         
+        // Leittier-Button
         JButton leaderButton = new JButton(new AbstractAction("Leittier anzeigen") {
             private static final long serialVersionUID = 1L;
 
@@ -582,7 +558,7 @@ public class GUI extends JFrame {
             }
         });
         
-        leaderButton.setFont(new Font("Arial", Font.BOLD, 12));
+        leaderButton.setFont(new Font("Arial", Font.PLAIN, 12));
         leaderButton.setMargin(new Insets(2, 2, 2, 2));
         leaderButton.setEnabled(true);
         
@@ -625,7 +601,7 @@ public class GUI extends JFrame {
     }
     
     /**
-     * Aktualisiert countLabel nach betätigen von countSlider
+     * Aktualisiert countLabel nach Betätigen von countSlider
      * @param JLabel
      * @param JSlider
      */
@@ -635,6 +611,10 @@ public class GUI extends JFrame {
     	int val = countSlider.getValue();
         countLabel.setText("Maximale Fliegenanzahl: " + val);
     }
+    
+    /**
+     * Setzt alle Variablen auf Standardwerte zurueck
+     */
     
     private void defaultValues(){
     	
@@ -649,53 +629,6 @@ public class GUI extends JFrame {
         followSlider.setValue(Math.round(impl.getSwarm().getRules().getFollow_weight() * 100));
         desiredSlider.setValue(Math.round(impl.getSwarm().getRules().getDesiredSeparation()));
         neighborSlider.setValue(Math.round(impl.getSwarm().getRules().getNeighborDistance()));
-    	
-    	// Standardwerte fuer countSlider wiederherstellen
-		//impl.getSchwarm().getRegeln().setFlyCount(defaultRules.getFlyCount());
-		//countSlider.setValue(impl.getSwarm().getRules().getFlyCount());
-		//System.out.println("Maximal Fliegenanzahl auf Standardwert zurueckgesetzt:" +impl.getSwarm().getRules().getFlyCount());
-	
-    	// Standardwerte fuer countSlider wiederherstellen
-		//impl.getSchwarm().getRegeln().setFluggeschwindigkeit(defaultRules.getFluggeschwindigkeit());
-		//speedSlider.setValue((int)(impl.getSwarm().getRules().setFluggeschwindigkeit()*10));
-		//System.out.println("Simulationsgeschwindigkeit auf Standardwert zurueckgesetzt:" +defaultRules.getFluggeschwindigkeit());
-/*    	
-    	// Standardwerte fuer cohSlider wiederherstellen
-		impl.getSchwarm().getRegeln().setCoh_weight(defaultRules.getCoh_weight());
-		cohSlider.setValue((int)(defaultRules.getCoh_weight()*100));
-		System.out.println("Kohaesion auf Standardwert zurueckgesetzt:" +defaultRules.getCoh_weight());
-		
-		//Standardwerte fuer aliSlider wiederherstellen
-		impl.getSchwarm().getRegeln().setAli_weight(defaultRules.getAli_weight());
-		aliSlider.setValue((int)(defaultRules.getAli_weight()*100));
-		System.out.println("Ausrichtung auf Standardwert zurueckgesetzt:" +defaultRules.getAli_weight());
-		
-		//Standardwerte fuer hunterSlider wiederherstellen	
-		impl.getHunter().setLifetime(20f);
-        hunterSlider.setValue(20);
-		System.out.println("Jaegerlebensdauer auf Standardwert zurueckgesetzt: "+hunterSlider.getValue());
-			
-		//Standardwerte fuer sepSlider wiederherstellen
-		impl.getSchwarm().getRegeln().setSep_weight(defaultRules.getSep_weight());
-    	sepSlider.setValue((int)(defaultRules.getSep_weight()*100));
-		System.out.println("Separation auf Standardwert zurueckgesetzt:" +defaultRules.getSep_weight());
-		
-		//Standardwerte fuer followSlider wiederherstellen
-		impl.getSchwarm().getRegeln().setFollow_weight(defaultRules.getFollow_weight());
-		followSlider.setValue((int)(defaultRules.getFollow_weight()*100));
-		System.out.println("Folge Leittier auf Standardwert zurueckgesetzt:" +defaultRules.getFollow_weight());
-		
-		//Standardwerte fuer desiredSlider wiederherstellen
-		impl.getSchwarm().getRegeln().setDesiredSeparation(defaultRules.getDesiredSeparation());
-		desiredSlider.setValue((int)(defaultRules.getDesiredSeparation()));
-		System.out.println("Gewuenschter Abstand auf Standardwert zurueckgesetzt:" +defaultRules.getDesiredSeparation());
-		
-		//Standardwerte fuer neighborSlider wiederherstellen
-		impl.getSchwarm().getRegeln().setNeighborDistance(defaultRules.getNeighborDistance());
-   		neighborSlider.setValue((int)(defaultRules.getNeighborDistance()));
-		System.out.println("Sichtweite auf Standardwert zurueckgesetzt:" +defaultRules.getNeighborDistance());
-		
-	*/	
     }
 
     /**
@@ -743,7 +676,6 @@ public class GUI extends JFrame {
      * Aendert Canvas-Fenstergroesse
      */
     public void forceUpdateToSize() {
-        // force a resize to ensure proper canvas size.
         glCanvas.setSize(glCanvas.getWidth(), glCanvas.getHeight() + 1);
         glCanvas.setSize(glCanvas.getWidth(), glCanvas.getHeight() - 1);
     }
@@ -776,37 +708,6 @@ public class GUI extends JFrame {
 	}
 
 
-	/**
-	 * @return the speedSlider
-	 */
-	public int getSpeed() {
-		return speedSlider.getValue();
-	}
-
-
-	/**
-	 * @return the cohSlider
-	 */
-	public int getCoh() {
-		return cohSlider.getValue();
-	}
-
-
-	/**
-	 * @return the aliSlider
-	 */
-	public int getAli() {
-		return aliSlider.getValue();
-	}
-
-
-	/**
-	 * @return the sepSlider
-	 */
-	public int getSep() {
-		return sepSlider.getValue();
-	}
-
 
 	/**
 	 * @return the hunterSlider
@@ -816,26 +717,4 @@ public class GUI extends JFrame {
 	}
 
 
-	/**
-	 * @return the followSlider
-	 */
-	public int getFollow() {
-		return followSlider.getValue();
-	}
-
-
-	/**
-	 * @return the desiredSlider
-	 */
-	public int getDesired() {
-		return desiredSlider.getValue();
-	}
-
-
-	/**
-	 * @return the neighborSlider
-	 */
-	public int getNeighbor() {
-		return neighborSlider.getValue();
-	}
 }
