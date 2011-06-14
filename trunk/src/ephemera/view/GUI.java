@@ -100,7 +100,6 @@ public class GUI extends JFrame {
         canvasPanel.add(getGlCanvas(), BorderLayout.CENTER);
         Dimension minimumSize = new Dimension(150, 150);
         canvasPanel.setMinimumSize(minimumSize);  
-        canvasPanel.setBackground(dgrey);
         
         //Tabs-----------------------------------------------------
         JTabbedPane tabbedPane = new JTabbedPane();
@@ -115,9 +114,8 @@ public class GUI extends JFrame {
         mainSplit.setLeftComponent(canvasPanel);
         mainSplit.setDividerLocation(1000);
         mainSplit.setContinuousLayout(true);
-        mainSplit.setOneTouchExpandable(true);     
+        mainSplit.setOneTouchExpandable(true); 
         getContentPane().add(mainSplit, BorderLayout.CENTER);
-        mainSplit.setBackground(dgrey);
         
 
         setSize(new Dimension(width, height));
@@ -168,15 +166,15 @@ public class GUI extends JFrame {
         JLabel helpText = new JLabel();
         helpText.setForeground(white);
         helpText.setText("<html><b><font size=\"6\" color=\"#159fd2\">Hilfe</font></b> <br><br>"+                  
-                " <b>Kohäsion</b> <br>" +
-                " Ernöglicht es einem Schwarmmitglied in der nähe seiner Nachbarn zu bleiben.<br><br>" +
-                " <b>Ausrichtung</b> <br>" +
+                " <b>Cohesion</b> <br>" +
+                " Ermoeglicht es einem Schwarmmitglied in der naehe seiner Nachbarn zu bleiben.<br><br>" +
+                " <b>Alignement</b> <br>" +
                 " Passt ein Schwarmmitglied seine Bewegungsrichtung oder seine Geschwindigkeit seinen Schwarmnachbarn an.<br><br>" +
-                " <b>Trennung</b> <br>" +
+                " <b>Seperation</b> <br>" +
                 " Abstand der einzelnen Schwarmmitglieder.<br><br>" +
                 " <b>Folge Leittier</b> <br>" +
                 " Abstand der Schwarmmitglieder zum Leittier.<br><br>" +
-                " <b>Gewünschter Abstand </b><br>" +
+                " <b>Gewuenschter Abstand </b><br>" +
                 " Mindestabstand der Schwarmmitglieder.<br><br>" +
                 " <b>Sichtweite</b> <br>" +
                 " Radius in dem die Schwarmmitglieder sich untereinander wahrnehmen. <br><br> </html>");
@@ -271,11 +269,11 @@ public class GUI extends JFrame {
         countLabel.setForeground(white);
         JLabel speedLabel = new JLabel("Simulationsgeschwindigkeit");
         speedLabel.setForeground(white);
-        JLabel cohLabel = new JLabel("Kohaesion");
+        JLabel cohLabel = new JLabel("Cohesion");
         cohLabel.setForeground(white);
-        JLabel aliLabel = new JLabel("Ausrichtung");
+        JLabel aliLabel = new JLabel("Alignement");
         aliLabel.setForeground(white);
-        JLabel sepLabel = new JLabel("Trennung");
+        JLabel sepLabel = new JLabel("Seperation");
         sepLabel.setForeground(white);
     
 	   
