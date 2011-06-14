@@ -32,26 +32,26 @@ public class Rules{
 	 * Erstelle ein "Standard" Model der Fliege mit Default-Einstellungen
 	 */
 	public Rules(){
-		maxspeed = 5f;
+		maxspeed = 10f;
 		randomWalk_weight = .0f;
-		speed = 4.0f;
+		speed = 0.5f;
 		leittierSpeed = 0.015f;
-		coh_weight = 0.4f;
-		ali_weight = 0.5f;
-		sep_weight = 0.6f;
+		coh_weight = 0.2f;
+		ali_weight = 0.0f;
+		sep_weight = 0.8f;
 		follow_weight = 0.5f;
 		desiredSeparation = 50.0f;
 		neighborDistance = 50.0f;			
 	}
 	
 	public void reset() {
-		maxspeed = 5f;
+		maxspeed = 10f;
 		randomWalk_weight = .0f;
-		speed = 4.0f;
+		speed = 0.5f;
 		leittierSpeed = 0.015f;
-		coh_weight = 0.4f;
-		ali_weight = 0.5f;
-		sep_weight = 0.6f;
+		coh_weight = 0.2f;
+		ali_weight = 0.0f;
+		sep_weight = 0.8f;
 		follow_weight = 0.5f;
 		desiredSeparation = 50.0f;
 		neighborDistance = 50.0f;
