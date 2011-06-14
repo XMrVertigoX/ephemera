@@ -283,7 +283,7 @@ public class Ephemera extends Node{
 			  vel = vel.normalize();
 			  vel.mult(rules.getSpeed());
 		}
-	    System.out.println(vel.length());
+	    //System.out.println(vel.length());
 	    // stellt sicher, dass Fliege immer in Flugrichtung schaut
 	    this.lookAt(getLocalTranslation().subtract(vel.mult(-1)),new Vector3f(0,1,0));
 	    spatialTransformer.setSpeed(vel.length()*100*rules.getSpeed());
