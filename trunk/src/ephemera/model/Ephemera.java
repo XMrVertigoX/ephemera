@@ -105,8 +105,8 @@ public class Ephemera extends Node{
 		// Kopf auf richtige Position verschieben
 		head.setLocalTranslation(0, 0, 4);
 
-		TriMesh fluegelr = getFluegel(-10,0,0,-10,0,5);
-		TriMesh fluegell = getFluegel(10,0,0,10,0,5);		
+		TriMesh fluegelr = getWings(-10,0,0,-10,0,5);
+		TriMesh fluegell = getWings(10,0,0,10,0,5);		
 		
 		attachChild(body);
 		attachChild(head);
@@ -127,6 +127,7 @@ public class Ephemera extends Node{
         x45.fromAngleAxis(FastMath.DEG_TO_RAD*45,new Vector3f(0,0,1));
         Quaternion xm45=new Quaternion();
         xm45.fromAngleAxis(-FastMath.DEG_TO_RAD*45,new Vector3f(0,0,1));
+      
         // verknuepft im Controller Zeitpunkte mit Quaternionen 
         spatialTransformer.setRotation(1, 2, xm45);
         spatialTransformer.setRotation(0,2,x45);
@@ -138,6 +139,7 @@ public class Ephemera extends Node{
         spatialTransformer.setRepeatType(spatialTransformer.RT_CYCLE);
         spatialTransformer.setActive(true);
         spatialTransformer.setSpeed(1f);//10+FastMath.nextRandomFloat()*10);
+       
         // Node-Element ist Host
         this.addController(spatialTransformer);
         setModelBound(new BoundingSphere());
@@ -158,8 +160,8 @@ public class Ephemera extends Node{
 	 * 
 	 * @return m Fluegel der Fliege als TriMesh
 	 */
-	public TriMesh getFluegel(float x,float y,float z,float x1,float y1,float z1){
-		TriMesh m=new TriMesh("Fluegel");
+	public TriMesh getWings(float x,float y,float z,float x1,float y1,float z1){
+		TriMesh m=new TriMesh("Wings");
 
         // Eckpunkte des Fluegels
         Vector3f[] vertexes={
@@ -205,11 +207,11 @@ public class Ephemera extends Node{
 	 * Durch diese Parameter wird die Flugbahn berechnet.
 	 * 
 	 * @param boids Liste mit allen Fliegen
-	 * @param leittier Vektor des Leittieres
+	 * @param leader Vektor des Leittieres
 	 * @param world Welt, in der sich die Fliegen bewegen
 	 */
-	public void run(ArrayList<Ephemera> boids, Vector3f leittier,World world) {
-		calcSteeringVector(boids,leittier,world);
+	public void run(ArrayList<Ephemera> boids, Vector3f leader,World world) {
+		calcSteeringVector(boids,leader,world);
 	    updateMember(); 	
 	}
 	
@@ -223,13 +225,13 @@ public class Ephemera extends Node{
 	 * obstaclesAvoidance-Methode.
 	 * 
 	 * @param flies Liste mit allen Fliegen
-	 * @param leittier Vektor des Leittieres
+	 * @param leader Vektor des Leittieres
 	 * @param world Welt, in der sich die Fliegen bewegen
 	 */
-	void calcSteeringVector(ArrayList<Ephemera> flies, Vector3f leittier, World world) {
+	void calcSteeringVector(ArrayList<Ephemera> flies, Vector3f leader, World world) {
 
 		// Berechnung der Vektoren fuer Separation, Alignment, Cohesion und des Leittieres		
-		Vector3f target = getLeittierZielVector(leittier);
+		Vector3f target = getLeaderTargetVector(leader);
 		Vector3f sep  = separate(flies); 
 	    Vector3f ali = align(flies);
 	    Vector3f coh = cohesion(flies);
@@ -262,12 +264,12 @@ public class Ephemera extends Node{
 	/**
 	 * Berechnet Vektor, der zum Zentrum des Leittiers zeigt.
 	 * 
-	 * @param leittier Vektor des Leittieres
+	 * @param leader Vektor des Leittieres
 	 * @return res Abstandsvektor normalisiert
 	 */
-	public Vector3f getLeittierZielVector(Vector3f leittier){
+	public Vector3f getLeaderTargetVector(Vector3f leader){
 		Vector3f pos = getLocalTranslation();
-		Vector3f res = leittier.subtract(pos).normalizeLocal();
+		Vector3f res = leader.subtract(pos).normalizeLocal();
 		return res;
 	}
 	
@@ -472,7 +474,7 @@ public class Ephemera extends Node{
 	 * 
 	 * @return rules Regeln der Fliege
 	 */
-	public Rules getRegeln(){ 
+	public Rules getRules(){ 
 		return rules;
 	}
 	
@@ -481,8 +483,8 @@ public class Ephemera extends Node{
 	 * 
 	 * @param regel Regel, die gesetzt wird
 	 */
-	public void setRegeln(Rules regel){
-		rules = regel;
+	public void setRules(Rules rule){
+		rules = rule;
 	}
 	
 	/**
