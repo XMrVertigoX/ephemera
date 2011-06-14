@@ -179,6 +179,20 @@ public class Hunter extends Node{
 		
 		target.normalizeLocal();
 		
+		
+		/**
+		 * Hier wird die Kollision mit Hindernissen in der Welt vermieden. Wenn eine Kollision
+		 * erkannt wird, so wird der uebergebene Vektor aus der obstaclesAvoidance-Methode als
+		 * neuer Zielvektor (target) gesetzt.
+		 */
+		if(world.obstacleAvoidance(this).length()!=0){
+			
+			target = world.obstacleAvoidance(this);
+		//	float angle = FastMath.PI/2f;
+		//	Matrix3f rotMat = new Matrix3f(1,0,0,0,FastMath.cos(angle),FastMath.sin(angle)*-1f,0,FastMath.sin(angle),FastMath.cos(angle));
+		//	target = rotMat.mult(target);
+		}
+		
 		/**
 		 * Wenn der Abstand zum Schwarm unter 50 ist, bekommt Jaeger Hunger und verringert seine Geschwindigkeit,
 		 * die Variavle hungry wird auf true gesetzt.
@@ -191,17 +205,6 @@ public class Hunter extends Node{
 		
 		else{
 			target.multLocal(fac);
-		}
-		
-		/**
-		 * Hier wird die Kollision mit Hindernissen in der Welt vermieden. Wird eine Kollision erkannt,
-		 * so wird der Zielvektor durch eine Rotationsmatrix um 30 Grad rotiert.
-		 */
-		if(world.obstacleAvoidance(this).length()!=0){
-			
-			float angle = FastMath.PI/2f;
-			Matrix3f rotMat = new Matrix3f(1,0,0,0,FastMath.cos(angle),FastMath.sin(angle)*-1f,0,FastMath.sin(angle),FastMath.cos(angle));
-			target = rotMat.mult(target);
 		}
 	
 		// lookAt-Methode garantiert, dass Jaeger immer in Flugrichtung schaut
