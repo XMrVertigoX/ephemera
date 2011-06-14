@@ -33,7 +33,8 @@ public final class BSpline extends Curve {
 		this.data = data;
 		numOfControlPoints = data.length;
 		order = 3;
-		position = new Vector3f(0f,0f,0f); 
+//		position = new Vector3f(0f,0f,0f);
+		position = data[0]; 
 		nodeVector = createNodeVector(order,data.length);
 	}
 	

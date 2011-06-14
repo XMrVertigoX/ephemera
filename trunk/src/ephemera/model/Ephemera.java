@@ -223,7 +223,7 @@ public class Ephemera extends Node{
 	 * @param leittier
 	 * @param world
 	 */
-	void calcSteeringVector(ArrayList<Ephemera> flies,Vector3f leittier,World world) {
+	void calcSteeringVector(ArrayList<Ephemera> flies, Vector3f leittier, World world) {
 	    
 		
 		
