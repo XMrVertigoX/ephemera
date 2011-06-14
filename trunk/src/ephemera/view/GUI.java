@@ -647,7 +647,7 @@ public class GUI extends JFrame {
      */
     public void updateCurrentLabel() {
     	int val = impl.getSwarm().getSwarm().size();
-        currentLabel.setText("Aktuelle FLiegenanzahl: " + val);
+        currentLabel.setText("Aktuelle Fliegenanzahl: " + val);
     }
     
     /**
