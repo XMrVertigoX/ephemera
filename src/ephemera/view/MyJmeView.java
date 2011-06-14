@@ -133,7 +133,6 @@ public class MyJmeView extends SimpleCanvasImpl {
     	DisplaySystem display = GUI.getDisplay();
     	
     	cam.setFrustumPerspective(45.0f, (float) display.getWidth() / (float) display.getHeight(), 1f, farPlane);
-    	cam.getLocation().set(0, 850, 850);
     	cam.update();
     }
  
