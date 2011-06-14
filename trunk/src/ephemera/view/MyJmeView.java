@@ -81,6 +81,8 @@ public class MyJmeView extends SimpleCanvasImpl {
         world.updateGeometricState(0, true);
         world.updateRenderState();
         world.setRenderQueueMode(Renderer.QUEUE_OPAQUE);
+        
+        gui.defaultValues();
 		
     };
 
