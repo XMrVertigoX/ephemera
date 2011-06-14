@@ -46,32 +46,30 @@ public class World extends Node{
 		
 		setupTerrain();
 		generateNest();
-		Obstacles.createHouse(-1800,-450,1084, new Vector3f(200,700,400),objectNode,terrain);
-		Obstacles.createHouse(2000,-450,-1350, new Vector3f(350,500,400),objectNode,terrain);
+				
+		Obstacles.createTree(-1210, -1720, objectNode,terrain);
+		Obstacles.createTree(-850, 1550, objectNode,terrain);
+		Obstacles.createTree(1450, 0, objectNode,terrain);
+		Obstacles.createTree(1810, 1900, objectNode,terrain);
 		
-		Obstacles.createTree(-1210, -350, -1720, objectNode,terrain);
-		Obstacles.createTree(-850, -350, 1550, objectNode,terrain);
-		Obstacles.createTree(1450, -350, 0, objectNode,terrain);
-		Obstacles.createTree(1810, -350, 1900, objectNode,terrain);
+		Obstacles.createShrub1(-1550, -50, objectNode,terrain);
+		Obstacles.createShrub1(-800, 530, objectNode,terrain);
+		Obstacles.createShrub1(1050, 2000, objectNode,terrain);
+		Obstacles.createShrub1(1695, 810, objectNode,terrain);
 		
-		Obstacles.createShrub1(-1550, -400, -50, objectNode,terrain);
-		Obstacles.createShrub1(-800, -400, 530, objectNode,terrain);
-		Obstacles.createShrub1(1050, -400, 2000, objectNode,terrain);
-		Obstacles.createShrub1(1695, -400, 810, objectNode,terrain);
+		Obstacles.createShrub2(-200, 650, objectNode,terrain);
+		Obstacles.createShrub2(600, -1050, objectNode,terrain);
+		Obstacles.createShrub2(-2000, 30, objectNode,terrain);	
+		Obstacles.createShrub2(1850, -1850, objectNode,terrain);
+		Obstacles.createShrub2(1200, 1150, objectNode,terrain);
+		Obstacles.createShrub2(1300, -950, objectNode,terrain);
 		
-		Obstacles.createShrub2(-200, -400, 650, objectNode,terrain);
-		Obstacles.createShrub2(600, -400, -1050, objectNode,terrain);
-		Obstacles.createShrub2(-2000, -400, 30, objectNode,terrain);	
-		Obstacles.createShrub2(1850, -400, -1850, objectNode,terrain);
-		Obstacles.createShrub2(1200, -400, 1150, objectNode,terrain);
-		Obstacles.createShrub2(1300, -400, -950, objectNode,terrain);
-		
-		Obstacles.createFir(-2000, -400, 2000, objectNode,terrain);
-		Obstacles.createFir(-1730, -400, -910, objectNode,terrain);
-		Obstacles.createFir(-1000, -400, -1100, objectNode,terrain);
-		Obstacles.createFir(-520, -400, -1820, objectNode,terrain);
-		Obstacles.createFir(-260, -400, -890, objectNode,terrain);
-		Obstacles.createFir(300, -400, 250, objectNode,terrain);
+		Obstacles.createFir(-2000, 2000, objectNode,terrain);
+		Obstacles.createFir(-1730, -910, objectNode,terrain);
+		Obstacles.createFir(-1000, -1100, objectNode,terrain);
+		Obstacles.createFir(-520, -1820, objectNode,terrain);
+		Obstacles.createFir(-260, -890, objectNode,terrain);
+		Obstacles.createFir(300, 250, objectNode,terrain);
 		objectNode.updateRenderState();
         objectNode.updateModelBound();
 		//generateRandomObjects(100);
