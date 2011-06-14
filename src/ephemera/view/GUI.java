@@ -700,17 +700,15 @@ public class GUI extends JFrame {
     }
 
 
-	/**
-	 * @return the countSlider
+	/** Getter fuer countSlider
+	 * @return countSlider-Wert
 	 */
 	public int getCount() {
 		return countSlider.getValue();
 	}
 
-
-
-	/**
-	 * @return the hunterSlider
+	/** Getter fuer hunterSlider
+	 * @return hunterSlider-Wert
 	 */
 	public int getHunter() {
 		return hunterSlider.getValue();
