@@ -29,10 +29,14 @@ public class SwarmController {
 	/**
 	 * Konstruktor erstellt ArrayListe, Pathcontroller
 	 */
-	public SwarmController(){
+	public SwarmController(World world){
+		this.world = world;
+		
 		rules = new Rules();
 		flies = new ArrayList<Ephemera>();
 		pathController = new PathController(rules);
+		
+		addFlies(50);
 	}
 	
 	public void setWorld(World w){
