@@ -33,7 +33,7 @@ public class Rules{
 	 * Erstelle ein "Standard" Model der Fliege mit Default-Einstellungen
 	 */
 	public Rules(){
-		randomWalk_weight = .0f;
+		randomWalk_weight = 50f;
 		speed = 4.0f;
 		leittierSpeed = 0.02f;
 		coh_weight = 0.5f;
@@ -142,6 +142,18 @@ public class Rules{
 
 	public void setRandomWalk_weight(float randomWalk_weight) {
 		this.randomWalk_weight = randomWalk_weight;
+	}
+	
+	public void toggleRandomWalk(){
+		
+		if (randomWalk_weight == 1) {
+			randomWalk_weight = 0;
+		}
+		
+		else {
+			randomWalk_weight = 1;
+		}
+		
 	}
 
 }
