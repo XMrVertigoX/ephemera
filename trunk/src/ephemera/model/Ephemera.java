@@ -235,14 +235,14 @@ public class Ephemera extends Node{
 		Vector3f sep  = separate(flies); 
 	    Vector3f ali = align(flies);
 	    Vector3f coh = cohesion(flies);
-	    //Vector3f randomWalk = randomWalk();
+	    Vector3f randomWalk = randomWalk();
 	    
 	    // Multiplikation der oben errechneten Vektoren mit den eingestellten Gewichten
 	    target.multLocal(rules.getFollow_weight());
 	    sep.multLocal(rules.getSep_weight());
 	    ali.multLocal(rules.getAli_weight());
 	    coh.multLocal(rules.getCoh_weight());
-	    //randomWalk.multLocal(rules.getRandomWalk_weight());
+	    randomWalk.multLocal(rules.getRandomWalk_weight());
 	   
 	    // Addierung der einzelnen Vektoren auf den Beschleunigungsvektor acc
 	    acc = new Vector3f();
@@ -251,10 +251,11 @@ public class Ephemera extends Node{
 	    acc.addLocal(ali);
 	    acc.addLocal(coh);
 	    acc.addLocal(target);
-	    //acc.addLocal(randomWalk);
+	    acc.addLocal(randomWalk);
 	    
 	    // Kollisionsvermeidung
-	    acc.addLocal(world.obstacleAvoidance(this));
+	    Vector3f kol = world.obstacleAvoidance(this);
+	    if (kol.length()>0)acc = kol;
 	    //System.out.println("Coh: "+rules.getCoh_weight()+" Sep: "+rules.getSep_weight());
 		// Kollisionsvermeidung mit Objekten in der Welt
 		//if (koll.length()!=0)acc = koll.mult(1);  
@@ -466,7 +467,7 @@ public class Ephemera extends Node{
 		int z = FastMath.nextRandomInt(4, 5);
 		Vector3f res = base[x].add(base[y]).add(base[z]); 
 	
-		return res;	
+		return getLeaderTargetVector(res);	
 	}
 
 	/**
