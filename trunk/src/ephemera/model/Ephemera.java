@@ -241,7 +241,7 @@ public class Ephemera extends Node{
 	    acc.addLocal(ali.mult(rules.getSpeed()));
 	    acc.addLocal(coh.mult(rules.getSpeed()));
 	    acc.addLocal(target.mult(rules.getSpeed()));
-	    //acc.addLocal(randomWalk.mult(rules.getSpeed()));
+	    acc.addLocal(randomWalk.mult(rules.getSpeed()));
 	    
 	    // Kollisionsvermeidung
 	    Vector3f kol = world.obstacleAvoidance(this);
@@ -402,7 +402,7 @@ public class Ephemera extends Node{
 		int z = FastMath.nextRandomInt(4, 5);
 		Vector3f res = base[x].add(base[y]).add(base[z]); 
 	
-		return getLeaderTargetVector(res);	
+		return res;
 	}
 
 	/**
