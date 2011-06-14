@@ -1,20 +1,15 @@
 package ephemera.controller;
 
 import java.util.ArrayList;
-import java.util.List;
-
+import com.jme.math.Vector3f;
+import com.jme.scene.Node;
+import com.jme.scene.Spatial;
 import ephemera.model.Ephemera;
 import ephemera.model.Rules;
 import ephemera.model.World;
 
-import com.jme.bounding.BoundingSphere;
-import com.jme.math.Vector3f;
-import com.jme.scene.Node;
-import com.jme.scene.Spatial;
-import com.jme.scene.Spatial.CullHint;
-
 /**
- * 
+ * Initialisiert den Schwarm und erstellt die Fliegen.
  * @author Semjon Mooraj
  *
  */
@@ -28,6 +23,7 @@ public class SwarmController {
 	
 	/**
 	 * Konstruktor erstellt ArrayListe, Pathcontroller
+	 * @param world Die World, innerhalb derer sich der Schwarm bewegt.
 	 */
 	public SwarmController(World world){
 		this.world = world;
@@ -39,12 +35,8 @@ public class SwarmController {
 		addFlies(50);
 	}
 	
-	public void setWorld(World w){
-		world = w;
-	}
-	
 	/**
-	 * gibt Regeln der Fliege zurueck
+	 * @return Regelobjekt der Fliegen
 	 */
 	public Rules getRules(){
 		return rules;
@@ -57,22 +49,20 @@ public class SwarmController {
 		Vector3f temp = pathController.getLeader().getPos();
 		for (Ephemera e:flies){
 			e.run(flies,temp,world);
-			//e.kollider(schwarm);
 		}
 	}
 	
-	
 	/**
-	 * Fliege hinzufeugen
-	 * @param newbie
+	 * Fuegt dem Schwarm eine Konkrete Fliege hinzu.
+	 * @param Ephemera-Objekt
 	 */
 	void addFly(Ephemera newbie){
 		flies.add(newbie);
 	}
 	
 	/**
-	 * Fliege entfernen
-	 * @param dead
+	 * Entfernt eine konkrete Fliege aus dem Schwarm.
+	 * @param Ephemera-Objekt
 	 */
 	public void deleteFly(Ephemera dead){
 		flies.remove(dead);
@@ -81,8 +71,8 @@ public class SwarmController {
 	}
 	
 	/**
-	 * fuegt N Fligen zum Schwarm hinzu
-	 * @param N
+	 * Fuegt N Fligen zum Schwarm hinzu
+	 * @param N Anzahl der Fliegen
 	 */
 	public void addFlies(int N){
 		for (int i=0;i<N;i++){
@@ -93,42 +83,54 @@ public class SwarmController {
 		initSwarmNode();	
 	}
 	
-//	public void addFly(Vector3f pos){
-//		Ephemera fly= new Ephemera(pos);
-//		flies.add(fly);
-//		swarm.attachChild(fly);
-//	}
-	
-	public void addFly(Rules rules){
+	/**
+	 * Erstellt im Schwarm eine neue Fliege hinzu.
+	 */
+	public void addFly(){
 		Ephemera fly= new Ephemera(rules);
 		flies.add(fly);
 		swarm.attachChild(fly);
 	}
 	
-	
 	/**
-	 * Getter
+	 * Initialisiert den Schwarm.
 	 */
 	public void initSwarmNode(){
+		
 		// SzeneKnoten fŸr den Schwarm
 		swarm = new Node("theSwarm");
+		
 		// Fliegen anmelden 
 		for (Ephemera e:flies){
 			swarm.attachChild((Spatial)e);
 		}
-		// Leittier anmelden 
-		//schwarm.attachChild(pathController.getLeittier());
-		
-		//schwarm.setModelBound(new BoundingSphere());
-		//schwarm.setCullHint(Spatial.CullHint.Never);
 	}
 	
-	public Node getSwarmNode(){ return swarm;}
+	/**
+	 * @return Node des Schwarms
+	 */
+	public Node getSwarmNode(){
+		return swarm;
+		}
+	
+	/**
+	 * @return Node des Leittieres, dem der Schwarm folgt.
+	 */
 	public Node getLeaderNode(){
 		return pathController.getLeaderNode();
 	}
+	
+	/**
+	 * @return Array-List mit den einzelnen Fliegen.
+	 */
 	public ArrayList<Ephemera> getSwarm(){
 		return flies;
 	}
-	public PathController getPathController(){ return pathController;}
+	
+	/**
+	 * @return Path Controller des Schwarms.
+	 */
+	public PathController getPathController(){
+		return pathController;
+		}
 }

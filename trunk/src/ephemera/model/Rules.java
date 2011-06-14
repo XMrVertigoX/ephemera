@@ -41,6 +41,9 @@ public class Rules{
 		neighborDistance = 50.0f;			
 	}
 	
+	/**
+	 * Setzt die Werte fuer die Regeln auf die Default-Werte.
+	 */
 	public void reset() {
 		maxspeed = 10f;
 		speed = 0.5f;

@@ -1,9 +1,3 @@
-/**
- * Diese Klasse stellt die Bedienung der Simulation dar. Dazu wird ein Swing-Interface genutzt.
- * @author Kilian Heinrich, Stefan Greuel
- *
- */
-
 package ephemera.view;
 import java.awt.*;
 import java.awt.event.*;
@@ -21,7 +15,11 @@ import com.jme.util.GameTaskQueueManager;
 import com.jmex.awt.lwjgl.*;
 import ephemera.controller.CamHandler;
 
-
+/**
+ * Diese Klasse stellt die Bedienung der Simulation dar. Dazu wird ein Swing-Interface genutzt.
+ * @author Kilian Heinrich, Stefan Greuel
+ *
+ */
 public class GUI extends JFrame {
 
     private MyJmeView impl;
@@ -69,7 +67,6 @@ public class GUI extends JFrame {
         }
     }
 
-  
     /**
      * Gibt DisplaySystem zurueck
      * @return DisplaySystem
@@ -77,7 +74,6 @@ public class GUI extends JFrame {
     public static DisplaySystem getDisplay(){
     	return display;
     }
-    
     
     /**
      * Unterteilung der GUI in JPanel, JTabbedPane, JSplitPane
@@ -115,7 +111,6 @@ public class GUI extends JFrame {
         
         setSize(new Dimension(width, height));
     }
-
     
     /**
      * Erstellt obere Menueleiste
@@ -142,7 +137,6 @@ public class GUI extends JFrame {
             }
         };
         quit.putValue(Action.MNEMONIC_KEY, KeyEvent.VK_Q);
-
 
         /**
          * Oeffnet ein neues Fenster mit Hilfe zur Programmbedienung
@@ -183,7 +177,6 @@ public class GUI extends JFrame {
         };
         help.putValue(Action.MNEMONIC_KEY, KeyEvent.VK_N);
         
-        
         /**
          * Oeffnet ein neues Fenster mit Informationen zum Projekt
          */
@@ -221,7 +214,6 @@ public class GUI extends JFrame {
         };
         
         about.putValue(Action.MNEMONIC_KEY, KeyEvent.VK_N);
-
 
         //Datei-Menue
     	JMenu file = new JMenu("Datei");
@@ -273,7 +265,7 @@ public class GUI extends JFrame {
         countSlider.addChangeListener(new ChangeListener() {	
 			public void stateChanged(ChangeEvent ce) {
 					//updateCountLabel(countLabel, countSlider);
-				}
+			}
 		});
         
    	 	countSlider.setMajorTickSpacing(200);
@@ -319,7 +311,7 @@ public class GUI extends JFrame {
 
         	public void actionPerformed(ActionEvent e) {
         		if (impl.getSwarm().getSwarm().size() < countSlider.getValue()) {
-        			impl.getSwarm().addFly(impl.getSwarm().getRules());
+        			impl.getSwarm().addFly();
             		System.out.println ("Fliege hinzugefuegt");
         		}
         		else {
@@ -725,6 +717,4 @@ public class GUI extends JFrame {
 	public int getHunterValue() {
 		return hunterSlider.getValue();
 	}
-
-
 }
