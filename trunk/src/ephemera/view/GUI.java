@@ -40,6 +40,7 @@ public class GUI extends JFrame {
     private JSlider followSlider;
     private JSlider desiredSlider;
     private JSlider neighborSlider;
+    private JLabel currentLabel;
 
 	//Groesse des Startfensters
 	int width = 1280, height = 720;
@@ -254,6 +255,8 @@ public class GUI extends JFrame {
         JLabel ephemeraLabel = new JLabel("ephemera");
         ephemeraLabel.setForeground(blue);
         ephemeraLabel.setFont(new Font("Arial", Font.PLAIN, 24));
+        currentLabel = new JLabel("Aktuelle Fliegenanzahl:");
+        currentLabel.setForeground(white);
         final JLabel countLabel = new JLabel("Maximale Fliegenanzahl");
         countLabel.setForeground(white);
         JLabel speedLabel = new JLabel("Fluggeschwindigkeit");
@@ -399,22 +402,25 @@ public class GUI extends JFrame {
         optionsPanel.add(ephemeraLabel, new GridBagConstraints(0, 0, 1, 1,
                 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE,
                 new Insets(5, 10, 10, 10), 0, 0));        
-        optionsPanel.add(countLabel, new GridBagConstraints(0, 1, 1, 1,
+        optionsPanel.add(currentLabel, new GridBagConstraints(0, 1, 1, 1,
                 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE,
                 new Insets(5, 10, 10, 10), 0, 0));
-        optionsPanel.add(countSlider, new GridBagConstraints(0, 2, 5, 1,
+        optionsPanel.add(countLabel, new GridBagConstraints(0, 2, 1, 1,
+                0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE,
+                new Insets(5, 10, 10, 10), 0, 0));
+        optionsPanel.add(countSlider, new GridBagConstraints(0, 3, 5, 1,
                 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
                 new Insets(5, 10, 10, 10), 0, 0));
-        optionsPanel.add(speedLabel, new GridBagConstraints(0, 3, 1, 1,
+        optionsPanel.add(speedLabel, new GridBagConstraints(0, 4, 1, 1,
                 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE,
                 new Insets(5, 10, 10, 10), 0, 0));
-        optionsPanel.add(speedSlider, new GridBagConstraints(0, 4, 5, 1,
+        optionsPanel.add(speedSlider, new GridBagConstraints(0, 5, 5, 1,
                 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
                 new Insets(5, 10, 10, 10), 0, 0));        
-        optionsPanel.add(flyButton, new GridBagConstraints(0, 5, 5, 1,
+        optionsPanel.add(flyButton, new GridBagConstraints(0, 6, 5, 1,
                 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
                 new Insets(5, 10, 10, 10), 0, 0));
-        optionsPanel.add(flyButton, new GridBagConstraints(0, 6, 5, 1,
+        optionsPanel.add(flyButton, new GridBagConstraints(0, 7, 5, 1,
                 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
                 new Insets(5, 10, 10, 10), 0, 0));
         optionsPanel.add(cohLabel, new GridBagConstraints(0, 7, 1, 1,
@@ -632,6 +638,16 @@ public class GUI extends JFrame {
         JSlider countSlider=cs;
     	int val = countSlider.getValue();
         countLabel.setText("Maximale Fliegenanzahl: " + val);
+    }
+    
+    /**
+     * Aktualisiert currentLabel 
+     * @param JLabel
+     * @param JSlider
+     */
+    public void updateCurrentLabel() {
+    	int val = impl.getSwarm().getSwarm().size();
+        currentLabel.setText("Aktuelle FLiegenanzahl: " + val);
     }
     
     /**
