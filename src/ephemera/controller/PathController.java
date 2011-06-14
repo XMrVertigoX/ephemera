@@ -32,12 +32,13 @@ public class PathController{
 		// erstelle Pfad
 		this.rules = rules;
 		path = new Node("Pfad");
-		Vector3f[] data = new Vector3f[5];
-		data[0] = new Vector3f(0f,0f,-2000f);
+		Vector3f[] data = new Vector3f[6];
+		data[0] = new Vector3f(1000f,-200f,-2000f);
 		data[1] = new Vector3f(2000f,0f,0f);
-		data[2] = new Vector3f(0f,0f,2000f);
-		data[3] = new Vector3f(-2000f,0f,0f);
-		data[4] = new Vector3f(0f,0f,-2000f);
+		data[2] = new Vector3f(1000f,200f,2000f);
+		data[3] = new Vector3f(-1000f,0f,-2000f);
+		data[4] = new Vector3f(-2000f,-200f,0f);
+		data[5] = new Vector3f(-1000f,0f,2000f);
 		BSpline bp = new BSpline("Bewegungspfad",data);
 		
 		// erstelle das Leittier 
