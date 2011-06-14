@@ -266,7 +266,6 @@ public class GUI extends JFrame {
 			public void stateChanged(ChangeEvent ce) {
 				float value = countSlider.getValue();
 //				System.out.println("Maximale Fliegenanzahl "+value);
-//					impl.getSwarm().setMaxFlies((int) value);
 					updateCountLabel(countLabel, countSlider);
 				}
 		});
@@ -284,6 +283,7 @@ public class GUI extends JFrame {
         countSlider.setEnabled(true);
         countSlider.setForeground(white);
         countSlider.setSnapToTicks(false);
+        countSlider.setBackground(dgrey);
         
     	speedSlider = new JSlider();
         
@@ -300,6 +300,7 @@ public class GUI extends JFrame {
         speedSlider.setEnabled(true);
         speedSlider.setForeground(white);
         speedSlider.setSnapToTicks(false);
+        speedSlider.setBackground(dgrey);
         
         speedSlider.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent ce) {
@@ -346,6 +347,7 @@ public class GUI extends JFrame {
 	    cohSlider.setPaintTrack(true);
 	    cohSlider.setEnabled(true);
 	    cohSlider.setForeground(white);
+	    cohSlider.setBackground(dgrey);
     
 	    aliSlider = new JSlider();
    
@@ -367,6 +369,7 @@ public class GUI extends JFrame {
 	    aliSlider.setPaintTrack(true);
 	    aliSlider.setEnabled(true);
     	aliSlider.setForeground(white);
+    	aliSlider.setBackground(dgrey);
     
     	sepSlider = new JSlider();
     	
@@ -388,6 +391,7 @@ public class GUI extends JFrame {
        sepSlider.setPaintTrack(true);
        sepSlider.setEnabled(true); 
        sepSlider.setForeground(white);
+       sepSlider.setBackground(dgrey); 
 
        	// Arrangement des Grundeinstellungspanel
         JPanel optionsPanel = new JPanel(new GridBagLayout());
@@ -462,12 +466,13 @@ public class GUI extends JFrame {
         hunterSlider.setPaintLabels(true);	
         hunterSlider.setPaintTrack(true);	
         hunterSlider.setEnabled(true); 
-        hunterSlider.setForeground(white);  
+        hunterSlider.setForeground(white);
+        hunterSlider.setBackground(dgrey);  
       
         hunterSlider.addChangeListener(new ChangeListener(){
     		public void stateChanged(ChangeEvent ce) {
     			if (impl.getHunter() != null) {
-    				impl.getHunter().setLifetime((int) hunterSlider.getValue());
+    				impl.getHunter().setLifetime(getHunter());
     			}
     			
 //    			System.out.println("Jaegerlebensdauer: " + hunterSlider.getValue());
@@ -494,6 +499,7 @@ public class GUI extends JFrame {
         followSlider.setPaintTrack(true);	
         followSlider.setEnabled(true); 
         followSlider.setForeground(white);
+        followSlider.setBackground(dgrey);  
     	
  
         desiredSlider = new JSlider();
@@ -514,7 +520,8 @@ public class GUI extends JFrame {
         desiredSlider.setPaintLabels(true);	
         desiredSlider.setPaintTrack(true);	
         desiredSlider.setEnabled(true); 
-        desiredSlider.setForeground(white);          
+        desiredSlider.setForeground(white);
+        desiredSlider.setBackground(dgrey);          
  
         neighborSlider = new JSlider();
    		neighborSlider.addChangeListener(new ChangeListener(){
@@ -535,6 +542,7 @@ public class GUI extends JFrame {
         neighborSlider.setPaintTrack(true);	
         neighborSlider.setEnabled(true);  
         neighborSlider.setForeground(white);
+        neighborSlider.setBackground(dgrey);
 
         hunterButton = new JButton(new AbstractAction("Jaeger hinzufuegen") {
             private static final long serialVersionUID = 1L;
@@ -691,7 +699,7 @@ public class GUI extends JFrame {
                 }
             });
             
-            impl = new MyJmeView(width, height);
+            impl = new MyJmeView(width, height, this);
             camhand = new CamHandler();
             camhand.setJmeView(impl);
             glCanvas.addMouseWheelListener(camhand);
@@ -740,4 +748,76 @@ public class GUI extends JFrame {
             }
         }
     }
+
+
+	/**
+	 * @return the countSlider
+	 */
+	public int getCount() {
+		return countSlider.getValue();
+	}
+
+
+	/**
+	 * @return the speedSlider
+	 */
+	public int getSpeed() {
+		return speedSlider.getValue();
+	}
+
+
+	/**
+	 * @return the cohSlider
+	 */
+	public int getCoh() {
+		return cohSlider.getValue();
+	}
+
+
+	/**
+	 * @return the aliSlider
+	 */
+	public int getAli() {
+		return aliSlider.getValue();
+	}
+
+
+	/**
+	 * @return the sepSlider
+	 */
+	public int getSep() {
+		return sepSlider.getValue();
+	}
+
+
+	/**
+	 * @return the hunterSlider
+	 */
+	public int getHunter() {
+		return hunterSlider.getValue();
+	}
+
+
+	/**
+	 * @return the followSlider
+	 */
+	public int getFollow() {
+		return followSlider.getValue();
+	}
+
+
+	/**
+	 * @return the desiredSlider
+	 */
+	public int getDesired() {
+		return desiredSlider.getValue();
+	}
+
+
+	/**
+	 * @return the neighborSlider
+	 */
+	public int getNeighbor() {
+		return neighborSlider.getValue();
+	}
 }

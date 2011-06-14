@@ -25,13 +25,11 @@ public class SwarmController {
 	private PathController pathController;
 	private World world;
 	private Rules rules;
-	private int maxFlies;
 	
 	/**
 	 * Konstruktor erstellt ArrayListe, Pathcontroller
 	 */
 	public SwarmController(){
-		maxFlies = 200;
 		rules = new Rules();
 		flies = new ArrayList<Ephemera>();
 		pathController = new PathController(rules);
@@ -39,14 +37,6 @@ public class SwarmController {
 	
 	public void setWorld(World w){
 		world = w;
-	}
-	
-	public int getMaxFlies() {
-		return maxFlies;
-	}
-	
-	public void setMaxFlies(int value) {
-		maxFlies = value;
 	}
 	
 	/**
