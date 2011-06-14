@@ -27,7 +27,8 @@ public class Ephemera extends Node{
 	private Vector3f			vel;	// Geschwindigkeitsvektor
 	private SpatialTransformer 	spatialTransformer; // Animation
 	
-	private Vector3f[] base = {		// Richtungsvektoren für RandomWalk 
+	// Richtungsvektoren für RandomWalk
+	private Vector3f[] base = {		 
 			new Vector3f(1,0,0),
 			new Vector3f(-1,0,0),
 			new Vector3f(0,1,0),
@@ -41,7 +42,8 @@ public class Ephemera extends Node{
 	 * Geschwindigkeits- und Beschleunigungsvektor wird mit 0 initialisiert
 	 * Position der einzelnen Fliege wird gesetzt
 	 * Counter läuft mit und zaehlt erstellte Fliegen
-	 * @param pos
+	 * 
+	 * @param pos Startposition der Fliege
 	 */
 //	public Ephemera(Vector3f pos){
 //		super("Fly_"+count);		// Instanziiere Node der die Fliege repräsentiert
@@ -57,23 +59,30 @@ public class Ephemera extends Node{
 //	}
 	
 	/**
-	 * Konstruktor, welchem Startposition und Regeln der Fliege uebergeben wird
-	 * Geschwindigkeits- und Beschleunigungsvektor wird mit 0 initialisiert
-	 * Position der einzelnen Fliege wird gesetzt
-	 * Counter läuft mit und zaehlt erstellte Fliegen
-	 * @param pos
-	 * @param rules
+	 * Konstruktor, welchem Startposition und Regeln der Fliege uebergeben wird.
+	 * Geschwindigkeits- und Beschleunigungsvektor wird mit 0 initialisiert.
+	 * Position der einzelnen Fliege wird gesetzt.
+	 * Counter läuft mit und zaehlt erstellte Fliegen.
+	 * 
+	 * @param pos Startposition der Fliege
+	 * @param rules Regeln nach denen sich Fliege richtet
 	 */
 	public Ephemera(Rules rules){
-		super("Fly_"+count);		// Instanziiere Node der die Fliege repräsentiert
-		acc = new Vector3f(0,0,0);	// Mit 0 initialisieren
+		
+		// instanziiert Node, der die Fliege repraesentiert
+		super("Fly_"+count);		
+		
+		// Geschwindigkeits- und Beschleunigungsvektor wird mit 0 initialisiert
+		acc = new Vector3f(0,0,0);
 		vel = new Vector3f(0,0,0);
 		age = System.currentTimeMillis();
 		this.rules = rules;
-		// Lade Form
+		
+		// Methode initDefaultFly wird aufgerufen, initialisiert Form der Fliege
 		initDefaultFly();
 		setLocalTranslation(new Vector3f((float) (Math.random()*100), (float) (Math.random()*100), (float) (Math.random()*100)));
-		// Counter Hochzählen
+		
+		// Counter wird hochgezaehlt
 		count++;
 	}
 	
@@ -81,19 +90,19 @@ public class Ephemera extends Node{
 	
 	/**
 	 * Initialisierung der Fliege, hier wird das Aussehen der Fliege festgelegt
-	 * Koerper, Kopf und Fluegel der Fliege werden erstellt und an Node gehaengt
-	 * Animationscontroller wird mit 2 Keyframes initialisiert
+	 * Koerper, Kopf und Fluegel der Fliege werden erstellt und an Node gehaengt.
+	 * Ein Animationscontroller wird mit 2 Keyframes initialisiert.
 	 */
 	public void initDefaultFly(){
 		
-		// Form der Fliege
+		// Form der Fliege, Kopf und Rumpf in Form einer Sphere
 		Sphere body = new Sphere("Koerper",10,10,2);
 		Sphere head = new Sphere("Kopf",10,10,1);
 		//body.setIsCollidable(false);
 		body.setLocalScale(new Vector3f(.51f,.51f,2));
 		body.setSolidColor(ColorRGBA.black);
 		
-		//Kopf verschieben
+		// Kopf auf richtige Position verschieben
 		head.setLocalTranslation(0, 0, 4);
 
 		TriMesh fluegelr = getFluegel(-10,0,0,-10,0,5);
@@ -104,21 +113,21 @@ public class Ephemera extends Node{
 		
 		attachChild(fluegelr);
 		attachChild(fluegell);
-		// Node auf pos bewegen
-		// Animation wird über SpatioalController gesteuert
+		
+		// Animation wird ueber SpatialController gesteuert
 		spatialTransformer=new SpatialTransformer(2);
-        // Melde Objekte an 
+        // an diesem wird Objekt angemeldet 
 		spatialTransformer.setObject(fluegelr,0,-1);
         spatialTransformer.setObject(fluegell, 1, -1);
         
 
         
-        // Berrechne Quaternion für Rotation
+        // berrechnet Quaternion für die Rotation
         Quaternion x45=new Quaternion();
         x45.fromAngleAxis(FastMath.DEG_TO_RAD*45,new Vector3f(0,0,1));
         Quaternion xm45=new Quaternion();
         xm45.fromAngleAxis(-FastMath.DEG_TO_RAD*45,new Vector3f(0,0,1));
-        // Verknüpfe im Controller Zeitpunkte mit Quaternionen 
+        // verknuepft im Controller Zeitpunkte mit Quaternionen 
         spatialTransformer.setRotation(1, 2, xm45);
         spatialTransformer.setRotation(0,2,x45);
         spatialTransformer.setRotation(1, 4, x45);
@@ -129,7 +138,7 @@ public class Ephemera extends Node{
         spatialTransformer.setRepeatType(spatialTransformer.RT_CYCLE);
         spatialTransformer.setActive(true);
         spatialTransformer.setSpeed(1f);//10+FastMath.nextRandomFloat()*10);
-        // Node element ist host
+        // Node-Element ist Host
         this.addController(spatialTransformer);
         setModelBound(new BoundingSphere());
         updateRenderState();
@@ -139,13 +148,15 @@ public class Ephemera extends Node{
 	/**
 	 * Methode gibt rechten und linken Fluegel der Fliege zurueck,
 	 * uebergebene Parameter bestimmen die Eckpunkte des Fluegels.
-	 * @param x
-	 * @param y
-	 * @param z
-	 * @param x1
-	 * @param y1
-	 * @param z1
-	 * @return TriMesh
+	 * 
+	 * @param x x-Wert fuer Eckpunkt-Koordinate des Fliegenfluegels
+	 * @param y y-Wert fuer Eckpunkt-Koordinate des Fliegenfluegels
+	 * @param z z-Wert fuer Eckpunkt-Koordinate des Fliegenfluegels
+	 * @param x1 zweiter x-Wert fuer Eckpunkt-Koordinate des Fliegenfluegels
+	 * @param y1 zweiter y-Wert fuer Eckpunkt-Koordinate des Fliegenfluegels
+	 * @param z1 zweiter z-Wert fuer Eckpunkt-Koordinate des Fliegenfluegels
+	 * 
+	 * @return m Fluegel der Fliege als TriMesh
 	 */
 	public TriMesh getFluegel(float x,float y,float z,float x1,float y1,float z1){
 		TriMesh m=new TriMesh("Fluegel");
@@ -158,7 +169,7 @@ public class Ephemera extends Node{
             new Vector3f(x1,y1,z1)
         };
 
-        // Normal directions for each vertex position
+        // Richtung fuer jeden Eckpunkt
         Vector3f[] normals={
             new Vector3f(0,1,0),
             new Vector3f(0,1,0),
@@ -166,7 +177,7 @@ public class Ephemera extends Node{
             new Vector3f(0,1,0)
         };
 
-        // Color for each vertex position
+        // Farbe fuer jeden Eckpunkt
         ColorRGBA[] colors={
             new ColorRGBA(1,0,0,1),
             new ColorRGBA(1,0,0,1),
@@ -174,15 +185,14 @@ public class Ephemera extends Node{
             new ColorRGBA(0,1,0,1)
         };
 
-        // Texture Coordinates for each position
-
      
-        // The indexes of Vertex/Normal/Color/TexCoord sets.  Every 3 makes a triangle.
+        // Indizes fuer Eckpunkte des Fluegels, Richtung, Farbe
+        // 3 Indizes ergeben ein Dreieck
         int[] indexes={
             0,1,2,1,2,3
         };
 
-        // Feed the information to the TriMesh
+        // Information wid der TriMesh uebergeben
         m.reconstruct(BufferUtils.createFloatBuffer(vertexes), BufferUtils.createFloatBuffer(normals),
         		null,null, BufferUtils.createIntBuffer(indexes));
         
@@ -193,49 +203,46 @@ public class Ephemera extends Node{
 	/**
 	 * Methode, welche eine Liste mit allen Fliegen, den Leittiervektor und die Welt uebergeben bekommt.
 	 * Durch diese Parameter wird die Flugbahn berechnet.
-	 * @param boids
-	 * @param leittier
-	 * @param world
+	 * 
+	 * @param boids Liste mit allen Fliegen
+	 * @param leittier Vektor des Leittieres
+	 * @param world Welt, in der sich die Fliegen bewegen
 	 */
 	public void run(ArrayList<Ephemera> boids, Vector3f leittier,World world) {
 		calcSteeringVector(boids,leittier,world);
 	    updateMember(); 	
 	}
 	
-	/**
-	 * Methode, welche der Kollisionsvermeidung dient
-	 * Hier wird berechnet, ob es eine Kollision eines Boids mit Hindernissen und den Weltgrenzen gibt.
-	 * Wenn ja, wird ein steerAway-Vektor berechnet, der vom Hindernis wegzeigt.
-	 * Wenn nicht, dann wird ein nicht initialisierter Vektor zurueckgegeben.
-	 * @param objectNode
-	 * @return Vector3f
-	 */
 
-	
 	/**
 	 * Methode, welche das Verhalten der Fliege anhand der Regeln und Umwelteinflüsse, wie
-	 * Hindernissen in der Welt, berechnet.
-	 * @param flies
-	 * @param leittier
-	 * @param world
+	 * Hindernissen in der Welt, berechnet. Dabei werden die Vektoren fuer das Leittier, Separation,
+	 * Alignment und Cohesion errechnet. Danach findet eine Gewichtung der einzelnen Vektoren statt,
+	 * diese gibt an, welcher Vektor wie stark in die Bewegungsberechnung der Fliegen einfließt.
+	 * Zum Schluss erfolgt eine Kollisionsvermeidung durch die in der Klasse world befindliche
+	 * obstaclesAvoidance-Methode.
+	 * 
+	 * @param flies Liste mit allen Fliegen
+	 * @param leittier Vektor des Leittieres
+	 * @param world Welt, in der sich die Fliegen bewegen
 	 */
 	void calcSteeringVector(ArrayList<Ephemera> flies, Vector3f leittier, World world) {
-	    
-		
-		
-		// Berechne die Vektoren 
-		
+
+		// Berechnung der Vektoren fuer Separation, Alignment, Cohesion und des Leittieres		
 		Vector3f target = getLeittierZielVector(leittier);
 		Vector3f sep  = separate(flies); 
 	    Vector3f ali = align(flies);
 	    Vector3f coh = cohesion(flies);
 	    //Vector3f randomWalk = randomWalk();
 	    
+	    // Multiplikation der oben errechneten Vektoren mit den eingestellten Gewichten
 	    target.multLocal(rules.getFollow_weight());
 	    sep.multLocal(rules.getSep_weight());
 	    ali.multLocal(rules.getAli_weight());
 	    coh.multLocal(rules.getCoh_weight());
 	    //randomWalk.multLocal(rules.getRandomWalk_weight());
+	   
+	    // Addierung der einzelnen Vektoren auf den Beschleunigungsvektor acc
 	    acc = new Vector3f();
 	    //if (kollider(this.getParent())) sep.multLocal(4f)
 	    acc.addLocal(sep);
@@ -243,46 +250,52 @@ public class Ephemera extends Node{
 	    acc.addLocal(coh);
 	    acc.addLocal(target);
 	    //acc.addLocal(randomWalk);
+	    
+	    // Kollisionsvermeidung
 	    acc.addLocal(world.obstacleAvoidance(this));
 	    //System.out.println("Coh: "+rules.getCoh_weight()+" Sep: "+rules.getSep_weight());
 		// Kollisionsvermeidung mit Objekten in der Welt
 		//if (koll.length()!=0)acc = koll.mult(1);  
 
 	}
+	
 	/**
-	 * Berechnet Vektor der zum Zentrum des Leittiers zeigt
-	 * @param leittier
-	 * @return Abstandsvektor normalisiert
+	 * Berechnet Vektor, der zum Zentrum des Leittiers zeigt.
+	 * 
+	 * @param leittier Vektor des Leittieres
+	 * @return res Abstandsvektor normalisiert
 	 */
 	public Vector3f getLeittierZielVector(Vector3f leittier){
 		Vector3f pos = getLocalTranslation();
 		Vector3f res = leittier.subtract(pos).normalizeLocal();
 		return res;
 	}
-	/**
-	 * 	Flugmodul
-	 *  Berrechne neue Position  verschiebe und rotiere die Fliege
-	 */
+	
 	
 	/**
 	 * Updatemethode, welche neue Position der Fliege berechnet.
-	 * Geschwindigkeit der Fliege wird gesetzt und anhand der lookAt-Methode
+	 * Geschwindigkeit und neue Position der Fliege werden gesetzt und anhand der lookAt-Methode
 	 * sichergestellt, dass Fliege immer in Flugrichtung schaut.
 	 */
 	void updateMember() {
+		
+		// Beschleunigung wird auf Geschwindigkeit addiert
 	    vel.addLocal(acc);
-	    // Passe vektor an regeln an
-	    
+	   
+	    // Geschwindigkeit wird auf Konformität mit Regeln ueberprueft
 	    if (vel.length()>rules.getSpeed()){
 			  vel = vel.normalize();
 			  vel.mult(rules.getMaxspeed());
 		}
 	    
-	    // "Gucke in Flugrichtung
+	    // stellt sicher, dass Fliege immer in Flugrichtung schaut
 	    this.lookAt(getLocalTranslation().subtract(vel.mult(-1)),new Vector3f(0,1,0));
 	    spatialTransformer.setSpeed(vel.length()*100*rules.getSpeed());
 	    
+	    // Geschwindigkeit setzen
 	    vel.multLocal(rules.getSpeed());
+	    
+	    // Position setzen
 	    getLocalTranslation().addLocal(vel);
 	    
 	    acc.mult(0);
@@ -291,9 +304,10 @@ public class Ephemera extends Node{
 	
 	/**
 	 * Separation aus: Flocking by Daniel Shiffman. 
-	 * Diese Methode berechnet einen Vektor
+	 * Diese Methode berechnet einen Vektor, der von benachbarter Fliege wegzeigt.
+	 * 
 	 * @param flies im System angemeldete Fliegen 
-	 * @return bewegungsVektor
+	 * @return Bewegungsvektor normalisiert
 	 */
 	Vector3f separate (ArrayList<Ephemera> flies) {
 	    Vector3f steer = new Vector3f(0,0,0);
@@ -330,11 +344,15 @@ public class Ephemera extends Node{
 		  }
 		}*/
 		return steer.normalizeLocal();
-  }
+	}
+	
 	/**
 	 * Alignment aus: Flocking by Daniel Shiffman. 
-	 * "Bewege dich in die gleiche Richtung wie die anderen Fliegen"
-	 * @returns bewegungsvektor
+	 * Diese Methode berechnet einen Vektor, der in die gleiche Richtung zeigt, wie
+	 * die Richtungsvektoren der anderen Fliegen.
+	 * 
+	 * @param flies im System angemeldete Fliegen 
+	 * @returns Bewegungsvektor normalisiert
 	 */
 	Vector3f align (ArrayList<Ephemera> flies) {
 		Vector3f steer = new Vector3f(0,0,0);
@@ -362,47 +380,65 @@ public class Ephemera extends Node{
 			  steer.mult(regeln.getMaxforce());
 		  }	
 	    }*/
-    return steer.normalizeLocal();
+	    return steer.normalizeLocal();
 	}
+	
+	 
 	/**
-	 * Cohesion aus: Flocking by Daniel Shiffman. 
-	 * Folge den Schwarmmitgliedern in einem def radius 
+	 * Cohesion aus: Flocking by Daniel Shiffman.
+	 * Diese Methode berechnet einen Vektor, der sicherstellt, dass eine Fliege
+	 * den Schwarmmitgliedern in einem definierten Radius folgt.
+	 * 
+	 * @param flies im System angemeldete Fliegen 
+	 * @return Bewegungsvektor normalisiert
 	 */
 	Vector3f cohesion (ArrayList<Ephemera> flies) {
 		Vector3f sum = new Vector3f(0,0,0);
 	  	int count = 0;
+	  	
 		for (Ephemera other:flies) {
 			float d = getPos().distance(other.getPos());
+			
 		    if ((d > 0) && (d < rules.getNeighborDistance())) {
-		    	sum.addLocal(other.getLocalTranslation()); // Mittelwert über Fliegen innerhalb des Radiuses berechnen
+		    	// Mittelwert über Fliegen innerhalb des Radius berechnen
+		    	sum.addLocal(other.getLocalTranslation()); 
 		        count++;
 		    } 
 		}
 		
-		 if (count > 0) {
+		if (count > 0) {
 			 sum.multLocal(1f/(float)count);
 		     //return steer(sum,true);
 		 }	 
-		 return sum.normalizeLocal();
+		
+		return sum.normalizeLocal();
 	}
+	
 	/**
-	 * steer aus: Flocking by Daniel Shiffman. 
-	 * @param target
-	 * @param slowdown
-	 * @return
+	 * Steer aus: Flocking by Daniel Shiffman. 
+	 * Diese Methode berechnet einen Vektor, der die Geschwindigkeit der Fliege angibt.
+	 * Die Geschwindigkeit der Fliege wird dabei durch den Abstand der Fliege zum Ziel und
+	 * der boolschen Variablen slowdown bestimmt. Unterschreitet der Abstand 100 oder steht
+	 * slowdown auf true, so wird die Geschwindigkeit reduziert.
+	 * 
+	 * @param target Vektor des Zieles der Fliege
+	 * @param slowdown Boolsche Variable, die angibt, ob Fliege Geschwindigkeit reduzieren soll
+	 * @return steer Bewegungsvektor
 	 */
 	Vector3f steer(Vector3f target, boolean slowdown) {
-	    Vector3f steer;  // The steering vector
-	    Vector3f desired = target.subtract(getLocalTranslation());  // A vector pointing from the location to the target
-	    float d = desired.length(); // Distance from the target is the magnitude of the vector
-	    // If the distance is greater than 0, calc steering (otherwise return zero vector)
+	    Vector3f steer;
+	    
+	    // Vektor von aktueller Position zur Zielposition
+	    Vector3f desired = target.subtract(getLocalTranslation()); 
+	    float d = desired.length();
+	    
+	    // Wenn die Distanz zum Ziel groeßer als 0 ist, dann wird Steer-Vektor errechnet.
 	    if (d > 0) {
-	      // Normalize desired
 	      desired.normalize();
-	      // Two options for desired vector magnitude (1 -- based on distance, 2 -- maxspeed)
-	      if ((slowdown) && (d < 100.0)) desired.multLocal(rules.getMaxspeed()*(d/100.0f)); // This damping is somewhat arbitrary
+	    
+	      if ((slowdown) && (d < 100.0)) desired.multLocal(rules.getMaxspeed()*(d/100.0f)); 
 	      else desired.multLocal(rules.getMaxspeed());
-	      // Steering = Desired minus Velocity
+	    
 	      steer = desired.subtractLocal(vel);
 	      //steer.mult(maxforce);  // Limit to maximum steering force
 	    } 
@@ -416,35 +452,71 @@ public class Ephemera extends Node{
 	
 	/**
 	 * RandomWalk
-	 * Berrechne einen Vektor der innerhalb eines in den Regeln festgelegten Radius liegt.
+	 * Berrechnet einen Vektor, der innerhalb eines in den Regeln festgelegten Radius liegt.
+	 * Diese Methode dient dazu, dass das Flugverhalten der Boids denen realer Fliegen angenaehert wird, 
+	 * denn diese schwirren beim Fliegen scheinbar wahllos um die eigene Achse.
+	 * 
+	 * @return res Bewegungsvektor
 	 */	
 	public Vector3f randomWalk(){
 		int x = FastMath.nextRandomInt(0, 1);
 		int y = FastMath.nextRandomInt(2, 3);
 		int z = FastMath.nextRandomInt(4, 5);
 		Vector3f res = base[x].add(base[y]).add(base[z]); 
-		// Kamera Rotiert -> ausgleich indem man vektor abbildet auf kreuzprodukt von ....
+	
 		return res;	
 	}
 
 	/**
-	 * Getter und Setter
+	 * Getter fuer Regeln der Fliege
+	 * 
+	 * @return rules Regeln der Fliege
 	 */
 	public Rules getRegeln(){ 
 		return rules;
 	}
+	
+	/**
+	 * Setter fuer Regeln der Fliege
+	 * 
+	 * @param regel Regel, die gesetzt wird
+	 */
 	public void setRegeln(Rules regel){
 		rules = regel;
 	}
+	
+	/**
+	 * Getter fuer Position der Fliege
+	 * 
+	 * @return Vektor der aktuellen Position der Fliege
+	 */
 	public Vector3f getPos(){
 		return getLocalTranslation();
 	}
+	
+	/**
+	 * Getter fuer Geschwindkeit der Fliege
+	 * 
+	 * @return vel Geschwindkeitsvektor
+	 */
 	public Vector3f getVel(){
 		return vel;
 	}
+	
+	/**
+	 * Getter fuer Beschleunigung der Fliege
+	 * 
+	 * @return acc Beschleunigungsvektor
+	 */
 	public Vector3f getAcc(){
 		return acc;
 	}
+	
+	/**
+	 * Getter fuer Alter der Fliege
+	 * 
+	 * @return Alter der Fliege in Sekunden
+	 */
 	float getAge(){ 
 		return (System.currentTimeMillis()-age)/1000.0f;
 	}	
