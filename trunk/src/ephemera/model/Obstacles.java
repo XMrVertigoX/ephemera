@@ -34,7 +34,7 @@ public class Obstacles{
 	 * @param node Knoten, an den das Objekt angehaengt wird.
 	 * @param obs  ArrayListe, zu der das Objekt hinzugefügt wird.
 	 */
-	public static void createShrub1(float posX, float posY, float posZ, Node node,TerrainPage terrain){
+	public static void createShrub1(float posX, float posZ, Node node,TerrainPage terrain){
 		
 		Node objectNode = new Node();
 		Node leavesNode = new Node();
@@ -92,8 +92,8 @@ public class Obstacles{
 		objectNode.updateModelBound();
 		
 		//Position
-		posY = terrain.getHeight(new Vector3f(posX,posY,posZ));
-		objectNode.setLocalTranslation(posX, posY+81f, posZ);
+		float posY = terrain.getHeight(posX,posZ);
+		objectNode.setLocalTranslation(posX, posY+55f, posZ);
 		
 		//an uebergebene Weltinstanzen haengen
 		
@@ -109,7 +109,7 @@ public class Obstacles{
 	 * @param node	Knoten, an das Objekt angehängt wird.
 	 * @param obs	ArrayListe, zu der das Objekt hinzugefügt wird.
 	 */
-	public static void createShrub2(float posX, float posY, float posZ, Node node,TerrainPage terrain){
+	public static void createShrub2(float posX, float posZ, Node node,TerrainPage terrain){
 		
 		Node rotNode = new Node();
 		Node objectNode = new Node();
@@ -207,8 +207,8 @@ public class Obstacles{
 		objectNode.updateModelBound();
 		
 		//Position
-		posY = terrain.getHeight(new Vector3f(posX,posY,posZ));
-		objectNode.setLocalTranslation(posX, posY+82f, posZ); 
+		float posY = terrain.getHeight(posX,posZ);
+		objectNode.setLocalTranslation(posX, posY+45f, posZ); 
 		
 		//an uebergebene Weltinstanzen haengen
 		
@@ -224,7 +224,7 @@ public class Obstacles{
 	 * @param node	Knoten, an das Objekt angehängt wird.
 	 * @param obs	ArrayListe, zu der das Objekt hinzugefügt wird.
 	 */
-	public static void createTree(float posX, float posY, float posZ, Node node,TerrainPage terrain){
+	public static void createTree(float posX, float posZ, Node node,TerrainPage terrain){
 		
 		Node objectNode = new Node();
 		Node trunkNode = new Node();
@@ -281,8 +281,8 @@ public class Obstacles{
 		objectNode.updateModelBound();
 		
 		//Position
-		posY = terrain.getHeight(new Vector3f(posX,posY,posZ));
-		objectNode.setLocalTranslation(posX, posY+180, posZ); 
+		float posY = terrain.getHeight(posX,posZ);
+		objectNode.setLocalTranslation(posX, posY+180f, posZ); 
 		
 		// an uebergebene Weltinstanzen haengen
 		
@@ -299,7 +299,7 @@ public class Obstacles{
 	 * @param node	Knoten, an das Objekt angehängt wird.
 	 * @param obs	ArrayListe, zu der das Objekt hinzugefügt wird.
 	 */
-	public static void createFir(float posX, float posY, float posZ, Node node,TerrainPage terrain){
+	public static void createFir(float posX, float posZ, Node node,TerrainPage terrain){
 		
 		Node branchesNode = new Node();
 		Node objectNode = new Node();
@@ -360,8 +360,8 @@ public class Obstacles{
 		objectNode.updateModelBound();
 		
 		//Position
-		posY = terrain.getHeight(new Vector3f(posX,posY,posZ));
-		objectNode.setLocalTranslation(posX, posY+100f, posZ); //Y-Position noch festlegen
+		float posY = terrain.getHeight(posX,posZ);
+		objectNode.setLocalTranslation(posX, posY+45f, posZ); 
 		
 		//an uebergebene Weltinstanzen haengen
 		
@@ -378,7 +378,7 @@ public class Obstacles{
 	 * @param node Knoten, an das Objekt angehängt wird.
 	 * @param obs  ArrayListe, zu der das Objekt hinzugefügt wird.
 	 */
-	public static void createHouse(float posX, float posY, float posZ, Vector3f size, Node node,TerrainPage terrain){
+	public static void createHouse(float posX, float posZ, Vector3f size, Node node,TerrainPage terrain){
 		
 			// Erstelle Objekt
 			TriMesh box = new Box("Box",new Vector3f(0,0,0),new Vector3f(size));
@@ -390,8 +390,8 @@ public class Obstacles{
 	        
 			
 			// Verschiebe Objekt
-			posY = terrain.getHeight(new Vector3f(posX,posY,posZ));
-			box.setLocalTranslation(new Vector3f(posX,posY+80,posZ));
+			float posY = terrain.getHeight(posX,posZ);
+			box.setLocalTranslation(new Vector3f(posX,posY-50f,posZ));
 			
 			// Textur
 			setTexture("ephemera/texture/objects/5016.jpg",box);
