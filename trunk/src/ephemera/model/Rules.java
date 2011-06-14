@@ -36,9 +36,9 @@ public class Rules{
 		randomWalk_weight = .5f;
 		speed = 4.0f;
 		leittierSpeed = 0.02f;
-		coh_weight = 0.5f;
+		coh_weight = 0.4f;
 		ali_weight = 0.5f;
-		sep_weight = 0.5f;
+		sep_weight = 0.6f;
 		follow_weight = 0.5f;
 		desiredSeparation = 50.0f;
 		neighborDistance = 50.0f;			
@@ -48,9 +48,9 @@ public class Rules{
 		randomWalk_weight = .5f;
 		speed = 4.0f;
 		leittierSpeed = 0.02f;
-		coh_weight = 0.5f;
+		coh_weight = 0.4f;
 		ali_weight = 0.5f;
-		sep_weight = 0.5f;
+		sep_weight = 0.6f;
 		follow_weight = 0.5f;
 		desiredSeparation = 50.0f;
 		neighborDistance = 50.0f;
