@@ -16,22 +16,27 @@ import ephemera.model.World;
 
 public class MyJmeView extends SimpleCanvasImpl {
 
+	private GUI gui;
 	private World world;
-	private SwarmController schwarm;
-
+	private SwarmController swarm;
     private Hunter hunter;
     private static boolean exist;
-    private long time;
-    private int flies = 200;
+    private long birthTime;
+    private long deathTime;
     private float farPlane = 10000.0f;
     
     public MyJmeView(int width, int height) {
         super(width, height);
     }
     
+    public MyJmeView(int width, int height, GUI gui) {
+        super(width, height);
+        this.gui = gui;
+    }
+    
     public void addNewHunter(int lifetime){ 
-    	if(!exist && lifetime > 0){
-    		hunter = new Hunter(new Vector3f(0, 0, 0), world, schwarm, lifetime);
+    	if(!exist && lifetime > 0 && swarm.getSwarm().size() > 0){
+    		hunter = new Hunter(new Vector3f(0, 0, 0), world, swarm, lifetime);
     		world.attachChild(hunter);
     		exist = true;
 //        	System.out.println("Jaeger hinzugefuegt");
@@ -47,7 +52,7 @@ public class MyJmeView extends SimpleCanvasImpl {
     }
     
     public SwarmController getSwarm(){
-    	return schwarm;
+    	return swarm;
     }
     
 	public World getWorld(){
@@ -56,17 +61,18 @@ public class MyJmeView extends SimpleCanvasImpl {
 	
     public void simpleSetup() {
        
-    	time = System.currentTimeMillis();
+    	birthTime = System.currentTimeMillis();
+    	deathTime = System.currentTimeMillis();
     	
     	world = new World();
     	setupEnvironment();
 
 		// Schwarm initialisieren
-		schwarm = new SwarmController();
-		schwarm.setWorld(world);
-		schwarm.addFlies(flies);
+		swarm = new SwarmController();
+		swarm.setWorld(world);
+		swarm.addFlies(gui.getCount());
 
-		Node schwarmNode = schwarm.getSwarmNode();		
+		Node schwarmNode = swarm.getSwarmNode();		
 		
 		renderer.setBackgroundColor(ColorRGBA.darkGray);
         
@@ -92,7 +98,7 @@ public class MyJmeView extends SimpleCanvasImpl {
         rootNode.attachChild(world);
         
         world.attachChild(schwarmNode);
-        world.attachChild(schwarm.getLeaderNode());
+        world.attachChild(swarm.getLeaderNode());
         world.updateGeometricState(0, true);
         world.updateRenderState();
         world.setRenderQueueMode(Renderer.QUEUE_OPAQUE);
@@ -104,18 +110,29 @@ public class MyJmeView extends SimpleCanvasImpl {
         world.getSkybox().getLocalTranslation().set(cam.getLocation());
     	world.getSkybox().updateGeometricState(0.0f, true);
     	
-//    	float t = (System.currentTimeMillis()-time)/1000f;
-//    	
-//    	if (t > 2) {
-//    		time = System.currentTimeMillis();
-//        	if (schwarm.getSwarm().size()<schwarm.getRules().getFlyCount()) schwarm.addFly(schwarm.getRules());
-//    	}
+    	long t = System.currentTimeMillis() - birthTime;
+    	
+    	if (t > 1000) {
+        	if (swarm.getSwarm().size() < gui.getCount()) {
+        		swarm.addFly(swarm.getRules());
+        	}
+        	
+    		birthTime = System.currentTimeMillis();
+    	}
+    	
+    	if (t > 10) {
+        	if (swarm.getSwarm().size() > gui.getCount() && swarm.getSwarm().size() > 0) {
+        		swarm.deleteFly(swarm.getSwarm().get(swarm.getSwarm().size() - 1));
+        	}
+        	
+    		deathTime = System.currentTimeMillis();
+    	}
     	
 //    	if (schwarm.getSwarm().size() > schwarm.getMaxFlies()) {
 //    		schwarm.deleteFly(schwarm.getSwarm().get(schwarm.getSwarm().size() - 1));
 //    	}
     	
-    	schwarm.updateAll();
+    	swarm.updateAll();
     	
     	if(exist){
     		hunter.updateHunter();

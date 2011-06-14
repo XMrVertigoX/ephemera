@@ -119,6 +119,9 @@ public class Hunter extends Node{
 		}
 		
 		average = average.divide(count);
+		
+		System.out.println(average.toString());
+		
 		return average;	
 	}
 	
@@ -263,7 +266,7 @@ public class Hunter extends Node{
 	 * @return Lebenszeit [s]
 	 */
 	public float getAge(){
-		return ((System.currentTimeMillis()-age)/1000f);	
+		return ((System.currentTimeMillis() - age) / 1000f);	
 	}
 	
 }
