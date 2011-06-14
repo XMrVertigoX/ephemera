@@ -29,12 +29,11 @@ public class Obstacles{
 	 * erstellt ein Hindernis; Busch
 	 * 
 	 * @param posX 
-	 * @param posY 
 	 * @param posZ 
 	 * @param node Knoten, an den das Objekt angehaengt wird.
-	 * @param obs  ArrayListe, zu der das Objekt hinzugefügt wird.
+	 * @param terrain wird zur Berechnung der Y-Position benoetigt
 	 */
-	public static void createShrub1(float posX, float posZ, Node node,TerrainPage terrain){
+	public static void createShrub1(float posX, float posZ, Node node, TerrainPage terrain){
 		
 		Node objectNode = new Node();
 		Node leavesNode = new Node();
@@ -96,7 +95,6 @@ public class Obstacles{
 		objectNode.setLocalTranslation(posX, posY+55f, posZ);
 		
 		//an uebergebene Weltinstanzen haengen
-		
 		node.attachChild(objectNode);
 	}
 	
@@ -104,12 +102,11 @@ public class Obstacles{
 	 * erstellt Hinderniss; Busch
 	 * 
 	 * @param posX
-	 * @param posY
 	 * @param posZ
 	 * @param node	Knoten, an das Objekt angehängt wird.
-	 * @param obs	ArrayListe, zu der das Objekt hinzugefügt wird.
+	 * @param terrain wird zur Berechnung der Y-Position benoetigt
 	 */
-	public static void createShrub2(float posX, float posZ, Node node,TerrainPage terrain){
+	public static void createShrub2(float posX, float posZ, Node node, TerrainPage terrain){
 		
 		Node rotNode = new Node();
 		Node objectNode = new Node();
@@ -211,7 +208,6 @@ public class Obstacles{
 		objectNode.setLocalTranslation(posX, posY+45f, posZ); 
 		
 		//an uebergebene Weltinstanzen haengen
-		
 		node.attachChild(objectNode);
 	}
 	
@@ -219,12 +215,11 @@ public class Obstacles{
 	 * erstellt Hindernis; Baum
 	 * 
 	 * @param posX
-	 * @param posY
 	 * @param posZ
 	 * @param node	Knoten, an das Objekt angehängt wird.
-	 * @param obs	ArrayListe, zu der das Objekt hinzugefügt wird.
+	 * @param terrain wird zur Berechnung der Y-Position benoetigt
 	 */
-	public static void createTree(float posX, float posZ, Node node,TerrainPage terrain){
+	public static void createTree(float posX, float posZ, Node node, TerrainPage terrain){
 		
 		Node objectNode = new Node();
 		Node trunkNode = new Node();
@@ -294,10 +289,9 @@ public class Obstacles{
 	 * erstellt Hindernis; Tanne
 	 * 
 	 * @param posX
-	 * @param posY
 	 * @param posZ
 	 * @param node	Knoten, an das Objekt angehängt wird.
-	 * @param obs	ArrayListe, zu der das Objekt hinzugefügt wird.
+	 * @param terrain wird zur Berechnung der Y-Position benoetigt
 	 */
 	public static void createFir(float posX, float posZ, Node node,TerrainPage terrain){
 		
@@ -364,7 +358,6 @@ public class Obstacles{
 		objectNode.setLocalTranslation(posX, posY+45f, posZ); 
 		
 		//an uebergebene Weltinstanzen haengen
-		
 		node.attachChild(objectNode);
 	}
 	
@@ -372,11 +365,10 @@ public class Obstacles{
 	 * erstellt Hindernis; Haus
 	 * 
 	 * @param posX
-	 * @param posY
 	 * @param posZ
 	 * @param size Größe des Hauses
 	 * @param node Knoten, an das Objekt angehängt wird.
-	 * @param obs  ArrayListe, zu der das Objekt hinzugefügt wird.
+	 * @param terrain wird zur Berechnung der Y-Position benoetigt
 	 */
 	public static void createHouse(float posX, float posZ, Vector3f size, Node node,TerrainPage terrain){
 		
