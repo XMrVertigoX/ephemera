@@ -33,7 +33,7 @@ public class Rules{
 	 * Erstelle ein "Standard" Model der Fliege mit Default-Einstellungen
 	 */
 	public Rules(){
-		randomWalk_weight = 50f;
+		randomWalk_weight = .5f;
 		speed = 4.0f;
 		leittierSpeed = 0.02f;
 		coh_weight = 0.5f;
