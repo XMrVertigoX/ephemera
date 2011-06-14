@@ -255,7 +255,7 @@ public class GUI extends JFrame {
         JLabel ephemeraLabel = new JLabel("ephemera");
         ephemeraLabel.setForeground(blue);
         ephemeraLabel.setFont(new Font("Arial", Font.PLAIN, 24));
-        currentLabel = new JLabel("Aktuelle Fliegenanzahl:");
+        currentLabel = new JLabel("Fliegenanzahl:");
         currentLabel.setForeground(white);
         final JLabel countLabel = new JLabel("Maximale Fliegenanzahl");
         countLabel.setForeground(white);
@@ -273,7 +273,7 @@ public class GUI extends JFrame {
         
         countSlider.addChangeListener(new ChangeListener() {	
 			public void stateChanged(ChangeEvent ce) {
-					updateCountLabel(countLabel, countSlider);
+					//updateCountLabel(countLabel, countSlider);
 				}
 		});
         
@@ -405,22 +405,22 @@ public class GUI extends JFrame {
         optionsPanel.add(currentLabel, new GridBagConstraints(0, 1, 1, 1,
                 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE,
                 new Insets(5, 10, 10, 10), 0, 0));
-        optionsPanel.add(countLabel, new GridBagConstraints(0, 2, 1, 1,
-                0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE,
-                new Insets(5, 10, 10, 10), 0, 0));
-        optionsPanel.add(countSlider, new GridBagConstraints(0, 3, 5, 1,
+//        optionsPanel.add(countLabel, new GridBagConstraints(0, 2, 1, 1,
+//                0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE,
+//                new Insets(5, 10, 10, 10), 0, 0));
+        optionsPanel.add(countSlider, new GridBagConstraints(0, 2, 5, 1,
                 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
                 new Insets(5, 10, 10, 10), 0, 0));
-        optionsPanel.add(speedLabel, new GridBagConstraints(0, 4, 1, 1,
+        optionsPanel.add(speedLabel, new GridBagConstraints(0, 3, 1, 1,
                 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE,
                 new Insets(5, 10, 10, 10), 0, 0));
-        optionsPanel.add(speedSlider, new GridBagConstraints(0, 5, 5, 1,
+        optionsPanel.add(speedSlider, new GridBagConstraints(0, 4, 5, 1,
                 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
                 new Insets(5, 10, 10, 10), 0, 0));        
-        optionsPanel.add(flyButton, new GridBagConstraints(0, 6, 5, 1,
+        optionsPanel.add(flyButton, new GridBagConstraints(0,5, 5, 1,
                 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
                 new Insets(5, 10, 10, 10), 0, 0));
-        optionsPanel.add(flyButton, new GridBagConstraints(0, 7, 5, 1,
+        optionsPanel.add(flyButton, new GridBagConstraints(0, 6, 5, 1,
                 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
                 new Insets(5, 10, 10, 10), 0, 0));
         optionsPanel.add(cohLabel, new GridBagConstraints(0, 7, 1, 1,
@@ -628,17 +628,17 @@ public class GUI extends JFrame {
         return addPanel;
     }
     
-    /**
-     * Aktualisiert countLabel nach Betätigen von countSlider
-     * @param JLabel
-     * @param JSlider
-     */
-    private void updateCountLabel(JLabel cl, JSlider cs) {
-        JLabel countLabel=cl;
-        JSlider countSlider=cs;
-    	int val = countSlider.getValue();
-        countLabel.setText("Maximale Fliegenanzahl: " + val);
-    }
+//    /**
+//     * Aktualisiert countLabel nach Betätigen von countSlider
+//     * @param JLabel
+//     * @param JSlider
+//     */
+//    private void updateCountLabel(JLabel cl, JSlider cs) {
+//        JLabel countLabel=cl;
+//        JSlider countSlider=cs;
+//    	int val = countSlider.getValue();
+//       // countLabel.setText("Maximale Fliegenanzahl: " + val);
+//    }
     
     /**
      * Aktualisiert currentLabel 
@@ -646,8 +646,9 @@ public class GUI extends JFrame {
      * @param JSlider
      */
     public void updateCurrentLabel() {
+    	int val2 = countSlider.getValue();
     	int val = impl.getSwarm().getSwarm().size();
-        currentLabel.setText("Aktuelle Fliegenanzahl: " + val);
+        currentLabel.setText("Fliegenanzahl: " + val +"/"+val2);
     }
     
     /**
