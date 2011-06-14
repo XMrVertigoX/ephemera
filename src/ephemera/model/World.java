@@ -7,12 +7,9 @@
 package ephemera.model;
 
 
-import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.ImageIcon;
-
 import com.jme.bounding.*;
 import com.jme.image.Texture;
 import com.jme.image.Texture.CombinerScale;
@@ -26,10 +23,8 @@ import com.jme.scene.state.CullState.Face;
 import com.jme.system.DisplaySystem;
 import com.jme.system.lwjgl.LWJGLSystemProvider;
 import com.jme.util.TextureManager;
-import com.jmex.terrain.TerrainBlock;
 import com.jmex.terrain.TerrainPage;
 import com.jmex.terrain.util.FaultFractalHeightMap;
-import com.jmex.terrain.util.MidPointHeightMap;
 import com.jmex.terrain.util.ProceduralTextureGenerator;
 
 
@@ -50,7 +45,6 @@ public class World extends Node{
 		objectNode = new Node();
 		
 		setupTerrain();
-		//generateTerrain();
 		generateNest();
 		Obstacles.createHouse(-1800,-450,1084, new Vector3f(200,700,400),objectNode,terrain);
 		Obstacles.createHouse(2000,-450,-1350, new Vector3f(350,500,400),objectNode,terrain);
@@ -143,41 +137,7 @@ public class World extends Node{
 		skybox.preloadTextures();
 		
 	}
-	
-	private void generateTerrain() {
-		terrainNode = new Node("Terrain");
 		
-		DisplaySystem display = DisplaySystem.getDisplaySystem(LWJGLSystemProvider.LWJGL_SYSTEM_IDENTIFIER);
-		
-		// This will be the texture for the terrain.
-        URL grass=World.class.getClassLoader().getResource("ephemera/texture/objects/gras.jpg");
-
-        //  Use the helper class to create a terrain for us.  The terrain will be 64x64
-        MidPointHeightMap mph = new MidPointHeightMap(64,1.5f);
-       
-        // Create a terrain block from the created terrain map.
-        TerrainBlock tb = new TerrainBlock("Terrain", mph.getSize(),
-                new Vector3f(-90,.911f,-90),
-                mph.getHeightMap(),
-                new Vector3f(-100,-100,-100));
-        
-        // Add the texture
-        TextureState ts = display.getRenderer().createTextureState();
-        ts.setTexture(TextureManager.loadTexture(grass,
-                Texture.MinificationFilter.BilinearNearestMipMap,
-                Texture.MagnificationFilter.Bilinear));
-        tb.setRenderState(ts);
-
-        // Give the terrain a bounding box.
-        tb.setModelBound(new BoundingBox());
-        tb.updateModelBound();
-        tb.setLocalTranslation(new Vector3f(3000,-550,3000));
-        
-        //Attach the terrain TriMesh to rootNode
-        objectNode.attachChild(tb);
-        objectNode.updateModelBound();
-    }
-	
 	
 	public Node getTerrainNode(){
 		return terrainNode;
