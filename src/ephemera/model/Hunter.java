@@ -29,8 +29,6 @@ public class Hunter extends Node{
 	private Vector3f target;
 	private float fac = 10f;
 	private boolean hungry;
-	private int index = 1;
-	private int countFly = 0;
     private Vector3f axis = new Vector3f(1, 0, 0);
     private float angle = 180*(FastMath.PI/180f);
     private Quaternion rotQuat = new Quaternion();
@@ -174,16 +172,11 @@ public class Hunter extends Node{
 			}
 			
 			else{
-				if(index>0){
-					index = (swarm.getSwarm().size())-1;
-				}
-				
-				if(countFly <= index){
-					Vector3f flyPos = swarm.getSwarm().get(countFly).getLocalTranslation();
-					target = flyPos.subtract(actualPos);
-					eatBoid(flyPos, countFly);
-				}
+				Vector3f flyPos = swarm.getSwarm().get(0).getLocalTranslation();
+				target = flyPos.subtract(actualPos);
+				eatBoid(flyPos, 0);
 			}
+			
 		}
 		
 		target.normalizeLocal();
@@ -233,7 +226,6 @@ public class Hunter extends Node{
 			Ephemera e = swarm.getSwarm().get(numberBoid);
 			swarm.getSwarm().remove(e);
 			swarm.getSwarmNode().detachChildNamed(e.getName());
-			countFly++;
 		}
 	}
 	
