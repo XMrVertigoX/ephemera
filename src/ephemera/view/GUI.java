@@ -641,7 +641,7 @@ public class GUI extends JFrame {
 //    }
     
     /**
-     * Aktualisiert currentLabel 
+     * Aktualisiert currentLabel / Akutelle und Maximale Fliegenanzahl
      * @param JLabel
      * @param JSlider
      */
@@ -655,7 +655,7 @@ public class GUI extends JFrame {
      * Setzt alle Variablen auf Standardwerte zurueck
      */
     
-    private void defaultValues(){
+    public void defaultValues(){
     	
     	impl.getSwarm().getRules().reset();
 
