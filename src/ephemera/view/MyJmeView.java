@@ -42,34 +42,7 @@ public class MyJmeView extends SimpleCanvasImpl {
         this.gui = gui;
     }
     
-    /**
-     * Hunter Hinzufuegen
-     * @param lifetime
-     */
-    public void addNewHunter(int lifetime){ 
-    	if(!exist && lifetime > 0 && swarm.getSwarm().size() > 0){
-    		hunter = new Hunter(new Vector3f(0, 0, 0), world, swarm, lifetime);
-    		world.attachChild(hunter);
-    		exist = true;
-//        	System.out.println("Jaeger hinzugefuegt");
-    	}
-    	
-    	else {
-    		System.out.println("Jaeger ist bereits hinzugefuegt oder Lebenszeit zu gering eingestellt!");
-    	}
-    }
-    
-    public Hunter getHunter(){
-    	return hunter;
-    }
-    
-    public SwarmController getSwarm(){
-    	return swarm;
-    }
-    
-	public World getWorld(){
-		return world;
-	}
+
 	
 	/**
 	 * Initialisieren der Schwarmsimulation
@@ -151,7 +124,7 @@ public class MyJmeView extends SimpleCanvasImpl {
     }
     
     /**
-     * Camera Initialisieren
+     * Kamera Initialisieren
      */
 	private void setupEnvironment() {
     	
@@ -174,5 +147,49 @@ public class MyJmeView extends SimpleCanvasImpl {
     public void simpleRender() {
         rootNode.draw(renderer);
         //world.render();
-    }        
+    }       
+    
+    /**
+     * Hunter hinzufuegen
+     * @param lifetime
+     */
+    public void addNewHunter(int lifetime){ 
+    	if(!exist && lifetime > 0 && swarm.getSwarm().size() > 0){
+    		hunter = new Hunter(new Vector3f(0, 0, 0), world, swarm, lifetime);
+    		world.attachChild(hunter);
+    		exist = true;
+//        	System.out.println("Jaeger hinzugefuegt");
+    	}
+    	
+    	else {
+    		System.out.println("Jaeger ist bereits hinzugefuegt oder Lebenszeit zu gering eingestellt!");
+    	}
+    }
+    
+    /**
+     * Getter fuer Hunter
+     * @return hunter
+     */
+    
+    public Hunter getHunter(){
+    	return hunter;
+    }
+    
+    /**
+     * Getter fuer SwarmController
+     * @return swarm
+     */
+    
+    public SwarmController getSwarm(){
+    	return swarm;
+    }
+    
+    /**
+     * Getter fuer world
+     * @return world
+     */
+    
+	public World getWorld(){
+		return world;
+	}
 }
