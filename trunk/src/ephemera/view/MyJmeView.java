@@ -120,7 +120,7 @@ public class MyJmeView extends SimpleCanvasImpl {
     	long t = System.currentTimeMillis() - birthTime;
     	
     	if (t > 1000) {
-        	if (swarm.getSwarm().size() < gui.getCount()) {
+        	if (swarm.getSwarm().size() < gui.getCountValue()) {
         		swarm.addFly(swarm.getRules());
         	}
         	
@@ -128,7 +128,7 @@ public class MyJmeView extends SimpleCanvasImpl {
     	}
     	
     	if (t > 10) {
-        	if (swarm.getSwarm().size() > gui.getCount() && swarm.getSwarm().size() > 0) {
+        	if (swarm.getSwarm().size() > gui.getCountValue() && swarm.getSwarm().size() > 0) {
         		swarm.deleteFly(swarm.getSwarm().get(swarm.getSwarm().size() - 1));
         	}
         	
