@@ -41,8 +41,6 @@ public class MyJmeView extends SimpleCanvasImpl {
         this.gui = gui;
     }
     
-
-	
 	/**
 	 * Initialisieren der Schwarmsimulation
 	 */
@@ -82,7 +80,6 @@ public class MyJmeView extends SimpleCanvasImpl {
         world.setRenderQueueMode(Renderer.QUEUE_OPAQUE);
         
         gui.defaultValues();
-		
     };
 
     /**
@@ -92,13 +89,14 @@ public class MyJmeView extends SimpleCanvasImpl {
     	
         world.getSkybox().getLocalTranslation().set(cam.getLocation());
     	world.getSkybox().updateGeometricState(0.0f, true);
+    	
     	gui.updateCurrentLabel();
     	
     	long t = System.currentTimeMillis() - birthTime;
     	
     	if (t > 1000) {
         	if (swarm.getSwarm().size() < gui.getCountValue()) {
-        		swarm.addFly(swarm.getRules());
+        		swarm.addFly();
         	}
         	
     		birthTime = System.currentTimeMillis();
@@ -111,12 +109,6 @@ public class MyJmeView extends SimpleCanvasImpl {
         	
     		deathTime = System.currentTimeMillis();
     	}
-    	
-//    	if (schwarm.getSwarm().size() > schwarm.getMaxFlies()) {
-//    		schwarm.deleteFly(schwarm.getSwarm().get(schwarm.getSwarm().size() - 1));
-//    	}
-    	
-//    	swarm.updateAll();
     	
     	if(exist){
     		hunter.updateHunter();
@@ -144,11 +136,9 @@ public class MyJmeView extends SimpleCanvasImpl {
     	return farPlane;
     }
     
-    @Override
     public void simpleRender() {
     	swarm.updateAll();
         rootNode.draw(renderer);
-        //world.render();
     }       
     
     /**
@@ -160,11 +150,10 @@ public class MyJmeView extends SimpleCanvasImpl {
     		hunter = new Hunter(new Vector3f(0, 0, 0), world, swarm, lifetime);
     		world.attachChild(hunter);
     		exist = true;
-//        	System.out.println("Jaeger hinzugefuegt");
     	}
     	
     	else {
-    		System.out.println("Jaeger ist bereits hinzugefuegt oder Lebenszeit zu gering eingestellt!");
+    		System.out.println("Jaeger ist bereits hinzugefuegt, Lebenszeit zu gering eingestellt oder es sind keine Fliegen mehr da!");
     	}
     }
     
@@ -172,7 +161,6 @@ public class MyJmeView extends SimpleCanvasImpl {
      * Getter fuer Hunter
      * @return hunter
      */
-    
     public Hunter getHunter(){
     	return hunter;
     }
@@ -181,7 +169,6 @@ public class MyJmeView extends SimpleCanvasImpl {
      * Getter fuer SwarmController
      * @return swarm
      */
-    
     public SwarmController getSwarm(){
     	return swarm;
     }
@@ -190,7 +177,6 @@ public class MyJmeView extends SimpleCanvasImpl {
      * Getter fuer world
      * @return world
      */
-    
 	public World getWorld(){
 		return world;
 	}

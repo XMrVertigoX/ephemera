@@ -4,7 +4,6 @@ import com.jme.curve.CurveController;
 import com.jme.math.Vector3f;
 import com.jme.scene.Controller;
 import com.jme.scene.Node;
-
 import ephemera.model.BSpline;
 import ephemera.model.Leader;
 import ephemera.model.Rules;

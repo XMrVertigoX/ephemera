@@ -1,14 +1,6 @@
-/**
- * World 2011 by Semjon Mooraj
- * diese Klasse stellt die Welt dar in der sich die Fliegen bewegen.
- * Die Welt ist standartmäig ein Quadratischer Würfel der Kantenlänge 2000 
- */
-
 package ephemera.model;
 
-
 import java.util.List;
-
 import javax.swing.ImageIcon;
 import com.jme.bounding.*;
 import com.jme.image.Texture;
@@ -28,7 +20,8 @@ import com.jmex.terrain.util.FaultFractalHeightMap;
 import com.jmex.terrain.util.ProceduralTextureGenerator;
 
 /**
- * 
+ * Diese Klasse stellt die Welt dar in der sich die Fliegen bewegen.
+ * Die Welt ist standartmäig ein Quadratischer Würfel.
  * @author Semjon Mooray
  *
  */
@@ -42,6 +35,10 @@ public class World extends Node{
 	private Vector3f avoidObstacles; 
 	private Skybox skybox ;
 	
+	/**
+	 * Erstellt die Welt.
+	 * Das Terrain und die Objekte auf dem Terrain werden hier erstellt.
+	 */
 	public World(){
 		super("World");
 		setRenderQueueMode(Renderer.QUEUE_OPAQUE);
@@ -83,7 +80,9 @@ public class World extends Node{
 		attachChild(objectNode);
 	}
 	
-	
+	/**
+	 * @return Skybox um das Terrain
+	 */
 	public Skybox getSkybox(){
 		return skybox;
 	}
@@ -91,34 +90,8 @@ public class World extends Node{
 	
 	/**
 	 * Lade die Texturen und verknuepfe diese mit der Skybox
-	 * @author ...
 	 */
 	public void initSky(){
-	/*
-		dome = new SkyDome("skyDome", new Vector3f(0.0f,0.0f,0.0f), 11, 18, 5800.0f);
-        dome.setModelBound(new BoundingSphere());
-        dome.updateModelBound();
-        dome.updateRenderState();
-        dome.setUpdateTime(.10f);
-        dome.setTimeWarp(180.0f);
-        dome.setDay(267);
-        dome.setLatitude(-22.9f);
-        dome.setLongitude(-47.083f);
-        dome.setStandardMeridian(-45.0f);
-        dome.setSunPosition(5.75f);             // 5:45 am
-        dome.setTurbidity(2.0f);
-        dome.setSunEnabled(false);
-        dome.setExposure(true, 18.0f);
-        dome.setOvercastFactor(0.0f);
-        dome.setGammaCorrection(2.5f);
-        dome.setRootNode(this);
-        dome.setIntensity(.10f);
-        // setup a target to LightNode, if you dont want terrain with light's effect remove it.
-        objectNode.updateRenderState();
-        dome.setTarget(objectNode);
-        dome.updateRenderState();
-		attachChild(dome);*/
-        
 		skybox = new Skybox("Skybox", 5000, 5000, 5000);
 		
 		// Lade die Texturen 
@@ -137,30 +110,36 @@ public class World extends Node{
 		skybox.setTexture(Skybox.Face.Down, down);
 		
 		skybox.preloadTextures();
-		
 	}
 		
-	
+	/**
+	 * @return Terrain Node
+	 */
 	public Node getTerrainNode(){
 		return terrainNode;
 	}
 	
-	
 	/**
-	 * Erstellt das Nest
+	 * Erstellt das Nest.
 	 */
 	public void generateNest(){
 		
 		// DisplaySystem berreit stellen 
 		DisplaySystem display = DisplaySystem.getDisplaySystem(LWJGLSystemProvider.LWJGL_SYSTEM_IDENTIFIER);
+		
 		// TextureState erstellen 
 		TextureState ts = createTextureState(display,"ephemera/texture/objects/nest.jpg");
+		
 		//Nest 
 		TriMesh s = new Sphere("nest",10,10,70f);
 		init(s,display,ts,this);
 		s.setRenderQueueMode(Renderer.QUEUE_OPAQUE);
-		
 	}
+	
+	/**
+	 * Generiert zufaellige Haeuser und plaziert diese in der Welt.
+	 * @param N Anzahl der zu generierenden Objekte
+	 */
 	public void generateRandomObjects(int N){
 	    objectNode = new Node("Objekte");
 		// DisplaySystem berreit stellen 
@@ -199,7 +178,10 @@ public class World extends Node{
 		
 	}
 
-private void setupTerrain() {
+	/**
+	 * Generiert das Terrain
+	 */
+	private void setupTerrain() {
         
         CullState cs = DisplaySystem.getDisplaySystem().getRenderer().createCullState();
         cs.setCullFace(Face.Back);
@@ -211,7 +193,6 @@ private void setupTerrain() {
         heightMap.setHeightScale( 1.1f);
         terrain = new TerrainPage("Terrain", 33, heightMap.getSize(), terrainScale, heightMap.getHeightMap());
         terrain.setDetailTexture(128, 128);
-        //this.attachChild(terrain);
 
         terrain.setRenderState(cs);
         ProceduralTextureGenerator pt = new ProceduralTextureGenerator(heightMap);
@@ -259,7 +240,7 @@ private void setupTerrain() {
 	
 	/**
 	 * Initialisiering einer TextureState für Objekte und Gegenstände
-	 * @param display wird von der GUI übergeben 
+	 * @param display Display-Objekt, welches von der GUI übergeben wird.
 	 * @return TextureState an die einzelne Spartiale angemeldet werden
 	 */
 	public TextureState createTextureState(DisplaySystem display,String path) {
@@ -271,6 +252,7 @@ private void setupTerrain() {
         textureState.setTexture(t1);
         return textureState;
 	}
+	
 	/**
 	 * Stelle Textur und Material für ein Objekt in der Welt berreit und verknüpfe alles miteinander  
 	 * @param spatial das Objekt
@@ -296,19 +278,23 @@ private void setupTerrain() {
 	        material.setAmbient( color.mult( new ColorRGBA( 0.1f, 0.1f, 0.1f, 1 ) ) );
 	        spatial.setRenderState( material );
 	        spatial.setRenderState( textureState );
-//	        spatial.setRenderState( display.getRenderer().createWireframeState() );
 	}
 	
+	/**
+	 * @return Object Node
+	 */
 	public Node getObjectNode(){ 
 		return objectNode;
 	}
 	
+	/**
+	 * Hier wird der Kollisionsvektor berechnet.
+	 * @return Kollisionsvektor
+	 */
 	public Vector3f obstacleAvoidance(Node animal){
 		Vector3f avoidObstacles = new Vector3f(0,0,0);   
 		
-		// Abbrechen wenn keine Hindernisse vorhanden.
 		List<Spatial> obs = objectNode.getChildren();
-		// Wenn Hindernisse vorhanden durchlaufen.
 		
 		for (int i=0;i<obs.size();i++) {
 			
@@ -321,10 +307,7 @@ private void setupTerrain() {
 				return avoidObstacles;
 			}
 		}
+		
 		return new Vector3f();
-	}
-
-	public Vector3f getCollisionVector(){
-		return avoidObstacles;
 	}
 }
