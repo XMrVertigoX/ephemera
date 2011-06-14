@@ -82,13 +82,6 @@ public class MyJmeView extends SimpleCanvasImpl {
     	
     	//schwarmNode.setRenderState(lightState);
         
-    	// Finally, a stand alone node (not attached to root on purpose)
-
-        ZBufferState zbuf = renderer.createZBufferState();
-        zbuf.setWritable(false);
-        zbuf.setEnabled(true);
-        zbuf.setFunction(ZBufferState.TestFunction.LessThanOrEqualTo);
-        
         rootNode.attachChild(world);
         
         world.attachChild(schwarmNode);
