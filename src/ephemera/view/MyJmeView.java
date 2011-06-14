@@ -1,3 +1,7 @@
+/**
+ * Erstellt die Simulationsumgebung
+ */
+
 package ephemera.view;
 
 import com.jme.light.DirectionalLight;
@@ -15,9 +19,7 @@ import ephemera.model.Hunter;
 import ephemera.model.World;
 
 
-/**
- * Erstellt die Simulationsumgebung
- */
+
 public class MyJmeView extends SimpleCanvasImpl {
 
 	private GUI gui;
