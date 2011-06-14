@@ -236,7 +236,7 @@ public class GUI extends JFrame {
         file.getPopupMenu().setLightWeightPopupEnabled(false);
 
         //info Menue
-        JMenu info = new JMenu("info");
+        JMenu info = new JMenu("Info");
         info.add(help);
         info.add(about);
 
