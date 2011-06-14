@@ -27,16 +27,6 @@ public class Ephemera extends Node{
 	private Vector3f			vel;	// Geschwindigkeitsvektor
 	private SpatialTransformer 	spatialTransformer; // Animation
 	
-	// Richtungsvektoren fŸr RandomWalk
-	private Vector3f[] base = {		 
-			new Vector3f(1,0,0),
-			new Vector3f(-1,0,0),
-			new Vector3f(0,1,0),
-			new Vector3f(0,-1,0),
-			new Vector3f(0,0,1),
-			new Vector3f(0,0,-1)
-	};
-	
 	/**
 	 * Konstruktor, welchem die Startposition der Fliege uebergeben wird
 	 * Geschwindigkeits- und Beschleunigungsvektor wird mit 0 initialisiert
@@ -246,12 +236,12 @@ public class Ephemera extends Node{
 	   
 	    // Addierung der einzelnen Vektoren auf den Beschleunigungsvektor acc
 	    acc = new Vector3f();
-	    //if (kollider(this.getParent())) sep.multLocal(4f)
-	    acc.addLocal(sep);
-	    acc.addLocal(ali);
-	    acc.addLocal(coh);
-	    acc.addLocal(target);
-	    acc.addLocal(randomWalk);
+	    
+	    acc.addLocal(sep.mult(rules.getSpeed()));
+	    acc.addLocal(ali.mult(rules.getSpeed()));
+	    acc.addLocal(coh.mult(rules.getSpeed()));
+	    acc.addLocal(target.mult(rules.getSpeed()));
+	    //acc.addLocal(randomWalk);
 	    
 	    // Kollisionsvermeidung
 	    Vector3f kol = world.obstacleAvoidance(this);
@@ -269,8 +259,11 @@ public class Ephemera extends Node{
 	 * @return res Abstandsvektor normalisiert
 	 */
 	public Vector3f getLeaderTargetVector(Vector3f leader){
+		Vector3f res = new Vector3f();
+		if (leader.distance(this.getLocalTranslation())>0){
 		Vector3f pos = getLocalTranslation();
-		Vector3f res = leader.subtract(pos).normalizeLocal();
+		res = leader.subtract(pos).normalizeLocal();
+		}
 		return res;
 	}
 	
@@ -288,15 +281,15 @@ public class Ephemera extends Node{
 	    // Geschwindigkeit wird auf KonformitŠt mit Regeln ueberprueft
 	    if (vel.length()>rules.getSpeed()){
 			  vel = vel.normalize();
-			  vel.mult(rules.getMaxspeed());
+			  vel.mult(rules.getSpeed());
 		}
-	    
+	    System.out.println(vel.length());
 	    // stellt sicher, dass Fliege immer in Flugrichtung schaut
 	    this.lookAt(getLocalTranslation().subtract(vel.mult(-1)),new Vector3f(0,1,0));
 	    spatialTransformer.setSpeed(vel.length()*100*rules.getSpeed());
 	    
 	    // Geschwindigkeit setzen
-	    vel.multLocal(rules.getSpeed());
+	    //vel.multLocal(rules.getSpeed());
 	    
 	    // Position setzen
 	    getLocalTranslation().addLocal(vel);
@@ -334,18 +327,7 @@ public class Ephemera extends Node{
 		  steer.multLocal(1f/(float)count);
 		  
 		}
-		/*
-		// solange der Vektor grš§er ist als 0 
-		if (steer.length() > 0) {
-		  // Implement Reynolds: Steering = Desired - Velocity
-		  steer.normalizeLocal();
-		  steer.multLocal(regeln.getMaxspeed());
-		  steer.subtractLocal(vel);
-		  if (steer.length()>regeln.getMaxforce()){
-			  steer = steer.normalize();
-			  steer.mult(regeln.getMaxforce());
-		  }
-		}*/
+		
 		return steer.normalizeLocal();
 	}
 	
@@ -371,18 +353,7 @@ public class Ephemera extends Node{
 	    if (count > 0) {
 	      steer.mult(1f/(float)count,steer);
 	    }
-	    /*
-	    //solange grš§er als 0
-	    if (steer.length() > 0) {
-	      // Implement Reynolds: Steering = Desired - Velocity
-	      steer = steer.normalize();
-	      steer.mult(regeln.getMaxspeed(),steer);
-	      steer.subtract(vel,steer);
-	      if (steer.length()>regeln.getMaxforce()){
-			  steer = steer.normalize();
-			  steer.mult(regeln.getMaxforce());
-		  }	
-	    }*/
+	  
 	    return steer.normalizeLocal();
 	}
 	
@@ -416,43 +387,6 @@ public class Ephemera extends Node{
 		
 		return sum.normalizeLocal();
 	}
-	
-	/**
-	 * Steer aus: Flocking by Daniel Shiffman. 
-	 * Diese Methode berechnet einen Vektor, der die Geschwindigkeit der Fliege angibt.
-	 * Die Geschwindigkeit der Fliege wird dabei durch den Abstand der Fliege zum Ziel und
-	 * der boolschen Variablen slowdown bestimmt. Unterschreitet der Abstand 100 oder steht
-	 * slowdown auf true, so wird die Geschwindigkeit reduziert.
-	 * 
-	 * @param target Vektor des Zieles der Fliege
-	 * @param slowdown Boolsche Variable, die angibt, ob Fliege Geschwindigkeit reduzieren soll
-	 * @return steer Bewegungsvektor
-	 */
-	Vector3f steer(Vector3f target, boolean slowdown) {
-	    Vector3f steer;
-	    
-	    // Vektor von aktueller Position zur Zielposition
-	    Vector3f desired = target.subtract(getLocalTranslation()); 
-	    float d = desired.length();
-	    
-	    // Wenn die Distanz zum Ziel groe§er als 0 ist, dann wird Steer-Vektor errechnet.
-	    if (d > 0) {
-	      desired.normalize();
-	    
-	      if ((slowdown) && (d < 100.0)) desired.multLocal(rules.getMaxspeed()*(d/100.0f)); 
-	      else desired.multLocal(rules.getMaxspeed());
-	    
-	      steer = desired.subtractLocal(vel);
-	      //steer.mult(maxforce);  // Limit to maximum steering force
-	    } 
-	    else {
-	      steer = new Vector3f(0,0,0);
-	    }
-	    return steer;
-	  }
-	
-	
-	
 	/**
 	 * RandomWalk
 	 * Berrechnet einen Vektor, der innerhalb eines in den Regeln festgelegten Radius liegt.
@@ -462,6 +396,15 @@ public class Ephemera extends Node{
 	 * @return res Bewegungsvektor
 	 */	
 	public Vector3f randomWalk(){
+		Vector3f[] base = {		 
+				new Vector3f(1,0,0),
+				new Vector3f(-1,0,0),
+				new Vector3f(0,1,0),
+				new Vector3f(0,-1,0),
+				new Vector3f(0,0,1),
+				new Vector3f(0,0,-1)
+		};
+		
 		int x = FastMath.nextRandomInt(0, 1);
 		int y = FastMath.nextRandomInt(2, 3);
 		int z = FastMath.nextRandomInt(4, 5);
