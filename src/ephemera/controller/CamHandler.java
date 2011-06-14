@@ -1,6 +1,6 @@
 /**
  * CamHandler - Maus- und Kamerasteuerung
- * Modifiziert von Stefan Greuel & Kilian Heinrich
+ * Modifiziert von Stefan Greuel, Kilian Heinrich, Sejmon Mooraj
  * @author Joshua Slack
  *
  */
