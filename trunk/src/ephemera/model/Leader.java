@@ -29,12 +29,16 @@ public class Leader extends Spatial {
 		s.setDefaultColor(new ColorRGBA(255, 0, 0, 0.5f));
 	}
 	
+	/**
+	 * Gibt die Geometrie des Leittieres zurueck.
+	 * @return Geometrie des Leittieres
+	 */
 	public Sphere getGeometry() {
 		return s;
 	}
 	
 	/**
-	 * ...
+	 * Schaltet die Sichtbarkeit des Leittieres um.
 	 */
 	public void toggleVisible() {
 		if (visible) {
@@ -50,25 +54,21 @@ public class Leader extends Spatial {
 	
 	/**
 	 * Diese Methoden sind von der Spatial Klasse geerbt und werden nicht benoetigt
-	 * 
 	 */
 	public void draw(Renderer arg0) {}
 
 	/**
 	 * Diese Methoden sind von der Spatial Klasse geerbt und werden nicht benoetigt
-	 * 
 	 */
 	public void findCollisions(Spatial arg0, CollisionResults arg1, int arg2) {}
 	
 	/**
 	 * Diese Methoden sind von der Spatial Klasse geerbt und werden nicht benoetigt
-	 * 
 	 */
 	public void findPick(Ray arg0, PickResults arg1, int arg2) {}
 
 	/**
 	 * Diese Methoden sind von der Spatial Klasse geerbt und werden nicht benoetigt
-	 * 
 	 */
 	public int getTriangleCount() {
 
@@ -77,7 +77,6 @@ public class Leader extends Spatial {
 
 	/**
 	 * Diese Methoden sind von der Spatial Klasse geerbt und werden nicht benoetigt
-	 * 
 	 */
 	public int getVertexCount() {
 	
@@ -86,7 +85,6 @@ public class Leader extends Spatial {
 
 	/**
 	 * Diese Methoden sind von der Spatial Klasse geerbt und werden nicht benoetigt
-	 * 
 	 */
 	public boolean hasCollision(Spatial arg0, boolean arg1, int arg2) {
 		
@@ -95,20 +93,21 @@ public class Leader extends Spatial {
 
 	/**
 	 * Diese Methoden sind von der Spatial Klasse geerbt und werden nicht benoetigt
-	 * 
 	 */
 	public void setModelBound(BoundingVolume arg0) {}
 
 	/**
 	 * Diese Methoden sind von der Spatial Klasse geerbt und werden nicht benoetigt
-	 * 
 	 */
 	public void updateModelBound() {}
 
 	/**
 	 * Diese Methoden sind von der Spatial Klasse geerbt und werden nicht benoetigt
-	 * 
 	 */
 	public void updateWorldBound() {}
+	
+	/**
+	 * Diese Methoden sind von der Spatial Klasse geerbt und werden nicht benoetigt
+	 */
 	public Vector3f getPos(){ return s.getLocalTranslation();}
 }
