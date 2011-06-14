@@ -26,9 +26,7 @@ public class Basic extends SimpleGame {
 		world = new World();
 		
 		// Schwarm initialisieren
-		schwarm = new SwarmController();
-		schwarm.addFlies(50);
-		schwarm.setWorld(world);
+		schwarm = new SwarmController(world);
 		
 		// Node-Struktur erstellen
 		rootNode.attachChild(world);

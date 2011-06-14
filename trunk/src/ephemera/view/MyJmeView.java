@@ -25,10 +25,6 @@ public class MyJmeView extends SimpleCanvasImpl {
     private long deathTime;
     private float farPlane = 10000.0f;
     
-    public MyJmeView(int width, int height) {
-        super(width, height);
-    }
-    
     public MyJmeView(int width, int height, GUI gui) {
         super(width, height);
         this.gui = gui;
@@ -68,9 +64,7 @@ public class MyJmeView extends SimpleCanvasImpl {
     	setupEnvironment();
 
 		// Schwarm initialisieren
-		swarm = new SwarmController();
-		swarm.setWorld(world);
-		swarm.addFlies(gui.getCount());
+		swarm = new SwarmController(world);
 
 		Node schwarmNode = swarm.getSwarmNode();		
 		
