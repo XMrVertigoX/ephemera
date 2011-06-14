@@ -117,7 +117,7 @@ public class MyJmeView extends SimpleCanvasImpl {
 //    		schwarm.deleteFly(schwarm.getSwarm().get(schwarm.getSwarm().size() - 1));
 //    	}
     	
-    	swarm.updateAll();
+//    	swarm.updateAll();
     	
     	if(exist){
     		hunter.updateHunter();
@@ -148,6 +148,7 @@ public class MyJmeView extends SimpleCanvasImpl {
     
     @Override
     public void simpleRender() {
+    	swarm.updateAll();
         rootNode.draw(renderer);
         //world.render();
     }       
