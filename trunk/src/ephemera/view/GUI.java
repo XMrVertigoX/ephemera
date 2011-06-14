@@ -100,8 +100,8 @@ public class GUI extends JFrame {
         canvasPanel.add(getGlCanvas(), BorderLayout.CENTER);
         Dimension minimumSize = new Dimension(150, 150);
         canvasPanel.setMinimumSize(minimumSize);  
-//        mbar.setComponentZOrder(i, 123);
-
+        canvasPanel.setBackground(dgrey);
+        
         //Tabs-----------------------------------------------------
         JTabbedPane tabbedPane = new JTabbedPane();
         tabbedPane.add(new JScrollPane(createOptionsPanel(), ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED), "Grundeinstellungen");
@@ -117,6 +117,7 @@ public class GUI extends JFrame {
         mainSplit.setContinuousLayout(true);
         mainSplit.setOneTouchExpandable(true);     
         getContentPane().add(mainSplit, BorderLayout.CENTER);
+        mainSplit.setBackground(dgrey);
         
 
         setSize(new Dimension(width, height));
@@ -140,7 +141,7 @@ public class GUI extends JFrame {
         };
         
         defaultValues.putValue(Action.MNEMONIC_KEY, KeyEvent.VK_N);        
-       
+        
         Action quit = new AbstractAction("Beenden") {
             private static final long serialVersionUID = 1L;
 
@@ -159,9 +160,11 @@ public class GUI extends JFrame {
          */
         final JFrame helpFrame = new JFrame("Hilfe");
         helpFrame.setSize(400, 450);
-        helpFrame.setBackground(dgrey);
         helpFrame.setLocation(300, 50);
-        helpFrame.setResizable(false);     
+        helpFrame.setResizable(false); 
+        Container content = helpFrame.getContentPane();
+        content.setBackground(dgrey);
+        
         JLabel helpText = new JLabel();
         helpText.setForeground(white);
         helpText.setText("<html><b><font size=\"6\" color=\"#159fd2\">Hilfe</font></b> <br><br>"+                  
@@ -199,12 +202,14 @@ public class GUI extends JFrame {
          */
         final JFrame aboutFrame = new JFrame("ephemera");
         aboutFrame.setSize(400, 300);
-        aboutFrame.setBackground(dgrey);
+        Container contentAbout = aboutFrame.getContentPane();
+        contentAbout.setBackground(dgrey);
         aboutFrame.setLocation(400, 50);
         aboutFrame.setResizable(false);  
-        
+            
         JLabel aboutText = new JLabel();
         aboutText.setForeground(white);
+
         aboutText.setText("<html><b><font size=\"6\" color=\"#159fd2\">ephemera</font></b> <br><br>"+                 
                 " ephemera die eintagsfliegenschei§e <br>" +
                 " blablablablalba <br>" +
@@ -227,21 +232,23 @@ public class GUI extends JFrame {
         about.putValue(Action.MNEMONIC_KEY, KeyEvent.VK_N);
 
         
+        
+        
         //Datei Menue
     	JMenu file = new JMenu("Datei");
         file.add(defaultValues);
         file.addSeparator();
         file.add(quit);
-        
         file.getPopupMenu().setLightWeightPopupEnabled(false);
+        
 
         //info Menue
         JMenu info = new JMenu("Info");
         info.add(help);
         info.add(about);
-
         //wegen awt und swing mischung
         info.getPopupMenu().setLightWeightPopupEnabled(false);
+
         
         
         JMenuBar mbar = new JMenuBar();
