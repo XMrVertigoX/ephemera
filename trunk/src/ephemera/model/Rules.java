@@ -2,12 +2,10 @@ package ephemera.model;
 
 /**
  * Diese Klasse enthŠlt die Parameter nach denen sich Fliegen und JŠger innerhalb der Welt bewegen sollen.
- * @author Semjon Mooray
+ * @author Semjon Mooraj
  */
 public class Rules{
 	private float speed;
-	private float randomWalk_weight;
-	private float randomWalk;
 	private float leittierSpeed;
 	private float maxspeed;
 	private float maxforce;
@@ -33,7 +31,6 @@ public class Rules{
 	 */
 	public Rules(){
 		maxspeed = 10f;
-		randomWalk_weight = .0f;
 		speed = 0.5f;
 		leittierSpeed = 0.015f;
 		coh_weight = 0.2f;
@@ -46,7 +43,6 @@ public class Rules{
 	
 	public void reset() {
 		maxspeed = 10f;
-		randomWalk_weight = .0f;
 		speed = 0.5f;
 		leittierSpeed = 0.015f;
 		coh_weight = 0.2f;
@@ -136,24 +132,6 @@ public class Rules{
 	public void setSpeed(float speed) {
 		this.speed = speed;
 	}
-	
-	public float getRandomWalk_weight() {
-		return randomWalk_weight;
-	}
 
-	public void setRandomWalk_weight(float randomWalk_weight) {
-		this.randomWalk_weight = randomWalk_weight;
-	}
-	
-	public void toggleRandomWalk(){
-		if (randomWalk_weight > 0) {
-			randomWalk_weight = 0;
-		}
-		
-		else {
-			randomWalk_weight = .5f;
-		}
-		
-	}
 
 }
