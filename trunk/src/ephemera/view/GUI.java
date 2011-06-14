@@ -250,7 +250,7 @@ public class GUI extends JFrame {
         ephemeraLabel.setFont(new Font("Arial", Font.PLAIN, 24));
         final JLabel countLabel = new JLabel("Maximale Fliegenanzahl");
         countLabel.setForeground(white);
-        JLabel speedLabel = new JLabel("Simulationsgeschwindigkeit");
+        JLabel speedLabel = new JLabel("Fluggeschwindigkeit");
         speedLabel.setForeground(white);
         JLabel cohLabel = new JLabel("Cohesion");
         cohLabel.setForeground(white);
