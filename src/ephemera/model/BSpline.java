@@ -61,13 +61,14 @@ public final class BSpline extends Curve {
 	}
 	
 	/**
-	 * löst die Basisfunktionen der B-Spline-Kurve rekursiv
+	 * Rekursive Basisfunktion der B-Spline-Kurve.
 	 * 
-	 * @param nodeVector Knotenvektor der B-Spline-Kurve
+	 * @param nodeVector Knotenvektoren der B-Spline-Kurve
 	 * @param t Parameter der B-Spline-Kurve
 	 * @param order Ordnung der Kurve
-	 * @param counter Zählvariable
-	 * @return float Lösung
+	 * @param counter Zaehlvariable
+	 * 
+	 * @return float Loesung der Basisfunktion
 	 */
 	private static float basisfunction(float[] nodeVector, float t, int order, int counter) {
 		
@@ -90,10 +91,10 @@ public final class BSpline extends Curve {
    }
 	
 	/**
-	 * gibt den Punkt der Kurve zur Zeit t zurück
+	 * Gibt den Punkt der Kurve zur Zeit t zurueck.
 	 * 
-	 * @param t 
-	 * @return Vector3f Punkt
+	 * @param t Zeitpunkt
+	 * @return Vector3f Punkt auf der Kurve zum Zeipunkt t
 	 */
 	public Vector3f getPoint(float t){
 		
@@ -115,7 +116,7 @@ public final class BSpline extends Curve {
 	
 	
 	/**
-	 * Methode der Elternklasse Curve; hier unabhängig von arg1 implementiert 
+	 * Methode der Elternklasse Curve; hier unabhaengig von arg1 implementiert 
 	 */
 	public Vector3f getPoint(float arg0, Vector3f arg1) {
 		
@@ -123,7 +124,7 @@ public final class BSpline extends Curve {
 	}
 	
 	/**
-	 * Methode der Elternklasse Curve; gibt Position zurück
+	 * Methode der Elternklasse Curve; gibt Position zurueck
 	 * @return Vector3f Position
 	 */
 	public Vector3f getPoint(){
@@ -131,7 +132,7 @@ public final class BSpline extends Curve {
 	}
 	
 	/**
-	 * Methode der Elternklasse Curve; wird nicht benötigt.
+	 * Methode der Elternklasse Curve; wird nicht benoetigt.
 	 */
 	public Matrix3f getOrientation(float arg0, float arg1) {
 		
@@ -139,7 +140,7 @@ public final class BSpline extends Curve {
 	}
 
 	/**
-	 * Methode der Elternklasse Curve; wird nicht benötigt.
+	 * Methode der Elternklasse Curve; wird nicht benoetigt.
 	 */
 	public Matrix3f getOrientation(float arg0, float arg1, Vector3f arg2) {
 		
@@ -147,14 +148,12 @@ public final class BSpline extends Curve {
 	}
 
 	/**
-	 * Methode der Elternklasse Curve; wird nicht benötigt.
+	 * Methode der Elternklasse Curve; wird nicht benoetigt.
 	 */
-	public void findCollisions(Spatial arg0, CollisionResults arg1, int arg2) {		
-
-	}
+	public void findCollisions(Spatial arg0, CollisionResults arg1, int arg2) {}
 
 	/**
-	 * Methode der Elternklasse Curve; wird nicht benötigt.
+	 * Methode der Elternklasse Curve; wird nicht benoetigt.
 	 */
 	public boolean hasCollision(Spatial arg0, boolean arg1, int arg2) {
 		
