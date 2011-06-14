@@ -270,10 +270,10 @@ public class GUI extends JFrame {
 				}
 		});
         
-   	 	countSlider.setMajorTickSpacing(100);
-   	 	countSlider.setMinorTickSpacing(50);
+   	 	countSlider.setMajorTickSpacing(200);
+   	 	countSlider.setMinorTickSpacing(100);
         countSlider.setMinimum(0);
-        countSlider.setMaximum(500);
+        countSlider.setMaximum(1000);
         
         countSlider.setValue(200);
         countSlider.setOrientation(SwingConstants.HORIZONTAL);
@@ -449,7 +449,7 @@ public class GUI extends JFrame {
         hunterLabel.setForeground(white);  
         JLabel followLabel = new JLabel("Folge Leittier");
         followLabel.setForeground(white);
-        JLabel desiredLabel = new JLabel("Gewuenschter Abstand");
+        JLabel desiredLabel = new JLabel("Minimaler Abstand");
         desiredLabel.setForeground(white);
         JLabel neighborLabel = new JLabel ("Sichtweite");
         neighborLabel.setForeground(white);
@@ -514,14 +514,15 @@ public class GUI extends JFrame {
 		desiredSlider.setMaximum(100);
         desiredSlider.setMinorTickSpacing(5);
         desiredSlider.setMajorTickSpacing(20);
-        desiredSlider.setSnapToTicks(true);	
+        desiredSlider.setSnapToTicks(true);
         desiredSlider.setOrientation(SwingConstants.HORIZONTAL);	
         desiredSlider.setPaintTicks(true);	
         desiredSlider.setPaintLabels(true);	
         desiredSlider.setPaintTrack(true);	
         desiredSlider.setEnabled(true); 
         desiredSlider.setForeground(white);
-        desiredSlider.setBackground(dgrey);          
+        desiredSlider.setBackground(dgrey);
+//        desiredSlider.setValue(0);
  
         neighborSlider = new JSlider();
    		neighborSlider.addChangeListener(new ChangeListener(){

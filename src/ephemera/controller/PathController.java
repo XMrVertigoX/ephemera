@@ -1,10 +1,4 @@
 package ephemera.controller;
-/**
- * PathController 2011 by ...
- */
-
-
-
 
 import com.jme.curve.CurveController;
 import com.jme.math.Vector3f;
@@ -15,8 +9,11 @@ import ephemera.model.BSpline;
 import ephemera.model.Leader;
 import ephemera.model.Rules;
 
-
-
+/**
+ * 
+ * @author Benedikt Schuld, Gudrun Wagner
+ *
+ */
 public class PathController{
 	
 	private static final long serialVersionUID = 1L;
@@ -36,11 +33,11 @@ public class PathController{
 		this.rules = rules;
 		path = new Node("Pfad");
 		Vector3f[] data = new Vector3f[5];
-		data[0] = new Vector3f(0f,0f,-1000f);
-		data[1] = new Vector3f(1000f,0f,0f);
-		data[2] = new Vector3f(0f,0f,1000f);
-		data[3] = new Vector3f(-1000f,0f,0f);
-		data[4] = new Vector3f(0f,0f,-1000f);
+		data[0] = new Vector3f(0f,0f,-2000f);
+		data[1] = new Vector3f(2000f,0f,0f);
+		data[2] = new Vector3f(0f,0f,2000f);
+		data[3] = new Vector3f(-2000f,0f,0f);
+		data[4] = new Vector3f(0f,0f,-2000f);
 		BSpline bp = new BSpline("Bewegungspfad",data);
 		
 		// erstelle das Leittier 
@@ -60,8 +57,7 @@ public class PathController{
 	
 	
 	/**
-	 * gibt Pfad des Leittieres zurueck
-	 * @return pfad
+	 * @return Der Pfad des Leittieres.
 	 */
 	public Node getLeaderNode(){
 		return path;
@@ -69,12 +65,12 @@ public class PathController{
 	
 	
 	/**
-	 * gibt Position des Leittieres zurueck
-	 * @return Vector3f 
+	 * @return Die Position des Leittieres. 
 	 */
 	public Vector3f getPosition(){
 		return leader.getLocalTranslation();
 	}
+	
 	public Leader getLeader(){ return leader;}
 			
 }

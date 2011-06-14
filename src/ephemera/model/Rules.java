@@ -8,7 +8,6 @@ package ephemera.model;
 public class Rules{
 	private float speed;
 	private float randomWalk_weight;
-	private float lifeTime;
 	private float randomWalk;
 	private float leittierSpeed;
 	private float maxspeed;
@@ -34,8 +33,7 @@ public class Rules{
 	 * Erstelle ein "Standard" Model der Fliege mit Default-Einstellungen
 	 */
 	public Rules(){
-		randomWalk_weight = 1.0f;
-		lifeTime = 30;
+		randomWalk_weight = .0f;
 		speed = 4.0f;
 		leittierSpeed = 0.02f;
 		coh_weight = 0.5f;
@@ -45,33 +43,11 @@ public class Rules{
 		desiredSeparation = 50.0f;
 		neighborDistance = 50.0f;			
 	}
-
-//	/**
-//	 * Konstruktor
-//	 * @param maxspeed
-//	 * @param maxforce
-//	 * @param coh_weight
-//	 * @param ali_weight
-//	 * @param sep_weight
-//	 * @param desiredSeparation
-//	 * @param neighborDistance
-//	 */
-//	public Rules(float maxspeed, float maxforce, float coh_weight, float ali_weight, float sep_weight, float desiredSeparation, float neighborDistance){
-//		
-//		this.maxspeed = maxspeed;
-//		this.maxforce = maxforce;
-//		this.coh_weight = coh_weight;
-//		this.ali_weight = ali_weight;
-//		this.sep_weight = sep_weight;
-//		this.desiredSeparation = desiredSeparation;
-//		this.neighborDistance = neighborDistance;
-//	}
 	
 	public void reset() {
-		randomWalk_weight = 1.0f;
-		lifeTime = 30;
+		randomWalk_weight = .0f;
 		speed = 4.0f;
-		leittierSpeed = 0.02f;
+		leittierSpeed = 0.0f;
 		coh_weight = 0.5f;
 		ali_weight = 0.5f;
 		sep_weight = 0.5f;
@@ -135,6 +111,7 @@ public class Rules{
 	public void setNeighborDistance(float neighborDistance) {
 		this.neighborDistance = neighborDistance;
 	}
+	
 	public float getFollow_weight() {
 		return follow_weight;
 	}
@@ -150,6 +127,7 @@ public class Rules{
 	public void setLeittierSpeed(float leittierSpeed) {
 		this.leittierSpeed = leittierSpeed;
 	}
+	
 	public float getSpeed() {
 		return speed;
 	}
@@ -157,12 +135,7 @@ public class Rules{
 	public void setSpeed(float speed) {
 		this.speed = speed;
 	}
-	public float getLifeTime() {
-		return lifeTime;
-	}
-	public void setLifeTime(float lifeTime) {
-		this.lifeTime = lifeTime;
-	}
+	
 	public float getRandomWalk_weight() {
 		return randomWalk_weight;
 	}
