@@ -40,7 +40,7 @@ public class GUI extends JFrame {
     private JSlider followSlider;
     private JSlider desiredSlider;
     private JSlider neighborSlider;
-    private JLabel currentLabel;
+    private JLabel countLabel;
 
 	//Groesse des Startfensters
 	int width = 1280, height = 720;
@@ -255,8 +255,8 @@ public class GUI extends JFrame {
         JLabel ephemeraLabel = new JLabel("ephemera");
         ephemeraLabel.setForeground(blue);
         ephemeraLabel.setFont(new Font("Arial", Font.PLAIN, 24));
-        currentLabel = new JLabel("Fliegenanzahl:");
-        currentLabel.setForeground(white);
+        countLabel = new JLabel("Fliegenanzahl:");
+        countLabel.setForeground(white);
         final JLabel countLabel = new JLabel("Maximale Fliegenanzahl");
         countLabel.setForeground(white);
         JLabel speedLabel = new JLabel("Fluggeschwindigkeit");
@@ -402,7 +402,7 @@ public class GUI extends JFrame {
         optionsPanel.add(ephemeraLabel, new GridBagConstraints(0, 0, 1, 1,
                 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE,
                 new Insets(5, 10, 10, 10), 0, 0));        
-        optionsPanel.add(currentLabel, new GridBagConstraints(0, 1, 1, 1,
+        optionsPanel.add(countLabel, new GridBagConstraints(0, 1, 1, 1,
                 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE,
                 new Insets(5, 10, 10, 10), 0, 0));
 //        optionsPanel.add(countLabel, new GridBagConstraints(0, 2, 1, 1,
@@ -628,27 +628,16 @@ public class GUI extends JFrame {
         return addPanel;
     }
     
-//    /**
-//     * Aktualisiert countLabel nach Betätigen von countSlider
-//     * @param JLabel
-//     * @param JSlider
-//     */
-//    private void updateCountLabel(JLabel cl, JSlider cs) {
-//        JLabel countLabel=cl;
-//        JSlider countSlider=cs;
-//    	int val = countSlider.getValue();
-//       // countLabel.setText("Maximale Fliegenanzahl: " + val);
-//    }
-    
+
     /**
      * Aktualisiert currentLabel / Akutelle und Maximale Fliegenanzahl
      * @param JLabel
      * @param JSlider
      */
-    public void updateCurrentLabel() {
+    public void updateCountLabel() {
     	int val2 = countSlider.getValue();
     	int val = impl.getSwarm().getSwarm().size();
-        currentLabel.setText("Fliegenanzahl: " + val +"/"+val2);
+        countLabel.setText("Fliegenanzahl: " + val +"/"+val2);
     }
     
     /**
