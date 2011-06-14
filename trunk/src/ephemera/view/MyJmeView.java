@@ -1,7 +1,3 @@
-/**
- * Erstellt die Simulationsumgebung
- */
-
 package ephemera.view;
 
 import com.jme.light.DirectionalLight;
@@ -18,8 +14,11 @@ import ephemera.controller.SwarmController;
 import ephemera.model.Hunter;
 import ephemera.model.World;
 
-
-
+/**
+ * 
+ * @author Stefan Greuel, Kilian Heinrich
+ *
+ */
 public class MyJmeView extends SimpleCanvasImpl {
 
 	private GUI gui;

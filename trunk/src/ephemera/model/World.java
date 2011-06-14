@@ -27,7 +27,11 @@ import com.jmex.terrain.TerrainPage;
 import com.jmex.terrain.util.FaultFractalHeightMap;
 import com.jmex.terrain.util.ProceduralTextureGenerator;
 
-
+/**
+ * 
+ * @author Semjon Mooray
+ *
+ */
 public class World extends Node{
 	
 	private static final long serialVersionUID = 1;
