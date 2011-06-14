@@ -241,7 +241,7 @@ public class Ephemera extends Node{
 	    acc.addLocal(ali.mult(rules.getSpeed()));
 	    acc.addLocal(coh.mult(rules.getSpeed()));
 	    acc.addLocal(target.mult(rules.getSpeed()));
-	    acc.addLocal(randomWalk.mult(rules.getSpeed()));
+	    //acc.addLocal(randomWalk.mult(rules.getSpeed()));
 	    
 	    // Kollisionsvermeidung
 	    Vector3f kol = world.obstacleAvoidance(this);
@@ -259,12 +259,8 @@ public class Ephemera extends Node{
 	 * @return res Abstandsvektor normalisiert
 	 */
 	public Vector3f getLeaderTargetVector(Vector3f leader){
-		Vector3f res = new Vector3f();
-		if (leader.distance(this.getLocalTranslation())>0){
 		Vector3f pos = getLocalTranslation();
-		res = leader.subtract(pos).normalizeLocal();
-		}
-		return res;
+		return leader.subtract(pos).normalizeLocal();
 	}
 	
 	
@@ -283,13 +279,9 @@ public class Ephemera extends Node{
 			  vel = vel.normalize();
 			  vel.mult(rules.getSpeed());
 		}
-	    //System.out.println(vel.length());
 	    // stellt sicher, dass Fliege immer in Flugrichtung schaut
 	    this.lookAt(getLocalTranslation().subtract(vel.mult(-1)),new Vector3f(0,1,0));
 	    spatialTransformer.setSpeed(vel.length()*100*rules.getSpeed());
-	    
-	    // Geschwindigkeit setzen
-	    //vel.multLocal(rules.getSpeed());
 	    
 	    // Position setzen
 	    getLocalTranslation().addLocal(vel);
