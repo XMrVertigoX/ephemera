@@ -27,26 +27,7 @@ public class Ephemera extends Node{
 	private Vector3f			vel;	// Geschwindigkeitsvektor
 	private SpatialTransformer 	spatialTransformer; // Animation
 	
-	/**
-	 * Konstruktor, welchem die Startposition der Fliege uebergeben wird
-	 * Geschwindigkeits- und Beschleunigungsvektor wird mit 0 initialisiert
-	 * Position der einzelnen Fliege wird gesetzt
-	 * Counter lŠuft mit und zaehlt erstellte Fliegen
-	 * 
-	 * @param pos Startposition der Fliege
-	 */
-//	public Ephemera(Vector3f pos){
-//		super("Fly_"+count);		// Instanziiere Node der die Fliege reprŠsentiert
-//		acc = new Vector3f(0,0,0);	// Mit 0 initialisieren
-//		vel = new Vector3f(0,0,0);
-//		age = System.currentTimeMillis();
-//		rules = new Rules();
-//		// Lade Form
-//		initDefaultFly();
-//		setLocalTranslation(pos);
-//		// Counter HochzŠhlen
-//		count++;
-//	}
+
 	
 	/**
 	 * Konstruktor, welchem Startposition und Regeln der Fliege uebergeben wird.
@@ -70,7 +51,7 @@ public class Ephemera extends Node{
 		
 		// Methode initDefaultFly wird aufgerufen, initialisiert Form der Fliege
 		initDefaultFly();
-		setLocalTranslation(new Vector3f((float) (Math.random()*100), (float) (Math.random()*100), (float) (Math.random()*100)));
+		setLocalTranslation(new Vector3f((float) (Math.random()*70), (float) (Math.random()*70), (float) (Math.random()*70)));
 		
 		// Counter wird hochgezaehlt
 		count++;
@@ -233,7 +214,6 @@ public class Ephemera extends Node{
 	    ali.multLocal(rules.getAli_weight());
 	    coh.multLocal(rules.getCoh_weight());
 	    randomWalk.multLocal(rules.getRandomWalk_weight());
-	   
 	    // Addierung der einzelnen Vektoren auf den Beschleunigungsvektor acc
 	    acc = new Vector3f();
 	    
@@ -250,6 +230,10 @@ public class Ephemera extends Node{
 		// Kollisionsvermeidung mit Objekten in der Welt
 		//if (koll.length()!=0)acc = koll.mult(1);  
 
+	    if (rules.getSpeed()==0) {
+	    	vel.multLocal(0);
+	    	acc.multLocal(0);
+	    }
 	}
 	
 	/**
@@ -275,10 +259,11 @@ public class Ephemera extends Node{
 	    vel.addLocal(acc);
 	   
 	    // Geschwindigkeit wird auf KonformitŠt mit Regeln ueberprueft
-	    if (vel.length()>rules.getSpeed()){
+	    if (vel.length()>rules.getMaxspeed()){
 			  vel = vel.normalize();
-			  vel.mult(rules.getSpeed());
+			  vel.mult(rules.getMaxspeed());
 		}
+	    System.out.println(rules.getMaxspeed());
 	    // stellt sicher, dass Fliege immer in Flugrichtung schaut
 	    this.lookAt(getLocalTranslation().subtract(vel.mult(-1)),new Vector3f(0,1,0));
 	    spatialTransformer.setSpeed(vel.length()*100*rules.getSpeed());
