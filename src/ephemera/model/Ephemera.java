@@ -409,7 +409,7 @@ public class Ephemera extends Node{
 		}
 		
 		if (count > 0) {
-			 sum.multLocal(1f/(float)count);
+			 sum = getLeaderTargetVector(sum.multLocal(1f/(float)count));
 		     //return steer(sum,true);
 		 }	 
 		
