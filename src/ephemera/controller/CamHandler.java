@@ -1,5 +1,11 @@
-package ephemera.controller;
+/**
+ * CamHandler - Maus- und Kamerasteuerung
+ * Modifiziert von Stefan Greuel & Kilian Heinrich
+ * @author Joshua Slack
+ *
+ */
 
+package ephemera.controller;
 import java.awt.Point;
 import java.awt.event.InputEvent;
 import java.awt.event.MouseAdapter;
@@ -14,15 +20,8 @@ import com.jme.math.Vector3f;
 import com.jme.renderer.Camera;
 import com.jme.util.GameTaskQueue;
 import com.jme.util.GameTaskQueueManager;
-
 import ephemera.view.MyJmeView;
 
-/**
- * CamHandler - Maus & Camera Steuerung
- * Modifiziert von Stefan Greuel & Kilian Heinrich
- * @author Joshua Slack
- *
- */
 
 public class CamHandler extends MouseAdapter implements MouseMotionListener,MouseWheelListener {
 	
@@ -39,7 +38,7 @@ public class CamHandler extends MouseAdapter implements MouseMotionListener,Mous
 	}
 	
 	/**
-	 * Mausbewegung
+	 * Änderung bei gedrückter und bewegter linker/mittlerer/rechter Maustaste
 	 */
 	public void mouseDragged(final MouseEvent arg0) {
 	    Callable<Void> exe = new Callable<Void>() {
@@ -73,7 +72,7 @@ public class CamHandler extends MouseAdapter implements MouseMotionListener,Mous
 	}
 	
 	/**
-	 * Mausklick
+	 * Änderung bei gedrückter Maustaste
 	 */
 	public void mousePressed(MouseEvent arg0) {
 	    last.x = arg0.getX();
@@ -81,7 +80,7 @@ public class CamHandler extends MouseAdapter implements MouseMotionListener,Mous
 	}
 	
 	/**
-	 * Mausrad
+	 * Änderung bei Betätigen des Mausrads
 	 */
 	public void mouseWheelMoved(final MouseWheelEvent arg0) {
 	    Callable<Void> exe = new Callable<Void>() {
@@ -96,7 +95,7 @@ public class CamHandler extends MouseAdapter implements MouseMotionListener,Mous
 	}
 	
 	/**
-	 * Camera  Zentrieren
+	 * Kamera  zentrieren
 	 */
 	public void recenterCamera() {
 	    Callable<Void> exe = new Callable<Void>() {
@@ -115,7 +114,7 @@ public class CamHandler extends MouseAdapter implements MouseMotionListener,Mous
 	}
 	
 	/**
-	 * Camera drehen
+	 * Kameradrehung
 	 * @param axis
 	 * @param amount
 	 */
@@ -135,6 +134,11 @@ public class CamHandler extends MouseAdapter implements MouseMotionListener,Mous
 	    cam.lookAt(focus, worldUpVector );
 	}
 	
+	/**
+	 * Kameraschwenk
+	 * @param left
+	 * @param up
+	 */
 	private void panCamera(float left, float up) {
 	    Camera cam = impl.getRenderer().getCamera();
 	    cam.getLeft().mult(left, vector);
@@ -145,7 +149,7 @@ public class CamHandler extends MouseAdapter implements MouseMotionListener,Mous
 	}
 	
 	/**
-	 * Zoom
+	 * Kamerazoom
 	 * @param amount
 	 */
 	private void zoomCamera(float amount) {
