@@ -122,8 +122,7 @@ public class Hunter extends Node{
 		}
 		
 		average = average.divide(count);
-		
-		System.out.println(average.toString());
+
 		
 		return average;	
 	}
