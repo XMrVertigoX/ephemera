@@ -93,7 +93,7 @@ public class MyJmeView extends SimpleCanvasImpl {
     	
         world.getSkybox().getLocalTranslation().set(cam.getLocation());
     	world.getSkybox().updateGeometricState(0.0f, true);
-    	gui.updateCountLabel();
+    	gui.updateCurrentLabel();
     	
     	long t = System.currentTimeMillis() - birthTime;
     	
