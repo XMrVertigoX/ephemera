@@ -504,7 +504,7 @@ public class GUI extends JFrame {
         desiredSlider = new JSlider();
 		desiredSlider.addChangeListener(new ChangeListener(){
         	 public void stateChanged(ChangeEvent ce) {
-	    		impl.getSwarm().getRules().setNeighborDistance(desiredSlider.getValue());
+	    		impl.getSwarm().getRules().setNeighborDistance(neighborSlider.getValue());
         	 }
 	    });
 
@@ -525,7 +525,7 @@ public class GUI extends JFrame {
         neighborSlider = new JSlider();
    		neighborSlider.addChangeListener(new ChangeListener(){
        		public void stateChanged(ChangeEvent ce) {
-	    		impl.getSwarm().getRules().setDesiredSeparation(neighborSlider.getValue());
+	    		impl.getSwarm().getRules().setDesiredSeparation(desiredSlider.getValue());
 	    	}
 	    });
            
