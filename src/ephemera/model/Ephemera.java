@@ -1,7 +1,6 @@
 package ephemera.model;
 
 import java.util.ArrayList;
-import java.util.List;
 import com.jme.animation.SpatialTransformer;
 import com.jme.bounding.*;
 import com.jme.math.FastMath;
@@ -9,14 +8,13 @@ import com.jme.math.Quaternion;
 import com.jme.math.Vector3f;
 import com.jme.renderer.ColorRGBA;
 import com.jme.scene.Node;
-import com.jme.scene.Spatial;
 import com.jme.scene.TriMesh;
 import com.jme.scene.shape.Sphere;
 import com.jme.util.geom.BufferUtils;
 
 /**
  * Die Fliege
- * @author
+ * @author Semjom Mooray
  *
  */
 public class Ephemera extends Node{
@@ -28,8 +26,6 @@ public class Ephemera extends Node{
 	private Vector3f 			acc;	// Beschleunigungsvektor
 	private Vector3f			vel;	// Geschwindigkeitsvektor
 	private SpatialTransformer 	spatialTransformer; // Animation
-	
-	//public static ModelController loader=new ModelController();
 	
 	private Vector3f[] base = {		// Richtungsvektoren für RandomWalk 
 			new Vector3f(1,0,0),
