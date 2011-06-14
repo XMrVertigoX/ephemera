@@ -32,6 +32,7 @@ public class Rules{
 	 * Erstelle ein "Standard" Model der Fliege mit Default-Einstellungen
 	 */
 	public Rules(){
+		maxspeed = 5f;
 		randomWalk_weight = .0f;
 		speed = 4.0f;
 		leittierSpeed = 0.015f;
@@ -44,6 +45,7 @@ public class Rules{
 	}
 	
 	public void reset() {
+		maxspeed = 5f;
 		randomWalk_weight = .0f;
 		speed = 4.0f;
 		leittierSpeed = 0.015f;
