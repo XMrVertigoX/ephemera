@@ -206,14 +206,13 @@ public class Ephemera extends Node{
 		Vector3f sep  = separate(flies); 
 	    Vector3f ali = align(flies);
 	    Vector3f coh = cohesion(flies);
-	    Vector3f randomWalk = randomWalk();
+
 	    
 	    // Multiplikation der oben errechneten Vektoren mit den eingestellten Gewichten
 	    target.multLocal(rules.getFollow_weight());
 	    sep.multLocal(rules.getSep_weight());
 	    ali.multLocal(rules.getAli_weight());
 	    coh.multLocal(rules.getCoh_weight());
-	    randomWalk.multLocal(rules.getRandomWalk_weight());
 	    // Addierung der einzelnen Vektoren auf den Beschleunigungsvektor acc
 	    acc = new Vector3f();
 	    
@@ -221,7 +220,7 @@ public class Ephemera extends Node{
 	    acc.addLocal(ali);
 	    acc.addLocal(coh);
 	    acc.addLocal(target);
-	    acc.addLocal(randomWalk);
+
 	    
 	    // Kollisionsvermeidung
 	    Vector3f kol = world.obstacleAvoidance(this);
@@ -364,32 +363,7 @@ public class Ephemera extends Node{
 		
 		return sum.normalizeLocal();
 	}
-	/**
-	 * RandomWalk
-	 * Berrechnet einen Vektor, der innerhalb eines in den Regeln festgelegten Radius liegt.
-	 * Diese Methode dient dazu, dass das Flugverhalten der Boids denen realer Fliegen angenaehert wird, 
-	 * denn diese schwirren beim Fliegen scheinbar wahllos um die eigene Achse.
-	 * 
-	 * @return res Bewegungsvektor
-	 */	
-	public Vector3f randomWalk(){
-		Vector3f[] base = {		 
-				new Vector3f(1,0,0),
-				new Vector3f(-1,0,0),
-				new Vector3f(0,1,0),
-				new Vector3f(0,-1,0),
-				new Vector3f(0,0,1),
-				new Vector3f(0,0,-1)
-		};
-		
-		int x = FastMath.nextRandomInt(0, 1);
-		int y = FastMath.nextRandomInt(2, 3);
-		int z = FastMath.nextRandomInt(4, 5);
-		Vector3f res = base[x].add(base[y]).add(base[z]); 
 	
-		return res;
-	}
-
 	/**
 	 * Getter fuer Regeln der Fliege
 	 * 

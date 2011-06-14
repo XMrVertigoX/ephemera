@@ -9,7 +9,6 @@ import com.jme.renderer.ColorRGBA;
 import com.jme.scene.Node;
 import com.jme.scene.shape.Dome;
 import com.jme.scene.shape.Sphere;
-
 import ephemera.view.MyJmeView;
 import ephemera.controller.SwarmController;
 
@@ -41,30 +40,27 @@ public class Hunter extends Node{
 	private int lifetime;
 
 	/**
-	 * Konstruktor, welchem die Startposition des Hunters, die Welt mit allen Objekten und der Schwarm uebergeben wird.
-	 * 
-	 * @param pos Startposition des Hunters.
-	 * @param world Welt, in der sich der Hunter bewegt.
-	 * @param swarm Schwarn, den der Hunter jagt.
+	 * Konstruktor, welchem die Startposition des Jaegers, die Welt mit allen Objekten und der Schwarm uebergeben wird. 
+	 * @param pos
+	 * @param world 
+	 * @param swarm
 	 */
 	public Hunter(Vector3f pos, World world, SwarmController swarm, int lifetime){	
 		super("Hunter");
 		this.lifetime = lifetime;
 		age = System.currentTimeMillis();
 		this.actualPos = pos;
+		initHunter();
 		this.world = world;
 		this.swarm = swarm;
-		sign = 1;
-		
-		initHunter();
-		
 		MyJmeView.setExist(true);
+		sign = 1;
 	}
 	
 	/**
-	 * Methode, welche den Hunter initialisiert und vom Konstruktor aufgerufen wird.
-	 * Hier wird das Aussehen des Hunters festgelegt, welches dem eines Pacman entpricht.
-	 * Jener besteht aus 2 Domes (Halbkugeln) und 3 Spheren (Kugeln), die an die Node des Hunters angehŠngt werden.
+	 * Methode, welche den Jaeger initialisiert und vom Konstruktor aufgerufen wird.
+	 * Hier wird das Aussehen des Jaegers festgelegt, welches dem eines Pacman entpricht.
+	 * Jener besteht aus 2 Domes (Halbkugeln) und 3 Spheren (Kugeln), die an eine hunterNode angehŠngt werden.
 	 */
 	public void initHunter(){
 		
@@ -103,10 +99,11 @@ public class Hunter extends Node{
 		updateRenderState();
 	}
 	
+	
+	
 	/**
-	 * Methode, welche den Schwarmmittelpunkt berechnet.
-	 * 
-	 * @return Schwarmmittelpunkt
+	 * Methode, welche den Schwarmmittelpunkt in Form eines Vektors zurueckgibt.
+	 * @return Vector3f average
 	 */
 	public Vector3f getAverageSwarmPos(){
 		
@@ -120,17 +117,16 @@ public class Hunter extends Node{
 		}
 		
 		average = average.divide(count);
-
-		
 		return average;	
 	}
 	
 	
 	
 	/**
-	 * Updatemethode des Hunters, hier wird die neue Position des Hunters und sein Ziel (etwa Schwarmmittelpunkt
-	 * oder ein einzelnes Boid) errechnet. Weiterhin findet eine Neuberechnung des Huntermundes statt, welcher
+	 * Updatemethode des Jaegers, hier wird die neue Position des Jaegers und sein Ziel (etwa Schwarmmittelpunkt
+	 * oder ein einzelnes Boid) errechnet. Weiterhin findet eine Neuberechnung des Jaegermundes statt, welcher
 	 * sich regelmae§ig oeffnet und schlie§t.
+	 * 
 	 */
 	public void updateHunter(){
 		
@@ -161,7 +157,9 @@ public class Hunter extends Node{
 		 * uebergeben. Wenn nicht, ist der Jaeger hungrig und macht Jagd auf ein einzelnes Boid, dessen Position
 		 * nun sein Zielvektor ist.
 		 */
+
 		if (getAge() >= lifetime || (swarm.getSwarm().size() == 0)) {
+
 			deleteHunter();
 		}
 		
@@ -216,9 +214,8 @@ public class Hunter extends Node{
 	 * Methode, welche das Fressen eines Boids durch den Jaeger regelt.
 	 * Unterschreitet der Jaeger einen bestimmten Abstand zum Boid, so gilt dieser als
 	 * gefressen und wird aus dem Schwarm entfernt.
-	 * 
-	 * @param flyPos Position der Fliege, die gejagt wird.
-	 * @param numberBoid Array-Index der Fliege, die gefagt wird.
+	 * @param flyPos
+	 * @param numberBoid
 	 */
 	public void eatBoid(Vector3f flyPos, int numberBoid){
 		
@@ -229,8 +226,9 @@ public class Hunter extends Node{
 		}
 	}
 	
+	
 	/**
-	 * Diese Methode enfernt den Hunter.
+	 * Diese Methode enfernt die Geometrie vom Node des Jaegers und macht ihn unsichtbar.
 	 */
 	public void deleteHunter(){
 		MyJmeView.setExist(false);
@@ -239,17 +237,15 @@ public class Hunter extends Node{
 	
 	/**
 	 * Methode setzt Lebenszeit des Jaegers.
-	 * 
-	 * @param time Neue Lifetime in Sekunden.
+	 * @param time
 	 */
 	public void setLifetime(int time){
 		lifetime = time;
 	}
 	
 	/**
-	 * Methode uebergibt die derzeit eingestellte Lebenszeit des Jaegers.
-	 * 
-	 * @return Lebenszeit in Sekunden.
+	 * Methode uebergibt eingestellte Lebenszeit des Jaegers.
+	 * @return lifetime
 	 */
 	public float getLifetime(){
 		return lifetime;
@@ -257,12 +253,11 @@ public class Hunter extends Node{
 	
 	
 	/**
-	 * Gibt das Alter des Jaegers in Sekunden zurueck.
-	 * 
-	 * @return Alter in Sekunden
+	 * Methode, welche das Alter des Jaegers in Sekunden zurueckgibt.
+	 * @return Lebenszeit [s]
 	 */
 	public float getAge(){
-		return ((System.currentTimeMillis() - age) / 1000f);	
+		return ((System.currentTimeMillis()-age)/1000f);	
 	}
 	
 }
