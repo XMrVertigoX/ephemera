@@ -217,11 +217,11 @@ public class Ephemera extends Node{
 	    // Addierung der einzelnen Vektoren auf den Beschleunigungsvektor acc
 	    acc = new Vector3f();
 	    
-	    acc.addLocal(sep.mult(rules.getSpeed()));
-	    acc.addLocal(ali.mult(rules.getSpeed()));
-	    acc.addLocal(coh.mult(rules.getSpeed()));
-	    acc.addLocal(target.mult(rules.getSpeed()));
-	    acc.addLocal(randomWalk.mult(rules.getSpeed()));
+	    acc.addLocal(sep);
+	    acc.addLocal(ali);
+	    acc.addLocal(coh);
+	    acc.addLocal(target);
+	    acc.addLocal(randomWalk);
 	    
 	    // Kollisionsvermeidung
 	    Vector3f kol = world.obstacleAvoidance(this);
@@ -230,6 +230,7 @@ public class Ephemera extends Node{
 		// Kollisionsvermeidung mit Objekten in der Welt
 		//if (koll.length()!=0)acc = koll.mult(1);  
 
+	    acc.mult(rules.getSpeed(),acc);
 	    if (rules.getSpeed()==0) {
 	    	vel.multLocal(0);
 	    	acc.multLocal(0);
