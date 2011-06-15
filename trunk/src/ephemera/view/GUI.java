@@ -181,7 +181,7 @@ public class GUI extends JFrame {
          * Oeffnet ein neues Fenster mit Informationen zum Projekt
          */
         final JFrame aboutFrame = new JFrame("ephemera");
-        aboutFrame.setSize(400, 300);
+        aboutFrame.setSize(410, 300);
         Container contentAbout = aboutFrame.getContentPane();
         contentAbout.setBackground(dgrey);
         aboutFrame.setLocation(400, 50);
