@@ -87,11 +87,6 @@ public class MyJmeView extends SimpleCanvasImpl {
      */
     public void simpleUpdate() {
     	
-        world.getSkybox().getLocalTranslation().set(cam.getLocation());
-    	world.getSkybox().updateGeometricState(0.0f, true);
-    	
-    	gui.updateCurrentLabel();
-    	
     	long t = System.currentTimeMillis() - birthTime;
     	
     	if (t > 1000) {
@@ -138,8 +133,12 @@ public class MyJmeView extends SimpleCanvasImpl {
     }
     
     public void simpleRender() {
+    	world.getSkybox().getLocalTranslation().set(cam.getLocation());
+    	world.getSkybox().updateGeometricState(0.0f, true);
+    	
+    	gui.updateCurrentLabel();
+    	
     	swarm.updateAll();
-        rootNode.draw(renderer);
     }       
     
     /**

@@ -14,7 +14,7 @@ import com.jme.util.geom.BufferUtils;
 
 /**
  * Die Fliege
- * @author Semjom Mooray, Carolin Todt
+ * @author Semjon Mooraj, Carolin Todt
  *
  */
 public class Ephemera extends Node{
