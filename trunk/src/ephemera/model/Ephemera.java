@@ -225,9 +225,6 @@ public class Ephemera extends Node{
 	    // Kollisionsvermeidung
 	    Vector3f kol = world.obstacleAvoidance(this);
 	    if (kol.length()>0)acc = kol;
-	    //System.out.println("Coh: "+rules.getCoh_weight()+" Sep: "+rules.getSep_weight());
-		// Kollisionsvermeidung mit Objekten in der Welt
-		//if (koll.length()!=0)acc = koll.mult(1);  
 
 	    acc.mult(rules.getSpeed(),acc);
 	    if (rules.getSpeed()==0) {
