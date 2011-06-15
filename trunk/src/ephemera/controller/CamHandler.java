@@ -22,7 +22,7 @@ import ephemera.view.MyJmeView;
  * @author Joshua Slack
  *
  */
-public class CamHandler extends MouseAdapter implements MouseMotionListener,MouseWheelListener {
+public class CamHandler extends MouseAdapter implements MouseMotionListener, MouseWheelListener {
 	
 	MyJmeView impl;
 	
