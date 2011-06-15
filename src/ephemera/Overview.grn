@@ -86,8 +86,29 @@
    </type>
    <relationship>
       <class="edu.buffalo.cse.green.relationship.association.AssociationPart"/>
-      <sourceType="=ephemera/src<ephemera.model{Hunter.java[Hunter"/>
+      <sourceType="=ephemera/src<ephemera.controller{SwarmController.java[SwarmController"/>
       <targetType="=ephemera/src<ephemera.model{World.java[World"/>
+      <bendpoints>
+      </bendpoints>
+   </relationship>
+   <relationship>
+      <class="edu.buffalo.cse.green.relationship.association.AssociationPart"/>
+      <sourceType="=ephemera/src<ephemera.model{Hunter.java[Hunter"/>
+      <targetType="=ephemera/src<ephemera.controller{SwarmController.java[SwarmController"/>
+      <bendpoints>
+      </bendpoints>
+   </relationship>
+   <relationship>
+      <class="edu.buffalo.cse.green.relationship.association.AssociationPart"/>
+      <sourceType="=ephemera/src<ephemera.controller{PathController.java[PathController"/>
+      <targetType="=ephemera/src<ephemera.model{Rules.java[Rules"/>
+      <bendpoints>
+      </bendpoints>
+   </relationship>
+   <relationship>
+      <class="edu.buffalo.cse.green.relationship.association.AssociationPart"/>
+      <sourceType="=ephemera/src<ephemera.view{MyJmeView.java[MyJmeView"/>
+      <targetType="=ephemera/src<ephemera.view{GUI.java[GUI"/>
       <bendpoints>
       </bendpoints>
    </relationship>
@@ -100,15 +121,8 @@
    </relationship>
    <relationship>
       <class="edu.buffalo.cse.green.relationship.association.AssociationPart"/>
-      <sourceType="=ephemera/src<ephemera.controller{SwarmController.java[SwarmController"/>
+      <sourceType="=ephemera/src<ephemera.model{Hunter.java[Hunter"/>
       <targetType="=ephemera/src<ephemera.model{World.java[World"/>
-      <bendpoints>
-      </bendpoints>
-   </relationship>
-   <relationship>
-      <class="edu.buffalo.cse.green.relationship.composition.CompositionPart"/>
-      <sourceType="=ephemera/src<ephemera.controller{SwarmController.java[SwarmController"/>
-      <targetType="=ephemera/src<ephemera.model{Rules.java[Rules"/>
       <bendpoints>
       </bendpoints>
    </relationship>
@@ -120,23 +134,9 @@
       </bendpoints>
    </relationship>
    <relationship>
-      <class="edu.buffalo.cse.green.relationship.association.AssociationPart"/>
-      <sourceType="=ephemera/src<ephemera.controller{PathController.java[PathController"/>
+      <class="edu.buffalo.cse.green.relationship.composition.CompositionPart"/>
+      <sourceType="=ephemera/src<ephemera.controller{SwarmController.java[SwarmController"/>
       <targetType="=ephemera/src<ephemera.model{Rules.java[Rules"/>
-      <bendpoints>
-      </bendpoints>
-   </relationship>
-   <relationship>
-      <class="edu.buffalo.cse.green.relationship.dependency.DependencyLPart"/>
-      <sourceType="=ephemera/src<ephemera.controller{PathController.java[PathController"/>
-      <targetType="=ephemera/src<ephemera.model{BSpline.java[BSpline"/>
-      <bendpoints>
-      </bendpoints>
-   </relationship>
-   <relationship>
-      <class="edu.buffalo.cse.green.relationship.association.AssociationPart"/>
-      <sourceType="=ephemera/src<ephemera.view{MyJmeView.java[MyJmeView"/>
-      <targetType="=ephemera/src<ephemera.view{GUI.java[GUI"/>
       <bendpoints>
       </bendpoints>
    </relationship>
@@ -148,16 +148,16 @@
       </bendpoints>
    </relationship>
    <relationship>
-      <class="edu.buffalo.cse.green.relationship.association.AssociationPart"/>
-      <sourceType="=ephemera/src<ephemera.model{Hunter.java[Hunter"/>
-      <targetType="=ephemera/src<ephemera.controller{SwarmController.java[SwarmController"/>
+      <class="edu.buffalo.cse.green.relationship.dependency.DependencyLPart"/>
+      <sourceType="=ephemera/src<ephemera.controller{SwarmController.java[SwarmController"/>
+      <targetType="=ephemera/src<ephemera.model{Ephemera.java[Ephemera"/>
       <bendpoints>
       </bendpoints>
    </relationship>
    <relationship>
       <class="edu.buffalo.cse.green.relationship.dependency.DependencyLPart"/>
-      <sourceType="=ephemera/src<ephemera.controller{SwarmController.java[SwarmController"/>
-      <targetType="=ephemera/src<ephemera.model{Ephemera.java[Ephemera"/>
+      <sourceType="=ephemera/src<ephemera.controller{PathController.java[PathController"/>
+      <targetType="=ephemera/src<ephemera.model{BSpline.java[BSpline"/>
       <bendpoints>
       </bendpoints>
    </relationship>
