@@ -200,7 +200,7 @@ public class GUI extends JFrame {
                 " Kilian Heinrich <br>" +
                 " Semjon Mooraj <br>" +
                 " Stefan Greuel <br> <br>" +
-        		" Projekt Computeranimation | Fachhochschule Kšln SS 2011 <br></html>");
+        		" Projekt Computeranimation | Fachhochschule Koeln SS 2011 <br></html>");
         
         aboutText.setBorder(new CompoundBorder(border, margin));  
         aboutFrame.add(aboutText);
