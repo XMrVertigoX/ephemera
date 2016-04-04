@@ -1,0 +1,1 @@
+Projekt "Computeranimation" 2011 an der FH-Koeln, Gruppe B.
